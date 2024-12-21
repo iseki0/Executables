@@ -24,3 +24,10 @@ kotlin {
         }
     }
 }
+
+tasks.withType<Jar> {
+    into("/") {
+        from("/LICENSE")
+        from("/NOTICE")
+    }
+}
