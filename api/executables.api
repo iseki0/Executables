@@ -1,0 +1,523 @@
+public final class space/iseki/executables/pe/Address32 : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/pe/Address32$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/Address32;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-6fXU3Uw (I)I
+	public static fun compareTo-6fXU3Uw (II)I
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getRawValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (I)Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/pe/Address32$Companion {
+	public final fun toString (I)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/Characteristics : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lspace/iseki/executables/pe/Characteristics$Companion;
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun add-dQnw0gU (S)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/Characteristics;
+	public fun clear ()V
+	public static fun constructor-impl (S)S
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun contains-dQnw0gU (S)Z
+	public static fun contains-dQnw0gU (SS)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public static fun containsAll-impl (SLjava/util/Collection;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getRawValue ()S
+	public fun getSize ()I
+	public static fun getSize-impl (S)I
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun isEmpty ()Z
+	public static fun isEmpty-impl (S)Z
+	public fun iterator ()Ljava/util/Iterator;
+	public static fun iterator-impl (S)Ljava/util/Iterator;
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun retainAll (Ljava/util/Collection;)Z
+	public synthetic fun size ()I
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (S)Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public final class space/iseki/executables/pe/Characteristics$Companion {
+	public final fun getIMAGE_FILE_32BIT_MACHINE-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_AGGRESSIVE_WS_TRIM-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_BYTES_REVERSED_HI-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_BYTES_REVERSED_LO-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_DEBUG_STRIPPED-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_DLL-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_EXECUTABLE_IMAGE-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_LARGE_ADDRESS_AWARE-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_LINE_NUMS_STRIPPED-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_LOCAL_SYMS_STRIPPED-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_NET_RUN_FROM_SWAP-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_RELOCS_STRIPPED-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_REMOVABLE_RUN_FROM_SWAP-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_SYSTEM-ZvpUuhw ()S
+	public final fun getIMAGE_FILE_UP_SYSTEM_ONLY-ZvpUuhw ()S
+	public final fun toString (S)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/Characteristics$Constants {
+	public static final field IMAGE_FILE_32BIT_MACHINE S
+	public static final field IMAGE_FILE_AGGRESSIVE_WS_TRIM S
+	public static final field IMAGE_FILE_BYTES_REVERSED_HI S
+	public static final field IMAGE_FILE_BYTES_REVERSED_LO S
+	public static final field IMAGE_FILE_DEBUG_STRIPPED S
+	public static final field IMAGE_FILE_DLL S
+	public static final field IMAGE_FILE_EXECUTABLE_IMAGE S
+	public static final field IMAGE_FILE_LARGE_ADDRESS_AWARE S
+	public static final field IMAGE_FILE_LINE_NUMS_STRIPPED S
+	public static final field IMAGE_FILE_LOCAL_SYMS_STRIPPED S
+	public static final field IMAGE_FILE_NET_RUN_FROM_SWAP S
+	public static final field IMAGE_FILE_RELOCS_STRIPPED S
+	public static final field IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP S
+	public static final field IMAGE_FILE_SYSTEM S
+	public static final field IMAGE_FILE_UP_SYSTEM_ONLY S
+	public static final field INSTANCE Lspace/iseki/executables/pe/Characteristics$Constants;
+}
+
+public final class space/iseki/executables/pe/CoffHeader {
+	public synthetic fun <init> (SSIIISSLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (SSISSLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-Q4oK7tQ ()S
+	public final fun component2-Mh2AYeg ()S
+	public final fun component3-p6VWK4Y ()I
+	public final fun component4-hRLxnt0 ()I
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-Mh2AYeg ()S
+	public final fun component7-ZvpUuhw ()S
+	public final fun copy-7uDhSzw (SSIIISS)Lspace/iseki/executables/pe/CoffHeader;
+	public static synthetic fun copy-7uDhSzw$default (Lspace/iseki/executables/pe/CoffHeader;SSIIISSILjava/lang/Object;)Lspace/iseki/executables/pe/CoffHeader;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCharacteristics-ZvpUuhw ()S
+	public final fun getMachine-Q4oK7tQ ()S
+	public final fun getNumbersOfSections-Mh2AYeg ()S
+	public final fun getNumbersOfSymbols-pVg5ArA ()I
+	public final fun getPointerToSymbolTable-hRLxnt0 ()I
+	public final fun getSizeOfOptionalHeader-Mh2AYeg ()S
+	public final fun getTimeDateStamp-p6VWK4Y ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/DataDirectories {
+	public static final field Companion Lspace/iseki/executables/pe/DataDirectories$Companion;
+	public fun <init> ()V
+}
+
+public final class space/iseki/executables/pe/DataDirectories$Companion {
+	public final fun getArchitecture-jAWtorI ()I
+	public final fun getBaseRelocationTable-jAWtorI ()I
+	public final fun getBoundImport-jAWtorI ()I
+	public final fun getCLRRuntimeHeader-jAWtorI ()I
+	public final fun getCertificateTable-jAWtorI ()I
+	public final fun getDebug-jAWtorI ()I
+	public final fun getDelayImportDescriptor-jAWtorI ()I
+	public final fun getExceptionTable-jAWtorI ()I
+	public final fun getExportTable-jAWtorI ()I
+	public final fun getGlobalPtr-jAWtorI ()I
+	public final fun getIAT-jAWtorI ()I
+	public final fun getImportTable-jAWtorI ()I
+	public final fun getLoadConfigTable-jAWtorI ()I
+	public final fun getResourceTable-jAWtorI ()I
+	public final fun getTLSTable-jAWtorI ()I
+}
+
+public final class space/iseki/executables/pe/DataDirectories$Constants {
+	public static final field ARCHITECTURE_INDEX I
+	public static final field BASE_RELOCATION_TABLE_INDEX I
+	public static final field BOUND_IMPORT_INDEX I
+	public static final field CERTIFICATE_TABLE_INDEX I
+	public static final field CLR_RUNTIME_HEADER_INDEX I
+	public static final field DEBUG_INDEX I
+	public static final field DELAY_IMPORT_DESCRIPTOR_INDEX I
+	public static final field EXCEPTION_TABLE_INDEX I
+	public static final field EXPORT_TABLE_INDEX I
+	public static final field GLOBAL_PTR_INDEX I
+	public static final field IAT_INDEX I
+	public static final field IMPORT_TABLE_INDEX I
+	public static final field INSTANCE Lspace/iseki/executables/pe/DataDirectories$Constants;
+	public static final field LOAD_CONFIG_TABLE_INDEX I
+	public static final field RESOURCE_TABLE_INDEX I
+	public static final field TLS_TABLE_INDEX I
+}
+
+public final class space/iseki/executables/pe/DataDirectories$Key {
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/DataDirectories$Key;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getIndex ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/pe/DataDirectoryItem {
+	public static final synthetic fun box-impl (J)Lspace/iseki/executables/pe/DataDirectoryItem;
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public static final fun getSize-impl (J)I
+	public static final fun getVirtualAddress-impl (J)I
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class space/iseki/executables/pe/DllCharacteristics : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lspace/iseki/executables/pe/DllCharacteristics$Companion;
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun add-RNuxDzo (S)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/DllCharacteristics;
+	public fun clear ()V
+	public static fun constructor-impl (S)S
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun contains-RNuxDzo (S)Z
+	public static fun contains-RNuxDzo (SS)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public static fun containsAll-impl (SLjava/util/Collection;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getRawValue ()S
+	public fun getSize ()I
+	public static fun getSize-impl (S)I
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun isEmpty ()Z
+	public static fun isEmpty-impl (S)Z
+	public fun iterator ()Ljava/util/Iterator;
+	public static fun iterator-impl (S)Ljava/util/Iterator;
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun retainAll (Ljava/util/Collection;)Z
+	public synthetic fun size ()I
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (S)Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public final class space/iseki/executables/pe/DllCharacteristics$Companion {
+	public final fun getAPPCONTAINER-UaHtHC4 ()S
+	public final fun getDYNAMIC_BASE-UaHtHC4 ()S
+	public final fun getFORCE_INTEGRITY-UaHtHC4 ()S
+	public final fun getGUARD_CF-UaHtHC4 ()S
+	public final fun getHIGH_ENTROPY_VA-UaHtHC4 ()S
+	public final fun getNO_BIND-UaHtHC4 ()S
+	public final fun getNO_ISOLATION-UaHtHC4 ()S
+	public final fun getNO_SEH-UaHtHC4 ()S
+	public final fun getNX_COMPAT-UaHtHC4 ()S
+	public final fun getTERMINAL_SERVER_AWARE-UaHtHC4 ()S
+	public final fun getWDM_DRIVER-UaHtHC4 ()S
+	public final fun toString (S)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/DllCharacteristics$Constants {
+	public static final field APPCONTAINER S
+	public static final field DYNAMIC_BASE S
+	public static final field FORCE_INTEGRITY S
+	public static final field GUARD_CF S
+	public static final field HIGH_ENTROPY_VA S
+	public static final field INSTANCE Lspace/iseki/executables/pe/DllCharacteristics$Constants;
+	public static final field NO_BIND S
+	public static final field NO_ISOLATION S
+	public static final field NO_SEH S
+	public static final field NX_COMPAT S
+	public static final field TERMINAL_SERVER_AWARE S
+	public static final field WDM_DRIVER S
+}
+
+public final class space/iseki/executables/pe/MachineType {
+	public static final field Companion Lspace/iseki/executables/pe/MachineType$Companion;
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/MachineType;
+	public static fun constructor-impl (S)S
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getRawValue ()S
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (S)Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public final class space/iseki/executables/pe/MachineType$Companion {
+	public final fun getALPHA-Q4oK7tQ ()S
+	public final fun getALPHA64-Q4oK7tQ ()S
+	public final fun getAM33-Q4oK7tQ ()S
+	public final fun getAMD64-Q4oK7tQ ()S
+	public final fun getARM-Q4oK7tQ ()S
+	public final fun getARM64-Q4oK7tQ ()S
+	public final fun getARMNT-Q4oK7tQ ()S
+	public final fun getEBC-Q4oK7tQ ()S
+	public final fun getI386-Q4oK7tQ ()S
+	public final fun getIA64-Q4oK7tQ ()S
+	public final fun getLOONGARCH32-Q4oK7tQ ()S
+	public final fun getLOONGARCH64-Q4oK7tQ ()S
+	public final fun getM32R-Q4oK7tQ ()S
+	public final fun getMIPS16-Q4oK7tQ ()S
+	public final fun getMIPSFPU-Q4oK7tQ ()S
+	public final fun getMIPSFPU16-Q4oK7tQ ()S
+	public final fun getPOWERPC-Q4oK7tQ ()S
+	public final fun getPOWERPCFP-Q4oK7tQ ()S
+	public final fun getR4000-Q4oK7tQ ()S
+	public final fun getRISCV128-Q4oK7tQ ()S
+	public final fun getRISCV32-Q4oK7tQ ()S
+	public final fun getRISCV64-Q4oK7tQ ()S
+	public final fun getSH3-Q4oK7tQ ()S
+	public final fun getSH3DSP-Q4oK7tQ ()S
+	public final fun getSH4-Q4oK7tQ ()S
+	public final fun getSH5-Q4oK7tQ ()S
+	public final fun getTHUMB-Q4oK7tQ ()S
+	public final fun getUNKNOWN-Q4oK7tQ ()S
+	public final fun getWCEMIPSV2-Q4oK7tQ ()S
+	public final fun toString (S)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/MachineType$Constants {
+	public static final field ALPHA S
+	public static final field ALPHA64 S
+	public static final field AM33 S
+	public static final field AMD64 S
+	public static final field ARM S
+	public static final field ARM64 S
+	public static final field ARMNT S
+	public static final field EBC S
+	public static final field I386 S
+	public static final field IA64 S
+	public static final field INSTANCE Lspace/iseki/executables/pe/MachineType$Constants;
+	public static final field LOONGARCH32 S
+	public static final field LOONGARCH64 S
+	public static final field M32R S
+	public static final field MIPS16 S
+	public static final field MIPSFPU S
+	public static final field MIPSFPU16 S
+	public static final field POWERPC S
+	public static final field POWERPCFP S
+	public static final field R4000 S
+	public static final field RISCV128 S
+	public static final field RISCV32 S
+	public static final field RISCV64 S
+	public static final field SH3 S
+	public static final field SH3DSP S
+	public static final field SH4 S
+	public static final field SH5 S
+	public static final field THUMB S
+	public static final field UNKNOWN S
+	public static final field WCEMIPSV2 S
+}
+
+public final class space/iseki/executables/pe/PE32Magic {
+	public static final field Companion Lspace/iseki/executables/pe/PE32Magic$Companion;
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/PE32Magic;
+	public static fun constructor-impl (S)S
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public static final fun isValidMagic (S)Z
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (S)Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public final class space/iseki/executables/pe/PE32Magic$Companion {
+	public final fun getPE32-zC7-h34 ()S
+	public final fun getPE32Plus-zC7-h34 ()S
+	public final fun isValidMagic (S)Z
+	public final fun toString (S)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/PE32Magic$Companion$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/pe/PE32Magic$Companion$Constants;
+	public static final field PE32 S
+	public static final field PE32Plus S
+}
+
+public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lspace/iseki/executables/pe/SectionFlags$Companion;
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun add-Bn2cuqs (I)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/SectionFlags;
+	public fun clear ()V
+	public static fun constructor-impl (I)I
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun contains-Bn2cuqs (I)Z
+	public static fun contains-Bn2cuqs (II)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public static fun containsAll-impl (ILjava/util/Collection;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public fun getSize ()I
+	public static fun getSize-impl (I)I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun isEmpty ()Z
+	public static fun isEmpty-impl (I)Z
+	public fun iterator ()Ljava/util/Iterator;
+	public static fun iterator-impl (I)Ljava/util/Iterator;
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun retainAll (Ljava/util/Collection;)Z
+	public synthetic fun size ()I
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/pe/SectionFlags$Companion {
+	public final fun getIMAGE_SCN_ALIGN_16BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_1BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_2BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_4BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_8BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_CNT_CODE-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_CNT_INITIALIZED_DATA-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_CNT_UNINITIALIZED_DATA-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_GPREL-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_LNK_COMDAT-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_LNK_INFO-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_LNK_OTHER-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_LNK_REMOVE-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_16BIT-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_LOCKED-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_PRELOAD-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_PURGEABLE-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_TYPE_NO_PAD-CVJ1pB8 ()I
+}
+
+public final class space/iseki/executables/pe/SectionFlags$Constants {
+	public static final field IMAGE_SCN_ALIGN_16BYTES I
+	public static final field IMAGE_SCN_ALIGN_1BYTES I
+	public static final field IMAGE_SCN_ALIGN_2BYTES I
+	public static final field IMAGE_SCN_ALIGN_4BYTES I
+	public static final field IMAGE_SCN_ALIGN_8BYTES I
+	public static final field IMAGE_SCN_CNT_CODE I
+	public static final field IMAGE_SCN_CNT_INITIALIZED_DATA I
+	public static final field IMAGE_SCN_CNT_UNINITIALIZED_DATA I
+	public static final field IMAGE_SCN_GPREL I
+	public static final field IMAGE_SCN_LNK_COMDAT I
+	public static final field IMAGE_SCN_LNK_INFO I
+	public static final field IMAGE_SCN_LNK_OTHER I
+	public static final field IMAGE_SCN_LNK_REMOVE I
+	public static final field IMAGE_SCN_MEM_16BIT I
+	public static final field IMAGE_SCN_MEM_LOCKED I
+	public static final field IMAGE_SCN_MEM_PRELOAD I
+	public static final field IMAGE_SCN_MEM_PURGEABLE I
+	public static final field IMAGE_SCN_TYPE_NO_PAD I
+	public static final field INSTANCE Lspace/iseki/executables/pe/SectionFlags$Constants;
+}
+
+public final class space/iseki/executables/pe/TimeDataStamp32 : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/pe/TimeDataStamp32$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/TimeDataStamp32;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-A_p6EZ8 (I)I
+	public static fun compareTo-A_p6EZ8 (II)I
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getRawValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (I)Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/pe/TimeDataStamp32$Companion {
+	public final fun toString (I)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/WindowsSubsystems {
+	public static final field Companion Lspace/iseki/executables/pe/WindowsSubsystems$Companion;
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/WindowsSubsystems;
+	public static fun constructor-impl (S)S
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getRawValue ()S
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (S)Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public final class space/iseki/executables/pe/WindowsSubsystems$Companion {
+	public final fun getEFI_APPLICATION-kp653uA ()S
+	public final fun getEFI_BOOT_SERVICE_DRIVER-kp653uA ()S
+	public final fun getEFI_ROM-kp653uA ()S
+	public final fun getEFI_RUNTIME_DRIVER-kp653uA ()S
+	public final fun getNATIVE-kp653uA ()S
+	public final fun getNATIVE_WINDOWS-kp653uA ()S
+	public final fun getOS2_CUI-kp653uA ()S
+	public final fun getPOSIX_CUI-kp653uA ()S
+	public final fun getUNKNOWN-kp653uA ()S
+	public final fun getWINDOWS_BOOT_APPLICATION-kp653uA ()S
+	public final fun getWINDOWS_CE_GUI-kp653uA ()S
+	public final fun getWINDOWS_CUI-kp653uA ()S
+	public final fun getWINDOWS_GUI-kp653uA ()S
+	public final fun getXBOX-kp653uA ()S
+	public final fun toString (S)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/WindowsSubsystems$Constants {
+	public static final field EFI_APPLICATION S
+	public static final field EFI_BOOT_SERVICE_DRIVER S
+	public static final field EFI_ROM S
+	public static final field EFI_RUNTIME_DRIVER S
+	public static final field INSTANCE Lspace/iseki/executables/pe/WindowsSubsystems$Constants;
+	public static final field NATIVE S
+	public static final field NATIVE_WINDOWS S
+	public static final field OS2_CUI S
+	public static final field POSIX_CUI S
+	public static final field UNKNOWN S
+	public static final field WINDOWS_BOOT_APPLICATION S
+	public static final field WINDOWS_CE_GUI S
+	public static final field WINDOWS_CUI S
+	public static final field WINDOWS_GUI S
+	public static final field XBOX S
+}
+
