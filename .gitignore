@@ -43,3 +43,5 @@ bin/
 
 /.idea/*
 !/.idea/codeStyles
+.kotlin
+*.log
