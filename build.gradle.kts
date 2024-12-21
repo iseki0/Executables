@@ -26,6 +26,9 @@ kotlin {
 }
 
 tasks.withType<Jar> {
+    manifest {
+        attributes["Automatic-Module-Name"] = "space.iseki.executables"
+    }
     into("/") {
         from("/LICENSE")
         from("/NOTICE")
