@@ -1,6 +1,7 @@
 package space.iseki.executables.pe
 
 import kotlin.experimental.and
+import kotlin.experimental.or
 import kotlin.experimental.xor
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
@@ -77,6 +78,10 @@ value class Characteristics(val rawValue: Short) : Set<Characteristics> {
 
     override fun contains(element: Characteristics): Boolean {
         return rawValue and element.rawValue == element.rawValue
+    }
+
+    operator fun plus(other: Characteristics): Characteristics {
+        return Characteristics(rawValue or other.rawValue)
     }
 
     companion object {

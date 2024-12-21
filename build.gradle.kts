@@ -34,3 +34,9 @@ tasks.withType<Jar> {
         from("/NOTICE")
     }
 }
+
+tasks.withType<Test> {
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}

@@ -24,5 +24,19 @@ data class CoffHeader(
         sizeOfOptionalHeader = sizeOfOptionalHeader,
         characteristics = characteristics
     )
+
+    override fun toString(): String {
+        return """
+            |CoffHeader(
+            |   machine = $machine,
+            |   numbersOfSections = $numbersOfSections,
+            |   timeDateStamp = $timeDateStamp,
+            |   pointerToSymbolTable = $pointerToSymbolTable,
+            |   numbersOfSymbols = $numbersOfSymbols,
+            |   sizeOfOptionalHeader = $sizeOfOptionalHeader,
+            |   characteristics = $characteristics,
+            |)
+        """.trimMargin()
+    }
 }
 

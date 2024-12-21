@@ -1,6 +1,7 @@
 package space.iseki.executables.pe
 
 import kotlin.experimental.and
+import kotlin.experimental.or
 import kotlin.experimental.xor
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
@@ -45,6 +46,10 @@ value class DllCharacteristics(val rawValue: Short) : Set<DllCharacteristics> {
 
     override fun isEmpty(): Boolean {
         return rawValue == 0.toShort()
+    }
+
+    operator fun plus(other: DllCharacteristics): DllCharacteristics {
+        return DllCharacteristics(rawValue or other.rawValue)
     }
 
     override fun iterator(): Iterator<DllCharacteristics> {

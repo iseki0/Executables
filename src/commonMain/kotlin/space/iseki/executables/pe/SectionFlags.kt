@@ -76,6 +76,10 @@ value class SectionFlags(private val rawValue: Int) : Set<SectionFlags> {
         return rawValue and element.rawValue!= 0
     }
 
+    operator fun plus(other: SectionFlags): SectionFlags {
+        return SectionFlags(rawValue or other.rawValue)
+    }
+
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
         if (size == 1) {

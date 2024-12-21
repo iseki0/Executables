@@ -21,6 +21,29 @@ public final class space/iseki/executables/pe/Address32$Companion {
 	public final fun toString (I)Ljava/lang/String;
 }
 
+public final class space/iseki/executables/pe/Address64 : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/pe/Address64$Companion;
+	public static final synthetic fun box-impl (J)Lspace/iseki/executables/pe/Address64;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-PfQbjAA (J)I
+	public static fun compareTo-PfQbjAA (JJ)I
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getRawValue ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (J)Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class space/iseki/executables/pe/Address64$Companion {
+	public final fun toString (J)Ljava/lang/String;
+}
+
 public final class space/iseki/executables/pe/Characteristics : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final field Companion Lspace/iseki/executables/pe/Characteristics$Companion;
 	public synthetic fun add (Ljava/lang/Object;)Z
@@ -46,6 +69,7 @@ public final class space/iseki/executables/pe/Characteristics : java/util/Set, k
 	public static fun isEmpty-impl (S)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (S)Ljava/util/Iterator;
+	public static final fun plus-aBs7NGY (SS)S
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
 	public fun retainAll (Ljava/util/Collection;)Z
@@ -176,7 +200,9 @@ public final class space/iseki/executables/pe/DataDirectories$Key {
 }
 
 public final class space/iseki/executables/pe/DataDirectoryItem {
+	public static final field Companion Lspace/iseki/executables/pe/DataDirectoryItem$Companion;
 	public static final synthetic fun box-impl (J)Lspace/iseki/executables/pe/DataDirectoryItem;
+	public static fun constructor-impl (II)J
 	public static fun constructor-impl (J)J
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (JLjava/lang/Object;)Z
@@ -186,8 +212,15 @@ public final class space/iseki/executables/pe/DataDirectoryItem {
 	public fun hashCode ()I
 	public static fun hashCode-impl (J)I
 	public fun toString ()Ljava/lang/String;
+	public static final fun toString (J)Ljava/lang/String;
 	public static fun toString-impl (J)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()J
+}
+
+public final class space/iseki/executables/pe/DataDirectoryItem$Companion {
+	public final fun getZERO-ZAUXGwc ()J
+	public final fun invoke-I-t23-Y (II)J
+	public final fun toString (J)Ljava/lang/String;
 }
 
 public final class space/iseki/executables/pe/DllCharacteristics : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
@@ -215,6 +248,7 @@ public final class space/iseki/executables/pe/DllCharacteristics : java/util/Set
 	public static fun isEmpty-impl (S)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (S)Ljava/util/Iterator;
+	public static final fun plus-g5EIHHA (SS)S
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
 	public fun retainAll (Ljava/util/Collection;)Z
@@ -392,6 +426,7 @@ public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotl
 	public static fun isEmpty-impl (I)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (I)Ljava/util/Iterator;
+	public static final fun plus-00BuObY (II)I
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
 	public fun retainAll (Ljava/util/Collection;)Z
@@ -446,6 +481,33 @@ public final class space/iseki/executables/pe/SectionFlags$Constants {
 	public static final field INSTANCE Lspace/iseki/executables/pe/SectionFlags$Constants;
 }
 
+public final class space/iseki/executables/pe/StandardHeader {
+	public synthetic fun <init> (SBBIIIIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-zC7-h34 ()S
+	public final fun component2 ()B
+	public final fun component3 ()B
+	public final fun component4-pVg5ArA ()I
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-pVg5ArA ()I
+	public final fun component7-hRLxnt0 ()I
+	public final fun component8-hRLxnt0 ()I
+	public final fun component9-hRLxnt0 ()I
+	public final fun copy-0WerxMI (SBBIIIIII)Lspace/iseki/executables/pe/StandardHeader;
+	public static synthetic fun copy-0WerxMI$default (Lspace/iseki/executables/pe/StandardHeader;SBBIIIIIIILjava/lang/Object;)Lspace/iseki/executables/pe/StandardHeader;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddressOfEntryPoint-hRLxnt0 ()I
+	public final fun getBaseOfCode-hRLxnt0 ()I
+	public final fun getBaseOfData-hRLxnt0 ()I
+	public final fun getMagic-zC7-h34 ()S
+	public final fun getMajorLinkerVersion ()B
+	public final fun getMinorLinkerVersion ()B
+	public final fun getSizeOfCode-pVg5ArA ()I
+	public final fun getSizeOfInitializedData-pVg5ArA ()I
+	public final fun getSizeOfUninitializedData-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class space/iseki/executables/pe/TimeDataStamp32 : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/TimeDataStamp32$Companion;
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/TimeDataStamp32;
@@ -467,6 +529,89 @@ public final class space/iseki/executables/pe/TimeDataStamp32 : java/lang/Compar
 
 public final class space/iseki/executables/pe/TimeDataStamp32$Companion {
 	public final fun toString (I)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
+	public synthetic fun <init> (SJIISSSSSSIIIISSJJJJIIJJJJJJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-zC7-h34 ()S
+	public final fun component10-Mh2AYeg ()S
+	public final fun component11-pVg5ArA ()I
+	public final fun component12-pVg5ArA ()I
+	public final fun component13-pVg5ArA ()I
+	public final fun component14-pVg5ArA ()I
+	public final fun component15-kp653uA ()S
+	public final fun component16-UaHtHC4 ()S
+	public final fun component17-s-VKNKU ()J
+	public final fun component18-s-VKNKU ()J
+	public final fun component19-s-VKNKU ()J
+	public final fun component2-GZQVNfI ()J
+	public final fun component20-s-VKNKU ()J
+	public final fun component21-pVg5ArA ()I
+	public final fun component22 ()I
+	public final fun component23-ZAUXGwc ()J
+	public final fun component24-ZAUXGwc ()J
+	public final fun component25-ZAUXGwc ()J
+	public final fun component26-ZAUXGwc ()J
+	public final fun component27-ZAUXGwc ()J
+	public final fun component28-ZAUXGwc ()J
+	public final fun component29-ZAUXGwc ()J
+	public final fun component3-pVg5ArA ()I
+	public final fun component30-ZAUXGwc ()J
+	public final fun component31-ZAUXGwc ()J
+	public final fun component32-ZAUXGwc ()J
+	public final fun component33-ZAUXGwc ()J
+	public final fun component34-ZAUXGwc ()J
+	public final fun component35-ZAUXGwc ()J
+	public final fun component36-ZAUXGwc ()J
+	public final fun component37-ZAUXGwc ()J
+	public final fun component4-pVg5ArA ()I
+	public final fun component5-Mh2AYeg ()S
+	public final fun component6-Mh2AYeg ()S
+	public final fun component7-Mh2AYeg ()S
+	public final fun component8-Mh2AYeg ()S
+	public final fun component9-Mh2AYeg ()S
+	public final fun copy-yqm2iCE (SJIISSSSSSIIIISSJJJJIIJJJJJJJJJJJJJJJ)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
+	public static synthetic fun copy-yqm2iCE$default (Lspace/iseki/executables/pe/WindowsSpecifiedHeader;SJIISSSSSSIIIISSJJJJIIJJJJJJJJJJJJJJJIILjava/lang/Object;)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArchitecture-ZAUXGwc ()J
+	public final fun getBaseRelocationTable-ZAUXGwc ()J
+	public final fun getBoundImport-ZAUXGwc ()J
+	public final fun getCertificateTable-ZAUXGwc ()J
+	public final fun getCheckSum-pVg5ArA ()I
+	public final fun getClrRuntimeHeader-ZAUXGwc ()J
+	public final fun getDebug-ZAUXGwc ()J
+	public final fun getDelayImportDescriptor-ZAUXGwc ()J
+	public final fun getDllCharacteristics-UaHtHC4 ()S
+	public final fun getExceptionTable-ZAUXGwc ()J
+	public final fun getExportTable-ZAUXGwc ()J
+	public final fun getFileAlignment-pVg5ArA ()I
+	public final fun getGlobalPtr-ZAUXGwc ()J
+	public final fun getIat-ZAUXGwc ()J
+	public final fun getImageBase-GZQVNfI ()J
+	public final fun getImportTable-ZAUXGwc ()J
+	public final fun getLoadConfigTable-ZAUXGwc ()J
+	public final fun getLoaderFlags-pVg5ArA ()I
+	public final fun getMagic-zC7-h34 ()S
+	public final fun getMajorImageVersion-Mh2AYeg ()S
+	public final fun getMajorOperatingSystemVersion-Mh2AYeg ()S
+	public final fun getMajorSubsystemVersion-Mh2AYeg ()S
+	public final fun getMinorImageVersion-Mh2AYeg ()S
+	public final fun getMinorOperatingSystemVersion-Mh2AYeg ()S
+	public final fun getMinorSubsystemVersion-Mh2AYeg ()S
+	public final fun getNumbersOfRvaAndSizes ()I
+	public final fun getResourceTable-ZAUXGwc ()J
+	public final fun getSectionAlignment-pVg5ArA ()I
+	public final fun getSizeOfHeaders-pVg5ArA ()I
+	public final fun getSizeOfHeapCommit-s-VKNKU ()J
+	public final fun getSizeOfHeapReserve-s-VKNKU ()J
+	public final fun getSizeOfImage-pVg5ArA ()I
+	public final fun getSizeOfStackCommit-s-VKNKU ()J
+	public final fun getSizeOfStackReserve-s-VKNKU ()J
+	public final fun getSubsystem-kp653uA ()S
+	public final fun getTlsTable-ZAUXGwc ()J
+	public final fun getWin32VersionValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class space/iseki/executables/pe/WindowsSubsystems {
