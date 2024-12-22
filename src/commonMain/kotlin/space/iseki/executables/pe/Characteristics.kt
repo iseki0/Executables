@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.Serializable
 import kotlin.experimental.and
 import kotlin.experimental.or
 import kotlin.experimental.xor
@@ -7,7 +8,19 @@ import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
 @JvmInline
+@Serializable(with = Characteristics.Serializer::class)
 value class Characteristics(val rawValue: Short) : Set<Characteristics> {
+    internal object Serializer :
+        BitSetSerializer<Characteristics>(UShort.MAX_VALUE.toULong(), "Characteristics", { a, b -> a + b }) {
+        override val unit: Characteristics = Characteristics(0)
+
+        override fun valueOfOrNull(element: String): Characteristics? = Companion.valueOfOrNull(element)
+
+        override fun valueOf(element: ULong): Characteristics {
+            return Characteristics(element.toShort())
+        }
+
+    }
 
     object Constants {
         const val IMAGE_FILE_RELOCS_STRIPPED = 0x0001.toShort()
@@ -104,6 +117,25 @@ value class Characteristics(val rawValue: Short) : Set<Characteristics> {
         @JvmStatic
         fun toString(rawValue: Short): String {
             return Characteristics(rawValue).toString()
+        }
+
+        private fun valueOfOrNull(element: String): Characteristics? = when (element) {
+            "IMAGE_FILE_RELOCS_STRIPPED" -> IMAGE_FILE_RELOCS_STRIPPED
+            "IMAGE_FILE_EXECUTABLE_IMAGE" -> IMAGE_FILE_EXECUTABLE_IMAGE
+            "IMAGE_FILE_LINE_NUMS_STRIPPED" -> IMAGE_FILE_LINE_NUMS_STRIPPED
+            "IMAGE_FILE_LOCAL_SYMS_STRIPPED" -> IMAGE_FILE_LOCAL_SYMS_STRIPPED
+            "IMAGE_FILE_AGGRESSIVE_WS_TRIM" -> IMAGE_FILE_AGGRESSIVE_WS_TRIM
+            "IMAGE_FILE_LARGE_ADDRESS_AWARE" -> IMAGE_FILE_LARGE_ADDRESS_AWARE
+            "IMAGE_FILE_BYTES_REVERSED_LO" -> IMAGE_FILE_BYTES_REVERSED_LO
+            "IMAGE_FILE_32BIT_MACHINE" -> IMAGE_FILE_32BIT_MACHINE
+            "IMAGE_FILE_DEBUG_STRIPPED" -> IMAGE_FILE_DEBUG_STRIPPED
+            "IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP" -> IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP
+            "IMAGE_FILE_NET_RUN_FROM_SWAP" -> IMAGE_FILE_NET_RUN_FROM_SWAP
+            "IMAGE_FILE_SYSTEM" -> IMAGE_FILE_SYSTEM
+            "IMAGE_FILE_DLL" -> IMAGE_FILE_DLL
+            "IMAGE_FILE_UP_SYSTEM_ONLY" -> IMAGE_FILE_UP_SYSTEM_ONLY
+            "IMAGE_FILE_BYTES_REVERSED_HI" -> IMAGE_FILE_BYTES_REVERSED_HI
+            else -> null
         }
     }
 }

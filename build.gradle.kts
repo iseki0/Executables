@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform") version "2.1.0"
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.17.0"
+    kotlin("plugin.serialization") version "2.1.0"
 }
 
 allprojects {
@@ -13,6 +14,8 @@ allprojects {
 
 dependencies {
     commonMainImplementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+    commonMainImplementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.0-RC")
+    commonTestImplementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0-RC")
     commonTestImplementation(kotlin("test"))
 }
 
