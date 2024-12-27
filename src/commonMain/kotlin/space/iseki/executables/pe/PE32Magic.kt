@@ -1,12 +1,52 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.serialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
+@Serializable(with = PE32Magic.Serializer::class)
 @JvmInline
 value class PE32Magic(private val magic: Short) {
     init {
         require(isValidMagic(magic)) { "Invalid PE32Magic: $magic" }
+    }
+
+    object Serializer : KSerializer<PE32Magic> {
+        override val descriptor: SerialDescriptor
+            get() = serialDescriptor<String>()
+
+        override fun deserialize(decoder: Decoder): PE32Magic {
+            try {
+                return valueOf(decoder.decodeString())
+            } catch (e: IllegalArgumentException) {
+                throw SerializationException(e.message)
+            }
+        }
+
+        override fun serialize(encoder: Encoder, value: PE32Magic) {
+            encoder.encodeString(value.toString())
+        }
+
+        @JvmStatic
+        fun valueOf(magic: Short): PE32Magic {
+            return PE32Magic(magic)
+        }
+
+        @JvmStatic
+        fun valueOf(kind: String): PE32Magic {
+            return when(kind){
+                "PE32" -> PE32
+                "PE32+" -> PE32Plus
+                else -> throw IllegalArgumentException("must be PE32 or PE32+")
+            }
+        }
+
     }
 
     companion object {

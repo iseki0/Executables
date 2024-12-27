@@ -1,10 +1,36 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.serialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
+@Serializable(with = WindowsSubsystems.Serializer::class)
 @JvmInline
 value class WindowsSubsystems(val rawValue: Short) {
+    object Serializer : KSerializer<WindowsSubsystems> {
+        override val descriptor: SerialDescriptor
+            get() = serialDescriptor<String>()
+
+        override fun deserialize(decoder: Decoder): WindowsSubsystems {
+            try {
+                return valueOf(decoder.decodeString())
+            } catch (e: IllegalArgumentException) {
+                throw SerializationException(e.message)
+            }
+        }
+
+        override fun serialize(encoder: Encoder, value: WindowsSubsystems) {
+            encoder.encodeString(value.toString())
+        }
+
+    }
+
     object Constants {
         const val UNKNOWN = 0.toShort()
         const val NATIVE = 1.toShort()
@@ -42,6 +68,29 @@ value class WindowsSubsystems(val rawValue: Short) {
         fun toString(rawValue: Short): String {
             return WindowsSubsystems(rawValue).toString()
         }
+
+        @JvmStatic
+        fun valueOf(s: String): WindowsSubsystems = when (s) {
+            "UNKNOWN" -> UNKNOWN
+            "NATIVE" -> NATIVE
+            "WINDOWS_GUI" -> WINDOWS_GUI
+            "WINDOWS_CUI" -> WINDOWS_CUI
+            "OS2_CUI" -> OS2_CUI
+            "POSIX_CUI" -> POSIX_CUI
+            "NATIVE_WINDOWS" -> NATIVE_WINDOWS
+            "WINDOWS_CE_GUI" -> WINDOWS_CE_GUI
+            "EFI_APPLICATION" -> EFI_APPLICATION
+            "EFI_BOOT_SERVICE_DRIVER" -> EFI_BOOT_SERVICE_DRIVER
+            "EFI_RUNTIME_DRIVER" -> EFI_RUNTIME_DRIVER
+            "EFI_ROM" -> EFI_ROM
+            "XBOX" -> XBOX
+            "WINDOWS_BOOT_APPLICATION" -> WINDOWS_BOOT_APPLICATION
+            else -> try {
+                WindowsSubsystems(s.removePrefix("WindowsSubsystems(").removeSuffix(")").toShort())
+            } catch (e: NumberFormatException) {
+                throw IllegalArgumentException("Invalid WindowsSubsystems: $s")
+            }
+        }
     }
 
     override fun toString(): String {
@@ -60,7 +109,7 @@ value class WindowsSubsystems(val rawValue: Short) {
             Constants.EFI_ROM -> "EFI_ROM"
             Constants.XBOX -> "XBOX"
             Constants.WINDOWS_BOOT_APPLICATION -> "WINDOWS_BOOT_APPLICATION"
-            else -> "WindowsSubsystems($rawValue)"
+            else -> "WindowsSubsystems(${rawValue.toUShort()})"
         }
     }
 }

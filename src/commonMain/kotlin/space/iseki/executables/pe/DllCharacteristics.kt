@@ -1,13 +1,36 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.Serializable
 import kotlin.experimental.and
 import kotlin.experimental.or
 import kotlin.experimental.xor
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
+@Serializable(with = DllCharacteristics.Serializer::class)
 @JvmInline
 value class DllCharacteristics(val rawValue: Short) : Set<DllCharacteristics> {
+    internal object Serializer: BitSetSerializer<DllCharacteristics>(UShort.MAX_VALUE.toULong(), "DllCharacteristics", { a, b -> a + b }) {
+        override val unit: DllCharacteristics
+            get() = DllCharacteristics(0)
+
+        override fun valueOfOrNull(element: String): DllCharacteristics? = when (element) {
+            "HIGH_ENTROPY_VA" -> HIGH_ENTROPY_VA
+            "DYNAMIC_BASE" -> DYNAMIC_BASE
+            "FORCE_INTEGRITY" -> FORCE_INTEGRITY
+            "NX_COMPAT" -> NX_COMPAT
+            "NO_ISOLATION" -> NO_ISOLATION
+            "NO_SEH" -> NO_SEH
+            "NO_BIND" -> NO_BIND
+            "APPCONTAINER" -> APPCONTAINER
+            "WDM_DRIVER" -> WDM_DRIVER
+            "GUARD_CF" -> GUARD_CF
+            "TERMINAL_SERVER_AWARE" -> TERMINAL_SERVER_AWARE
+            else -> null
+        }
+
+        override fun valueOf(element: ULong): DllCharacteristics = DllCharacteristics(element.toShort())
+    }
     object Constants {
         const val HIGH_ENTROPY_VA = 0x0020.toShort()
         const val DYNAMIC_BASE = 0x0040.toShort()

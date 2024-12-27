@@ -1,9 +1,42 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
 
+@Serializable(with = SectionFlags.Serializer::class)
 @JvmInline
 value class SectionFlags(private val rawValue: Int) : Set<SectionFlags> {
+    internal object Serializer :
+        BitSetSerializer<SectionFlags>(UInt.MAX_VALUE.toULong(), "SectionFlags", { a, b -> a + b }) {
+        override val unit: SectionFlags
+            get() = SectionFlags(0)
+
+        override fun valueOfOrNull(element: String): SectionFlags? = when (element) {
+            "IMAGE_SCN_TYPE_NO_PAD" -> IMAGE_SCN_TYPE_NO_PAD
+            "IMAGE_SCN_CNT_CODE" -> IMAGE_SCN_CNT_CODE
+            "IMAGE_SCN_CNT_INITIALIZED_DATA" -> IMAGE_SCN_CNT_INITIALIZED_DATA
+            "IMAGE_SCN_CNT_UNINITIALIZED_DATA" -> IMAGE_SCN_CNT_UNINITIALIZED_DATA
+            "IMAGE_SCN_LNK_OTHER" -> IMAGE_SCN_LNK_OTHER
+            "IMAGE_SCN_LNK_INFO" -> IMAGE_SCN_LNK_INFO
+            "IMAGE_SCN_LNK_REMOVE" -> IMAGE_SCN_LNK_REMOVE
+            "IMAGE_SCN_LNK_COMDAT" -> IMAGE_SCN_LNK_COMDAT
+            "IMAGE_SCN_GPREL" -> IMAGE_SCN_GPREL
+            "IMAGE_SCN_MEM_PURGEABLE" -> IMAGE_SCN_MEM_PURGEABLE
+            "IMAGE_SCN_MEM_16BIT" -> IMAGE_SCN_MEM_16BIT
+            "IMAGE_SCN_MEM_LOCKED" -> IMAGE_SCN_MEM_LOCKED
+            "IMAGE_SCN_MEM_PRELOAD" -> IMAGE_SCN_MEM_PRELOAD
+            "IMAGE_SCN_ALIGN_1BYTES" -> IMAGE_SCN_ALIGN_1BYTES
+            "IMAGE_SCN_ALIGN_2BYTES" -> IMAGE_SCN_ALIGN_2BYTES
+            "IMAGE_SCN_ALIGN_4BYTES" -> IMAGE_SCN_ALIGN_4BYTES
+            "IMAGE_SCN_ALIGN_8BYTES" -> IMAGE_SCN_ALIGN_8BYTES
+            "IMAGE_SCN_ALIGN_16BYTES" -> IMAGE_SCN_ALIGN_16BYTES
+            else -> null
+        }
+
+        override fun valueOf(element: ULong): SectionFlags = SectionFlags(element.toInt())
+
+    }
+
     object Constants {
         const val IMAGE_SCN_TYPE_NO_PAD = 0x00000008
         const val IMAGE_SCN_CNT_CODE = 0x00000020
@@ -73,7 +106,7 @@ value class SectionFlags(private val rawValue: Int) : Set<SectionFlags> {
     }
 
     override fun contains(element: SectionFlags): Boolean {
-        return rawValue and element.rawValue!= 0
+        return rawValue and element.rawValue != 0
     }
 
     operator fun plus(other: SectionFlags): SectionFlags {
