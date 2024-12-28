@@ -2,6 +2,8 @@ package space.iseki.executables.pe
 
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.VarHandle
+import java.net.ServerSocket
+import java.net.Socket
 import java.nio.ByteOrder
 
 private val SH: VarHandle =
@@ -10,6 +12,10 @@ private val IH: VarHandle =
     MethodHandles.byteArrayViewVarHandle(IntArray::class.java, ByteOrder.LITTLE_ENDIAN).withInvokeExactBehavior()
 private val LH: VarHandle =
     MethodHandles.byteArrayViewVarHandle(LongArray::class.java, ByteOrder.LITTLE_ENDIAN).withInvokeExactBehavior()
+
+fun a(s: Socket){
+    s.getInputStream().available()
+}
 
 internal actual fun ByteArray.getUShort(offset: Int): UShort {
     return (SH.get(this, offset) as Short).toUShort()

@@ -8,7 +8,7 @@ public final class space/iseki/executables/pe/Address32 : java/lang/Comparable {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public final fun getRawValue ()I
+	public final fun getRawValue-pVg5ArA ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public fun toString ()Ljava/lang/String;
@@ -143,6 +143,7 @@ public final class space/iseki/executables/pe/Characteristics$Constants {
 
 public final class space/iseki/executables/pe/CoffHeader {
 	public static final field Companion Lspace/iseki/executables/pe/CoffHeader$Companion;
+	public static final field LENGTH I
 	public synthetic fun <init> (SSIIISSLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (SSISSLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-Q4oK7tQ ()S
@@ -163,6 +164,7 @@ public final class space/iseki/executables/pe/CoffHeader {
 	public final fun getSizeOfOptionalHeader-Mh2AYeg ()S
 	public final fun getTimeDateStamp-p6VWK4Y ()I
 	public fun hashCode ()I
+	public static final fun parse ([BI)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -177,6 +179,7 @@ public synthetic class space/iseki/executables/pe/CoffHeader$$serializer : kotli
 }
 
 public final class space/iseki/executables/pe/CoffHeader$Companion {
+	public final fun parse ([BI)V
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
@@ -247,6 +250,7 @@ public final class space/iseki/executables/pe/DataDirectoryItem {
 	public static final fun getVirtualAddress-impl (J)I
 	public fun hashCode ()I
 	public static fun hashCode-impl (J)I
+	public static final fun parse-qRMt6Rs ([BI)J
 	public fun toString ()Ljava/lang/String;
 	public static final fun toString (J)Ljava/lang/String;
 	public static fun toString-impl (J)Ljava/lang/String;
@@ -256,6 +260,7 @@ public final class space/iseki/executables/pe/DataDirectoryItem {
 public final class space/iseki/executables/pe/DataDirectoryItem$Companion {
 	public final fun getZERO-ZAUXGwc ()J
 	public final fun invoke-I-t23-Y (II)J
+	public final fun parse-qRMt6Rs ([BI)J
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 	public final fun toString (J)Ljava/lang/String;
 }
@@ -476,6 +481,24 @@ public final class space/iseki/executables/pe/PE32Magic$Serializer : kotlinx/ser
 	public static final fun valueOf-MfaRI1g (S)S
 }
 
+public final class space/iseki/executables/pe/PEEOFException : space/iseki/executables/pe/PEIOException {
+	public fun <init> ()V
+}
+
+public class space/iseki/executables/pe/PEException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCause ()Ljava/lang/Throwable;
+}
+
+public class space/iseki/executables/pe/PEIOException : space/iseki/executables/pe/PEException {
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCause ()Ljava/lang/Throwable;
+}
+
 public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final field Companion Lspace/iseki/executables/pe/SectionFlags$Companion;
 	public synthetic fun add (Ljava/lang/Object;)Z
@@ -558,6 +581,7 @@ public final class space/iseki/executables/pe/SectionFlags$Constants {
 
 public final class space/iseki/executables/pe/StandardHeader {
 	public static final field Companion Lspace/iseki/executables/pe/StandardHeader$Companion;
+	public static final field MAX_LENGTH I
 	public synthetic fun <init> (SBBIIIIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-zC7-h34 ()S
 	public final fun component2 ()B
@@ -581,6 +605,8 @@ public final class space/iseki/executables/pe/StandardHeader {
 	public final fun getSizeOfInitializedData-pVg5ArA ()I
 	public final fun getSizeOfUninitializedData-pVg5ArA ()I
 	public fun hashCode ()I
+	public final fun length ()I
+	public static final fun parse ([BI)Lspace/iseki/executables/pe/StandardHeader;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -595,6 +621,7 @@ public synthetic class space/iseki/executables/pe/StandardHeader$$serializer : k
 }
 
 public final class space/iseki/executables/pe/StandardHeader$Companion {
+	public final fun parse ([BI)Lspace/iseki/executables/pe/StandardHeader;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
@@ -608,7 +635,7 @@ public final class space/iseki/executables/pe/TimeDataStamp32 : java/lang/Compar
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public final fun getRawValue ()I
+	public final fun getRawValue-pVg5ArA ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public fun toString ()Ljava/lang/String;
@@ -629,6 +656,10 @@ public final class space/iseki/executables/pe/TimeDataStamp32$Serializer : kotli
 	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public fun serialize-HLZe-zY (Lkotlinx/serialization/encoding/Encoder;I)V
+}
+
+public final class space/iseki/executables/pe/U_jvmKt {
+	public static final fun a (Ljava/net/Socket;)V
 }
 
 public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
@@ -712,6 +743,7 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
 	public final fun getTlsTable-ZAUXGwc ()J
 	public final fun getWin32VersionValue-pVg5ArA ()I
 	public fun hashCode ()I
+	public static final fun parse-B5AKPZQ ([BIS)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -726,6 +758,7 @@ public synthetic class space/iseki/executables/pe/WindowsSpecifiedHeader$$serial
 }
 
 public final class space/iseki/executables/pe/WindowsSpecifiedHeader$Companion {
+	public final fun parse-B5AKPZQ ([BIS)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 

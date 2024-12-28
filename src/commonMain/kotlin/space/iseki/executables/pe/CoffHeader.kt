@@ -1,6 +1,7 @@
 package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
+import kotlin.jvm.JvmStatic
 
 @Serializable
 data class CoffHeader(
@@ -22,7 +23,7 @@ data class CoffHeader(
         machine = machine,
         numbersOfSections = numbersOfSections,
         timeDateStamp = timeDateStamp,
-        pointerToSymbolTable = Address32(0),
+        pointerToSymbolTable = Address32(0u),
         numbersOfSymbols = 0u,
         sizeOfOptionalHeader = sizeOfOptionalHeader,
         characteristics = characteristics
@@ -40,6 +41,30 @@ data class CoffHeader(
             |   characteristics = $characteristics,
             |)
         """.trimMargin()
+    }
+
+    companion object {
+        const val LENGTH = 20
+
+        @JvmStatic
+        fun parse(bytes: ByteArray, offset: Int) {
+            val machine = MachineType(bytes.getUShort(offset).toShort())
+            val numbersOfSections = bytes.getUShort(offset + 2)
+            val timeDateStamp = TimeDataStamp32(bytes.getUInt(offset + 4))
+            val pointerToSymbolTable = Address32(bytes.getUInt(offset + 8))
+            val numbersOfSymbols = bytes.getUInt(offset + 12)
+            val sizeOfOptionalHeader = bytes.getUShort(offset + 16)
+            val characteristics = Characteristics(bytes.getUShort(offset + 18).toShort())
+            CoffHeader(
+                machine,
+                numbersOfSections,
+                timeDateStamp,
+                pointerToSymbolTable,
+                numbersOfSymbols,
+                sizeOfOptionalHeader,
+                characteristics
+            )
+        }
     }
 }
 

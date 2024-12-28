@@ -48,6 +48,13 @@ value class DataDirectoryItem(
         fun toString(rawValue: Long): String {
             return DataDirectoryItem(rawValue).toString()
         }
+
+        @JvmStatic
+        fun parse(bytes: ByteArray, offset: Int): DataDirectoryItem {
+            val virtualAddress = bytes.getUInt(offset)
+            val size = bytes.getUInt(offset + 4)
+            return DataDirectoryItem(virtualAddress, size)
+        }
     }
 
     val virtualAddress: Int
