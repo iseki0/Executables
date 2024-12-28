@@ -21,7 +21,11 @@ dependencies {
 
 kotlin {
     targets {
-        jvm()
+        jvm {
+            compilerOptions {
+                freeCompilerArgs.add("-Xjvm-default=all")
+            }
+        }
         js {
             browser()
         }
