@@ -12,13 +12,13 @@ import kotlin.jvm.JvmStatic
 
 @Serializable(with = TimeDataStamp32.Serializer::class)
 @JvmInline
-value class TimeDataStamp32(val rawValue: Int) : Comparable<TimeDataStamp32> {
+value class TimeDataStamp32(val rawValue: UInt) : Comparable<TimeDataStamp32> {
     object Serializer : KSerializer<TimeDataStamp32> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
 
         override fun deserialize(decoder: Decoder): TimeDataStamp32 {
-            return TimeDataStamp32(Instant.parse(decoder.decodeString()).epochSeconds.toInt())
+            return TimeDataStamp32(Instant.parse(decoder.decodeString()).epochSeconds.toUInt())
         }
 
         override fun serialize(encoder: Encoder, value: TimeDataStamp32) {
@@ -38,7 +38,7 @@ value class TimeDataStamp32(val rawValue: Int) : Comparable<TimeDataStamp32> {
     companion object {
         @JvmStatic
         fun toString(rawValue: Int): String {
-            return TimeDataStamp32(rawValue).toString()
+            return TimeDataStamp32(rawValue.toUInt()).toString()
         }
     }
 }

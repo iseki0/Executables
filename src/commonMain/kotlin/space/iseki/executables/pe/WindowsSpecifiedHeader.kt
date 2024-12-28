@@ -47,7 +47,7 @@ data class WindowsSpecifiedHeader(
         return """
             |WindowsSpecifiedHeader(
             |   magic = $magic,
-            |   imageBase = ${if (magic == PE32Magic.PE32) Address32(imageBase.rawValue.toInt()) else imageBase },
+            |   imageBase = ${if (magic == PE32Magic.PE32) Address32(imageBase.rawValue.toUInt()) else imageBase },
             |   sectionAlignment = $sectionAlignment,
             |   fileAlignment = $fileAlignment,
             |   majorOperatingSystemVersion = $majorOperatingSystemVersion,

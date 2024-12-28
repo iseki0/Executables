@@ -33,7 +33,7 @@ class JsonTest {
         val coffHeader = CoffHeader(
             machine = MachineType.ALPHA,
             numbersOfSections = 1u,
-            timeDateStamp = TimeDataStamp32(1),
+            timeDateStamp = TimeDataStamp32(1u),
             sizeOfOptionalHeader = 0u,
             characteristics = Characteristics.IMAGE_FILE_EXECUTABLE_IMAGE + Characteristics.IMAGE_FILE_DLL,
         )
@@ -52,9 +52,9 @@ class JsonTest {
             sizeOfCode = 1u,
             sizeOfInitializedData = 1u,
             sizeOfUninitializedData = 1u,
-            addressOfEntryPoint = Address32(1),
-            baseOfCode = Address32(1),
-            baseOfData = Address32(0),
+            addressOfEntryPoint = Address32(1u),
+            baseOfCode = Address32(1u),
+            baseOfData = Address32(0u),
         )
         val jsonText = json.encodeToString(standardHeader)
         println(jsonText)

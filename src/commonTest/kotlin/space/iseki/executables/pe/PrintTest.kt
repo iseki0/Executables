@@ -9,7 +9,7 @@ class PrintTest {
             CoffHeader(
                 machine = MachineType.ALPHA,
                 numbersOfSections = 1u,
-                timeDateStamp = TimeDataStamp32(1),
+                timeDateStamp = TimeDataStamp32(1u),
                 sizeOfOptionalHeader = 0u,
                 characteristics = Characteristics.IMAGE_FILE_DLL + Characteristics.IMAGE_FILE_EXECUTABLE_IMAGE,
             )
@@ -22,9 +22,9 @@ class PrintTest {
                 sizeOfCode = 0u,
                 sizeOfInitializedData = 0u,
                 sizeOfUninitializedData = 0u,
-                addressOfEntryPoint = Address32(0),
-                baseOfCode = Address32(0),
-                baseOfData = Address32(0),
+                addressOfEntryPoint = Address32(0u),
+                baseOfCode = Address32(0u),
+                baseOfData = Address32(0u),
             )
         )
         println(

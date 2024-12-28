@@ -12,7 +12,7 @@ import kotlin.jvm.JvmStatic
 
 @Serializable(with = Address32.Serializer::class)
 @JvmInline
-value class Address32(val rawValue: Int) : Comparable<Address32> {
+value class Address32(val rawValue: UInt) : Comparable<Address32> {
     object Serializer : KSerializer<Address32> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -22,7 +22,7 @@ value class Address32(val rawValue: Int) : Comparable<Address32> {
             if (v.toULong() > UInt.MAX_VALUE) {
                 throw SerializationException("Address32 should be less than 0x100000000")
             }
-            return Address32(v.toInt())
+            return Address32(v.toUInt())
         }
 
         override fun serialize(encoder: Encoder, value: Address32) {
@@ -43,7 +43,7 @@ value class Address32(val rawValue: Int) : Comparable<Address32> {
     companion object {
         @JvmStatic
         fun toString(rawValue: Int): String {
-            return Address32(rawValue).toString()
+            return Address32(rawValue.toUInt()).toString()
         }
     }
 }

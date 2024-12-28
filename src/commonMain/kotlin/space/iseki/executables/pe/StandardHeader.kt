@@ -16,7 +16,7 @@ data class StandardHeader(
 ){
     init {
         if (magic == PE32Magic.PE32){
-            require(baseOfData == Address32(0)) { "baseOfData must be 0 for PE32" }
+            require(baseOfData == Address32(0u)) { "baseOfData must be 0 for PE32" }
         }
     }
     override fun toString(): String {
