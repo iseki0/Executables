@@ -1,4 +1,5 @@
 @file:JvmName("-U")
+
 package space.iseki.executables.pe
 
 import java.lang.invoke.MethodHandles
@@ -24,3 +25,4 @@ internal actual fun ByteArray.getULong(offset: Int): ULong {
     return (LH.get(this, offset) as Long).toULong()
 }
 
+internal actual fun <T> Array<T>.toUnmodifiableList(): List<T> = java.util.Collections.unmodifiableList(this.asList())

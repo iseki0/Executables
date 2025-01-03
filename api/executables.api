@@ -64,6 +64,12 @@ public final class space/iseki/executables/pe/Address64$Serializer : kotlinx/ser
 	public fun serialize-eXs1uxU (Lkotlinx/serialization/encoding/Encoder;J)V
 }
 
+public final class space/iseki/executables/pe/ByteArrayDataAccessor : space/iseki/executables/pe/DataAccessor {
+	public fun <init> ([B)V
+	public fun close ()V
+	public fun readAtMost (J[B)I
+}
+
 public final class space/iseki/executables/pe/Characteristics : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final field Companion Lspace/iseki/executables/pe/Characteristics$Companion;
 	public synthetic fun add (Ljava/lang/Object;)Z
@@ -481,18 +487,65 @@ public final class space/iseki/executables/pe/PE32Magic$Serializer : kotlinx/ser
 	public static final fun valueOf-MfaRI1g (S)S
 }
 
-public final class space/iseki/executables/pe/PEEOFException : space/iseki/executables/pe/PEIOException {
+public final class space/iseki/executables/pe/PEEOFFileException : space/iseki/executables/pe/PEIOFileException {
 	public fun <init> ()V
 }
 
-public class space/iseki/executables/pe/PEException : java/lang/RuntimeException {
+public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable {
+	public static final field Companion Lspace/iseki/executables/pe/PEFile$Companion;
+	public static final field PE_SIGNATURE_LE I
+	public synthetic fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun close ()V
+	public final fun getCoffHeader ()Lspace/iseki/executables/pe/CoffHeader;
+	public final fun getSectionTable ()Ljava/util/List;
+	public final fun getStandardHeader ()Lspace/iseki/executables/pe/StandardHeader;
+	public final fun getSummary ()Lspace/iseki/executables/pe/PEFile$Summary;
+	public final fun getWindowsHeader ()Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
+}
+
+public final class space/iseki/executables/pe/PEFile$Companion {
+}
+
+public final class space/iseki/executables/pe/PEFile$Summary {
+	public static final field Companion Lspace/iseki/executables/pe/PEFile$Summary$Companion;
+	public fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;)V
+	public final fun component1 ()Lspace/iseki/executables/pe/CoffHeader;
+	public final fun component2 ()Lspace/iseki/executables/pe/StandardHeader;
+	public final fun component3 ()Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
+	public final fun component4 ()Ljava/util/List;
+	public final fun copy (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;)Lspace/iseki/executables/pe/PEFile$Summary;
+	public static synthetic fun copy$default (Lspace/iseki/executables/pe/PEFile$Summary;Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;ILjava/lang/Object;)Lspace/iseki/executables/pe/PEFile$Summary;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCoffHeader ()Lspace/iseki/executables/pe/CoffHeader;
+	public final fun getSectionTable ()Ljava/util/List;
+	public final fun getStandardHeader ()Lspace/iseki/executables/pe/StandardHeader;
+	public final fun getWindowsHeader ()Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/pe/PEFile$Summary$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/pe/PEFile$Summary$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/PEFile$Summary;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/PEFile$Summary;)V
+}
+
+public final class space/iseki/executables/pe/PEFile$Summary$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public class space/iseki/executables/pe/PEFileException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCause ()Ljava/lang/Throwable;
 }
 
-public class space/iseki/executables/pe/PEIOException : space/iseki/executables/pe/PEException {
+public class space/iseki/executables/pe/PEIOFileException : space/iseki/executables/pe/PEFileException {
 	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -536,10 +589,19 @@ public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotl
 }
 
 public final class space/iseki/executables/pe/SectionFlags$Companion {
+	public final fun getIMAGE_SCN_ALIGN_1024BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_128BYTES-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_ALIGN_16BYTES-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_ALIGN_1BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_2048BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_256BYTES-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_ALIGN_2BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_32BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_4096BYTES-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_ALIGN_4BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_512BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_64BYTES-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_ALIGN_8192BYTES-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_ALIGN_8BYTES-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_CNT_CODE-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_CNT_INITIALIZED_DATA-CVJ1pB8 ()I
@@ -547,21 +609,38 @@ public final class space/iseki/executables/pe/SectionFlags$Companion {
 	public final fun getIMAGE_SCN_GPREL-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_LNK_COMDAT-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_LNK_INFO-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_LNK_NRELOC_OVFL-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_LNK_OTHER-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_LNK_REMOVE-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_MEM_16BIT-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_DISCARDABLE-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_EXECUTE-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_MEM_LOCKED-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_NOT_CACHED-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_NOT_PAGED-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_MEM_PRELOAD-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_MEM_PURGEABLE-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_READ-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_SHARED-CVJ1pB8 ()I
+	public final fun getIMAGE_SCN_MEM_WRITE-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_TYPE_NO_PAD-CVJ1pB8 ()I
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/SectionFlags$Constants {
+	public static final field IMAGE_SCN_ALIGN_1024BYTES I
+	public static final field IMAGE_SCN_ALIGN_128BYTES I
 	public static final field IMAGE_SCN_ALIGN_16BYTES I
 	public static final field IMAGE_SCN_ALIGN_1BYTES I
+	public static final field IMAGE_SCN_ALIGN_2048BYTES I
+	public static final field IMAGE_SCN_ALIGN_256BYTES I
 	public static final field IMAGE_SCN_ALIGN_2BYTES I
+	public static final field IMAGE_SCN_ALIGN_32BYTES I
+	public static final field IMAGE_SCN_ALIGN_4096BYTES I
 	public static final field IMAGE_SCN_ALIGN_4BYTES I
+	public static final field IMAGE_SCN_ALIGN_512BYTES I
+	public static final field IMAGE_SCN_ALIGN_64BYTES I
+	public static final field IMAGE_SCN_ALIGN_8192BYTES I
 	public static final field IMAGE_SCN_ALIGN_8BYTES I
 	public static final field IMAGE_SCN_CNT_CODE I
 	public static final field IMAGE_SCN_CNT_INITIALIZED_DATA I
@@ -569,14 +648,69 @@ public final class space/iseki/executables/pe/SectionFlags$Constants {
 	public static final field IMAGE_SCN_GPREL I
 	public static final field IMAGE_SCN_LNK_COMDAT I
 	public static final field IMAGE_SCN_LNK_INFO I
+	public static final field IMAGE_SCN_LNK_NRELOC_OVFL I
 	public static final field IMAGE_SCN_LNK_OTHER I
 	public static final field IMAGE_SCN_LNK_REMOVE I
 	public static final field IMAGE_SCN_MEM_16BIT I
+	public static final field IMAGE_SCN_MEM_DISCARDABLE I
+	public static final field IMAGE_SCN_MEM_EXECUTE I
 	public static final field IMAGE_SCN_MEM_LOCKED I
+	public static final field IMAGE_SCN_MEM_NOT_CACHED I
+	public static final field IMAGE_SCN_MEM_NOT_PAGED I
 	public static final field IMAGE_SCN_MEM_PRELOAD I
 	public static final field IMAGE_SCN_MEM_PURGEABLE I
+	public static final field IMAGE_SCN_MEM_READ I
+	public static final field IMAGE_SCN_MEM_SHARED I
+	public static final field IMAGE_SCN_MEM_WRITE I
 	public static final field IMAGE_SCN_TYPE_NO_PAD I
 	public static final field INSTANCE Lspace/iseki/executables/pe/SectionFlags$Constants;
+}
+
+public final class space/iseki/executables/pe/SectionTableItem {
+	public static final field Companion Lspace/iseki/executables/pe/SectionTableItem$Companion;
+	public static final field LENGTH I
+	public synthetic fun <init> (Ljava/lang/String;IIIIIISSILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10-CVJ1pB8 ()I
+	public final fun component2-pVg5ArA ()I
+	public final fun component3-hRLxnt0 ()I
+	public final fun component4-pVg5ArA ()I
+	public final fun component5-hRLxnt0 ()I
+	public final fun component6-hRLxnt0 ()I
+	public final fun component7-hRLxnt0 ()I
+	public final fun component8-Mh2AYeg ()S
+	public final fun component9-Mh2AYeg ()S
+	public final fun copy-ahEX5hA (Ljava/lang/String;IIIIIISSI)Lspace/iseki/executables/pe/SectionTableItem;
+	public static synthetic fun copy-ahEX5hA$default (Lspace/iseki/executables/pe/SectionTableItem;Ljava/lang/String;IIIIIISSIILjava/lang/Object;)Lspace/iseki/executables/pe/SectionTableItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCharacteristics-CVJ1pB8 ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getNumberOfLinenumbers-Mh2AYeg ()S
+	public final fun getNumberOfRelocations-Mh2AYeg ()S
+	public final fun getPointerToLinenumbers-hRLxnt0 ()I
+	public final fun getPointerToRawData-hRLxnt0 ()I
+	public final fun getPointerToRelocations-hRLxnt0 ()I
+	public final fun getSizeOfRawData-pVg5ArA ()I
+	public final fun getVirtualAddress-hRLxnt0 ()I
+	public final fun getVirtualSize-pVg5ArA ()I
+	public fun hashCode ()I
+	public static final fun parse ([BI)Lspace/iseki/executables/pe/SectionTableItem;
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/pe/SectionTableItem$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/pe/SectionTableItem$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/SectionTableItem;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/SectionTableItem;)V
+}
+
+public final class space/iseki/executables/pe/SectionTableItem$Companion {
+	public final fun parse ([BI)Lspace/iseki/executables/pe/SectionTableItem;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/StandardHeader {
@@ -739,6 +873,7 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
 	public final fun getTlsTable-ZAUXGwc ()J
 	public final fun getWin32VersionValue-pVg5ArA ()I
 	public fun hashCode ()I
+	public final fun length ()I
 	public static final fun parse-B5AKPZQ ([BIS)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 	public fun toString ()Ljava/lang/String;
 }

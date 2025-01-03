@@ -8,7 +8,7 @@ internal interface DataAccessor : AutoCloseable {
         while (offset < buf.size) {
             val read = readAtMost(pos + offset, buf)
             if (read == -1) {
-                throw PEEOFException()
+                throw PEEOFFileException()
             }
             offset += read
         }

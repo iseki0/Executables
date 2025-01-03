@@ -88,11 +88,15 @@ data class WindowsSpecifiedHeader(
         """.trimMargin()
     }
 
+    fun length(): Int {
+        return if (magic == PE32Magic.PE32Plus) 112 - 24 else 96 - 28
+    }
+
     companion object {
         @JvmStatic
         fun parse(bytes: ByteArray, offset: Int, magic: PE32Magic): WindowsSpecifiedHeader {
             val isPlus = magic == PE32Magic.PE32Plus
-            val off = offset - if (isPlus) 0 else 4
+            val off = offset - if (isPlus) 24 else 28
             val imageBase =
                 Address64(if (isPlus) bytes.getUInt(off + 24).toLong() else bytes.getULong(off + 28).toLong())
             val sectionAlignment = bytes.getUInt(off + 32)
