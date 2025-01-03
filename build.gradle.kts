@@ -37,6 +37,11 @@ kotlin {
     }
 }
 
+tasks.withType<AbstractArchiveTask> {
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
+}
+
 tasks.withType<Jar> {
     manifest {
         attributes["Automatic-Module-Name"] = "space.iseki.executables"
