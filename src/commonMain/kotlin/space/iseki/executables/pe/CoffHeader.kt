@@ -47,7 +47,7 @@ data class CoffHeader(
         const val LENGTH = 20
 
         @JvmStatic
-        fun parse(bytes: ByteArray, offset: Int) {
+        fun parse(bytes: ByteArray, offset: Int): CoffHeader {
             val machine = MachineType(bytes.getUShort(offset).toShort())
             val numbersOfSections = bytes.getUShort(offset + 2)
             val timeDateStamp = TimeDataStamp32(bytes.getUInt(offset + 4))
@@ -55,7 +55,7 @@ data class CoffHeader(
             val numbersOfSymbols = bytes.getUInt(offset + 12)
             val sizeOfOptionalHeader = bytes.getUShort(offset + 16)
             val characteristics = Characteristics(bytes.getUShort(offset + 18).toShort())
-            CoffHeader(
+            return CoffHeader(
                 machine,
                 numbersOfSections,
                 timeDateStamp,

@@ -164,7 +164,7 @@ public final class space/iseki/executables/pe/CoffHeader {
 	public final fun getSizeOfOptionalHeader-Mh2AYeg ()S
 	public final fun getTimeDateStamp-p6VWK4Y ()I
 	public fun hashCode ()I
-	public static final fun parse ([BI)V
+	public static final fun parse ([BI)Lspace/iseki/executables/pe/CoffHeader;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -179,7 +179,7 @@ public synthetic class space/iseki/executables/pe/CoffHeader$$serializer : kotli
 }
 
 public final class space/iseki/executables/pe/CoffHeader$Companion {
-	public final fun parse ([BI)V
+	public final fun parse ([BI)Lspace/iseki/executables/pe/CoffHeader;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
