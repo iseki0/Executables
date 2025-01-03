@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform") version "2.1.0"
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.17.0"
@@ -27,6 +29,9 @@ kotlin {
             }
         }
         js {
+            browser()
+        }
+        @OptIn(ExperimentalWasmDsl::class) wasmJs {
             browser()
         }
     }
