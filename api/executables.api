@@ -658,10 +658,6 @@ public final class space/iseki/executables/pe/TimeDataStamp32$Serializer : kotli
 	public fun serialize-HLZe-zY (Lkotlinx/serialization/encoding/Encoder;I)V
 }
 
-public final class space/iseki/executables/pe/U_jvmKt {
-	public static final fun a (Ljava/net/Socket;)V
-}
-
 public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
 	public static final field Companion Lspace/iseki/executables/pe/WindowsSpecifiedHeader$Companion;
 	public synthetic fun <init> (SJIISSSSSSIIIISSJJJJIIJJJJJJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V

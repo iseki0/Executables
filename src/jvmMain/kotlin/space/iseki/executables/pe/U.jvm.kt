@@ -1,3 +1,4 @@
+@file:JvmName("-U")
 package space.iseki.executables.pe
 
 import java.lang.invoke.MethodHandles
