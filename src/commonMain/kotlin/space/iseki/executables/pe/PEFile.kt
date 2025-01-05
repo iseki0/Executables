@@ -1,6 +1,7 @@
 package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
+import kotlin.jvm.JvmStatic
 
 
 class PEFile private constructor(
@@ -22,6 +23,9 @@ class PEFile private constructor(
 
     companion object {
         const val PE_SIGNATURE_LE = 0x00004550
+
+        @JvmStatic
+        fun wrap(data: ByteArray) = open(ByteArrayDataAccessor(data))
 
         internal fun open(accessor: DataAccessor): PEFile {
             var pos = 0x3cL

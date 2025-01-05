@@ -10,8 +10,7 @@ class JavaExeTest {
     @Test
     fun test() {
         println(java_exe.size)
-        val data = ByteArrayDataAccessor(java_exe)
-        val pe = PEFile.open(data)
+        val pe = PEFile.wrap(java_exe)
         println(pe.coffHeader)
         println(pe.standardHeader)
         println(pe.windowsHeader)

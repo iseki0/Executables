@@ -1,6 +1,6 @@
 package space.iseki.executables.pe
 
-class ByteArrayDataAccessor(private val data: ByteArray) : DataAccessor {
+internal class ByteArrayDataAccessor(private val data: ByteArray) : DataAccessor {
     override fun readAtMost(pos: Long, buf: ByteArray): Int {
         if (pos < 0 || pos >= data.size) {
             return -1
