@@ -8,6 +8,7 @@ class PEFile private constructor(
     val standardHeader: StandardHeader,
     val windowsHeader: WindowsSpecifiedHeader,
     val sectionTable: List<SectionTableItem>,
+    private val dataAccessor: DataAccessor,
 ) : AutoCloseable {
     @Serializable
     data class Summary(
@@ -74,10 +75,18 @@ class PEFile private constructor(
                 val off = it * SectionTableItem.LENGTH
                 SectionTableItem.parse(sectionTableData, off)
             }
-            return PEFile(coffHeader, standardHeader, optionalHeader, sectionTableItemArray.toUnmodifiableList())
+            return PEFile(
+                coffHeader = coffHeader,
+                standardHeader = standardHeader,
+                windowsHeader = optionalHeader,
+                sectionTable = sectionTableItemArray.toUnmodifiableList(),
+                dataAccessor = accessor,
+            )
         }
     }
 
-    override fun close() {}
+    override fun close() {
+        dataAccessor.close()
+    }
 
 }
