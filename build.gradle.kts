@@ -38,6 +38,17 @@ kotlin {
             browser()
         }
     }
+
+    sourceSets {
+        val commonMain by getting
+        val jsMain by getting
+        val wasmJsMain by getting
+        val nonJvmMain by creating {
+            dependsOn(commonMain)
+            jsMain.dependsOn(this)
+            wasmJsMain.dependsOn(this)
+        }
+    }
 }
 
 tasks.withType<AbstractArchiveTask> {
@@ -86,7 +97,7 @@ publishing {
     }
     publications {
         withType<MavenPublication> {
-            val pubName = name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else "$it" }
+            val pubName = name.replaceFirstChar { it.titlecase(Locale.getDefault()) }
             val emptyJavadocJar by tasks.register<Jar>("emptyJavadocJar$pubName") {
                 archiveClassifier = "javadoc"
                 archiveBaseName = artifactId
