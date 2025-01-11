@@ -2,9 +2,10 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import java.util.*
 
 plugins {
-    kotlin("multiplatform") version "2.1.0"
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.17.0"
-    kotlin("plugin.serialization") version "2.1.0"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlinx.binary.compatibility.validator)
+    alias(libs.plugins.kotlinx.kover)
     `maven-publish`
     signing
 }
@@ -18,9 +19,9 @@ allprojects {
 }
 
 dependencies {
-    commonMainImplementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
-    commonMainImplementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.0-RC")
-    commonTestImplementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0-RC")
+    commonMainImplementation(libs.kotlinx.datetime)
+    commonMainImplementation(libs.kotlinx.serialization.core)
+    commonTestImplementation(libs.kotlinx.serialization.json)
     commonTestImplementation(kotlin("test"))
 }
 
