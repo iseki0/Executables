@@ -93,4 +93,23 @@ class PEFile private constructor(
         dataAccessor.close()
     }
 
+    internal inner class SectionReader private constructor(private val table: SectionTableItem) {
+        fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
+            var rva0 = rva
+            var off0 = off
+            var len0 = len
+            if (rva0 < table.virtualAddress) {
+                val delta = (table.virtualAddress - rva0).toInt()
+                if (delta !in 0..<len) {
+                    return
+                }
+                len0 -= delta
+                off0 += delta
+                rva0 = table.virtualAddress
+            }
+            val readBegin = table.pointerToRawData + (rva0 - table.virtualAddress)
+            val readSize = len0.toUInt().coerceAtMost(table.sizeOfRawData - (rva0 - table.virtualAddress).rawValue)
+            dataAccessor.readFully(readBegin.rawValue.toLong(), buf, off0, readSize.toInt())
+        }
+    }
 }
