@@ -42,7 +42,11 @@ kotlin {
 
     sourceSets {
         val commonMain by getting
-        val jsMain by getting
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.serialization.json)
+            }
+        }
         val wasmJsMain by getting
         val nonJvmMain by creating {
             dependsOn(commonMain)
