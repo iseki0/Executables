@@ -1,7 +1,9 @@
 package space.iseki.executables.pe
 
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class JavaExeTest {
 
@@ -15,6 +17,9 @@ class JavaExeTest {
         println(pe.standardHeader)
         println(pe.windowsHeader)
         println(pe.sectionTable)
+        val jsonText = json.encodeToString(pe.summary)
         println(json.encodeToString(pe.summary))
+        val je = Json.decodeFromString<JsonElement>(jsonText)
+        assertEquals(java_exe_json, je)
     }
 }
