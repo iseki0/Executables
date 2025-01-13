@@ -457,6 +457,8 @@ public final class space/iseki/executables/pe/PE32Magic {
 	public static final fun toString (S)Ljava/lang/String;
 	public static fun toString-impl (S)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()S
+	public static final fun valueOf-MfaRI1g (Ljava/lang/String;)S
+	public static final fun valueOf-MfaRI1g (S)S
 }
 
 public final class space/iseki/executables/pe/PE32Magic$Companion {
@@ -465,6 +467,8 @@ public final class space/iseki/executables/pe/PE32Magic$Companion {
 	public final fun isValidMagic (S)Z
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 	public final fun toString (S)Ljava/lang/String;
+	public final fun valueOf-MfaRI1g (Ljava/lang/String;)S
+	public final fun valueOf-MfaRI1g (S)S
 }
 
 public final class space/iseki/executables/pe/PE32Magic$Companion$Constants {
@@ -480,8 +484,6 @@ public final class space/iseki/executables/pe/PE32Magic$Serializer : kotlinx/ser
 	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public fun serialize-8v66grQ (Lkotlinx/serialization/encoding/Encoder;S)V
-	public static final fun valueOf-MfaRI1g (Ljava/lang/String;)S
-	public static final fun valueOf-MfaRI1g (S)S
 }
 
 public final class space/iseki/executables/pe/PEEOFFileException : space/iseki/executables/pe/PEIOFileException {

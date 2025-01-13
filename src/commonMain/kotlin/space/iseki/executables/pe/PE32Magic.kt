@@ -33,20 +33,6 @@ value class PE32Magic(private val magic: Short) {
             encoder.encodeString(value.toString())
         }
 
-        @JvmStatic
-        fun valueOf(magic: Short): PE32Magic {
-            return PE32Magic(magic)
-        }
-
-        @JvmStatic
-        fun valueOf(kind: String): PE32Magic {
-            return when (kind) {
-                "PE32" -> PE32
-                "PE32+" -> PE32Plus
-                else -> throw IllegalArgumentException("must be PE32 or PE32+")
-            }
-        }
-
     }
 
     companion object {
@@ -67,6 +53,21 @@ value class PE32Magic(private val magic: Short) {
         fun toString(m: Short): String {
             return PE32Magic(m).toString()
         }
+
+        @JvmStatic
+        fun valueOf(magic: Short): PE32Magic {
+            return PE32Magic(magic)
+        }
+
+        @JvmStatic
+        fun valueOf(kind: String): PE32Magic {
+            return when (kind) {
+                "PE32" -> PE32
+                "PE32+" -> PE32Plus
+                else -> throw IllegalArgumentException("must be PE32 or PE32+")
+            }
+        }
+
     }
 
     override fun toString(): String {
