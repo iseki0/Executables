@@ -13,16 +13,6 @@ import java.nio.file.StandardOpenOption
 @JvmName("open")
 fun PEFile(channel: SeekableByteChannel, closeWhenTheFileClosed: Boolean = true): PEFile {
     val accessor = object : DataAccessor {
-        override fun readAtMost(pos: Long, buf: ByteArray): Int {
-            val buffer = java.nio.ByteBuffer.wrap(buf)
-            channel.position(pos)
-            while (buffer.hasRemaining()) {
-                val i = channel.read(buffer)
-                if (i == -1) break
-            }
-            return buffer.position()
-        }
-
         override fun close() {
             if (closeWhenTheFileClosed) {
                 channel.close()
@@ -31,6 +21,16 @@ fun PEFile(channel: SeekableByteChannel, closeWhenTheFileClosed: Boolean = true)
 
         override fun toString(): String {
             return "DataAccessor(channel=$channel)"
+        }
+
+        override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+            val buffer = java.nio.ByteBuffer.wrap(buf, off, len)
+            channel.position(pos)
+            while (buffer.hasRemaining()) {
+                val i = channel.read(buffer)
+                if (i == -1) break
+            }
+            return buffer.position()
         }
     }
     return PEFile.open(accessor)
