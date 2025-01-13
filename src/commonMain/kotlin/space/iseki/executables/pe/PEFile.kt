@@ -22,7 +22,7 @@ class PEFile private constructor(
     val summary: Summary = Summary(coffHeader, standardHeader, windowsHeader, sectionTable)
 
     companion object {
-        const val PE_SIGNATURE_LE = 0x00004550
+        private const val PE_SIGNATURE_LE = 0x00004550
 
         @JvmStatic
         fun wrap(data: ByteArray) = open(ByteArrayDataAccessor(data))
