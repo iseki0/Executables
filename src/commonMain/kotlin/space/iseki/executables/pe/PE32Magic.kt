@@ -40,7 +40,7 @@ value class PE32Magic(private val magic: Short) {
 
         @JvmStatic
         fun valueOf(kind: String): PE32Magic {
-            return when(kind){
+            return when (kind) {
                 "PE32" -> PE32
                 "PE32+" -> PE32Plus
                 else -> throw IllegalArgumentException("must be PE32 or PE32+")

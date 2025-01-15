@@ -5,7 +5,7 @@ import kotlin.test.Test
 class PEFilesTest {
 
     @Test
-    fun testDumpHeaderJson(){
+    fun testDumpHeaderJson() {
         println(dumpHeaderJson(java_exe, true))
     }
 }

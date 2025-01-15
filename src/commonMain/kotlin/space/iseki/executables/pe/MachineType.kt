@@ -13,14 +13,14 @@ import kotlin.jvm.JvmStatic
 @Serializable(with = MachineType.Serializer::class)
 @JvmInline
 value class MachineType(val rawValue: Short) {
-    object Serializer: KSerializer<MachineType>{
+    object Serializer : KSerializer<MachineType> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
 
         override fun deserialize(decoder: Decoder): MachineType {
-            try{
+            try {
                 return valueOf(decoder.decodeString())
-            }catch (e: IllegalArgumentException){
+            } catch (e: IllegalArgumentException) {
                 throw SerializationException(e.message)
             }
         }
@@ -30,6 +30,7 @@ value class MachineType(val rawValue: Short) {
         }
 
     }
+
     object Constants {
         const val UNKNOWN = 0x0000.toShort()
         const val ALPHA = 0x0184.toShort()

@@ -10,7 +10,8 @@ import kotlin.jvm.JvmStatic
 @Serializable(with = DllCharacteristics.Serializer::class)
 @JvmInline
 value class DllCharacteristics(val rawValue: Short) : Set<DllCharacteristics> {
-    internal object Serializer: BitSetSerializer<DllCharacteristics>(UShort.MAX_VALUE.toULong(), "DllCharacteristics", { a, b -> a + b }) {
+    internal object Serializer :
+        BitSetSerializer<DllCharacteristics>(UShort.MAX_VALUE.toULong(), "DllCharacteristics", { a, b -> a + b }) {
         override val unit: DllCharacteristics
             get() = DllCharacteristics(0)
 
@@ -31,6 +32,7 @@ value class DllCharacteristics(val rawValue: Short) : Set<DllCharacteristics> {
 
         override fun valueOf(element: ULong): DllCharacteristics = DllCharacteristics(element.toShort())
     }
+
     object Constants {
         const val HIGH_ENTROPY_VA = 0x0020.toShort()
         const val DYNAMIC_BASE = 0x0040.toShort()

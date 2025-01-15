@@ -4,7 +4,7 @@ import kotlin.test.Test
 
 class PrintTest {
     @Test
-    fun test(){
+    fun test() {
         println(
             CoffHeader(
                 machine = MachineType.ALPHA,

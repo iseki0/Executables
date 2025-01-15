@@ -30,7 +30,10 @@ value class DataDirectoryItem(
         }
 
         override fun serialize(encoder: Encoder, value: DataDirectoryItem) {
-            encoder.encodeSerializableValue(DTO.serializer(), DTO(Address32(value.virtualAddress.toUInt()), value.size.toUInt()))
+            encoder.encodeSerializableValue(
+                DTO.serializer(),
+                DTO(Address32(value.virtualAddress.toUInt()), value.size.toUInt())
+            )
         }
 
     }
