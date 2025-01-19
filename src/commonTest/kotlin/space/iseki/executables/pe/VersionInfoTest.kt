@@ -7,7 +7,7 @@ class VersionInfoTest {
     @Test
     fun testParse() {
         val bytes = ByteArray(VersionInfo.LENGTH) {
-            when(it) {
+            when (it) {
                 0 -> 0xEF.toByte()
                 1 -> 0xFE.toByte()
                 2 -> 0x00.toByte()

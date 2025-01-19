@@ -11,9 +11,9 @@ value class FileFlags(private val flags: Int) : Set<FileFlags> {
     internal object Serializer :
         BitSetSerializer<FileFlags>(UInt.MAX_VALUE.toULong(), "FileFlags", { a, b -> a + b }) {
         override val unit: FileFlags = FileFlags(0)
-        
+
         override fun valueOfOrNull(element: String): FileFlags? = Companion.valueOfOrNull(element)
-        
+
         override fun valueOf(element: ULong): FileFlags = FileFlags(element.toInt())
     }
 

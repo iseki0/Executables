@@ -8,7 +8,7 @@ data class VersionInfo(
     val structVersion: UShort, // 通常是 0x0100
     val fileVersionMS: UInt,
     val fileVersionLS: UInt,
-    val productVersionMS: UInt, 
+    val productVersionMS: UInt,
     val productVersionLS: UInt,
     val fileFlagsMask: UInt,
     val fileFlags: FileFlags,
@@ -16,7 +16,7 @@ data class VersionInfo(
     val fileType: FileType,
     val fileSubtype: UInt,
     val fileDateMS: UInt,
-    val fileDateLS: UInt
+    val fileDateLS: UInt,
 ) {
     val fileVersion: Version
         get() = Version(
@@ -59,7 +59,7 @@ data class VersionInfo(
         fun parse(bytes: ByteArray, offset: Int): VersionInfo {
             val signature = bytes.getUShort(offset)
             require(signature == SIGNATURE.toUShort()) { "Invalid VS_VERSIONINFO signature: $signature" }
-            
+
             return VersionInfo(
                 signature = signature,
                 structVersion = bytes.getUShort(offset + 2),
@@ -83,7 +83,7 @@ data class VersionInfo(
         val major: UShort,
         val minor: UShort,
         val build: UShort,
-        val revision: UShort
+        val revision: UShort,
     ) {
         override fun toString(): String = "$major.$minor.$build.$revision"
     }

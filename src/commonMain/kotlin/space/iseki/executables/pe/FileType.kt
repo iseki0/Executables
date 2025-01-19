@@ -21,7 +21,7 @@ value class FileType(private val type: UInt) {
             Constants.UNKNOWN -> "UNKNOWN"
             Constants.APP -> "APP"
             Constants.DLL -> "DLL"
-            Constants.DRV -> "DRV" 
+            Constants.DRV -> "DRV"
             Constants.FONT -> "FONT"
             Constants.VXD -> "VXD"
             Constants.STATIC_LIB -> "STATIC_LIB"
