@@ -38,6 +38,4 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           files: 'build/reports/kover/report.xml'
-          token: ${{ secrets.CODECOV_ORG_TOKEN }}
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_ORG_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
