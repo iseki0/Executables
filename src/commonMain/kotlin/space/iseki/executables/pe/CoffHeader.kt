@@ -1,9 +1,7 @@
 package space.iseki.executables.pe
 
-import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
-@Serializable
 data class CoffHeader(
     val machine: MachineType,
     val numbersOfSections: UShort,

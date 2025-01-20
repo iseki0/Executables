@@ -1,9 +1,7 @@
 package space.iseki.executables.pe
 
-import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
-@Serializable
 data class SectionTableItem(
     val name: String,
     val virtualSize: UInt,

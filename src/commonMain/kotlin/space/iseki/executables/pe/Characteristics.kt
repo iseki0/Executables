@@ -1,6 +1,5 @@
 package space.iseki.executables.pe
 
-import kotlinx.serialization.Serializable
 import kotlin.experimental.and
 import kotlin.experimental.or
 import kotlin.experimental.xor
@@ -8,7 +7,6 @@ import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
 @JvmInline
-@Serializable(with = Characteristics.Serializer::class)
 value class Characteristics(val rawValue: Short) : Set<Characteristics> {
     internal object Serializer :
         BitSetSerializer<Characteristics>(UShort.MAX_VALUE.toULong(), "Characteristics", { a, b -> a + b }) {
@@ -119,7 +117,7 @@ value class Characteristics(val rawValue: Short) : Set<Characteristics> {
             return Characteristics(rawValue).toString()
         }
 
-        private fun valueOfOrNull(element: String): Characteristics? = when (element) {
+        fun valueOfOrNull(element: String): Characteristics? = when (element) {
             "IMAGE_FILE_RELOCS_STRIPPED" -> IMAGE_FILE_RELOCS_STRIPPED
             "IMAGE_FILE_EXECUTABLE_IMAGE" -> IMAGE_FILE_EXECUTABLE_IMAGE
             "IMAGE_FILE_LINE_NUMS_STRIPPED" -> IMAGE_FILE_LINE_NUMS_STRIPPED

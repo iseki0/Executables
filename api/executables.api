@@ -121,8 +121,8 @@ public final class space/iseki/executables/pe/Characteristics$Companion {
 	public final fun getIMAGE_FILE_REMOVABLE_RUN_FROM_SWAP-ZvpUuhw ()S
 	public final fun getIMAGE_FILE_SYSTEM-ZvpUuhw ()S
 	public final fun getIMAGE_FILE_UP_SYSTEM_ONLY-ZvpUuhw ()S
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 	public final fun toString (S)Ljava/lang/String;
+	public final fun valueOfOrNull-IX4SoCY (Ljava/lang/String;)Lspace/iseki/executables/pe/Characteristics;
 }
 
 public final class space/iseki/executables/pe/Characteristics$Constants {
@@ -171,19 +171,8 @@ public final class space/iseki/executables/pe/CoffHeader {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/CoffHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/CoffHeader$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/CoffHeader;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/CoffHeader;)V
-}
-
 public final class space/iseki/executables/pe/CoffHeader$Companion {
 	public final fun parse ([BI)Lspace/iseki/executables/pe/CoffHeader;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/DataDirectories {
@@ -327,8 +316,8 @@ public final class space/iseki/executables/pe/DllCharacteristics$Companion {
 	public final fun getNX_COMPAT-UaHtHC4 ()S
 	public final fun getTERMINAL_SERVER_AWARE-UaHtHC4 ()S
 	public final fun getWDM_DRIVER-UaHtHC4 ()S
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 	public final fun toString (S)Ljava/lang/String;
+	public final fun valueOfOrNull-KpCnac8 (Ljava/lang/String;)Lspace/iseki/executables/pe/DllCharacteristics;
 }
 
 public final class space/iseki/executables/pe/DllCharacteristics$Constants {
@@ -356,13 +345,10 @@ public final class space/iseki/executables/pe/MachineType {
 	public final fun getRawValue ()S
 	public fun hashCode ()I
 	public static fun hashCode-impl (S)I
-	public static final fun toHexString-impl (S)Ljava/lang/String;
 	public fun toString ()Ljava/lang/String;
-	public static final fun toString (S)Ljava/lang/String;
 	public static fun toString-impl (S)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()S
 	public static final fun valueOf-3kKNyLc (Ljava/lang/String;)S
-	public static final fun valueOfOrNull-04Rctfw (Ljava/lang/String;)Lspace/iseki/executables/pe/MachineType;
 }
 
 public final class space/iseki/executables/pe/MachineType$Companion {
@@ -395,13 +381,10 @@ public final class space/iseki/executables/pe/MachineType$Companion {
 	public final fun getTHUMB-Q4oK7tQ ()S
 	public final fun getUNKNOWN-Q4oK7tQ ()S
 	public final fun getWCEMIPSV2-Q4oK7tQ ()S
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun toString (S)Ljava/lang/String;
 	public final fun valueOf-3kKNyLc (Ljava/lang/String;)S
-	public final fun valueOfOrNull-04Rctfw (Ljava/lang/String;)Lspace/iseki/executables/pe/MachineType;
 }
 
-public final class space/iseki/executables/pe/MachineType$Constants {
+public final class space/iseki/executables/pe/MachineType$Companion$Constants {
 	public static final field ALPHA S
 	public static final field ALPHA64 S
 	public static final field AM33 S
@@ -412,7 +395,7 @@ public final class space/iseki/executables/pe/MachineType$Constants {
 	public static final field EBC S
 	public static final field I386 S
 	public static final field IA64 S
-	public static final field INSTANCE Lspace/iseki/executables/pe/MachineType$Constants;
+	public static final field INSTANCE Lspace/iseki/executables/pe/MachineType$Companion$Constants;
 	public static final field LOONGARCH32 S
 	public static final field LOONGARCH64 S
 	public static final field M32R S
@@ -434,15 +417,6 @@ public final class space/iseki/executables/pe/MachineType$Constants {
 	public static final field WCEMIPSV2 S
 }
 
-public final class space/iseki/executables/pe/MachineType$Serializer : kotlinx/serialization/KSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/MachineType$Serializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun deserialize-3kKNyLc (Lkotlinx/serialization/encoding/Decoder;)S
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun serialize-HDuVhxc (Lkotlinx/serialization/encoding/Encoder;S)V
-}
-
 public final class space/iseki/executables/pe/PE32Magic {
 	public static final field Companion Lspace/iseki/executables/pe/PE32Magic$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/PE32Magic;
@@ -450,40 +424,19 @@ public final class space/iseki/executables/pe/PE32Magic {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
 	public static final fun equals-impl0 (SS)Z
+	public final fun getRawValue ()S
 	public fun hashCode ()I
 	public static fun hashCode-impl (S)I
-	public static final fun isValidMagic (S)Z
 	public fun toString ()Ljava/lang/String;
-	public static final fun toString (S)Ljava/lang/String;
 	public static fun toString-impl (S)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()S
 	public static final fun valueOf-MfaRI1g (Ljava/lang/String;)S
-	public static final fun valueOf-MfaRI1g (S)S
 }
 
 public final class space/iseki/executables/pe/PE32Magic$Companion {
 	public final fun getPE32-zC7-h34 ()S
 	public final fun getPE32Plus-zC7-h34 ()S
-	public final fun isValidMagic (S)Z
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun toString (S)Ljava/lang/String;
 	public final fun valueOf-MfaRI1g (Ljava/lang/String;)S
-	public final fun valueOf-MfaRI1g (S)S
-}
-
-public final class space/iseki/executables/pe/PE32Magic$Companion$Constants {
-	public static final field INSTANCE Lspace/iseki/executables/pe/PE32Magic$Companion$Constants;
-	public static final field PE32 S
-	public static final field PE32Plus S
-}
-
-public final class space/iseki/executables/pe/PE32Magic$Serializer : kotlinx/serialization/KSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/PE32Magic$Serializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun deserialize-MfaRI1g (Lkotlinx/serialization/encoding/Decoder;)S
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun serialize-8v66grQ (Lkotlinx/serialization/encoding/Encoder;S)V
 }
 
 public final class space/iseki/executables/pe/PEEOFFileException : space/iseki/executables/pe/PEIOFileException {
@@ -507,7 +460,6 @@ public final class space/iseki/executables/pe/PEFile$Companion {
 }
 
 public final class space/iseki/executables/pe/PEFile$Summary {
-	public static final field Companion Lspace/iseki/executables/pe/PEFile$Summary$Companion;
 	public fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;)V
 	public final fun component1 ()Lspace/iseki/executables/pe/CoffHeader;
 	public final fun component2 ()Lspace/iseki/executables/pe/StandardHeader;
@@ -522,20 +474,6 @@ public final class space/iseki/executables/pe/PEFile$Summary {
 	public final fun getWindowsHeader ()Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-}
-
-public synthetic class space/iseki/executables/pe/PEFile$Summary$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/PEFile$Summary$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/PEFile$Summary;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/PEFile$Summary;)V
-}
-
-public final class space/iseki/executables/pe/PEFile$Summary$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public class space/iseki/executables/pe/PEFileException : java/lang/RuntimeException {
@@ -594,6 +532,8 @@ public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotl
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (I)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()I
+	public static final fun valueOf-oNAfi-w (Ljava/lang/String;)I
+	public static final fun valueOfOrNull-2_N5NPA (Ljava/lang/String;)Lspace/iseki/executables/pe/SectionFlags;
 }
 
 public final class space/iseki/executables/pe/SectionFlags$Companion {
@@ -632,7 +572,8 @@ public final class space/iseki/executables/pe/SectionFlags$Companion {
 	public final fun getIMAGE_SCN_MEM_SHARED-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_MEM_WRITE-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_TYPE_NO_PAD-CVJ1pB8 ()I
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-oNAfi-w (Ljava/lang/String;)I
+	public final fun valueOfOrNull-2_N5NPA (Ljava/lang/String;)Lspace/iseki/executables/pe/SectionFlags;
 }
 
 public final class space/iseki/executables/pe/SectionFlags$Constants {
@@ -706,19 +647,8 @@ public final class space/iseki/executables/pe/SectionTableItem {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/SectionTableItem$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/SectionTableItem$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/SectionTableItem;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/SectionTableItem;)V
-}
-
 public final class space/iseki/executables/pe/SectionTableItem$Companion {
 	public final fun parse ([BI)Lspace/iseki/executables/pe/SectionTableItem;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/StandardHeader {
@@ -752,19 +682,8 @@ public final class space/iseki/executables/pe/StandardHeader {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/StandardHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/StandardHeader$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/StandardHeader;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/StandardHeader;)V
-}
-
 public final class space/iseki/executables/pe/StandardHeader$Companion {
 	public final fun parse ([BI)Lspace/iseki/executables/pe/StandardHeader;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/TimeDataStamp32 : java/lang/Comparable {
@@ -1112,19 +1031,8 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/WindowsSpecifiedHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/WindowsSpecifiedHeader$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;)V
-}
-
 public final class space/iseki/executables/pe/WindowsSpecifiedHeader$Companion {
 	public final fun parse-B5AKPZQ ([BIS)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/WindowsSubsystems {
@@ -1138,7 +1046,6 @@ public final class space/iseki/executables/pe/WindowsSubsystems {
 	public fun hashCode ()I
 	public static fun hashCode-impl (S)I
 	public fun toString ()Ljava/lang/String;
-	public static final fun toString (S)Ljava/lang/String;
 	public static fun toString-impl (S)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()S
 	public static final fun valueOf-B4aM148 (Ljava/lang/String;)S
@@ -1159,17 +1066,15 @@ public final class space/iseki/executables/pe/WindowsSubsystems$Companion {
 	public final fun getWINDOWS_CUI-kp653uA ()S
 	public final fun getWINDOWS_GUI-kp653uA ()S
 	public final fun getXBOX-kp653uA ()S
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun toString (S)Ljava/lang/String;
 	public final fun valueOf-B4aM148 (Ljava/lang/String;)S
 }
 
-public final class space/iseki/executables/pe/WindowsSubsystems$Constants {
+public final class space/iseki/executables/pe/WindowsSubsystems$Companion$Constants {
 	public static final field EFI_APPLICATION S
 	public static final field EFI_BOOT_SERVICE_DRIVER S
 	public static final field EFI_ROM S
 	public static final field EFI_RUNTIME_DRIVER S
-	public static final field INSTANCE Lspace/iseki/executables/pe/WindowsSubsystems$Constants;
+	public static final field INSTANCE Lspace/iseki/executables/pe/WindowsSubsystems$Companion$Constants;
 	public static final field NATIVE S
 	public static final field NATIVE_WINDOWS S
 	public static final field OS2_CUI S
@@ -1180,14 +1085,5 @@ public final class space/iseki/executables/pe/WindowsSubsystems$Constants {
 	public static final field WINDOWS_CUI S
 	public static final field WINDOWS_GUI S
 	public static final field XBOX S
-}
-
-public final class space/iseki/executables/pe/WindowsSubsystems$Serializer : kotlinx/serialization/KSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/WindowsSubsystems$Serializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun deserialize-B4aM148 (Lkotlinx/serialization/encoding/Decoder;)S
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun serialize-iDg-Uuw (Lkotlinx/serialization/encoding/Encoder;S)V
 }
 

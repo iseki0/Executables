@@ -1,59 +1,10 @@
 package space.iseki.executables.pe
 
-import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmInline
+import kotlin.jvm.JvmStatic
 
-@Serializable(with = SectionFlags.Serializer::class)
 @JvmInline
 value class SectionFlags(private val rawValue: Int) : Set<SectionFlags> {
-    internal object Serializer :
-        BitSetSerializer<SectionFlags>(UInt.MAX_VALUE.toULong(), "SectionFlags", { a, b -> a + b }) {
-        override val unit: SectionFlags
-            get() = SectionFlags(0)
-
-        override fun valueOfOrNull(element: String): SectionFlags? = when (element) {
-            "IMAGE_SCN_TYPE_NO_PAD" -> IMAGE_SCN_TYPE_NO_PAD
-            "IMAGE_SCN_CNT_CODE" -> IMAGE_SCN_CNT_CODE
-            "IMAGE_SCN_CNT_INITIALIZED_DATA" -> IMAGE_SCN_CNT_INITIALIZED_DATA
-            "IMAGE_SCN_CNT_UNINITIALIZED_DATA" -> IMAGE_SCN_CNT_UNINITIALIZED_DATA
-            "IMAGE_SCN_LNK_OTHER" -> IMAGE_SCN_LNK_OTHER
-            "IMAGE_SCN_LNK_INFO" -> IMAGE_SCN_LNK_INFO
-            "IMAGE_SCN_LNK_REMOVE" -> IMAGE_SCN_LNK_REMOVE
-            "IMAGE_SCN_LNK_COMDAT" -> IMAGE_SCN_LNK_COMDAT
-            "IMAGE_SCN_GPREL" -> IMAGE_SCN_GPREL
-            "IMAGE_SCN_MEM_PURGEABLE" -> IMAGE_SCN_MEM_PURGEABLE
-            "IMAGE_SCN_MEM_16BIT" -> IMAGE_SCN_MEM_16BIT
-            "IMAGE_SCN_MEM_LOCKED" -> IMAGE_SCN_MEM_LOCKED
-            "IMAGE_SCN_MEM_PRELOAD" -> IMAGE_SCN_MEM_PRELOAD
-            "IMAGE_SCN_ALIGN_1BYTES" -> IMAGE_SCN_ALIGN_1BYTES
-            "IMAGE_SCN_ALIGN_2BYTES" -> IMAGE_SCN_ALIGN_2BYTES
-            "IMAGE_SCN_ALIGN_4BYTES" -> IMAGE_SCN_ALIGN_4BYTES
-            "IMAGE_SCN_ALIGN_8BYTES" -> IMAGE_SCN_ALIGN_8BYTES
-            "IMAGE_SCN_ALIGN_16BYTES" -> IMAGE_SCN_ALIGN_16BYTES
-            "IMAGE_SCN_ALIGN_32BYTES" -> IMAGE_SCN_ALIGN_32BYTES
-            "IMAGE_SCN_ALIGN_64BYTES" -> IMAGE_SCN_ALIGN_64BYTES
-            "IMAGE_SCN_ALIGN_128BYTES" -> IMAGE_SCN_ALIGN_128BYTES
-            "IMAGE_SCN_ALIGN_256BYTES" -> IMAGE_SCN_ALIGN_256BYTES
-            "IMAGE_SCN_ALIGN_512BYTES" -> IMAGE_SCN_ALIGN_512BYTES
-            "IMAGE_SCN_ALIGN_1024BYTES" -> IMAGE_SCN_ALIGN_1024BYTES
-            "IMAGE_SCN_ALIGN_2048BYTES" -> IMAGE_SCN_ALIGN_2048BYTES
-            "IMAGE_SCN_ALIGN_4096BYTES" -> IMAGE_SCN_ALIGN_4096BYTES
-            "IMAGE_SCN_ALIGN_8192BYTES" -> IMAGE_SCN_ALIGN_8192BYTES
-            "IMAGE_SCN_LNK_NRELOC_OVFL" -> IMAGE_SCN_LNK_NRELOC_OVFL
-            "IMAGE_SCN_MEM_DISCARDABLE" -> IMAGE_SCN_MEM_DISCARDABLE
-            "IMAGE_SCN_MEM_NOT_CACHED" -> IMAGE_SCN_MEM_NOT_CACHED
-            "IMAGE_SCN_MEM_NOT_PAGED" -> IMAGE_SCN_MEM_NOT_PAGED
-            "IMAGE_SCN_MEM_SHARED" -> IMAGE_SCN_MEM_SHARED
-            "IMAGE_SCN_MEM_EXECUTE" -> IMAGE_SCN_MEM_EXECUTE
-            "IMAGE_SCN_MEM_READ" -> IMAGE_SCN_MEM_READ
-            "IMAGE_SCN_MEM_WRITE" -> IMAGE_SCN_MEM_WRITE
-            else -> null
-        }
-
-        override fun valueOf(element: ULong): SectionFlags = SectionFlags(element.toInt())
-
-    }
-
     object Constants {
         const val IMAGE_SCN_TYPE_NO_PAD = 0x00000008
         const val IMAGE_SCN_CNT_CODE = 0x00000020
@@ -90,7 +41,6 @@ value class SectionFlags(private val rawValue: Int) : Set<SectionFlags> {
         const val IMAGE_SCN_MEM_EXECUTE = 0x20000000
         const val IMAGE_SCN_MEM_READ = 0x40000000
         const val IMAGE_SCN_MEM_WRITE = 0x80000000.toInt()
-
     }
 
     companion object {
@@ -129,6 +79,50 @@ value class SectionFlags(private val rawValue: Int) : Set<SectionFlags> {
         val IMAGE_SCN_MEM_EXECUTE = SectionFlags(Constants.IMAGE_SCN_MEM_EXECUTE)
         val IMAGE_SCN_MEM_READ = SectionFlags(Constants.IMAGE_SCN_MEM_READ)
         val IMAGE_SCN_MEM_WRITE = SectionFlags(Constants.IMAGE_SCN_MEM_WRITE)
+
+        @JvmStatic
+        fun valueOfOrNull(name: String): SectionFlags? = when (name) {
+            "IMAGE_SCN_TYPE_NO_PAD" -> IMAGE_SCN_TYPE_NO_PAD
+            "IMAGE_SCN_CNT_CODE" -> IMAGE_SCN_CNT_CODE
+            "IMAGE_SCN_CNT_INITIALIZED_DATA" -> IMAGE_SCN_CNT_INITIALIZED_DATA
+            "IMAGE_SCN_CNT_UNINITIALIZED_DATA" -> IMAGE_SCN_CNT_UNINITIALIZED_DATA
+            "IMAGE_SCN_LNK_OTHER" -> IMAGE_SCN_LNK_OTHER
+            "IMAGE_SCN_LNK_INFO" -> IMAGE_SCN_LNK_INFO
+            "IMAGE_SCN_LNK_REMOVE" -> IMAGE_SCN_LNK_REMOVE
+            "IMAGE_SCN_LNK_COMDAT" -> IMAGE_SCN_LNK_COMDAT
+            "IMAGE_SCN_GPREL" -> IMAGE_SCN_GPREL
+            "IMAGE_SCN_MEM_PURGEABLE" -> IMAGE_SCN_MEM_PURGEABLE
+            "IMAGE_SCN_MEM_16BIT" -> IMAGE_SCN_MEM_16BIT
+            "IMAGE_SCN_MEM_LOCKED" -> IMAGE_SCN_MEM_LOCKED
+            "IMAGE_SCN_MEM_PRELOAD" -> IMAGE_SCN_MEM_PRELOAD
+            "IMAGE_SCN_ALIGN_1BYTES" -> IMAGE_SCN_ALIGN_1BYTES
+            "IMAGE_SCN_ALIGN_2BYTES" -> IMAGE_SCN_ALIGN_2BYTES
+            "IMAGE_SCN_ALIGN_4BYTES" -> IMAGE_SCN_ALIGN_4BYTES
+            "IMAGE_SCN_ALIGN_8BYTES" -> IMAGE_SCN_ALIGN_8BYTES
+            "IMAGE_SCN_ALIGN_16BYTES" -> IMAGE_SCN_ALIGN_16BYTES
+            "IMAGE_SCN_ALIGN_32BYTES" -> IMAGE_SCN_ALIGN_32BYTES
+            "IMAGE_SCN_ALIGN_64BYTES" -> IMAGE_SCN_ALIGN_64BYTES
+            "IMAGE_SCN_ALIGN_128BYTES" -> IMAGE_SCN_ALIGN_128BYTES
+            "IMAGE_SCN_ALIGN_256BYTES" -> IMAGE_SCN_ALIGN_256BYTES
+            "IMAGE_SCN_ALIGN_512BYTES" -> IMAGE_SCN_ALIGN_512BYTES
+            "IMAGE_SCN_ALIGN_1024BYTES" -> IMAGE_SCN_ALIGN_1024BYTES
+            "IMAGE_SCN_ALIGN_2048BYTES" -> IMAGE_SCN_ALIGN_2048BYTES
+            "IMAGE_SCN_ALIGN_4096BYTES" -> IMAGE_SCN_ALIGN_4096BYTES
+            "IMAGE_SCN_ALIGN_8192BYTES" -> IMAGE_SCN_ALIGN_8192BYTES
+            "IMAGE_SCN_LNK_NRELOC_OVFL" -> IMAGE_SCN_LNK_NRELOC_OVFL
+            "IMAGE_SCN_MEM_DISCARDABLE" -> IMAGE_SCN_MEM_DISCARDABLE
+            "IMAGE_SCN_MEM_NOT_CACHED" -> IMAGE_SCN_MEM_NOT_CACHED
+            "IMAGE_SCN_MEM_NOT_PAGED" -> IMAGE_SCN_MEM_NOT_PAGED
+            "IMAGE_SCN_MEM_SHARED" -> IMAGE_SCN_MEM_SHARED
+            "IMAGE_SCN_MEM_EXECUTE" -> IMAGE_SCN_MEM_EXECUTE
+            "IMAGE_SCN_MEM_READ" -> IMAGE_SCN_MEM_READ
+            "IMAGE_SCN_MEM_WRITE" -> IMAGE_SCN_MEM_WRITE
+            else -> null
+        }
+
+        @JvmStatic
+        fun valueOf(name: String): SectionFlags =
+            valueOfOrNull(name) ?: throw IllegalArgumentException("Unknown SectionFlags: $name")
     }
 
     override val size: Int

@@ -1,9 +1,7 @@
 package space.iseki.executables.pe
 
-import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
 
-@Serializable
 data class StandardHeader(
     val magic: PE32Magic,
     val majorLinkerVersion: Byte,

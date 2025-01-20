@@ -1,8 +1,6 @@
 package space.iseki.executables.pe
 
-import kotlinx.serialization.Serializable
 import kotlin.jvm.JvmStatic
-
 
 class PEFile private constructor(
     val coffHeader: CoffHeader,
@@ -11,7 +9,6 @@ class PEFile private constructor(
     val sectionTable: List<SectionTableItem>,
     private val dataAccessor: DataAccessor,
 ) : AutoCloseable {
-    @Serializable
     data class Summary(
         val coffHeader: CoffHeader,
         val standardHeader: StandardHeader,

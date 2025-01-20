@@ -2,6 +2,10 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
+import space.iseki.executables.pe.serialization.CharacteristicsSerializer
+import space.iseki.executables.pe.serialization.CoffHeaderSerializer
+import space.iseki.executables.pe.serialization.StandardHeaderSerializer
+import space.iseki.executables.pe.serialization.WindowsSpecifiedHeaderSerializer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -15,16 +19,16 @@ class JsonTest {
     @Test
     fun testCharacteristicsJson() {
         val a = Characteristics.IMAGE_FILE_EXECUTABLE_IMAGE + Characteristics.IMAGE_FILE_DLL
-        val jsonText = json.encodeToString(a)
+        val jsonText = json.encodeToString(CharacteristicsSerializer, a)
         println(jsonText)
-        val b = json.decodeFromString<Characteristics>(jsonText)
+        val b = json.decodeFromString(CharacteristicsSerializer, jsonText)
         assertEquals(a, b)
     }
 
     @Test
     fun testCharacteristicsFail() {
         assertFailsWith<SerializationException> {
-            json.decodeFromString<Characteristics>("""["A"]""")
+            json.decodeFromString(CharacteristicsSerializer, """["A"]""")
         }.printStackTrace()
     }
 
@@ -37,9 +41,9 @@ class JsonTest {
             sizeOfOptionalHeader = 0u,
             characteristics = Characteristics.IMAGE_FILE_EXECUTABLE_IMAGE + Characteristics.IMAGE_FILE_DLL,
         )
-        val jsonText = json.encodeToString(coffHeader)
+        val jsonText = json.encodeToString(CoffHeaderSerializer, coffHeader)
         println(jsonText)
-        val b = json.decodeFromString<CoffHeader>(jsonText)
+        val b = json.decodeFromString(CoffHeaderSerializer, jsonText)
         assertEquals(coffHeader, b)
     }
 
@@ -56,9 +60,9 @@ class JsonTest {
             baseOfCode = Address32(1u),
             baseOfData = Address32(0u),
         )
-        val jsonText = json.encodeToString(standardHeader)
+        val jsonText = json.encodeToString(StandardHeaderSerializer, standardHeader)
         println(jsonText)
-        val b = json.decodeFromString<StandardHeader>(jsonText)
+        val b = json.decodeFromString(StandardHeaderSerializer, jsonText)
         assertEquals(standardHeader, b)
     }
 
@@ -103,9 +107,9 @@ class JsonTest {
             delayImportDescriptor = DataDirectoryItem(0u, 0u),
             clrRuntimeHeader = DataDirectoryItem(0u, 0u),
         )
-        val jsonText = json.encodeToString(windowsSpecifiedHeader)
+        val jsonText = json.encodeToString(WindowsSpecifiedHeaderSerializer, windowsSpecifiedHeader)
         println(jsonText)
-        val b = json.decodeFromString<WindowsSpecifiedHeader>(jsonText)
+        val b = json.decodeFromString(WindowsSpecifiedHeaderSerializer, jsonText)
         assertEquals(windowsSpecifiedHeader, b)
     }
 }
