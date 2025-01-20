@@ -9,14 +9,14 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 
-@Serializable(with = FileOS.Serializer::class)
+@Serializable(with = VersionInfoFileOS.Serializer::class)
 @JvmInline
-value class FileOS(private val os: UInt) {
-    object Serializer : KSerializer<FileOS> {
+value class VersionInfoFileOS(private val os: UInt) {
+    object Serializer : KSerializer<VersionInfoFileOS> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
 
-        override fun deserialize(decoder: Decoder): FileOS {
+        override fun deserialize(decoder: Decoder): VersionInfoFileOS {
             try {
                 return valueOf(decoder.decodeString())
             } catch (e: IllegalArgumentException) {
@@ -24,7 +24,7 @@ value class FileOS(private val os: UInt) {
             }
         }
 
-        override fun serialize(encoder: Encoder, value: FileOS) {
+        override fun serialize(encoder: Encoder, value: VersionInfoFileOS) {
             encoder.encodeString(value.toString())
         }
     }
@@ -39,14 +39,14 @@ value class FileOS(private val os: UInt) {
             const val WINCE = 0x50000u
         }
 
-        val UNKNOWN = FileOS(Constants.UNKNOWN)
-        val DOS = FileOS(Constants.DOS)
-        val OS216 = FileOS(Constants.OS216)
-        val OS232 = FileOS(Constants.OS232)
-        val NT = FileOS(Constants.NT)
-        val WINCE = FileOS(Constants.WINCE)
+        val UNKNOWN = VersionInfoFileOS(Constants.UNKNOWN)
+        val DOS = VersionInfoFileOS(Constants.DOS)
+        val OS216 = VersionInfoFileOS(Constants.OS216)
+        val OS232 = VersionInfoFileOS(Constants.OS232)
+        val NT = VersionInfoFileOS(Constants.NT)
+        val WINCE = VersionInfoFileOS(Constants.WINCE)
 
-        fun valueOf(name: String): FileOS {
+        fun valueOf(name: String): VersionInfoFileOS {
             return when (name) {
                 "UNKNOWN" -> UNKNOWN
                 "DOS" -> DOS
@@ -56,7 +56,7 @@ value class FileOS(private val os: UInt) {
                 "WINCE" -> WINCE
                 else -> {
                     try {
-                        FileOS(name.removePrefix("0x").toUInt(16))
+                        VersionInfoFileOS(name.removePrefix("0x").toUInt(16))
                     } catch (e: NumberFormatException) {
                         throw IllegalArgumentException("Unknown FileOS: $name")
                     }

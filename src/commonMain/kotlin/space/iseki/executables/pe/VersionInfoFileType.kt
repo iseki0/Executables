@@ -5,7 +5,7 @@ import kotlin.jvm.JvmInline
 
 @Serializable
 @JvmInline
-value class FileType(private val type: UInt) {
+value class VersionInfoFileType(private val type: UInt) {
     object Constants {
         const val UNKNOWN = 0u
         const val APP = 1u
