@@ -2,7 +2,6 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
 
-@Serializable
 data class VersionInfo(
     val signature: UShort,  // 必须是 0xFEEF
     val structVersion: UShort, // 通常是 0x0100
@@ -11,9 +10,9 @@ data class VersionInfo(
     val productVersionMS: UInt,
     val productVersionLS: UInt,
     val fileFlagsMask: UInt,
-    val fileFlags: VersionInfoFileFlags,
-    val fileOS: VersionInfoFileOS,
-    val fileType: VersionInfoFileType,
+    val fileFlags: FileInfoFlags,
+    val fileOS: FileOs,
+    val fileType: FileType,
     val fileSubtype: UInt,
     val fileDateMS: UInt,
     val fileDateLS: UInt,
@@ -68,9 +67,9 @@ data class VersionInfo(
                 productVersionMS = bytes.getUInt(offset + 12),
                 productVersionLS = bytes.getUInt(offset + 16),
                 fileFlagsMask = bytes.getUInt(offset + 20),
-                fileFlags = VersionInfoFileFlags(bytes.getUInt(offset + 24)),
-                fileOS = VersionInfoFileOS(bytes.getUInt(offset + 28)),
-                fileType = VersionInfoFileType(bytes.getUInt(offset + 32)),
+                fileFlags = FileInfoFlags(bytes.getUInt(offset + 24)),
+                fileOS = FileOs(bytes.getUInt(offset + 28)),
+                fileType = FileType(bytes.getUInt(offset + 32)),
                 fileSubtype = bytes.getUInt(offset + 36),
                 fileDateMS = bytes.getUInt(offset + 40),
                 fileDateLS = bytes.getUInt(offset + 44)

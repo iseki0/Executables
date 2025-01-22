@@ -1,0 +1,11 @@
+package: space.iseki.executables.pe
+typename: FileType
+dataLength: 4
+list:
+  - { name: "APP"        , value: "0x00000001" }
+  - { name: "DLL"        , value: "0x00000002" }
+  - { name: "DRV"        , value: "0x00000003" }
+  - { name: "FONT"       , value: "0x00000004" }
+  - { name: "STATIC_LIB" , value: "0x00000007" }
+  - { name: "UNKNOWN"    , value: "0x00000000" }
+  - { name: "VXD"        , value: "0x00000005" }

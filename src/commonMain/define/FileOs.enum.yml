@@ -1,0 +1,18 @@
+package: space.iseki.executables.pe
+typename: FileOs
+dataLength: 4
+list:
+  - { name: "VOS_DOS"        , value: "0x00010000" }
+  - { name: "VOS_NT"         , value: "0x00040000" }
+  - { name: "VOS__WINDOWS16" , value: "0x00000001" }
+  - { name: "VOS__WINDOWS32" , value: "0x00000004" }
+  - { name: "VOS_OS216"      , value: "0x00020000" }
+  - { name: "VOS_OS232"      , value: "0x00030000" }
+  - { name: "VOS__PM16"      , value: "0x00000002" }
+  - { name: "VOS__PM32"      , value: "0x00000003" }
+  - { name: "VOS_UNKNOWN"    , value: "0x00000000" }
+  - { name: "VOS_DOS_WINDOWS16" , value: "0x00010001" }
+  - { name: "VOS_DOS_WINDOWS32" , value: "0x00010004" }
+  - { name: "VOS_NT_WINDOWS32"  , value: "0x00040004" }
+  - { name: "VOS_OS216_PM16"    , value: "0x00020002" }
+  - { name: "VOS_OS232_PM32"    , value: "0x00030003" }

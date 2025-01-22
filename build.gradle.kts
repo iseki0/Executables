@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlinx.kover)
     `maven-publish`
     signing
+    id("tgenerator")
 }
 
 allprojects {

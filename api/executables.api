@@ -1,3 +1,35 @@
+public final class space/iseki/executables/pe/-Characteristics {
+	public static final fun Characteristics-xj2QHRw (S)S
+}
+
+public final class space/iseki/executables/pe/-DllCharacteristics {
+	public static final fun DllCharacteristics-xj2QHRw (S)S
+}
+
+public final class space/iseki/executables/pe/-FileInfoFlags {
+	public static final fun FileInfoFlags-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/pe/-FileOs {
+	public static final fun FileOs-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/pe/-FileType {
+	public static final fun FileType-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/pe/-MachineType {
+	public static final fun MachineType-xj2QHRw (S)S
+}
+
+public final class space/iseki/executables/pe/-SectionFlags {
+	public static final fun SectionFlags-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/pe/-WindowsSubsystems {
+	public static final fun WindowsSubsystems-xj2QHRw (S)S
+}
+
 public final class space/iseki/executables/pe/Address32 : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/Address32$Companion;
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/Address32;
@@ -100,9 +132,10 @@ public final class space/iseki/executables/pe/Characteristics : java/util/Set, k
 	public fun toArray ()[Ljava/lang/Object;
 	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
 	public fun toString ()Ljava/lang/String;
-	public static final fun toString (S)Ljava/lang/String;
 	public static fun toString-impl (S)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()S
+	public static final fun valueOf-mW29n7s (Ljava/lang/String;)S
+	public static final fun valueOfOrNull-IX4SoCY (Ljava/lang/String;)Lspace/iseki/executables/pe/Characteristics;
 }
 
 public final class space/iseki/executables/pe/Characteristics$Companion {
@@ -121,7 +154,8 @@ public final class space/iseki/executables/pe/Characteristics$Companion {
 	public final fun getIMAGE_FILE_REMOVABLE_RUN_FROM_SWAP-ZvpUuhw ()S
 	public final fun getIMAGE_FILE_SYSTEM-ZvpUuhw ()S
 	public final fun getIMAGE_FILE_UP_SYSTEM_ONLY-ZvpUuhw ()S
-	public final fun toString (S)Ljava/lang/String;
+	public final fun getZERO-ZvpUuhw ()S
+	public final fun valueOf-mW29n7s (Ljava/lang/String;)S
 	public final fun valueOfOrNull-IX4SoCY (Ljava/lang/String;)Lspace/iseki/executables/pe/Characteristics;
 }
 
@@ -299,9 +333,10 @@ public final class space/iseki/executables/pe/DllCharacteristics : java/util/Set
 	public fun toArray ()[Ljava/lang/Object;
 	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
 	public fun toString ()Ljava/lang/String;
-	public static final fun toString (S)Ljava/lang/String;
 	public static fun toString-impl (S)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()S
+	public static final fun valueOf-kQ3a1OQ (Ljava/lang/String;)S
+	public static final fun valueOfOrNull-KpCnac8 (Ljava/lang/String;)Lspace/iseki/executables/pe/DllCharacteristics;
 }
 
 public final class space/iseki/executables/pe/DllCharacteristics$Companion {
@@ -316,7 +351,8 @@ public final class space/iseki/executables/pe/DllCharacteristics$Companion {
 	public final fun getNX_COMPAT-UaHtHC4 ()S
 	public final fun getTERMINAL_SERVER_AWARE-UaHtHC4 ()S
 	public final fun getWDM_DRIVER-UaHtHC4 ()S
-	public final fun toString (S)Ljava/lang/String;
+	public final fun getZERO-UaHtHC4 ()S
+	public final fun valueOf-kQ3a1OQ (Ljava/lang/String;)S
 	public final fun valueOfOrNull-KpCnac8 (Ljava/lang/String;)Lspace/iseki/executables/pe/DllCharacteristics;
 }
 
@@ -335,6 +371,157 @@ public final class space/iseki/executables/pe/DllCharacteristics$Constants {
 	public static final field WDM_DRIVER S
 }
 
+public final class space/iseki/executables/pe/FileInfoFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lspace/iseki/executables/pe/FileInfoFlags$Companion;
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun add-t7hh7SE (I)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/FileInfoFlags;
+	public fun clear ()V
+	public static fun constructor-impl (I)I
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun contains-t7hh7SE (I)Z
+	public static fun contains-t7hh7SE (II)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public static fun containsAll-impl (ILjava/util/Collection;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getRawValue ()I
+	public fun getSize ()I
+	public static fun getSize-impl (I)I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun isEmpty ()Z
+	public static fun isEmpty-impl (I)Z
+	public fun iterator ()Ljava/util/Iterator;
+	public static fun iterator-impl (I)Ljava/util/Iterator;
+	public static final fun plus-RI1BRl0 (II)I
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun retainAll (Ljava/util/Collection;)Z
+	public synthetic fun size ()I
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+	public static final fun valueOf-BOerHXA (Ljava/lang/String;)I
+	public static final fun valueOfOrNull-pR0Neck (Ljava/lang/String;)Lspace/iseki/executables/pe/FileInfoFlags;
+}
+
+public final class space/iseki/executables/pe/FileInfoFlags$Companion {
+	public final fun getDEBUG-GX_kPRo ()I
+	public final fun getINFOINFERRED-GX_kPRo ()I
+	public final fun getPATCHED-GX_kPRo ()I
+	public final fun getPRERELEASE-GX_kPRo ()I
+	public final fun getPRIVATEBUILD-GX_kPRo ()I
+	public final fun getSPECIALBUILD-GX_kPRo ()I
+	public final fun getZERO-GX_kPRo ()I
+	public final fun valueOf-BOerHXA (Ljava/lang/String;)I
+	public final fun valueOfOrNull-pR0Neck (Ljava/lang/String;)Lspace/iseki/executables/pe/FileInfoFlags;
+}
+
+public final class space/iseki/executables/pe/FileInfoFlags$Constants {
+	public static final field DEBUG I
+	public static final field INFOINFERRED I
+	public static final field INSTANCE Lspace/iseki/executables/pe/FileInfoFlags$Constants;
+	public static final field PATCHED I
+	public static final field PRERELEASE I
+	public static final field PRIVATEBUILD I
+	public static final field SPECIALBUILD I
+}
+
+public final class space/iseki/executables/pe/FileOs {
+	public static final field Companion Lspace/iseki/executables/pe/FileOs$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/FileOs;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getRawValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/pe/FileOs$Companion {
+	public final fun getVOS_DOS-VoKuucE ()I
+	public final fun getVOS_DOS_WINDOWS16-VoKuucE ()I
+	public final fun getVOS_DOS_WINDOWS32-VoKuucE ()I
+	public final fun getVOS_NT-VoKuucE ()I
+	public final fun getVOS_NT_WINDOWS32-VoKuucE ()I
+	public final fun getVOS_OS216-VoKuucE ()I
+	public final fun getVOS_OS216_PM16-VoKuucE ()I
+	public final fun getVOS_OS232-VoKuucE ()I
+	public final fun getVOS_OS232_PM32-VoKuucE ()I
+	public final fun getVOS_UNKNOWN-VoKuucE ()I
+	public final fun getVOS__PM16-VoKuucE ()I
+	public final fun getVOS__PM32-VoKuucE ()I
+	public final fun getVOS__WINDOWS16-VoKuucE ()I
+	public final fun getVOS__WINDOWS32-VoKuucE ()I
+	public final fun valueOf-TajhUrc (Ljava/lang/String;)I
+	public final fun valueOfOrNull-35Ro3tA (Ljava/lang/String;)Lspace/iseki/executables/pe/FileOs;
+}
+
+public final class space/iseki/executables/pe/FileOs$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/pe/FileOs$Constants;
+	public static final field VOS_DOS I
+	public static final field VOS_DOS_WINDOWS16 I
+	public static final field VOS_DOS_WINDOWS32 I
+	public static final field VOS_NT I
+	public static final field VOS_NT_WINDOWS32 I
+	public static final field VOS_OS216 I
+	public static final field VOS_OS216_PM16 I
+	public static final field VOS_OS232 I
+	public static final field VOS_OS232_PM32 I
+	public static final field VOS_UNKNOWN I
+	public static final field VOS__PM16 I
+	public static final field VOS__PM32 I
+	public static final field VOS__WINDOWS16 I
+	public static final field VOS__WINDOWS32 I
+}
+
+public final class space/iseki/executables/pe/FileType {
+	public static final field Companion Lspace/iseki/executables/pe/FileType$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/FileType;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getRawValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/pe/FileType$Companion {
+	public final fun getAPP-9hAm5d8 ()I
+	public final fun getDLL-9hAm5d8 ()I
+	public final fun getDRV-9hAm5d8 ()I
+	public final fun getFONT-9hAm5d8 ()I
+	public final fun getSTATIC_LIB-9hAm5d8 ()I
+	public final fun getUNKNOWN-9hAm5d8 ()I
+	public final fun getVXD-9hAm5d8 ()I
+	public final fun valueOf-UIDZIvI (Ljava/lang/String;)I
+	public final fun valueOfOrNull-BJ7hBkg (Ljava/lang/String;)Lspace/iseki/executables/pe/FileType;
+}
+
+public final class space/iseki/executables/pe/FileType$Constants {
+	public static final field APP I
+	public static final field DLL I
+	public static final field DRV I
+	public static final field FONT I
+	public static final field INSTANCE Lspace/iseki/executables/pe/FileType$Constants;
+	public static final field STATIC_LIB I
+	public static final field UNKNOWN I
+	public static final field VXD I
+}
+
 public final class space/iseki/executables/pe/MachineType {
 	public static final field Companion Lspace/iseki/executables/pe/MachineType$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/MachineType;
@@ -348,7 +535,6 @@ public final class space/iseki/executables/pe/MachineType {
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (S)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()S
-	public static final fun valueOf-3kKNyLc (Ljava/lang/String;)S
 }
 
 public final class space/iseki/executables/pe/MachineType$Companion {
@@ -359,6 +545,7 @@ public final class space/iseki/executables/pe/MachineType$Companion {
 	public final fun getARM-Q4oK7tQ ()S
 	public final fun getARM64-Q4oK7tQ ()S
 	public final fun getARMNT-Q4oK7tQ ()S
+	public final fun getAXP64-Q4oK7tQ ()S
 	public final fun getEBC-Q4oK7tQ ()S
 	public final fun getI386-Q4oK7tQ ()S
 	public final fun getIA64-Q4oK7tQ ()S
@@ -382,9 +569,10 @@ public final class space/iseki/executables/pe/MachineType$Companion {
 	public final fun getUNKNOWN-Q4oK7tQ ()S
 	public final fun getWCEMIPSV2-Q4oK7tQ ()S
 	public final fun valueOf-3kKNyLc (Ljava/lang/String;)S
+	public final fun valueOfOrNull-04Rctfw (Ljava/lang/String;)Lspace/iseki/executables/pe/MachineType;
 }
 
-public final class space/iseki/executables/pe/MachineType$Companion$Constants {
+public final class space/iseki/executables/pe/MachineType$Constants {
 	public static final field ALPHA S
 	public static final field ALPHA64 S
 	public static final field AM33 S
@@ -392,10 +580,11 @@ public final class space/iseki/executables/pe/MachineType$Companion$Constants {
 	public static final field ARM S
 	public static final field ARM64 S
 	public static final field ARMNT S
+	public static final field AXP64 S
 	public static final field EBC S
 	public static final field I386 S
 	public static final field IA64 S
-	public static final field INSTANCE Lspace/iseki/executables/pe/MachineType$Companion$Constants;
+	public static final field INSTANCE Lspace/iseki/executables/pe/MachineType$Constants;
 	public static final field LOONGARCH32 S
 	public static final field LOONGARCH64 S
 	public static final field M32R S
@@ -514,6 +703,7 @@ public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotl
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
+	public final fun getRawValue ()I
 	public fun getSize ()I
 	public static fun getSize-impl (I)I
 	public fun hashCode ()I
@@ -572,6 +762,7 @@ public final class space/iseki/executables/pe/SectionFlags$Companion {
 	public final fun getIMAGE_SCN_MEM_SHARED-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_MEM_WRITE-CVJ1pB8 ()I
 	public final fun getIMAGE_SCN_TYPE_NO_PAD-CVJ1pB8 ()I
+	public final fun getZERO-CVJ1pB8 ()I
 	public final fun valueOf-oNAfi-w (Ljava/lang/String;)I
 	public final fun valueOfOrNull-2_N5NPA (Ljava/lang/String;)Lspace/iseki/executables/pe/SectionFlags;
 }
@@ -725,7 +916,7 @@ public final class space/iseki/executables/pe/VersionInfo {
 	public static final field SIGNATURE S
 	public synthetic fun <init> (SSIIIIIIIIIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-Mh2AYeg ()S
-	public final fun component10-j7f6S1c ()I
+	public final fun component10-9hAm5d8 ()I
 	public final fun component11-pVg5ArA ()I
 	public final fun component12-pVg5ArA ()I
 	public final fun component13-pVg5ArA ()I
@@ -735,18 +926,18 @@ public final class space/iseki/executables/pe/VersionInfo {
 	public final fun component5-pVg5ArA ()I
 	public final fun component6-pVg5ArA ()I
 	public final fun component7-pVg5ArA ()I
-	public final fun component8-BPyKscc ()I
-	public final fun component9-rfnOQk4 ()I
-	public final fun copy-lBx6qPA (SSIIIIIIIIIII)Lspace/iseki/executables/pe/VersionInfo;
-	public static synthetic fun copy-lBx6qPA$default (Lspace/iseki/executables/pe/VersionInfo;SSIIIIIIIIIIIILjava/lang/Object;)Lspace/iseki/executables/pe/VersionInfo;
+	public final fun component8-GX_kPRo ()I
+	public final fun component9-VoKuucE ()I
+	public final fun copy-LpuwCnU (SSIIIIIIIIIII)Lspace/iseki/executables/pe/VersionInfo;
+	public static synthetic fun copy-LpuwCnU$default (Lspace/iseki/executables/pe/VersionInfo;SSIIIIIIIIIIIILjava/lang/Object;)Lspace/iseki/executables/pe/VersionInfo;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFileDateLS-pVg5ArA ()I
 	public final fun getFileDateMS-pVg5ArA ()I
-	public final fun getFileFlags-BPyKscc ()I
+	public final fun getFileFlags-GX_kPRo ()I
 	public final fun getFileFlagsMask-pVg5ArA ()I
-	public final fun getFileOS-rfnOQk4 ()I
+	public final fun getFileOS-VoKuucE ()I
 	public final fun getFileSubtype-pVg5ArA ()I
-	public final fun getFileType-j7f6S1c ()I
+	public final fun getFileType-9hAm5d8 ()I
 	public final fun getFileVersion ()Lspace/iseki/executables/pe/VersionInfo$Version;
 	public final fun getFileVersionLS-pVg5ArA ()I
 	public final fun getFileVersionMS-pVg5ArA ()I
@@ -759,19 +950,8 @@ public final class space/iseki/executables/pe/VersionInfo {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/VersionInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/VersionInfo$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/VersionInfo;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/VersionInfo;)V
-}
-
 public final class space/iseki/executables/pe/VersionInfo$Companion {
 	public final fun parse ([BI)Lspace/iseki/executables/pe/VersionInfo;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/VersionInfo$Version {
@@ -804,145 +984,6 @@ public synthetic class space/iseki/executables/pe/VersionInfo$Version$$serialize
 
 public final class space/iseki/executables/pe/VersionInfo$Version$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
-	public static final field Companion Lspace/iseki/executables/pe/VersionInfoFileFlags$Companion;
-	public synthetic fun add (Ljava/lang/Object;)Z
-	public fun add-SryfmG0 (I)Z
-	public fun addAll (Ljava/util/Collection;)Z
-	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/VersionInfoFileFlags;
-	public fun clear ()V
-	public static fun constructor-impl (I)I
-	public final fun contains (Ljava/lang/Object;)Z
-	public fun contains-SryfmG0 (I)Z
-	public static fun contains-SryfmG0 (II)Z
-	public fun containsAll (Ljava/util/Collection;)Z
-	public static fun containsAll-impl (ILjava/util/Collection;)Z
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public fun getSize ()I
-	public static fun getSize-impl (I)I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun isEmpty ()Z
-	public static fun isEmpty-impl (I)Z
-	public fun iterator ()Ljava/util/Iterator;
-	public static fun iterator-impl (I)Ljava/util/Iterator;
-	public static final fun plus-pODmvxY (II)I
-	public fun remove (Ljava/lang/Object;)Z
-	public fun removeAll (Ljava/util/Collection;)Z
-	public fun retainAll (Ljava/util/Collection;)Z
-	public synthetic fun size ()I
-	public fun toArray ()[Ljava/lang/Object;
-	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileFlags$Companion {
-	public final fun getDEBUG-BPyKscc ()I
-	public final fun getPATCHED-BPyKscc ()I
-	public final fun getPRERELEASE-BPyKscc ()I
-	public final fun getRELEASE-BPyKscc ()I
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileFlags$Constants {
-	public static final field DEBUG I
-	public static final field INSTANCE Lspace/iseki/executables/pe/VersionInfoFileFlags$Constants;
-	public static final field PATCHED I
-	public static final field PRERELEASE I
-	public static final field RELEASE I
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileFlagsKt {
-	public static final fun VersionInfoFileFlags-WZ4Q5Ns (I)I
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileOS {
-	public static final field Companion Lspace/iseki/executables/pe/VersionInfoFileOS$Companion;
-	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/VersionInfoFileOS;
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileOS$Companion {
-	public final fun getDOS-rfnOQk4 ()I
-	public final fun getNT-rfnOQk4 ()I
-	public final fun getOS216-rfnOQk4 ()I
-	public final fun getOS232-rfnOQk4 ()I
-	public final fun getUNKNOWN-rfnOQk4 ()I
-	public final fun getWINCE-rfnOQk4 ()I
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun valueOf-RHGiJpY (Ljava/lang/String;)I
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileOS$Companion$Constants {
-	public static final field DOS I
-	public static final field INSTANCE Lspace/iseki/executables/pe/VersionInfoFileOS$Companion$Constants;
-	public static final field NT I
-	public static final field OS216 I
-	public static final field OS232 I
-	public static final field UNKNOWN I
-	public static final field WINCE I
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileOS$Serializer : kotlinx/serialization/KSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/VersionInfoFileOS$Serializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun deserialize-RHGiJpY (Lkotlinx/serialization/encoding/Decoder;)I
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun serialize-RQECv6A (Lkotlinx/serialization/encoding/Encoder;I)V
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileType {
-	public static final field Companion Lspace/iseki/executables/pe/VersionInfoFileType$Companion;
-	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/VersionInfoFileType;
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public synthetic class space/iseki/executables/pe/VersionInfoFileType$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/VersionInfoFileType$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize-gIYSBlE (Lkotlinx/serialization/encoding/Decoder;)I
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize-xXf-hIg (Lkotlinx/serialization/encoding/Encoder;I)V
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileType$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/pe/VersionInfoFileType$Constants {
-	public static final field APP I
-	public static final field DLL I
-	public static final field DRV I
-	public static final field FONT I
-	public static final field INSTANCE Lspace/iseki/executables/pe/VersionInfoFileType$Constants;
-	public static final field STATIC_LIB I
-	public static final field UNKNOWN I
-	public static final field VXD I
 }
 
 public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
@@ -1048,7 +1089,6 @@ public final class space/iseki/executables/pe/WindowsSubsystems {
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (S)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()S
-	public static final fun valueOf-B4aM148 (Ljava/lang/String;)S
 }
 
 public final class space/iseki/executables/pe/WindowsSubsystems$Companion {
@@ -1067,14 +1107,15 @@ public final class space/iseki/executables/pe/WindowsSubsystems$Companion {
 	public final fun getWINDOWS_GUI-kp653uA ()S
 	public final fun getXBOX-kp653uA ()S
 	public final fun valueOf-B4aM148 (Ljava/lang/String;)S
+	public final fun valueOfOrNull-4xqqvv0 (Ljava/lang/String;)Lspace/iseki/executables/pe/WindowsSubsystems;
 }
 
-public final class space/iseki/executables/pe/WindowsSubsystems$Companion$Constants {
+public final class space/iseki/executables/pe/WindowsSubsystems$Constants {
 	public static final field EFI_APPLICATION S
 	public static final field EFI_BOOT_SERVICE_DRIVER S
 	public static final field EFI_ROM S
 	public static final field EFI_RUNTIME_DRIVER S
-	public static final field INSTANCE Lspace/iseki/executables/pe/WindowsSubsystems$Companion$Constants;
+	public static final field INSTANCE Lspace/iseki/executables/pe/WindowsSubsystems$Constants;
 	public static final field NATIVE S
 	public static final field NATIVE_WINDOWS S
 	public static final field OS2_CUI S

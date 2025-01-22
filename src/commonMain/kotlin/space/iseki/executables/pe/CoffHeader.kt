@@ -52,7 +52,7 @@ data class CoffHeader(
             val pointerToSymbolTable = Address32(bytes.getUInt(offset + 8))
             val numbersOfSymbols = bytes.getUInt(offset + 12)
             val sizeOfOptionalHeader = bytes.getUShort(offset + 16)
-            val characteristics = Characteristics(bytes.getUShort(offset + 18).toShort())
+            val characteristics = Characteristics(bytes.getUShort(offset + 18))
             return CoffHeader(
                 machine,
                 numbersOfSections,

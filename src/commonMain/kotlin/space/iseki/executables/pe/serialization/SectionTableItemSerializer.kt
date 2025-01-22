@@ -13,6 +13,7 @@ import kotlinx.serialization.encoding.encodeStructure
 import space.iseki.executables.pe.Address32
 import space.iseki.executables.pe.SectionFlags
 import space.iseki.executables.pe.SectionTableItem
+import space.iseki.executables.pe.serializer.SectionFlagsSerializer
 
 internal object SectionTableItemSerializer : KSerializer<SectionTableItem> {
     override val descriptor: SerialDescriptor =

@@ -1,0 +1,34 @@
+package: space.iseki.executables.pe
+typename: MachineType
+dataLength: 2
+list:
+  - { name: "UNKNOWN", value: "0x0" }
+  - { name: "ALPHA", value: "0x184" }
+  - { name: "ALPHA64", value: "0x284" }
+  - { name: "AM33", value: "0x1d3" }
+  - { name: "AMD64", value: "0x8664" }
+  - { name: "ARM", value: "0x1c0" }
+  - { name: "ARM64", value: "0xaa64" }
+  - { name: "ARMNT", value: "0x1c4" }
+  - { name: "AXP64", value: "0x284" }
+  - { name: "EBC", value: "0xebc" }
+  - { name: "I386", value: "0x14c" }
+  - { name: "IA64", value: "0x200" }
+  - { name: "LOONGARCH32", value: "0x6232" }
+  - { name: "LOONGARCH64", value: "0x6264" }
+  - { name: "M32R", value: "0x9041" }
+  - { name: "MIPS16", value: "0x266" }
+  - { name: "MIPSFPU", value: "0x366" }
+  - { name: "MIPSFPU16", value: "0x466" }
+  - { name: "POWERPC", value: "0x1f0" }
+  - { name: "POWERPCFP", value: "0x1f1" }
+  - { name: "R4000", value: "0x166" }
+  - { name: "RISCV32", value: "0x5032" }
+  - { name: "RISCV64", value: "0x5064" }
+  - { name: "RISCV128", value: "0x5128" }
+  - { name: "SH3", value: "0x1a2" }
+  - { name: "SH3DSP", value: "0x1a3" }
+  - { name: "SH4", value: "0x1a6" }
+  - { name: "SH5", value: "0x1a8" }
+  - { name: "THUMB", value: "0x1c2" }
+  - { name: "WCEMIPSV2", value: "0x169" }

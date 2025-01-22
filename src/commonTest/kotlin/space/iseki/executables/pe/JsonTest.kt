@@ -2,10 +2,10 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import space.iseki.executables.pe.serialization.CharacteristicsSerializer
 import space.iseki.executables.pe.serialization.CoffHeaderSerializer
 import space.iseki.executables.pe.serialization.StandardHeaderSerializer
 import space.iseki.executables.pe.serialization.WindowsSpecifiedHeaderSerializer
+import space.iseki.executables.pe.serializer.CharacteristicsSerializer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

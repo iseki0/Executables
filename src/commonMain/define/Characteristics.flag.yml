@@ -1,0 +1,19 @@
+package: space.iseki.executables.pe
+typename: Characteristics
+dataLength: 2
+list:
+  - { name: "IMAGE_FILE_RELOCS_STRIPPED", value: "0x0001" }
+  - { name: "IMAGE_FILE_EXECUTABLE_IMAGE", value: "0x0002" }
+  - { name: "IMAGE_FILE_LINE_NUMS_STRIPPED", value: "0x0004" }
+  - { name: "IMAGE_FILE_LOCAL_SYMS_STRIPPED", value: "0x0008" }
+  - { name: "IMAGE_FILE_AGGRESSIVE_WS_TRIM", value: "0x0010" }
+  - { name: "IMAGE_FILE_LARGE_ADDRESS_AWARE", value: "0x0020" }
+  - { name: "IMAGE_FILE_BYTES_REVERSED_LO", value: "0x0080" }
+  - { name: "IMAGE_FILE_32BIT_MACHINE", value: "0x0100" }
+  - { name: "IMAGE_FILE_DEBUG_STRIPPED", value: "0x0200" }
+  - { name: "IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP", value: "0x0400" }
+  - { name: "IMAGE_FILE_NET_RUN_FROM_SWAP", value: "0x0800" }
+  - { name: "IMAGE_FILE_SYSTEM", value: "0x1000" }
+  - { name: "IMAGE_FILE_DLL", value: "0x2000" }
+  - { name: "IMAGE_FILE_UP_SYSTEM_ONLY", value: "0x4000" }
+  - { name: "IMAGE_FILE_BYTES_REVERSED_HI", value: "0x8000" }

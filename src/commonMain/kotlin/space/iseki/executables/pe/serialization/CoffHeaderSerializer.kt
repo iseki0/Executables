@@ -15,6 +15,8 @@ import space.iseki.executables.pe.Characteristics
 import space.iseki.executables.pe.CoffHeader
 import space.iseki.executables.pe.MachineType
 import space.iseki.executables.pe.TimeDataStamp32
+import space.iseki.executables.pe.serializer.CharacteristicsSerializer
+import space.iseki.executables.pe.serializer.MachineTypeSerializer
 
 internal object CoffHeaderSerializer : KSerializer<CoffHeader> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("space.iseki.executables.pe.CoffHeader") {
@@ -47,7 +49,7 @@ internal object CoffHeaderSerializer : KSerializer<CoffHeader> {
             var pointerToSymbolTable = Address32(0u)
             var numbersOfSymbols = 0u
             var sizeOfOptionalHeader = 0u.toUShort()
-            var characteristics = Characteristics(0)
+            var characteristics = Characteristics(0u)
 
             while (true) {
                 when (val index = decodeElementIndex(descriptor)) {

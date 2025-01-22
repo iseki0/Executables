@@ -1,0 +1,10 @@
+package: space.iseki.executables.pe
+typename: FileInfoFlags
+dataLength: 4
+list:
+  - { name: "DEBUG", value: "0x00000001" }
+  - { name: "PRERELEASE", value: "0x00000002" }
+  - { name: "PATCHED", value: "0x00000004" }
+  - { name: "PRIVATEBUILD", value: "0x00000008" }
+  - { name: "INFOINFERRED", value: "0x00000010" }
+  - { name: "SPECIALBUILD", value: "0x00000020" }

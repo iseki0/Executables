@@ -1,12 +1,20 @@
 [versions]
 kotlin = "2.1.0"
 kotlinx-serialization-libs = "1.8.0"
+kotlinx-coroutine = "1.9.0-RC.2"
 [plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinx-binary-compatibility-validator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.17.0"
 kotlinx-kover = "org.jetbrains.kotlinx.kover:0.9.1"
 [libraries]
+idea-ext = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin:1.1.9"
+freemarker = "org.freemarker:freemarker:2.3.32"
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.1"
+kaml = "com.charleskorn.kaml:kaml:0.67.0"
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization-libs" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-libs" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutine" }
+kotlinx-coroutines-debug = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-debug", version.ref = "kotlinx-coroutine" }

@@ -149,7 +149,7 @@ data class WindowsSpecifiedHeader(
                 sizeOfHeaders = sizeOfHeaders,
                 checkSum = checkSum,
                 subsystem = WindowsSubsystems(subsystem.toShort()),
-                dllCharacteristics = DllCharacteristics(dllCharacteristics.toShort()),
+                dllCharacteristics = DllCharacteristics(dllCharacteristics),
                 sizeOfStackReserve = sizeOfStackReserve,
                 sizeOfStackCommit = sizeOfStackCommit,
                 sizeOfHeapReserve = sizeOfHeapReserve,
