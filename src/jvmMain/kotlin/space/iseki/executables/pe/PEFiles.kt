@@ -1,5 +1,4 @@
 @file:JvmName("PEFiles")
-@file:JvmMultifileClass
 
 package space.iseki.executables.pe
 
