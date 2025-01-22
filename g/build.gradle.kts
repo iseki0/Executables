@@ -18,7 +18,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
 }
 
-gradlePlugin{
+gradlePlugin {
     plugins {
         create("t-generator") {
             id = "tgenerator"
