@@ -15,3 +15,27 @@ Kotlin multiplatform executable file parsing library. Currently only provides ba
 - Kotlin/JavaScript
 - Kotlin/WasmJS (browser)
 
+## Getting Started
+
+For JVM:
+```kotlin
+import java.nio.file.Path
+
+fun main() {
+    val file = Path.of("path/to/file.exe")
+    PEFile(file).use { pe: PEFile ->
+        println(pe.summary) // print summary information(COFF, OptionalHeader, Sections)
+    }
+}
+```
+
+For JavaScript:
+```typescript
+import f from 'executables.js'
+
+export const doDump = (peFileData: Uint8Array) => 
+    console.log(f.space.iseki.executables.pe.dumpHeaderJson(peFileData, true /* pretty JSON */))
+
+```
+
+
