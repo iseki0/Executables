@@ -28,11 +28,11 @@ value class TimeDataStamp32(val rawValue: UInt) : Comparable<TimeDataStamp32> {
     }
 
     override fun compareTo(other: TimeDataStamp32): Int {
-        return rawValue.toUInt().compareTo(other.rawValue.toUInt())
+        return rawValue.compareTo(other.rawValue)
     }
 
     override fun toString(): String {
-        return Instant.fromEpochSeconds(rawValue.toUInt().toLong()).toString()
+        return Instant.fromEpochSeconds(rawValue.toLong()).toString()
     }
 
     companion object {
