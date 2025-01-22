@@ -51,6 +51,9 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
     inline operator fun plus(other: Address32): Address32 = Address32(this.rawValue.plus(other.rawValue))
 
     @Suppress("NOTHING_TO_INLINE")
+    inline operator fun plus(other: Int): Address32 = Address32(this.rawValue.toInt().plus(other).toUInt())
+
+    @Suppress("NOTHING_TO_INLINE")
     inline operator fun minus(other: Address32): Address32 = Address32(this.rawValue.minus(other.rawValue))
 
     @Suppress("NOTHING_TO_INLINE")

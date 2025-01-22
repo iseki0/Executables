@@ -45,6 +45,7 @@ public final class space/iseki/executables/pe/Address32 : java/lang/Comparable {
 	public static fun hashCode-impl (I)I
 	public static final fun minus-EELq8wE (II)I
 	public static final fun plus-EELq8wE (II)I
+	public static final fun plus-KTVMB04 (II)I
 	public static final fun toInt-impl (I)I
 	public fun toString ()Ljava/lang/String;
 	public static final fun toString (I)Ljava/lang/String;

@@ -90,7 +90,15 @@ class PEFile private constructor(
         dataAccessor.close()
     }
 
-    internal inner class SectionReader private constructor(private val table: SectionTableItem) {
+    internal fun sectionReader(name: String): SectionReader? {
+        val section = sectionTable.firstOrNull { it.name == name } ?: return null
+        return SectionReader(section)
+    }
+
+    internal inner class SectionReader internal constructor(val table: SectionTableItem) {
+
+        fun copyBytes(rva: Address32, buf: ByteArray) = copyBytes(rva, buf, 0, buf.size)
+
         fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
             var rva0 = rva
             var off0 = off

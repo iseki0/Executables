@@ -4,7 +4,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import space.iseki.executables.pe.serialization.PEFileSummarySerializer
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class JavaExeTest {
 
@@ -22,5 +24,24 @@ class JavaExeTest {
         println(json.encodeToString(PEFileSummarySerializer, pe.summary))
         val je = Json.decodeFromString<JsonElement>(jsonText)
         assertEquals(java_exe_json, je)
+    }
+
+    @Test
+    fun testReadSection() {
+        PEFile.wrap(java_exe).use { pe ->
+            val sr = pe.sectionReader(".text")
+            assertNotNull(sr)
+            sr.test(+0, "48 8D 05 B9 30 00 00 C3")
+            sr.test(-4, "00 00 00 00 48 8D 05 B9")
+            sr.test(+8, "48 89 5C 24 08 48 89 6C")
+        }
+    }
+
+    @OptIn(ExperimentalStdlibApi::class)
+    private fun PEFile.SectionReader.test(off: Int, hex: String) {
+        val data = hex.replace(" ", "").hexToByteArray()
+        val arr = ByteArray(data.size)
+        copyBytes(table.virtualAddress + off, arr)
+        assertContentEquals(data, arr)
     }
 }
