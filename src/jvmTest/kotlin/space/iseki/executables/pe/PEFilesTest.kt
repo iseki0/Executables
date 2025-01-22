@@ -2,7 +2,6 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.decodeFromJsonElement
 import org.intellij.lang.annotations.Language
 import space.iseki.executables.pe.serialization.PEFileSummarySerializer
 import java.nio.file.Path
@@ -225,6 +224,7 @@ private val jsonRef = """
         ]
     }
 """.trimIndent()
+
 class PEFilesTest {
     @Test
     fun test() {
@@ -232,7 +232,7 @@ class PEFilesTest {
         val java = Path.of("src/jvmTest/resources/java.exe")
         assertTrue { java.isRegularFile() }
         val json = Json { prettyPrint = true }
-        PEFile(java).use { pe->
+        PEFile(java).use { pe ->
             val jsonText = json.encodeToString(PEFileSummarySerializer, pe.summary)
             println(jsonText)
             val summary = json.decodeFromString(PEFileSummarySerializer, jsonText)
