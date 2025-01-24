@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.EOFException
 import kotlin.jvm.JvmStatic
 
 class PEFile private constructor(
@@ -24,6 +25,7 @@ class PEFile private constructor(
         @JvmStatic
         fun wrap(data: ByteArray) = open(ByteArrayDataAccessor(data))
 
+        @OptIn(ExperimentalStdlibApi::class)
         internal fun open(accessor: DataAccessor): PEFile {
             var pos = 0x3cL
             try {
@@ -33,9 +35,9 @@ class PEFile private constructor(
                 accessor.readFully(pos, signatureBuffer)
                 val readSignature = signatureBuffer.getUInt(0)
                 if (readSignature != PE_SIGNATURE_LE.toUInt()) {
-                    throw PEFileException("Not a PE file, bad magic: $readSignature")
+                    throw PEFileException("Not a PE file, bad magic: 0x${readSignature.toHexString()}")
                 }
-            } catch (e: PEEOFFileException) {
+            } catch (e: EOFException) {
                 throw PEFileException("Not a PE file, unexpected EOF during read PE magic", e)
             }
             val coffHeader: CoffHeader
@@ -44,7 +46,7 @@ class PEFile private constructor(
                 pos += 4
                 accessor.readFully(pos, coffBuffer)
                 coffHeader = CoffHeader.parse(coffBuffer, 0)
-            } catch (e: PEEOFFileException) {
+            } catch (e: EOFException) {
                 throw PEFileException("Invalid PE file, unexpected EOF during read COFF header", e)
             }
             if (coffHeader.numbersOfSections > 96.toUShort()) {
@@ -63,7 +65,7 @@ class PEFile private constructor(
                 val s =
                     "Invalid PE file, IOBE during reading optional header, maybe the sizeOfOptionalHeader in COFF header is too small, COFF header: $coffHeader"
                 throw PEFileException(s, e)
-            } catch (e: PEEOFFileException) {
+            } catch (e: EOFException) {
                 throw PEFileException(
                     message = "Invalid PE file, unexpected EOF during read optional header [${Address32(pos.toUInt())} + ${coffHeader.sizeOfOptionalHeader}], COFF header: $coffHeader",
                     cause = e

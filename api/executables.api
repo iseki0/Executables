@@ -629,10 +629,6 @@ public final class space/iseki/executables/pe/PE32Magic$Companion {
 	public final fun valueOf-MfaRI1g (Ljava/lang/String;)S
 }
 
-public final class space/iseki/executables/pe/PEEOFFileException : space/iseki/executables/pe/PEIOFileException {
-	public fun <init> ()V
-}
-
 public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable {
 	public static final field Companion Lspace/iseki/executables/pe/PEFile$Companion;
 	public synthetic fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;Lspace/iseki/executables/pe/DataAccessor;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -679,13 +675,6 @@ public final class space/iseki/executables/pe/PEFiles {
 	public static final fun open (Ljava/nio/channels/SeekableByteChannel;Z)Lspace/iseki/executables/pe/PEFile;
 	public static final fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/pe/PEFile;
 	public static synthetic fun open$default (Ljava/nio/channels/SeekableByteChannel;ZILjava/lang/Object;)Lspace/iseki/executables/pe/PEFile;
-}
-
-public class space/iseki/executables/pe/PEIOFileException : space/iseki/executables/pe/PEFileException {
-	public fun <init> (Ljava/lang/String;)V
-	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getCause ()Ljava/lang/Throwable;
 }
 
 public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {

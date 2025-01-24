@@ -28,6 +28,9 @@ dependencies {
 
 kotlin {
     targets {
+        compilerOptions {
+            freeCompilerArgs.add("-Xexpect-actual-classes")
+        }
         jvm {
             compilerOptions {
                 freeCompilerArgs.add("-Xjvm-default=all")

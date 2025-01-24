@@ -1,5 +1,7 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.EOFException
+
 
 internal interface DataAccessor : AutoCloseable {
     fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int
@@ -11,7 +13,7 @@ internal interface DataAccessor : AutoCloseable {
         while (offset < len) {
             val read = readAtMost(pos + offset, buf, off + offset, len - offset)
             if (read == -1) {
-                throw PEEOFFileException()
+                throw EOFException("Unexpected EOF reached")
             }
             offset += read
         }
