@@ -32,7 +32,7 @@ value class DataDirectoryItem(
         override fun serialize(encoder: Encoder, value: DataDirectoryItem) {
             encoder.encodeSerializableValue(
                 serializer = DTO.serializer(),
-                value = DTO(Address32(value.virtualAddress.toUInt()), value.size.toUInt()),
+                value = DTO(value.virtualAddress, value.size.toUInt()),
             )
         }
 
@@ -60,8 +60,8 @@ value class DataDirectoryItem(
         }
     }
 
-    val virtualAddress: Int
-        get() = (rawValue ushr 32).toInt()
+    val virtualAddress: Address32
+        get() = Address32((rawValue ushr 32).toInt())
 
     val size: Int
         get() = rawValue.toInt()
@@ -70,7 +70,7 @@ value class DataDirectoryItem(
         if (this == ZERO) {
             return "ZERO"
         }
-        return "[${Address32(virtualAddress.toUInt())} + $size]"
+        return "[$virtualAddress + $size]"
     }
 }
 

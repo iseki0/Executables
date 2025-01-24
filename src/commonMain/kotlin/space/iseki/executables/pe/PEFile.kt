@@ -101,6 +101,9 @@ class PEFile private constructor(
         return SectionReader(section)
     }
 
+    private val rsrcSectionReader = sectionReader(".rsrc")
+
+
     internal inner class SectionReader internal constructor(val table: SectionTableItem) {
 
         fun copyBytes(rva: Address32, buf: ByteArray) = copyBytes(rva, buf, 0, buf.size)
@@ -122,5 +125,127 @@ class PEFile private constructor(
             val readSize = len0.toUInt().coerceAtMost(table.sizeOfRawData - (rva0 - table.virtualAddress).rawValue)
             dataAccessor.readFully(readBegin.rawValue.toLong(), buf, off0, readSize.toInt())
         }
+    }
+
+    private val rsrcRva: Address32 = windowsHeader.resourceTable.virtualAddress
+    val resourceRoot: ResourceNode = ResourceRootNode()
+
+    private fun readResourceDirectoryChildren(
+        numberOfNamedEntries: UShort,
+        numberOfIdEntries: UShort,
+        dirNodeAddr: Address32,
+    ): List<ResourceNode> {
+        requireNotNull(rsrcSectionReader)
+        val totalNodes = (numberOfNamedEntries + numberOfIdEntries).coerceAtMost(Int.MAX_VALUE.toUInt() / 8u).toInt()
+        val buf = ByteArray(8 * totalNodes)
+        rsrcSectionReader.copyBytes(dirNodeAddr + 16, buf)
+        return buildList(capacity = totalNodes) {
+            for (off in buf.indices step 8) {
+                val nameOrId = buf.getUInt(off)
+                val dataRva = Address32(buf.getUInt(off + 4))
+                add(readSubNode(dataRva, nameOrId))
+            }
+        }
+    }
+
+    private fun readSubNode(dataRva: Address32, nameOrId: UInt): ResourceNode {
+        requireNotNull(rsrcSectionReader)
+        val name: String
+        val resourceID: UInt
+        if (nameOrId < 0x80000000u) {
+            // by id
+            resourceID = nameOrId
+            name = "<ID:$nameOrId>"
+        } else {
+            // by name
+            val namePtr = rsrcRva + (nameOrId and 0x7FFFFFFFu)
+            val lenBuf = ByteArray(2)
+            rsrcSectionReader.copyBytes(namePtr, lenBuf)
+            val nameLen = lenBuf.getUShort(0)
+            val nameBuf = ByteArray(nameLen.toInt())
+            rsrcSectionReader.copyBytes(namePtr + 2, nameBuf)
+            val charArray = CharArray(nameLen.toInt())
+            nameBuf.forEachIndexed { index, byte -> charArray[index] = byte.toInt().toChar() }
+            resourceID = 0u
+            name = charArray.concatToString()
+        }
+        if ((dataRva and 0x80000000u).rawValue != 0u) {
+            // directory
+            return ResourceDirectory(name, resourceID, dataRva and 0x7FFFFFFFu)
+        } else {
+            // file
+            val fileBuf = ByteArray(16)
+            rsrcSectionReader.copyBytes(dataRva + rsrcRva, fileBuf)
+            val contentRva = Address32(fileBuf.getUInt(0)) + rsrcRva
+            val size = fileBuf.getUInt(4)
+            val codePage = CodePage(fileBuf.getUInt(8))
+            return ResourceFile(name, resourceID, size, dataRva, codePage, contentRva)
+        }
+    }
+
+    private fun readResourceDirectoryNode(dataRva: Address32): List<ResourceNode> {
+        requireNotNull(rsrcSectionReader)
+        val buf = ByteArray(16)
+        rsrcSectionReader.copyBytes(dataRva + rsrcRva, buf)
+        val characteristics = buf.getUInt(0)
+        if (characteristics != 0u) throw PEFileException("Invalid resource directory node, characteristics is not 0, $dataRva")
+//        val timeDateStamp = TimeDataStamp32(buf.getUInt(4))
+//        val majorVersion = buf.getUShort(8)
+//        val minorVersion = buf.getUShort(10)
+        val numberOfNamedEntries = buf.getUShort(12)
+        val numberOfIdEntries = buf.getUShort(14)
+        return readResourceDirectoryChildren(numberOfNamedEntries, numberOfIdEntries, dataRva + rsrcRva)
+    }
+
+    @Suppress("EqualsOrHashCode")
+    internal inner class ResourceRootNode : ResourceNode {
+        override val name: String
+            get() = "<root>"
+        override val id: UInt
+            get() = 0u
+        override val dataRva: Address32
+            get() = Address32(0u)
+
+        override fun isFile(): Boolean = false
+        override fun listChildren(): List<ResourceNode> {
+            rsrcSectionReader ?: return emptyList()
+            return readResourceDirectoryNode(dataRva)
+        }
+
+        override fun toString(): String = "<ROOT>"
+
+        override fun hashCode(): Int = dataRva.rawValue.toInt()
+    }
+
+    @Suppress("EqualsOrHashCode")
+    internal inner class ResourceDirectory(
+        override val name: String,
+        override val id: UInt,
+        override val dataRva: Address32,
+    ) : ResourceNode {
+        override fun isFile(): Boolean = false
+
+        override fun listChildren(): List<ResourceNode> {
+            return readResourceDirectoryNode(dataRva)
+        }
+
+        override fun toString(): String = "<DIR:${if (id == 0u) name else "ID=$id"}> @$dataRva"
+        override fun hashCode(): Int = dataRva.rawValue.toInt()
+    }
+
+    @Suppress("EqualsOrHashCode")
+    internal inner class ResourceFile(
+        override val name: String,
+        override val id: UInt,
+        override val size: UInt,
+        override val dataRva: Address32,
+        override val codePage: CodePage,
+        val contentRva: Address32,
+    ) : ResourceNode {
+        override fun isFile(): Boolean = true
+        override fun toString(): String =
+            "<FILE:${if (id == 0u) name else "ID=$id"}, CodePage=$codePage, Size=$size, ContentRVA=$contentRva> @$dataRva"
+
+        override fun hashCode(): Int = dataRva.rawValue.toInt()
     }
 }

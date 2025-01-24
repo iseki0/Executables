@@ -10,6 +10,8 @@ import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
+fun Address32(rawValue: Int): Address32 = Address32(rawValue.toUInt())
+
 @Serializable(with = Address32.Serializer::class)
 @JvmInline
 value class Address32(val rawValue: UInt) : Comparable<Address32> {
@@ -51,10 +53,19 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
     inline operator fun plus(other: Address32): Address32 = Address32(this.rawValue.plus(other.rawValue))
 
     @Suppress("NOTHING_TO_INLINE")
-    inline operator fun plus(other: Int): Address32 = Address32(this.rawValue.toInt().plus(other).toUInt())
+    inline operator fun plus(other: Int): Address32 = this + Address32(other)
+
+    @Suppress("NOTHING_TO_INLINE")
+    inline operator fun plus(other: UInt): Address32 = this + Address32(other)
 
     @Suppress("NOTHING_TO_INLINE")
     inline operator fun minus(other: Address32): Address32 = Address32(this.rawValue.minus(other.rawValue))
+
+    @Suppress("NOTHING_TO_INLINE")
+    inline infix fun and(other: Address32): Address32 = Address32(this.rawValue and other.rawValue)
+
+    @Suppress("NOTHING_TO_INLINE")
+    inline infix fun and(other: UInt): Address32 = Address32(this.rawValue and other)
 
     @Suppress("NOTHING_TO_INLINE")
     inline fun toInt(): Int = rawValue.toInt()
