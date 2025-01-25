@@ -32,6 +32,8 @@ public final class space/iseki/executables/pe/-WindowsSubsystems {
 
 public final class space/iseki/executables/pe/Address32 : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/Address32$Companion;
+	public static final fun and-EELq8wE (II)I
+	public static final fun and-O8YwtoE (II)I
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/Address32;
 	public synthetic fun compareTo (Ljava/lang/Object;)I
 	public fun compareTo-6fXU3Uw (I)I
@@ -46,6 +48,7 @@ public final class space/iseki/executables/pe/Address32 : java/lang/Comparable {
 	public static final fun minus-EELq8wE (II)I
 	public static final fun plus-EELq8wE (II)I
 	public static final fun plus-KTVMB04 (II)I
+	public static final fun plus-O8YwtoE (II)I
 	public static final fun toInt-impl (I)I
 	public fun toString ()Ljava/lang/String;
 	public static final fun toString (I)Ljava/lang/String;
@@ -65,6 +68,10 @@ public final class space/iseki/executables/pe/Address32$Serializer : kotlinx/ser
 	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public fun serialize-EgfIYRw (Lkotlinx/serialization/encoding/Encoder;I)V
+}
+
+public final class space/iseki/executables/pe/Address32Kt {
+	public static final fun Address32 (I)I
 }
 
 public final class space/iseki/executables/pe/Address64 : java/lang/Comparable {
@@ -179,6 +186,21 @@ public final class space/iseki/executables/pe/Characteristics$Constants {
 	public static final field INSTANCE Lspace/iseki/executables/pe/Characteristics$Constants;
 }
 
+public final class space/iseki/executables/pe/CodePage {
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/CodePage;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public static final fun getDotNetName-impl (I)Ljava/lang/String;
+	public final fun getRawValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
 public final class space/iseki/executables/pe/CoffHeader {
 	public static final field Companion Lspace/iseki/executables/pe/CoffHeader$Companion;
 	public static final field LENGTH I
@@ -274,7 +296,7 @@ public final class space/iseki/executables/pe/DataDirectoryItem {
 	public static fun equals-impl (JLjava/lang/Object;)Z
 	public static final fun equals-impl0 (JJ)Z
 	public static final fun getSize-impl (J)I
-	public static final fun getVirtualAddress-impl (J)I
+	public static final fun getVirtualAddress-hRLxnt0 (J)I
 	public fun hashCode ()I
 	public static fun hashCode-impl (J)I
 	public static final fun parse-qRMt6Rs ([BI)J
@@ -523,6 +545,33 @@ public final class space/iseki/executables/pe/FileType$Constants {
 	public static final field VXD I
 }
 
+public final class space/iseki/executables/pe/ImageResourceDirectory {
+	public static final field Companion Lspace/iseki/executables/pe/ImageResourceDirectory$Companion;
+	public static final field LENGTH I
+	public synthetic fun <init> (IISSSSLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-pVg5ArA ()I
+	public final fun component2-p6VWK4Y ()I
+	public final fun component3-Mh2AYeg ()S
+	public final fun component4-Mh2AYeg ()S
+	public final fun component5-Mh2AYeg ()S
+	public final fun component6-Mh2AYeg ()S
+	public final fun copy-ml7wVvs (IISSSS)Lspace/iseki/executables/pe/ImageResourceDirectory;
+	public static synthetic fun copy-ml7wVvs$default (Lspace/iseki/executables/pe/ImageResourceDirectory;IISSSSILjava/lang/Object;)Lspace/iseki/executables/pe/ImageResourceDirectory;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCharacteristics-pVg5ArA ()I
+	public final fun getMajorVersion-Mh2AYeg ()S
+	public final fun getMinorVersion-Mh2AYeg ()S
+	public final fun getNumberOfIdEntries-Mh2AYeg ()S
+	public final fun getNumberOfNamedEntries-Mh2AYeg ()S
+	public final fun getTimeDataStamp32-p6VWK4Y ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/ImageResourceDirectory$Companion {
+	public final fun parse ([BI)Lspace/iseki/executables/pe/ImageResourceDirectory;
+}
+
 public final class space/iseki/executables/pe/MachineType {
 	public static final field Companion Lspace/iseki/executables/pe/MachineType$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/MachineType;
@@ -634,6 +683,7 @@ public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable {
 	public synthetic fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;Lspace/iseki/executables/pe/DataAccessor;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
 	public final fun getCoffHeader ()Lspace/iseki/executables/pe/CoffHeader;
+	public final fun getResourceRoot ()Lspace/iseki/executables/pe/ResourceNode;
 	public final fun getSectionTable ()Ljava/util/List;
 	public final fun getStandardHeader ()Lspace/iseki/executables/pe/StandardHeader;
 	public final fun getSummary ()Lspace/iseki/executables/pe/PEFile$Summary;
@@ -675,6 +725,26 @@ public final class space/iseki/executables/pe/PEFiles {
 	public static final fun open (Ljava/nio/channels/SeekableByteChannel;Z)Lspace/iseki/executables/pe/PEFile;
 	public static final fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/pe/PEFile;
 	public static synthetic fun open$default (Ljava/nio/channels/SeekableByteChannel;ZILjava/lang/Object;)Lspace/iseki/executables/pe/PEFile;
+}
+
+public abstract interface class space/iseki/executables/pe/ResourceNode {
+	public fun getCodePage-0QE-VUY ()I
+	public abstract fun getDataRva-hRLxnt0 ()I
+	public abstract fun getId-pVg5ArA ()I
+	public abstract fun getName ()Ljava/lang/String;
+	public fun getSize-pVg5ArA ()I
+	public fun isDirectory ()Z
+	public abstract fun isFile ()Z
+	public fun listChildren ()Ljava/util/List;
+}
+
+public abstract interface class space/iseki/executables/pe/ResourceWalkEntry {
+	public abstract fun getNode ()Lspace/iseki/executables/pe/ResourceNode;
+	public abstract fun getNodePath ()Ljava/util/List;
+}
+
+public final class space/iseki/executables/pe/ResourceWalkerKt {
+	public static final fun walk (Lspace/iseki/executables/pe/ResourceNode;)Lkotlin/sequences/Sequence;
 }
 
 public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
