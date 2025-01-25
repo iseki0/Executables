@@ -73,7 +73,11 @@ class PEFile private constructor(
             }
             val sectionTableData = ByteArray(coffHeader.numbersOfSections.toInt() * SectionTableItem.LENGTH)
             pos += coffHeader.sizeOfOptionalHeader.toULong().toLong()
-            accessor.readFully(pos, sectionTableData)
+            try {
+                accessor.readFully(pos, sectionTableData)
+            } catch (e: EOFException) {
+                throw PEFileException("Invalid PE file, unexpected EOF during read section table", e)
+            }
             val sectionTableItemArray = Array(coffHeader.numbersOfSections.toInt()) {
                 val off = it * SectionTableItem.LENGTH
                 SectionTableItem.parse(sectionTableData, off)
