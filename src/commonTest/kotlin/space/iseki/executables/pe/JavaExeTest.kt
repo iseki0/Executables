@@ -2,7 +2,7 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import space.iseki.executables.pe.serialization.PEFileSummarySerializer
+import space.iseki.executables.pe.serializer.PEFileSummarySerializer
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

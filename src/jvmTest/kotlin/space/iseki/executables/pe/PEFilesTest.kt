@@ -3,7 +3,7 @@ package space.iseki.executables.pe
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import org.intellij.lang.annotations.Language
-import space.iseki.executables.pe.serialization.PEFileSummarySerializer
+import space.iseki.executables.pe.serializer.PEFileSummarySerializer
 import java.nio.file.Path
 import kotlin.io.path.absolute
 import kotlin.io.path.isRegularFile

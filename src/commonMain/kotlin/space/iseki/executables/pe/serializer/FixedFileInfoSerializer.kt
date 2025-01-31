@@ -1,4 +1,4 @@
-package space.iseki.executables.pe.serialization
+package space.iseki.executables.pe.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
@@ -14,9 +14,6 @@ import space.iseki.executables.pe.FileInfoFlags
 import space.iseki.executables.pe.FileOs
 import space.iseki.executables.pe.FileType
 import space.iseki.executables.pe.FixedFileInfo
-import space.iseki.executables.pe.serializer.FileInfoFlagsSerializer
-import space.iseki.executables.pe.serializer.FileOsSerializer
-import space.iseki.executables.pe.serializer.FileTypeSerializer
 
 object FixedFileInfoSerializer : KSerializer<FixedFileInfo> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("space.iseki.executables.pe.FixedFileInfo") {

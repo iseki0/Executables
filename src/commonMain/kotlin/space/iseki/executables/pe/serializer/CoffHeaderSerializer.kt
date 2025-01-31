@@ -1,4 +1,4 @@
-package space.iseki.executables.pe.serialization
+package space.iseki.executables.pe.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.serializer
@@ -15,8 +15,6 @@ import space.iseki.executables.pe.Characteristics
 import space.iseki.executables.pe.CoffHeader
 import space.iseki.executables.pe.MachineType
 import space.iseki.executables.pe.TimeDataStamp32
-import space.iseki.executables.pe.serializer.CharacteristicsSerializer
-import space.iseki.executables.pe.serializer.MachineTypeSerializer
 
 internal object CoffHeaderSerializer : KSerializer<CoffHeader> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("space.iseki.executables.pe.CoffHeader") {

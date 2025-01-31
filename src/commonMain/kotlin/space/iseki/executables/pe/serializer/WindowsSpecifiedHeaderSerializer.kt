@@ -1,4 +1,4 @@
-package space.iseki.executables.pe.serialization
+package space.iseki.executables.pe.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.serializer
@@ -16,8 +16,6 @@ import space.iseki.executables.pe.DllCharacteristics
 import space.iseki.executables.pe.PE32Magic
 import space.iseki.executables.pe.WindowsSpecifiedHeader
 import space.iseki.executables.pe.WindowsSubsystems
-import space.iseki.executables.pe.serializer.DllCharacteristicsSerializer
-import space.iseki.executables.pe.serializer.WindowsSubsystemsSerializer
 
 internal object WindowsSpecifiedHeaderSerializer : KSerializer<WindowsSpecifiedHeader> {
     override val descriptor: SerialDescriptor =

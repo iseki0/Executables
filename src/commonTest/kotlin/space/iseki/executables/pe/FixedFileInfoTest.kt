@@ -1,7 +1,7 @@
 package space.iseki.executables.pe
 
 import kotlinx.serialization.json.Json
-import space.iseki.executables.pe.serialization.FixedFileInfoSerializer
+import space.iseki.executables.pe.serializer.FixedFileInfoSerializer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

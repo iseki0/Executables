@@ -1,4 +1,4 @@
-package space.iseki.executables.pe.serialization
+package space.iseki.executables.pe.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.SerialDescriptor
