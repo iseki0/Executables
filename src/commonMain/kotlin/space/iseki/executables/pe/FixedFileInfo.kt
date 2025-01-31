@@ -2,9 +2,8 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
 
-data class VersionInfo(
-    val signature: UShort,  // 必须是 0xFEEF
-    val structVersion: UShort, // 通常是 0x0100
+data class FixedFileInfo(
+    val structVersion: UInt, // 通常是 0x00000100
     val fileVersionMS: UInt,
     val fileVersionLS: UInt,
     val productVersionMS: UInt,
@@ -36,7 +35,6 @@ data class VersionInfo(
     override fun toString(): String {
         return """
             |VersionInfo(
-            |   signature = $signature,
             |   structVersion = $structVersion,
             |   fileVersion = $fileVersion,
             |   productVersion = $productVersion,
@@ -53,28 +51,28 @@ data class VersionInfo(
 
     companion object {
         const val LENGTH = 52
-        const val SIGNATURE = 0xFEEF.toShort()
+        const val SIGNATURE = 0xFEEF04BDu
 
-        fun parse(bytes: ByteArray, offset: Int): VersionInfo {
-            val signature = bytes.getUShort(offset)
-            require(signature == SIGNATURE.toUShort()) { "Invalid VS_VERSIONINFO signature: $signature" }
+        fun parse(bytes: ByteArray, offset: Int): FixedFileInfo {
+            val signature = bytes.getUInt(offset)
+            require(signature == SIGNATURE) { "Invalid VS_VERSIONINFO signature: $signature" }
 
-            return VersionInfo(
-                signature = signature,
-                structVersion = bytes.getUShort(offset + 2),
-                fileVersionMS = bytes.getUInt(offset + 4),
-                fileVersionLS = bytes.getUInt(offset + 8),
-                productVersionMS = bytes.getUInt(offset + 12),
-                productVersionLS = bytes.getUInt(offset + 16),
-                fileFlagsMask = bytes.getUInt(offset + 20),
-                fileFlags = FileInfoFlags(bytes.getUInt(offset + 24)),
-                fileOS = FileOs(bytes.getUInt(offset + 28)),
-                fileType = FileType(bytes.getUInt(offset + 32)),
-                fileSubtype = bytes.getUInt(offset + 36),
-                fileDateMS = bytes.getUInt(offset + 40),
-                fileDateLS = bytes.getUInt(offset + 44)
+            return FixedFileInfo(
+                structVersion = bytes.getUInt(offset + 4),
+                fileVersionMS = bytes.getUInt(offset + 8),
+                fileVersionLS = bytes.getUInt(offset + 12),
+                productVersionMS = bytes.getUInt(offset + 16),
+                productVersionLS = bytes.getUInt(offset + 20),
+                fileFlagsMask = bytes.getUInt(offset + 24),
+                fileFlags = FileInfoFlags(bytes.getUInt(offset + 28)),
+                fileOS = FileOs(bytes.getUInt(offset + 32)),
+                fileType = FileType(bytes.getUInt(offset + 36)),
+                fileSubtype = bytes.getUInt(offset + 40),
+                fileDateMS = bytes.getUInt(offset + 44),
+                fileDateLS = bytes.getUInt(offset + 48)
             )
         }
+
     }
 
     @Serializable
@@ -84,6 +82,11 @@ data class VersionInfo(
         val build: UShort,
         val revision: UShort,
     ) {
+        val ms: UInt
+            get() = (major.toUInt() shl 16) or minor.toUInt()
+        val ls: UInt
+            get() = (build.toUInt() shl 16) or revision.toUInt()
+
         override fun toString(): String = "$major.$minor.$build.$revision"
     }
 }
