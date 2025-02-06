@@ -5,5 +5,8 @@
       <option name="NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS" value="2147483647" />
       <option name="ALLOW_TRAILING_COMMA" value="true" />
     </JetCodeStyleSettings>
+    <codeStyleSettings language="kotlin">
+      <option name="METHOD_CALL_CHAIN_WRAP" value="5" />
+    </codeStyleSettings>
   </code_scheme>
 </component>
