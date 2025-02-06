@@ -45,3 +45,6 @@ bin/
 !/.idea/codeStyles
 .kotlin
 *.log
+
+*.patch
+
