@@ -9,7 +9,7 @@ import kotlin.test.assertNotNull
 class NotepadTest {
     @Test
     fun testOpenNotepad() {
-        val notepad = Path.of(System.getenv("windir")).resolve("system32/notepad.exe")
+        val notepad = Path.of(System.getenv("windir") ?: return).resolve("system32/notepad.exe")
         if (!notepad.isRegularFile()) {
             return
         }
