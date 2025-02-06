@@ -1,4 +1,4 @@
-package space.iseki.executables.pe
+package space.iseki.executables.pe.vi
 
 import kotlinx.serialization.json.Json
 import space.iseki.executables.pe.serializer.FixedFileInfoSerializer

@@ -1,6 +1,7 @@
-package space.iseki.executables.pe
+package space.iseki.executables.pe.vi
 
 import kotlinx.serialization.Serializable
+import space.iseki.executables.pe.getUInt
 
 data class FixedFileInfo(
     val structVersion: UInt, // 通常是 0x00000100

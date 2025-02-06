@@ -10,24 +10,28 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.encoding.encodeStructure
-import space.iseki.executables.pe.FileInfoFlags
-import space.iseki.executables.pe.FileOs
-import space.iseki.executables.pe.FileType
-import space.iseki.executables.pe.FixedFileInfo
+import space.iseki.executables.pe.vi.FileInfoFlags
+import space.iseki.executables.pe.vi.FileOs
+import space.iseki.executables.pe.vi.FileType
+import space.iseki.executables.pe.vi.FixedFileInfo
+import space.iseki.executables.pe.vi.serializer.FileInfoFlagsSerializer
+import space.iseki.executables.pe.vi.serializer.FileOsSerializer
+import space.iseki.executables.pe.vi.serializer.FileTypeSerializer
 
 object FixedFileInfoSerializer : KSerializer<FixedFileInfo> {
-    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("space.iseki.executables.pe.FixedFileInfo") {
-        element("structVersion", UInt.serializer().descriptor)
-        element("fileVersion", FixedFileInfo.Version.serializer().descriptor)
-        element("productVersion", FixedFileInfo.Version.serializer().descriptor)
-        element("fileFlagsMask", UInt.serializer().descriptor)
-        element("fileFlags", FileInfoFlagsSerializer.descriptor)
-        element("fileOS", FileOsSerializer.descriptor)
-        element("fileType", FileTypeSerializer.descriptor)
-        element("fileSubtype", UInt.serializer().descriptor)
-        element("fileDateMS", UInt.serializer().descriptor)
-        element("fileDateLS", UInt.serializer().descriptor)
-    }
+    override val descriptor: SerialDescriptor =
+        buildClassSerialDescriptor("space.iseki.executables.pe.vi.FixedFileInfo") {
+            element("structVersion", UInt.serializer().descriptor)
+            element("fileVersion", FixedFileInfo.Version.serializer().descriptor)
+            element("productVersion", FixedFileInfo.Version.serializer().descriptor)
+            element("fileFlagsMask", UInt.serializer().descriptor)
+            element("fileFlags", FileInfoFlagsSerializer.descriptor)
+            element("fileOS", FileOsSerializer.descriptor)
+            element("fileType", FileTypeSerializer.descriptor)
+            element("fileSubtype", UInt.serializer().descriptor)
+            element("fileDateMS", UInt.serializer().descriptor)
+            element("fileDateLS", UInt.serializer().descriptor)
+        }
 
     override fun serialize(encoder: Encoder, value: FixedFileInfo) {
         encoder.encodeStructure(descriptor) {

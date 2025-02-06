@@ -1,4 +1,4 @@
-package: space.iseki.executables.pe
+package: space.iseki.executables.pe.vi
 typename: FileOs
 dataLength: 4
 list:
