@@ -524,6 +524,7 @@ public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable {
 	public final fun getSectionTable ()Ljava/util/List;
 	public final fun getStandardHeader ()Lspace/iseki/executables/pe/StandardHeader;
 	public final fun getSummary ()Lspace/iseki/executables/pe/PEFile$Summary;
+	public final fun getVersionInfo ()Lspace/iseki/executables/pe/vi/PEVersionInfo;
 	public final fun getWindowsHeader ()Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 	public static final fun wrap ([B)Lspace/iseki/executables/pe/PEFile;
 }
@@ -1212,6 +1213,7 @@ public final class space/iseki/executables/pe/vi/StringTable {
 	public static final field Companion Lspace/iseki/executables/pe/vi/StringTable$Companion;
 	public final fun getLangKey-pVg5ArA ()I
 	public final fun getStrings ()Ljava/util/List;
+	public fun toString ()Ljava/lang/String;
 }
 
 public synthetic class space/iseki/executables/pe/vi/StringTable$$serializer : kotlinx/serialization/internal/GeneratedSerializer {

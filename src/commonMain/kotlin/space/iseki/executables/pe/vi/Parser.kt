@@ -13,6 +13,7 @@ fun parseVersionData(bytes: ByteArray, off: Int): PEVersionInfo {
     pos += header.length
     header.check {
         expectSzKey("VS_VERSION_INFO")
+        expectWType(0u)
     }
     val fixedFileInfo = if (header.wValueLength == 0.toUShort()) {
         null
@@ -22,15 +23,15 @@ fun parseVersionData(bytes: ByteArray, off: Int): PEVersionInfo {
     pos += header.wValueLength.toInt()
     pos += paddingAlignTo32Bit(pos)
     var stringTable: StringTable? = null
-    while (pos < bytes.size) {
+    while (pos < header.wLength.toInt()) {
         val nHeader = parseStructureHeader(bytes, pos)
-        if (nHeader.szKey != "StringFileInfo") {
-            pos += nHeader.wLength.toInt()
-            pos += paddingAlignTo32Bit(pos)
-            continue
+        if (nHeader.szKey == "StringFileInfo") {
+            pos += nHeader.length
+            stringTable = parseStringTable(bytes, pos)
+            pos -= nHeader.length
         }
-        pos += nHeader.length
-        stringTable = parseStringTable(bytes, pos)
+        pos += nHeader.wLength.toInt()
+        pos += paddingAlignTo32Bit(pos)
     }
     return PEVersionInfo(fixedFileInfo = fixedFileInfo, stringFileInfo = stringTable)
 }
@@ -68,4 +69,8 @@ internal fun parseStringTable(bytes: ByteArray, header: StructureHeader): String
 class StringTable internal constructor(
     val langKey: UInt,
     val strings: List<Pair<String, String>>,
-)
+) {
+    override fun toString(): String {
+        return "StringTable(langKey=$langKey, strings=$strings)"
+    }
+}

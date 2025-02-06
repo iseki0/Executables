@@ -1,6 +1,9 @@
 package space.iseki.executables.pe
 
 import space.iseki.executables.EOFException
+import space.iseki.executables.pe.vi.PEVersionInfo
+import space.iseki.executables.pe.vi.locateVersionInfo
+import space.iseki.executables.pe.vi.parseVersionData
 import kotlin.jvm.JvmStatic
 
 class PEFile private constructor(
@@ -254,5 +257,9 @@ class PEFile private constructor(
             rsrcSectionReader.copyBytes(contentRva, buf)
             return buf
         }
+    }
+
+    val versionInfo: PEVersionInfo? by lazy {
+        locateVersionInfo(this)?.readAllBytes()?.let { parseVersionData(it, 0) }
     }
 }
