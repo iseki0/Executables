@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 class UTest {
     @OptIn(ExperimentalStdlibApi::class)
     @Test
-    //@Ignore // todo: might be a bug in the compiler
     fun testWString() {
         val data = "67 00 68 00 74 00 20 00 A9 00 20 00 32 00 30 00".replace(" ", "").hexToByteArray()
         val s = data.getWString(0, data.size)
