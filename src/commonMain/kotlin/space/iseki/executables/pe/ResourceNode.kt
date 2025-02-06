@@ -12,6 +12,7 @@ interface ResourceNode {
     val codePage: CodePage
         get() = CodePage(0u)
 
+    fun readAllBytes(): ByteArray = ByteArray(0)
 }
 
 

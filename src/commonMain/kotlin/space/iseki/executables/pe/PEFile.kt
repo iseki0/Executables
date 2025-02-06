@@ -176,7 +176,7 @@ class PEFile private constructor(
             // file
             val fileBuf = ByteArray(16)
             rsrcSectionReader.copyBytes(dataRva + rsrcRva, fileBuf)
-            val contentRva = Address32(fileBuf.getUInt(0)) + rsrcRva
+            val contentRva = Address32(fileBuf.getUInt(0))
             val size = fileBuf.getUInt(4)
             val codePage = CodePage(fileBuf.getUInt(8))
             return ResourceFile(name, resourceID, size, dataRva, codePage, contentRva)
@@ -247,5 +247,12 @@ class PEFile private constructor(
             "<FILE:${if (id == 0u) name else "ID=$id"}, CodePage=$codePage, Size=$size, ContentRVA=$contentRva> @$dataRva"
 
         override fun hashCode(): Int = dataRva.rawValue.toInt()
+
+        override fun readAllBytes(): ByteArray {
+            rsrcSectionReader ?: return ByteArray(0)
+            val buf = ByteArray(size.toInt())
+            rsrcSectionReader.copyBytes(contentRva, buf)
+            return buf
+        }
     }
 }
