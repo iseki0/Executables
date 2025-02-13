@@ -20,7 +20,13 @@ import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.io.File
 import java.nio.charset.StandardCharsets
+import java.nio.file.LinkOption
 import javax.inject.Inject
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.deleteExisting
+import kotlin.io.path.extension
+import kotlin.io.path.isRegularFile
+import kotlin.io.path.walk
 
 class G : Plugin<Project> {
     open class GTask @Inject constructor(@Input val input: List<File>) : DefaultTask() {
@@ -31,6 +37,7 @@ class G : Plugin<Project> {
             input.forEach { inputs.dir(it) }
         }
 
+        @OptIn(ExperimentalPathApi::class)
         @TaskAction
         fun doGenerate() {
             val cfg = Configuration(Configuration.VERSION_2_3_32)
@@ -40,6 +47,11 @@ class G : Plugin<Project> {
                     val isEnum = file.name.endsWith(".enum.yml")
                     val isFlag = file.name.endsWith(".flag.yml")
                     if (!isEnum && !isFlag) continue
+                    od.asFile.toPath()
+                        .walk()
+                        .filter { it.isRegularFile(LinkOption.NOFOLLOW_LINKS) }
+                        .filter { it.extension.equals("kt", true) }
+                        .forEach { it.deleteExisting() }
                     launch {
                         val bytes = withContext(Dispatchers.IO) { file.readBytes() }
                         val data = Yaml.default.decodeFromStream<FlagSet>(bytes.inputStream())
