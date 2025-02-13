@@ -73,25 +73,34 @@ class G : Plugin<Project> {
     }
 
     override fun apply(project: Project) {
-        project.pluginManager.apply("org.jetbrains.gradle.plugin.idea-ext")
+        val rootProject = project.rootProject
         val commonMainSourceSet = project.kotlinExtension.sourceSets.getByName("commonMain")
         val od = project.layout.buildDirectory.dir("aao").get()
         commonMainSourceSet.kotlin.srcDirs(od)
         val inputDirs =
             commonMainSourceSet.kotlin.srcDirs.map { it.resolve("../define") }.filter { it.isDirectory && it.exists() }
-        val ideaModel = project.extensions.getByType(org.gradle.plugins.ide.idea.model.IdeaModel::class.java)
-        val projectSettings =
-            (ideaModel.project as ExtensionAware).extensions.getByType(org.jetbrains.gradle.ext.ProjectSettings::class.java)
+        val ideaModel = rootProject.extensions.getByType(org.gradle.plugins.ide.idea.model.IdeaModel::class.java)
+
         val taskTriggerConfig =
-            (projectSettings as ExtensionAware).extensions.getByType(org.jetbrains.gradle.ext.TaskTriggersConfig::class.java)
+            ideaModel.project.cast<ExtensionAware>().extensions.getByType(org.jetbrains.gradle.ext.ProjectSettings::class.java)
+                .cast<ExtensionAware>().extensions.getByType(org.jetbrains.gradle.ext.TaskTriggersConfig::class.java)
+
         val gTask = project.tasks.register("tGenerateFlagFiles", GTask::class.java, inputDirs)
         ideaModel.module.generatedSourceDirs.add(od.asFile)
-        taskTriggerConfig.afterSync(gTask)
+        taskTriggerConfig.afterSync("${project.name}:tGenerateFlagFiles")
         project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
             it.dependsOn(gTask)
         }
+        project.tasks.configureEach {
+            if (it.name.endsWith("SourcesJar") || it.name == "sourcesJar") {
+                it.dependsOn(gTask)
+            }
+        }
     }
 }
+
+@Suppress("UNCHECKED_CAST", "NOTHING_TO_INLINE")
+private inline fun <T> Any.cast(): T = this as T
 
 @Serializable
 internal data class FlagSet(
