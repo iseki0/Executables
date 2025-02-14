@@ -97,10 +97,11 @@ open class JigsawImpl(private val project: Project) : Jigsaw {
             tasks.named("compileJpmsJava", JavaCompile::class).configure {
                 sourceCompatibility = "9"
                 targetCompatibility = "9"
-                val clap = CommandLineArgumentProvider {
-                    listOf("--patch-module", "$moduleName=${sourceSets["main"].output.asPath}")
-                }
-                options.compilerArgumentProviders.add(clap)
+                // todo
+//                val clap = CommandLineArgumentProvider {
+//                    listOf("--patch-module", "$moduleName=${sourceSets["main"].output.asPath}")
+//                }
+//                options.compilerArgumentProviders.add(clap)
             }
         }
     }
