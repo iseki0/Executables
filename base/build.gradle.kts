@@ -1,6 +1,5 @@
 plugins {
     convention
-    id("tgenerator")
 }
 
 dependencies {

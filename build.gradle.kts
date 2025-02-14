@@ -1,5 +1,4 @@
 plugins {
-    alias(libs.plugins.idea.ext)
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
 }
 

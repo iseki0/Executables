@@ -13,7 +13,6 @@ import kotlinx.serialization.Serializable
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
@@ -73,21 +72,12 @@ class G : Plugin<Project> {
     }
 
     override fun apply(project: Project) {
-        val rootProject = project.rootProject
         val commonMainSourceSet = project.kotlinExtension.sourceSets.getByName("commonMain")
         val od = project.layout.buildDirectory.dir("aao").get()
         commonMainSourceSet.kotlin.srcDirs(od)
         val inputDirs =
             commonMainSourceSet.kotlin.srcDirs.map { it.resolve("../define") }.filter { it.isDirectory && it.exists() }
-        val ideaModel = rootProject.extensions.getByType(org.gradle.plugins.ide.idea.model.IdeaModel::class.java)
-
-        val taskTriggerConfig =
-            ideaModel.project.cast<ExtensionAware>().extensions.getByType(org.jetbrains.gradle.ext.ProjectSettings::class.java)
-                .cast<ExtensionAware>().extensions.getByType(org.jetbrains.gradle.ext.TaskTriggersConfig::class.java)
-
         val gTask = project.tasks.register("tGenerateFlagFiles", GTask::class.java, inputDirs)
-        ideaModel.module.generatedSourceDirs.add(od.asFile)
-        taskTriggerConfig.afterSync("${project.name}:tGenerateFlagFiles")
         project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
             it.dependsOn(gTask)
         }
@@ -98,9 +88,6 @@ class G : Plugin<Project> {
         }
     }
 }
-
-@Suppress("UNCHECKED_CAST", "NOTHING_TO_INLINE")
-private inline fun <T> Any.cast(): T = this as T
 
 @Serializable
 internal data class FlagSet(

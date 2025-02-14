@@ -10,7 +10,6 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.idea.ext)
     implementation(libs.freemarker)
     implementation(libs.kaml)
     implementation(libs.kotlinx.serialization.core)
