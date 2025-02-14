@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.*
 
 plugins {
@@ -16,12 +17,14 @@ dependencies {
 }
 
 kotlin {
+    jvmToolchain(21)
     targets {
         compilerOptions {
             freeCompilerArgs.add("-Xexpect-actual-classes")
         }
         jvm {
             compilerOptions {
+                jvmTarget = JvmTarget.JVM_1_8
                 freeCompilerArgs.add("-Xjvm-default=all")
             }
         }
