@@ -16,6 +16,13 @@ dependencies {
     commonTestImplementation(kotlin("test"))
 }
 
+tasks.withType<JavaCompile> {
+    if ("java9" !in name.lowercase()) {
+        targetCompatibility = "1.8"
+        sourceCompatibility = "1.8"
+    }
+}
+
 kotlin {
     jvmToolchain(21)
     targets {
@@ -36,6 +43,70 @@ kotlin {
         }
     }
 }
+
+interface Jigsaw {
+    fun enable(moduleName: String)
+}
+
+open class JigsawImpl(private val project: Project) : Jigsaw {
+    override fun enable(moduleName: String) {
+        with(project) {
+            project.kotlin {
+                targets {
+                    jvm {
+                        withJava()
+                    }
+                }
+
+            }
+
+            project.java {
+                val jpms by sourceSets.creating
+                val jvmMain by project.kotlin.sourceSets.getting
+                val commonMain by project.kotlin.sourceSets.getting
+                with(configurations) {
+                    getByName(jpms.implementationConfigurationName).extendsFrom(
+                        getByName(jvmMain.implementationConfigurationName),
+                        getByName(commonMain.implementationConfigurationName)
+                    )
+                    getByName(jpms.implementationConfigurationName).extendsFrom(
+                        getByName(jvmMain.apiConfigurationName),
+                        getByName(commonMain.apiConfigurationName)
+                    )
+                    getByName(jpms.runtimeOnlyConfigurationName).extendsFrom(
+                        getByName(jvmMain.runtimeOnlyConfigurationName),
+                        getByName(commonMain.runtimeOnlyConfigurationName)
+                    )
+                    getByName(jpms.compileOnlyConfigurationName).extendsFrom(
+                        getByName(jvmMain.compileOnlyConfigurationName),
+                        getByName(commonMain.compileOnlyConfigurationName)
+                    )
+                }
+            }
+
+            tasks.named("jvmJar", Jar::class).configure {
+                manifest {
+                    attributes["Multi-Release"] = "true"
+                }
+                into("META-INF/versions/9") {
+                    val jpms by sourceSets.getting
+                    from(jpms.output)
+                }
+            }
+
+            tasks.named("compileJpmsJava", JavaCompile::class).configure {
+                sourceCompatibility = "9"
+                targetCompatibility = "9"
+                val clap = CommandLineArgumentProvider {
+                    listOf("--patch-module", "$moduleName=${sourceSets["main"].output.asPath}")
+                }
+                options.compilerArgumentProviders.add(clap)
+            }
+        }
+    }
+}
+
+extensions.create(Jigsaw::class.java, "jigsaw", JigsawImpl::class.java, project)
 
 tasks.withType<Test> {
     testLogging {
@@ -112,16 +183,10 @@ publishing {
 }
 
 tasks.withType<Jar> {
-    if ("jvm" in name) {
-        manifest {
-            attributes["Automatic-Module-Name"] = "space.iseki.executables"
-        }
-    }
     if ("emptyJavadocJar" !in name) {
         into("/") {
-            from("/LICENSE")
-            from("/NOTICE")
+            from(rootProject.projectDir.resolve("LICENSE"))
+            from(rootProject.projectDir.resolve("NOTICE"))
         }
     }
 }
-

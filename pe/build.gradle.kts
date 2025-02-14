@@ -26,11 +26,6 @@ kotlin {
     }
 }
 
-tasks.withType<Jar> {
-    if ("jvm" in name) {
-        manifest {
-            attributes["Automatic-Module-Name"] = "space.iseki.executables.pe"
-        }
-    }
+jigsaw {
+    enable("space.iseki.executables.pe")
 }
-

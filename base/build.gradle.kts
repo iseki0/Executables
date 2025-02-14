@@ -2,10 +2,8 @@ plugins {
     convention
 }
 
-dependencies {
-    commonMainImplementation(libs.kotlinx.datetime)
-    commonMainImplementation(libs.kotlinx.serialization.core)
-    commonTestImplementation(libs.kotlinx.serialization.json)
+jigsaw {
+    enable("space.iseki.executables.base")
 }
 
 kotlin {
@@ -20,14 +18,6 @@ kotlin {
             dependencies {
                 implementation(libs.kotlinx.serialization.json)
             }
-        }
-    }
-}
-
-tasks.withType<Jar> {
-    if ("jvm" in name) {
-        manifest {
-            attributes["Automatic-Module-Name"] = "space.iseki.executables.base"
         }
     }
 }
