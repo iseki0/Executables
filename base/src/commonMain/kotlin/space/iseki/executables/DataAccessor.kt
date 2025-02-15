@@ -1,9 +1,7 @@
-package space.iseki.executables.pe
-
-import space.iseki.executables.EOFException
+package space.iseki.executables
 
 
-internal interface DataAccessor : AutoCloseable {
+interface DataAccessor : AutoCloseable {
     fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int
     fun readAtMost(pos: Long, buf: ByteArray): Int = readAtMost(pos, buf, 0, buf.size)
     fun readFully(pos: Long, buf: ByteArray) = readFully(pos, buf, 0, buf.size)

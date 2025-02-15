@@ -1,5 +1,7 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.ByteArrayDataAccessor
+import space.iseki.executables.DataAccessor
 import space.iseki.executables.EOFException
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo

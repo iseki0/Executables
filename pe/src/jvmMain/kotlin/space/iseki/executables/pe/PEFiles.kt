@@ -2,6 +2,7 @@
 
 package space.iseki.executables.pe
 
+import space.iseki.executables.SeekableByteChannelDataAccessor
 import java.io.File
 import java.nio.channels.SeekableByteChannel
 import java.nio.file.Files
@@ -11,25 +12,11 @@ import java.nio.file.StandardOpenOption
 @JvmOverloads
 @JvmName("open")
 fun PEFile(channel: SeekableByteChannel, closeWhenTheFileClosed: Boolean = true): PEFile {
-    val accessor = object : DataAccessor {
+    val accessor = object : SeekableByteChannelDataAccessor(channel) {
         override fun close() {
             if (closeWhenTheFileClosed) {
                 channel.close()
             }
-        }
-
-        override fun toString(): String {
-            return "DataAccessor(channel=$channel)"
-        }
-
-        override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
-            val buffer = java.nio.ByteBuffer.wrap(buf, off, len)
-            channel.position(pos)
-            while (buffer.hasRemaining()) {
-                val i = channel.read(buffer)
-                if (i == -1) break
-            }
-            return buffer.position()
         }
     }
     return PEFile.open(accessor)

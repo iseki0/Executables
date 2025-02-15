@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.ByteArrayDataAccessor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
