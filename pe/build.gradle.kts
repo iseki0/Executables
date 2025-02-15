@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    commonMainApi(project(":base"))
+    commonMainApi(project(":common"))
     commonMainImplementation(libs.kotlinx.datetime)
     commonMainImplementation(libs.kotlinx.serialization.core)
     commonTestImplementation(libs.kotlinx.serialization.json)
