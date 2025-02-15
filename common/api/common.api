@@ -17,6 +17,21 @@ public final class space/iseki/executables/common/DataAccessor$DefaultImpls {
 	public static fun readFully (Lspace/iseki/executables/common/DataAccessor;J[BII)V
 }
 
+public final class space/iseki/executables/common/ExecutableFile : java/lang/Enum {
+	public static final field Companion Lspace/iseki/executables/common/ExecutableFile$Companion;
+	public static final field ELF Lspace/iseki/executables/common/ExecutableFile;
+	public static final field MACHO Lspace/iseki/executables/common/ExecutableFile;
+	public static final field PE Lspace/iseki/executables/common/ExecutableFile;
+	public static final fun detect (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFile;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lspace/iseki/executables/common/ExecutableFile;
+	public static fun values ()[Lspace/iseki/executables/common/ExecutableFile;
+}
+
+public final class space/iseki/executables/common/ExecutableFile$Companion {
+	public final fun detect (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFile;
+}
+
 public class space/iseki/executables/common/SeekableByteChannelDataAccessor : space/iseki/executables/common/DataAccessor {
 	public fun <init> (Ljava/nio/channels/SeekableByteChannel;)V
 	public fun close ()V
