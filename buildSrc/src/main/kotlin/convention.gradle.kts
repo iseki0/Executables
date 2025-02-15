@@ -1,11 +1,15 @@
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.net.URI
+import java.net.URL
 import java.util.*
 
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("org.jetbrains.kotlinx.kover")
+    id("org.jetbrains.dokka")
     `maven-publish`
     signing
 }
@@ -188,6 +192,24 @@ tasks.withType<Jar> {
         into("/") {
             from(rootProject.projectDir.resolve("LICENSE"))
             from(rootProject.projectDir.resolve("NOTICE"))
+        }
+    }
+}
+
+tasks.withType<DokkaTaskPartial> {
+    dokkaSourceSets.configureEach {
+        includes.from(rootProject.layout.projectDirectory.file("module.md"))
+        sourceLink {
+            localDirectory = project.layout.projectDirectory.dir("src").asFile
+            val p =
+                project.layout.projectDirectory.dir("src").asFile.relativeTo(rootProject.layout.projectDirectory.asFile)
+                    .toString()
+                    .replace('\\', '/')
+            remoteUrl = URI.create("https://github.com/iseki0/Executables/tree/master/$p").toURL()
+            remoteLineSuffix = "#L"
+        }
+        externalDocumentationLink {
+            url = URL("https://kotlinlang.org/api/kotlinx.serialization/")
         }
     }
 }

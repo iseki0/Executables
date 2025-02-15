@@ -1,5 +1,6 @@
 plugins {
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
+    id("org.jetbrains.dokka")
 }
 
 allprojects {
@@ -12,4 +13,8 @@ allprojects {
         isPreserveFileTimestamps = false
         isReproducibleFileOrder = true
     }
+}
+
+tasks.dokkaHtmlMultiModule {
+    moduleName = "executables"
 }
