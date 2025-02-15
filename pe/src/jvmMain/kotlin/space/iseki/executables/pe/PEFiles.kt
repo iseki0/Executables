@@ -2,7 +2,7 @@
 
 package space.iseki.executables.pe
 
-import space.iseki.executables.SeekableByteChannelDataAccessor
+import space.iseki.executables.common.SeekableByteChannelDataAccessor
 import java.io.File
 import java.nio.channels.SeekableByteChannel
 import java.nio.file.Files

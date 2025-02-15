@@ -1,4 +1,4 @@
-package space.iseki.executables
+package space.iseki.executables.common
 
 class ByteArrayDataAccessor(private val data: ByteArray) : DataAccessor {
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {

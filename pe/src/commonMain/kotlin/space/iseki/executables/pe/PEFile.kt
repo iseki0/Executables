@@ -1,8 +1,8 @@
 package space.iseki.executables.pe
 
-import space.iseki.executables.ByteArrayDataAccessor
-import space.iseki.executables.DataAccessor
-import space.iseki.executables.EOFException
+import space.iseki.executables.common.ByteArrayDataAccessor
+import space.iseki.executables.common.DataAccessor
+import space.iseki.executables.common.EOFException
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData

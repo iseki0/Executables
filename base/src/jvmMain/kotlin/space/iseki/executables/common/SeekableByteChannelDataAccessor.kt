@@ -1,4 +1,4 @@
-package space.iseki.executables
+package space.iseki.executables.common
 
 import java.nio.channels.SeekableByteChannel
 
