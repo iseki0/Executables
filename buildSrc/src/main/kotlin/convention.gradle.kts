@@ -162,6 +162,7 @@ publishing {
             }
             artifact(emptyJavadocJar)
             pom {
+                name = "Executables-${project.name}"
                 val projectUrl = "https://github.com/iseki0/Executables"
                 description = "A library for executable files"
                 url = projectUrl
