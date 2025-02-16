@@ -9,16 +9,11 @@ An executable file parsing library, written in Kotlin Multiplatform.
 
 Currently, this library can:
 
-[*] Read PE basic information (COFF header, optional header, sections)
-
-[*] Read PE version information (aka. [VS_VERSIONINFO](
-https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo) structure)
-
-[ ] Read PE import/export symbol tables
-
-[ ] Read ELF basic information
-
-[ ] Read Macho basic information
+- [x] Read PE basic information (COFF header, optional header, sections)
+- [x] Read PE version information (aka. [VS_VERSIONINFO] structure)
+- [ ] Read PE import/export symbol tables
+- [ ] Read ELF basic information
+- [ ] Read Macho basic information
 
 > This project is currently in the early stages of development. This means it is still evolving and may undergo frequent
 > updates and changes.
@@ -65,4 +60,4 @@ dependencies {
 </dependency>
 ```
 
-
+[VS_VERSIONINFO]: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
