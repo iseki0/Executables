@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Store GPG key
+        if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
         run: echo "${{ secrets.GPG_PK }}" | base64 --decode | gzip -d | gpg --import
       - uses: actions/checkout@v3
       - name: Set up JDK
@@ -39,7 +40,7 @@ jobs:
         run: ./gradlew koverXmlReport
       - name: Publish to GitHub Packages
         if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
-        run: ./gradlew publishToGitHubPackages
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository -Psigning.gnupg.keyName=pub@iseki.space
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload coverage to Codecov
