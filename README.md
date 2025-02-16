@@ -58,6 +58,26 @@ dependencies {
 </dependency>
 ```
 
+### Samples
+
+#### Print information of a PE file
+
+```kotlin
+import java.nio.file.Path
+import kotlinx.serialization.json.Json
+import space.iseki.executables.pe.PEFile
+
+fun main() {
+    val file = Path.of("C:\\System32\\notepad.exe")
+    PEFile(file).use { peFile: PEFile ->
+        println(peFile.coffHeader)
+        println(peFile.summary)
+        println(Json.encodeToString(PEFile.Summary.prettySerializer, peFile.summary))
+        println(peFile.versionInfo)
+    }
+}
+```
+
 [VS_VERSIONINFO]: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
 
 [space.iseki.executables:executables-common]: https://central.sonatype.com/artifact/space.iseki.executables/executables-common
