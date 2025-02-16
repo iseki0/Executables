@@ -2,6 +2,11 @@ name: Check
 
 on:
   push:
+    paths:
+      - '*.kts'
+      - '*.kt'
+      - '*.java'
+      - '.idea/**'
   pull_request:
 
 jobs:
