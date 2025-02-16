@@ -5,7 +5,7 @@ plugins {
 
 allprojects {
     group = "space.iseki.executables"
-    version = "0.0.1-SNAPSHOT"
+    if (version == "unspecified") version = "0.0.1-SNAPSHOT"
     repositories {
         mavenCentral()
     }

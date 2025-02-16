@@ -15,6 +15,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Store GPG key
+        if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
+        run: echo "${{ secrets.GPG_PK }}" | base64 --decode | gzip -d | gpg --import
       - uses: actions/checkout@v3
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -34,6 +37,14 @@ jobs:
           gradle-version: wrapper
       - name: Run build
         run: ./gradlew build check
+      - name: Publish to Maven Central(Tagged)
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          VERSION=${{ github.ref_name }}
+          ./gradlew publish -Psigning.gnupg.keyName=pub@iseki.space -Pversion=${VERSION:1}
       - name: Generate code coverage report
         run: ./gradlew koverXmlReport
       - name: Upload coverage to Codecov
