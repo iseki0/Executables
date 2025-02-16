@@ -7,6 +7,13 @@ enum class ExecutableFile {
     ;
 
     companion object {
+        /**
+         * Detects the type of the executable file from the provided [DataAccessor].
+         *
+         * @throws IOException if an I/O error occurs
+         * @return the detected [ExecutableFile], or `null` if the type could not be detected
+         */
+        @Throws(IOException::class)
         @JvmStatic
         fun detect(dataAccessor: DataAccessor): ExecutableFile? {
             val buf = ByteArray(4)

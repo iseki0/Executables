@@ -1,5 +1,9 @@
 package space.iseki.executables.common
 
+/**
+ * A [DataAccessor] implementation that reads data from a [ByteArray].
+ *
+ */
 class ByteArrayDataAccessor(private val data: ByteArray) : DataAccessor {
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
         if (pos < 0 || pos >= data.size) {
@@ -10,6 +14,9 @@ class ByteArrayDataAccessor(private val data: ByteArray) : DataAccessor {
         return read
     }
 
+    /**
+     * No-op close method.
+     */
     override fun close() {
     }
 }
