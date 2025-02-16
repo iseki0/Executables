@@ -1,8 +1,10 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.KSerializer
 import space.iseki.executables.common.ByteArrayDataAccessor
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
+import space.iseki.executables.pe.serializer.PEFileSummarySerializer
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
@@ -20,7 +22,12 @@ class PEFile private constructor(
         val standardHeader: StandardHeader,
         val windowsHeader: WindowsSpecifiedHeader,
         val sectionTable: List<SectionTableItem>,
-    )
+    ) {
+        companion object {
+            @JvmStatic
+            val prettySerializer: KSerializer<Summary> = PEFileSummarySerializer
+        }
+    }
 
     val summary: Summary = Summary(coffHeader, standardHeader, windowsHeader, sectionTable)
 

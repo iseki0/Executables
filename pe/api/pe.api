@@ -534,6 +534,7 @@ public final class space/iseki/executables/pe/PEFile$Companion {
 }
 
 public final class space/iseki/executables/pe/PEFile$Summary {
+	public static final field Companion Lspace/iseki/executables/pe/PEFile$Summary$Companion;
 	public fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;)V
 	public final fun component1 ()Lspace/iseki/executables/pe/CoffHeader;
 	public final fun component2 ()Lspace/iseki/executables/pe/StandardHeader;
@@ -543,11 +544,16 @@ public final class space/iseki/executables/pe/PEFile$Summary {
 	public static synthetic fun copy$default (Lspace/iseki/executables/pe/PEFile$Summary;Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;ILjava/lang/Object;)Lspace/iseki/executables/pe/PEFile$Summary;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCoffHeader ()Lspace/iseki/executables/pe/CoffHeader;
+	public static final fun getPrettySerializer ()Lkotlinx/serialization/KSerializer;
 	public final fun getSectionTable ()Ljava/util/List;
 	public final fun getStandardHeader ()Lspace/iseki/executables/pe/StandardHeader;
 	public final fun getWindowsHeader ()Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/PEFile$Summary$Companion {
+	public final fun getPrettySerializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public class space/iseki/executables/pe/PEFileException : java/lang/RuntimeException {
