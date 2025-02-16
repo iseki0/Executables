@@ -49,6 +49,9 @@ dependencies {
 
 #### Maven
 
+Since the project is in Kotlin Multiplatform, for Maven user you have to specify the platform explicitly.
+(The `-jvm` suffix)
+
 ```xml
 
 <dependency>
