@@ -1,14 +1,27 @@
 # Executables
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/iseki0/Executables/build.yml)
-[![Maven Central Version](https://img.shields.io/maven-central/v/space.iseki.executables/executables)](https://central.sonatype.com/artifact/space.iseki.executables/executables)
+[![Maven Central Version](https://img.shields.io/maven-central/v/space.iseki.executables/executables-all)](https://central.sonatype.com/artifact/space.iseki.executables/executables-all)
 ![License](https://img.shields.io/github/license/iseki0/Executables)
 [![codecov](https://codecov.io/gh/iseki0/Executables/graph/badge.svg?token=WYG654BF18)](https://codecov.io/gh/iseki0/Executables)
 
+An executable file parsing library, written in Kotlin Multiplatform.
+
+Currently, this library can:
+
+[*] Read PE basic information (COFF header, optional header, sections)
+
+[*] Read PE version information (
+aka. [VS_VERSIONINFO](https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo) structure)
+
+[ ] Read PE import/export symbol tables
+
+[ ] Read ELF basic information
+
+[ ] Read Macho basic information
+
 > This project is currently in the early stages of development. This means it is still evolving and may undergo frequent
 > updates and changes.
-
-Kotlin multiplatform executable file parsing library. Currently only provides basic support for PE format.
 
 ## Kotlin targets
 
@@ -16,27 +29,40 @@ Kotlin multiplatform executable file parsing library. Currently only provides ba
 - Kotlin/JavaScript
 - Kotlin/WasmJS (browser)
 
+> If you need more targets, feel free to open an issue or pull request directly.
+
 ## Getting Started
 
-For JVM:
-```kotlin
-import java.nio.file.Path
+### Add dependency
 
-fun main() {
-    val file = Path.of("path/to/file.exe")
-    PEFile(file).use { pe: PEFile ->
-        println(pe.summary) // print summary information(COFF, OptionalHeader, Sections)
-    }
+This project contains four projects on Maven Central:
+
+- [space.iseki.executables:executables-common](https://central.sonatype.com/artifact/space.iseki.executables/executables-common)
+  contains the code shared by pe, elf, and macho
+- [space.iseki.executables:executables-pe](https://central.sonatype.com/artifact/space.iseki.executables/executables-pe)
+  contains the code for parsing PE files
+- [space.iseki.executables:executables-all](https://central.sonatype.com/artifact/space.iseki.executables/executables-all) (
+  common + pe)
+
+If the dependency size is not a concern, you can use executables-all directly.
+
+#### Gradle
+
+```kotlin
+dependencies {
+    implementation("space.iseki.executables:executables-all:0.0.1")
 }
 ```
 
-For JavaScript:
-```typescript
-import f from 'executables.js'
+#### Maven
 
-export const doDump = (peFileData: Uint8Array) => 
-    console.log(f.space.iseki.executables.pe.dumpHeaderJson(peFileData, true /* pretty JSON */))
+```xml
 
+<dependency>
+    <groupId>space.iseki.executables</groupId>
+    <artifactId>executables-all-jvm</artifactId>
+    <version>0.0.1</version>
+</dependency>
 ```
 
 
