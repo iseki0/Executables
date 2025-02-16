@@ -141,6 +141,16 @@ publishing {
                 password = properties["ossrhPassword"]?.toString() ?: System.getenv("OSSRH_PASSWORD")
             }
         }
+        if (!System.getenv("GITHUB_TOKEN").isNullOrBlank()) {
+            maven {
+                name = "GitHubPackages"
+                url = URI.create("https://maven.pkg.github.com/iseki0/executables")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")!!
+                    password = System.getenv("GITHUB_TOKEN")!!
+                }
+            }
+        }
     }
     publications {
         withType<MavenPublication> {
