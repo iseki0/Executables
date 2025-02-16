@@ -11,20 +11,37 @@ import kotlin.jvm.JvmName
 
 fun ${typename}(rawValue: U${rawType}) = ${typename}(rawValue.to${rawType}())
 
+/**
+* Type for C flag-set ${typename}
+*
+* Raw type: [${rawType}]
+*/
 @OptIn(ExperimentalStdlibApi::class)
 @JvmInline
 value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
     object Constants{
     <#list list as item>
+        /**
+        Raw value: `${item.value}`
+        */
         const val ${item.name}: ${rawType} = ${item.value}.to${rawType}()
     </#list>
     }
     companion object{
         val ZERO = ${typename}(0.to${rawType}())
     <#list list as item>
+        /**
+        Raw value: `${item.value}`
+        */
         val ${item.name}: ${typename} = ${typename}(Constants.${item.name})
     </#list>
 
+/**
+* Creates a ${typename} from its name
+*
+* @param name the name of the flag value
+* @return the flag value, null if the name is not a known value
+*/
         @JvmStatic
         fun valueOfOrNull(name: String): ${typename}? = when(name){
             <#list list as item>
@@ -33,6 +50,16 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
             else -> null
         }
 
+/**
+* Creates a ${typename} from a string
+*
+* The input string might be in one of the following formats:
+*   - The name of the flag value.
+*   - The hexadecimal representation of the flag value, prefixed with "0x".
+* @param name the name of the flag value, or the text representation
+* @return the flag value
+* @throws IllegalArgumentException neither a known flag value nor a valid hexadecimal number
+*/
         @JvmStatic
         fun valueOf(name: String): ${typename} = when(name){
             <#list list as item>
@@ -61,6 +88,12 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
     override val size: Int
         get() = rawValue.countOneBits()
 
+/**
+* Returns a new ${typename} with the specified bit set to true
+* @param bit the bit to set
+* @return a new ${typename} with the specified bit set to true
+* @see or
+*/
     operator fun plus(other: ${typename}): ${typename} {
         return ${typename}(rawValue or other.rawValue)
     }

@@ -11,16 +11,34 @@ import kotlin.jvm.JvmName
 
 fun ${typename}(rawValue: U${rawType}) = ${typename}(rawValue.to${rawType}())
 
+/**
+* Type for C enum ${typename}
+*
+* Raw type: [${rawType}]
+*/
 @OptIn(ExperimentalStdlibApi::class)
 @JvmInline
 value class ${typename}(val rawValue: ${rawType}){
     object Constants{
         <#list list as item>
+            /**
+            Raw value: `${item.value}`
+            */
         const val ${item.name}: ${rawType} = ${item.value}.to${rawType}()
         </#list>
     }
 
     companion object{
+/**
+* Creates a ${typename} from a string
+*
+* The input string might be in one of the following formats:
+*   - The name of the enum value.
+*   - The hexadecimal representation of the enum value, prefixed with "0x".
+* @param name the name of the enum value, or the text representation
+* @return the enum value
+* @throws IllegalArgumentException neither a known enum value nor a valid hexadecimal number
+*/
         fun valueOf(name: String): ${typename} = when(name){
         <#list list as item>
             "${item.name}" -> ${item.name}
@@ -32,6 +50,13 @@ value class ${typename}(val rawValue: ${rawType}){
             }
         }
 
+/**
+* Creates a ${typename} from its name
+*
+* @param name the name of the enum value
+* @return the enum value, null if the name is not a known value
+*
+*/
         fun valueOfOrNull(name: String): ${typename}? = when(name){
         <#list list as item>
             "${item.name}" -> ${item.name}
@@ -40,6 +65,9 @@ value class ${typename}(val rawValue: ${rawType}){
         }
 
     <#list list as item>
+        /**
+        Raw value: `${item.value}`
+        */
         val ${item.name}: ${typename} = ${typename}(Constants.${item.name})
     </#list>
     }
