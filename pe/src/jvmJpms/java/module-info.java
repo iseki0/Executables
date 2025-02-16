@@ -4,4 +4,7 @@ module space.iseki.executables.pe {
     requires kotlinx.datetime;
     requires kotlinx.serialization.core;
     exports space.iseki.executables.pe;
+    exports space.iseki.executables.pe.serializer;
+    exports space.iseki.executables.pe.vi;
+    exports space.iseki.executables.pe.vi.serializer;
 }
