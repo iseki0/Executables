@@ -14,6 +14,7 @@ Currently, this library can:
 - [ ] Read PE import/export symbol tables
 - [ ] Read ELF basic information
 - [ ] Read Macho basic information
+- [x] Jigsaw ready
 
 > This project is currently in the early stages of development. This means it is still evolving and may undergo frequent
 > updates and changes.
