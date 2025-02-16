@@ -3,16 +3,20 @@ name: Build
 on:
   push:
     tags:
-      - 'v0.*'
-      - 'v1.*'
+      - 'v*'
     branches:
       - 'master'
       - 'ci/*'
       - 'feat/*'
       - 'fix/*'
+    pull_request:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Store GPG key
         if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
@@ -35,14 +39,14 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
           gradle-version: wrapper
       - name: Run build
-        run: ./gradlew build
-      - name: Generate code coverage report
-        run: ./gradlew koverXmlReport
+        run: ./gradlew build check
       - name: Publish to GitHub Packages
         if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository -Psigning.gnupg.keyName=pub@iseki.space
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate code coverage report
+        run: ./gradlew koverXmlReport
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
