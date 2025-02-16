@@ -74,8 +74,7 @@ open class JigsawImpl(private val project: Project) : Jigsaw {
                         getByName(commonMain.implementationConfigurationName)
                     )
                     getByName(jpms.implementationConfigurationName).extendsFrom(
-                        getByName(jvmMain.apiConfigurationName),
-                        getByName(commonMain.apiConfigurationName)
+                        getByName(jvmMain.apiConfigurationName), getByName(commonMain.apiConfigurationName)
                     )
                     getByName(jpms.runtimeOnlyConfigurationName).extendsFrom(
                         getByName(jvmMain.runtimeOnlyConfigurationName),
@@ -145,6 +144,7 @@ publishing {
     }
     publications {
         withType<MavenPublication> {
+            artifactId = "executables-$artifactId"
             val pubName = name.replaceFirstChar { it.titlecase(Locale.getDefault()) }
             val emptyJavadocJar by tasks.register<Jar>("emptyJavadocJar$pubName") {
                 archiveClassifier = "javadoc"
