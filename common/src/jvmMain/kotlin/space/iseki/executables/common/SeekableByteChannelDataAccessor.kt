@@ -4,7 +4,11 @@ import java.nio.channels.SeekableByteChannel
 
 open class SeekableByteChannelDataAccessor(private val channel: SeekableByteChannel) : DataAccessor {
     override fun close() {
-        channel.close()
+        try {
+            channel.close()
+        } catch (e: java.io.IOException) {
+            throw java.io.UncheckedIOException(e)
+        }
     }
 
     override fun toString(): String {
