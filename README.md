@@ -81,6 +81,18 @@ fun main() {
 }
 ```
 
+#### Detect the type of file
+
+```kotlin
+import java.nio.file.Path
+import space.iseki.executables.common.ExecutableFile
+
+fun main() {
+    val file = Path.of("C:\\System32\\notepad.exe")
+    println(ExecutableFile.detect(file))
+}
+```
+
 [VS_VERSIONINFO]: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
 
 [space.iseki.executables:executables-common]: https://central.sonatype.com/artifact/space.iseki.executables/executables-common
