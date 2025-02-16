@@ -43,7 +43,7 @@ If the dependency size is not a concern, you can use executables-all directly.
 
 ```kotlin
 dependencies {
-    implementation("space.iseki.executables:executables-all:0.0.2")
+    implementation("space.iseki.executables:executables-all:0.0.3")
 }
 ```
 
@@ -57,7 +57,7 @@ Since the project is in Kotlin Multiplatform, for Maven user you have to specify
 <dependency>
     <groupId>space.iseki.executables</groupId>
     <artifactId>executables-all-jvm</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 </dependency>
 ```
 
