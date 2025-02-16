@@ -30,14 +30,11 @@ Currently, this library can:
 
 ### Add dependency
 
-This project contains four projects on Maven Central:
+This project contains four modules on Maven Central:
 
-- [space.iseki.executables:executables-common](https://central.sonatype.com/artifact/space.iseki.executables/executables-common)
-  contains the code shared by pe, elf, and macho
-- [space.iseki.executables:executables-pe](https://central.sonatype.com/artifact/space.iseki.executables/executables-pe)
-  contains the code for parsing PE files
-- [space.iseki.executables:executables-all](https://central.sonatype.com/artifact/space.iseki.executables/executables-all) (
-  common + pe)
+- [space.iseki.executables:executables-common] contains the code shared by pe, elf, and macho
+- [space.iseki.executables:executables-pe] contains the code for parsing PE files
+- [space.iseki.executables:executables-all] (common + pe)
 
 If the dependency size is not a concern, you can use executables-all directly.
 
@@ -61,3 +58,9 @@ dependencies {
 ```
 
 [VS_VERSIONINFO]: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
+
+[space.iseki.executables:executables-common]: https://central.sonatype.com/artifact/space.iseki.executables/executables-common
+
+[space.iseki.executables:executables-pe]: https://central.sonatype.com/artifact/space.iseki.executables/executables-pe
+
+[space.iseki.executables:executables-all]: https://central.sonatype.com/artifact/space.iseki.executables/executables-all
