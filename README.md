@@ -9,12 +9,12 @@ An executable file parsing library, written in Kotlin Multiplatform.
 
 Currently, this library can:
 
-- [x] Read PE basic information (COFF header, optional header, sections)
-- [x] Read PE version information (aka. [VS_VERSIONINFO] structure)
-- [ ] Read PE import/export symbol tables
-- [ ] Read ELF basic information
-- [ ] Read Macho basic information
-- [x] Jigsaw ready
+- [x] PE: Read basic information (COFF header, optional header, sections)
+- [x] PE: Read version information (aka. [VS_VERSIONINFO] structure)
+- [ ] PE: Read import/export symbol tables
+- [ ] ELF: Read basic information
+- [ ] Macho: Read basic information
+- [x] Chore: Jigsaw ready
 
 > This project is currently in the early stages of development. This means it is still evolving and may undergo frequent
 > updates and changes.
