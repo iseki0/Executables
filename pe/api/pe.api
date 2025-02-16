@@ -959,15 +959,6 @@ public final class space/iseki/executables/pe/WindowsSubsystems$Constants {
 	public static final field XBOX S
 }
 
-public final class space/iseki/executables/pe/serializer/FixedFileInfoSerializer : kotlinx/serialization/KSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/serializer/FixedFileInfoSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/pe/vi/FixedFileInfo;
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/vi/FixedFileInfo;)V
-}
-
 public final class space/iseki/executables/pe/vi/-FileInfoFlags {
 	public static final fun FileInfoFlags-WZ4Q5Ns (I)I
 }

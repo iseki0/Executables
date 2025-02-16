@@ -18,7 +18,7 @@ import space.iseki.executables.pe.vi.serializer.FileInfoFlagsSerializer
 import space.iseki.executables.pe.vi.serializer.FileOsSerializer
 import space.iseki.executables.pe.vi.serializer.FileTypeSerializer
 
-object FixedFileInfoSerializer : KSerializer<FixedFileInfo> {
+internal object FixedFileInfoSerializer : KSerializer<FixedFileInfo> {
     override val descriptor: SerialDescriptor =
         buildClassSerialDescriptor("space.iseki.executables.pe.vi.FixedFileInfo") {
             element("structVersion", UInt.serializer().descriptor)
