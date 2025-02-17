@@ -10,11 +10,26 @@ import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
+/**
+ * Convert from raw value to 32-bit address.
+ *
+ * @param rawValue raw value
+ * @return 32-bit address
+ */
 fun Address32(rawValue: Int): Address32 = Address32(rawValue.toUInt())
 
+/**
+ * Represents a 64-bit address in a PE file.
+ */
 @Serializable(with = Address32.Serializer::class)
 @JvmInline
 value class Address32(val rawValue: UInt) : Comparable<Address32> {
+
+    /**
+     * A serializer for [Address32].
+     *
+     * It serializes the address as a hex string, e.g. "0x12345678".
+     */
     object Serializer : KSerializer<Address32> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -37,12 +52,22 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
         return rawValue.toUInt().compareTo(other.rawValue.toUInt())
     }
 
+    /**
+     * Convert to string in hex format, e.g. "0x12345678"
+     *
+     * @return string in hex format
+     */
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
         return "0x${rawValue.toHexString()}"
     }
 
     companion object {
+        /**
+         * Convert from string in hex format, e.g. "0x12345678"
+         *
+         * @return 32-bit address
+         */
         @JvmStatic
         fun toString(rawValue: Int): String {
             return Address32(rawValue.toUInt()).toString()

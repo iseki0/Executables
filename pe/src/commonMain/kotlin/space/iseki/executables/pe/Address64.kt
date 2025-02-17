@@ -9,9 +9,18 @@ import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
+/**
+ * Represents a 64-bit address in a PE file.
+ */
 @Serializable(with = Address64.Serializer::class)
 @JvmInline
 value class Address64(val rawValue: Long) : Comparable<Address64> {
+
+    /**
+     * A serializer for [Address64].
+     *
+     * It serializes the address as a hex string, e.g. "0x123456789abcdef0".
+     */
     object Serializer : KSerializer<Address64> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -30,6 +39,11 @@ value class Address64(val rawValue: Long) : Comparable<Address64> {
         return rawValue.toULong().compareTo(other.rawValue.toULong())
     }
 
+    /**
+     * Convert to string in hex format, e.g. "0x123456789abcdef0"
+     *
+     * @return string in hex format
+     */
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
         return "0x${rawValue.toHexString()}"
