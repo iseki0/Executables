@@ -2,6 +2,62 @@ package space.iseki.executables.pe
 
 import kotlin.jvm.JvmStatic
 
+/**
+ * Represents the Windows-Specific fields of the Optional Header.
+ *
+ * @property magic The format of the image file (PE32 or PE32+).
+ * @property imageBase The preferred address of the first byte of image when loaded into memory; must be a multiple of 64 K.
+ *                    The default for DLLs is 0x10000000. The default for Windows CE EXEs is 0x00010000.
+ *                    The default for Windows NT, Windows 2000, Windows XP, Windows 95, Windows 98, and Windows Me is 0x00400000.
+ * @property sectionAlignment The alignment (in bytes) of sections when they are loaded into memory.
+ *                          It must be greater than or equal to FileAlignment.
+ *                          The default is the page size for the architecture.
+ * @property fileAlignment The alignment factor (in bytes) that is used to align the raw data of sections in the image file.
+ *                       The value should be a power of 2 between 512 and 64 K, inclusive. The default is 512.
+ *                       If the SectionAlignment is less than the architecture's page size,
+ *                       then FileAlignment must match SectionAlignment.
+ * @property majorOperatingSystemVersion The major version number of the required operating system.
+ * @property minorOperatingSystemVersion The minor version number of the required operating system.
+ * @property majorImageVersion The major version number of the image.
+ * @property minorImageVersion The minor version number of the image.
+ * @property majorSubsystemVersion The major version number of the subsystem.
+ * @property minorSubsystemVersion The minor version number of the subsystem.
+ * @property win32VersionValue Reserved, must be zero.
+ * @property sizeOfImage The size (in bytes) of the image, including all headers, as the image is loaded in memory.
+ *                      It must be a multiple of SectionAlignment.
+ * @property sizeOfHeaders The combined size of an MS-DOS stub, PE header, and section headers rounded up to a multiple of FileAlignment.
+ * @property checkSum The image file checksum. The algorithm for computing the checksum is incorporated into IMAGHELP.DLL.
+ *                   The following are checked for validation at load time: all drivers, any DLL loaded at boot time,
+ *                   and any DLL that is loaded into a critical Windows process.
+ * @property subsystem The subsystem that is required to run this image. For more information, see [WindowsSubsystems].
+ * @property dllCharacteristics For more information, see [DllCharacteristics].
+ * @property sizeOfStackReserve The size of the stack to reserve. Only SizeOfStackCommit is committed;
+ *                             the rest is made available one page at a time until the reserve size is reached.
+ * @property sizeOfStackCommit The size of the stack to commit.
+ * @property sizeOfHeapReserve The size of the local heap space to reserve. Only SizeOfHeapCommit is committed;
+ *                            the rest is made available one page at a time until the reserve size is reached.
+ * @property sizeOfHeapCommit The size of the local heap space to commit.
+ * @property loaderFlags Reserved, must be zero.
+ * @property numbersOfRvaAndSizes The number of data-directory entries in the remainder of the optional header.
+ *                               Each describes a location and size.
+ *
+ * Data Directory Entries:
+ * @property exportTable The export table address and size. For more information see .edata Section (Image Only).
+ * @property importTable The import table address and size. For more information, see The .idata Section.
+ * @property resourceTable The resource table address and size. For more information, see The .rsrc Section.
+ * @property exceptionTable The exception table address and size. For more information, see The .pdata Section.
+ * @property certificateTable The attribute certificate table address and size. For more information, see The Attribute Certificate Table (Image Only).
+ * @property baseRelocationTable The base relocation table address and size. For more information, see The .reloc Section (Image Only).
+ * @property debug The debug data starting address and size. For more information, see The .debug Section.
+ * @property architecture Reserved, must be 0.
+ * @property globalPtr The RVA of the value to be stored in the global pointer register. The size member of this structure must be set to zero.
+ * @property tlsTable The thread local storage (TLS) table address and size. For more information, see The .tls Section.
+ * @property loadConfigTable The load configuration table address and size. For more information, see The Load Configuration Structure (Image Only).
+ * @property boundImport The bound import table address and size.
+ * @property iat The import address table address and size. For more information, see Import Address Table.
+ * @property delayImportDescriptor The delay import descriptor address and size. For more information, see Delay-Load Import Tables (Image Only).
+ * @property clrRuntimeHeader The CLR runtime header address and size. For more information, see The .cormeta Section (Object Only).
+ */
 data class WindowsSpecifiedHeader(
     val magic: PE32Magic,
     val imageBase: Address64,

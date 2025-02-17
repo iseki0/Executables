@@ -2,6 +2,24 @@ package space.iseki.executables.pe
 
 import kotlin.jvm.JvmStatic
 
+/**
+ * Represents the Standard (Optional) Header structure.
+ *
+ * @property magic The unsigned integer that identifies the state of the image file. The most common number is 0x10B,
+ *                 which identifies it as a normal executable file. 0x107 identifies it as a ROM image,
+ *                 and 0x20B identifies it as a PE32+ executable.
+ * @property majorLinkerVersion The linker major version number.
+ * @property minorLinkerVersion The linker minor version number.
+ * @property sizeOfCode The size of the code (text) section, or the sum of all code sections if there are multiple sections.
+ * @property sizeOfInitializedData The size of the initialized data section, or the sum of all such sections if there are multiple data sections.
+ * @property sizeOfUninitializedData The size of the uninitialized data section (BSS), or the sum of all such sections if there are multiple BSS sections.
+ * @property addressOfEntryPoint The address of the entry point relative to the image base when the executable file is loaded into memory.
+ *                              For program images, this is the starting address. For device drivers, this is the address of the initialization function.
+ *                              An entry point is optional for DLLs. When no entry point is present, this field must be zero.
+ * @property baseOfCode The address that is relative to the image base of the beginning-of-code section when it is loaded into memory.
+ * @property baseOfData The address that is relative to the image base of the beginning-of-data section when it is loaded into memory.
+ *                      This field is only present in PE32 format, and is absent in PE32+.
+ */
 data class StandardHeader(
     val magic: PE32Magic,
     val majorLinkerVersion: Byte,
