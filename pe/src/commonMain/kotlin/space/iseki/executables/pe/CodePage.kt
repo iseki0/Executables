@@ -2,12 +2,22 @@ package space.iseki.executables.pe
 
 import kotlin.jvm.JvmInline
 
+/**
+ * Represents a code page in a PE file.
+ *
+ * @param rawValue raw value
+ */
 @JvmInline
 value class CodePage(val rawValue: UInt) {
     override fun toString(): String {
         return codePageRef[rawValue] ?: rawValue.toString()
     }
 
+    /**
+     * Get the .NET name of the code page.
+     *
+     * Such as "windows-1252" for code page 1252, null if there is no corresponding .NET name.
+     */
     val dotNetName: String?
         get() = codePageRef[rawValue]
 }
