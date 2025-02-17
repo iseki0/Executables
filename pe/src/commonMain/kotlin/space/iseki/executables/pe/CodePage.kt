@@ -5,7 +5,7 @@ import kotlin.jvm.JvmInline
 /**
  * Represents a code page in a PE file.
  *
- * @param rawValue raw value
+ * @property rawValue the raw value of the code page
  */
 @JvmInline
 value class CodePage(val rawValue: UInt) {
@@ -14,9 +14,7 @@ value class CodePage(val rawValue: UInt) {
     }
 
     /**
-     * Get the .NET name of the code page.
-     *
-     * Such as "windows-1252" for code page 1252, null if there is no corresponding .NET name.
+     * returns the .net name of the code page, such as "windows-1252" for code page 1252; returns null if there is no corresponding .net name.
      */
     val dotNetName: String?
         get() = codePageRef[rawValue]

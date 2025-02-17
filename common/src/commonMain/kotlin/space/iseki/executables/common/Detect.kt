@@ -10,6 +10,7 @@ enum class ExecutableFile {
         /**
          * Detects the type of the executable file from the provided [DataAccessor].
          *
+         * @param dataAccessor the data accessor to read the file header.
          * @throws IOException if an I/O error occurs
          * @return the detected [ExecutableFile], or `null` if the type could not be detected
          */

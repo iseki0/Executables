@@ -1,6 +1,10 @@
 package space.iseki.executables.common
 
-
+/**
+ * Defines an interface for random access data reading.
+ * Implementations should provide methods to read bytes from a data source.
+ */
+ 
 interface DataAccessor : AutoCloseable {
     /**
      * Reads at most [len] bytes from the file at the specified [pos] into the [buf] array.

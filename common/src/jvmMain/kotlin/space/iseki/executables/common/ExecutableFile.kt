@@ -11,6 +11,7 @@ import java.nio.file.StandardOpenOption
  *
  * The file will be opened in [StandardOpenOption.READ] mode.
  *
+ * @param file the path to the file to be read.
  * @throws IOException if an I/O error occurs
  * @see Files.newByteChannel
  * @throws UnsupportedOperationException – if the [StandardOpenOption.READ] operation is not supported by the file system
@@ -23,6 +24,7 @@ fun ExecutableFile.Companion.detect(file: Path) =
 /**
  * Detects the type of the executable file from the provided [File].
  *
+ * @param file the file to open.
  * @throws IOException if an I/O error occurs
  * @see detect(Path)
  * @throws UnsupportedOperationException if the [StandardOpenOption.READ] operation is not supported by the file system

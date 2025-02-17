@@ -3,6 +3,7 @@ package space.iseki.executables.common
 /**
  * A [DataAccessor] implementation that reads data from a [ByteArray].
  *
+ * @param data the source byte array from which data is read.
  */
 class ByteArrayDataAccessor(private val data: ByteArray) : DataAccessor {
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {

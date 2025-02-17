@@ -3,9 +3,21 @@ package space.iseki.executables.pe
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
+/**
+ * Represents the pe32 magic value in a pe file.
+ *
+ * @property rawValue the raw short value representing the magic
+ */
 @JvmInline
 value class PE32Magic(val rawValue: Short) {
     companion object {
+        /**
+         * Returns the [PE32Magic] corresponding to the given name.
+         *
+         * @param name the name of the magic, either "PE32" or "PE32+"
+         * @return a [PE32Magic] instance
+         * @throws IllegalArgumentException if the name is unknown
+         */
         @JvmStatic
         fun valueOf(name: String): PE32Magic = when (name) {
             "PE32" -> PE32
@@ -13,7 +25,14 @@ value class PE32Magic(val rawValue: Short) {
             else -> throw IllegalArgumentException("Unknown PE32Magic: $name")
         }
 
+        /**
+         * The pe32 magic value.
+         */
         val PE32 = PE32Magic(0x10b)
+
+        /**
+         * The pe32+ magic value.
+         */
         val PE32Plus = PE32Magic(0x20b)
     }
 

@@ -1,5 +1,15 @@
 package space.iseki.executables.pe
 
+/**
+ * Represents a resource node in a PE file.
+ *
+ * @property name the name of the resource node
+ * @property id the identifier of the resource node
+ * @property dataRva the relative virtual address of the resource data
+ * @property codePage the code page associated with this resource
+ * @property size the size of the resource; returns 0 if not applicable
+ */
+
 interface ResourceNode {
     val name: String
     val id: UInt

@@ -17,6 +17,15 @@ class PEFile private constructor(
     val sectionTable: List<SectionTableItem>,
     private val dataAccessor: DataAccessor,
 ) : AutoCloseable {
+
+    /**
+     * Represents a summary of the pe file headers.
+     *
+     * @property coffHeader the coff header
+     * @property standardHeader the standard header
+     * @property windowsHeader the windows specific header
+     * @property sectionTable the list of section table items
+     */
     data class Summary(
         val coffHeader: CoffHeader,
         val standardHeader: StandardHeader,
@@ -24,19 +33,42 @@ class PEFile private constructor(
         val sectionTable: List<SectionTableItem>,
     ) {
         companion object {
+            /**
+             * Returns a pretty serializer for the summary.
+             *
+             * @return a KSerializer for pretty summary format
+             */
             @JvmStatic
             val prettySerializer: KSerializer<Summary> = PEFileSummarySerializer
         }
     }
 
+    /**
+     * Returns a summary of the pe file headers.
+     *
+     * @return a [Summary] instance
+     */
     val summary: Summary = Summary(coffHeader, standardHeader, windowsHeader, sectionTable)
 
     companion object {
         private const val PE_SIGNATURE_LE = 0x00004550
 
+        /**
+         * Wraps the given byte array into a [PEFile].
+         *
+         * @param data the byte array representing a pe file
+         * @return a [PEFile] instance
+         */
         @JvmStatic
         fun wrap(data: ByteArray) = open(ByteArrayDataAccessor(data))
 
+        /**
+         * Opens a pe file from the given data accessor.
+         *
+         * @param accessor the data accessor to read the file
+         * @return a [PEFile] instance
+         * @throws PEFileException if the file is not a valid pe file
+         */
         @OptIn(ExperimentalStdlibApi::class)
         internal fun open(accessor: DataAccessor): PEFile {
             var pos = 0x3cL
@@ -104,10 +136,19 @@ class PEFile private constructor(
         }
     }
 
+    /**
+     * Closes the underlying data accessor.
+     */
     override fun close() {
         dataAccessor.close()
     }
 
+    /**
+     * Returns a section reader for the section with the given name.
+     *
+     * @param name the name of the section
+     * @return a [SectionReader] if found; otherwise, null
+     */
     internal fun sectionReader(name: String): SectionReader? {
         val section = sectionTable.firstOrNull { it.name == name } ?: return null
         return SectionReader(section)
@@ -218,12 +259,28 @@ class PEFile private constructor(
         override val dataRva: Address32
             get() = Address32(0u)
 
+        /**
+         * Indicates whether this node represents a file.
+         *
+         * @return false as root node is not a file
+         */
         override fun isFile(): Boolean = false
+
+        /**
+         * Returns the children of the root resource node.
+         *
+         * @return a list of resource nodes
+         */
         override fun listChildren(): List<ResourceNode> {
             rsrcSectionReader ?: return emptyList()
             return readResourceDirectoryNode(dataRva)
         }
 
+        /**
+         * Returns the string representation of the root resource node.
+         *
+         * @return a string representation
+         */
         override fun toString(): String = "<ROOT>"
 
         override fun hashCode(): Int = dataRva.rawValue.toInt()
@@ -235,12 +292,27 @@ class PEFile private constructor(
         override val id: UInt,
         override val dataRva: Address32,
     ) : ResourceNode {
+        /**
+         * Indicates whether this node represents a file.
+         *
+         * @return false as directory is not a file
+         */
         override fun isFile(): Boolean = false
 
+        /**
+         * Returns the children of this resource directory.
+         *
+         * @return a list of resource nodes
+         */
         override fun listChildren(): List<ResourceNode> {
             return readResourceDirectoryNode(dataRva)
         }
 
+        /**
+         * Returns the string representation of this resource directory.
+         *
+         * @return a string representation
+         */
         override fun toString(): String = "<DIR:${if (id == 0u) name else "ID=$id"}> @$dataRva"
         override fun hashCode(): Int = dataRva.rawValue.toInt()
     }
