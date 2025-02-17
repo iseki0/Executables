@@ -23,24 +23,24 @@ import kotlin.jvm.JvmStatic
  *
  * @property rawValue The raw 32-bit value representing seconds since Unix epoch (00:00 January 1, 1970).
  */
-@Serializable(with = TimeDataStamp32.Serializer::class)
+@Serializable(with = TimeDateStamp32.Serializer::class)
 @JvmInline
-value class TimeDataStamp32(val rawValue: UInt) : Comparable<TimeDataStamp32> {
-    object Serializer : KSerializer<TimeDataStamp32> {
+value class TimeDateStamp32(val rawValue: UInt) : Comparable<TimeDateStamp32> {
+    object Serializer : KSerializer<TimeDateStamp32> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
 
-        override fun deserialize(decoder: Decoder): TimeDataStamp32 {
-            return TimeDataStamp32(Instant.parse(decoder.decodeString()).epochSeconds.toUInt())
+        override fun deserialize(decoder: Decoder): TimeDateStamp32 {
+            return TimeDateStamp32(Instant.parse(decoder.decodeString()).epochSeconds.toUInt())
         }
 
-        override fun serialize(encoder: Encoder, value: TimeDataStamp32) {
+        override fun serialize(encoder: Encoder, value: TimeDateStamp32) {
             encoder.encodeString(value.toString())
         }
 
     }
 
-    override fun compareTo(other: TimeDataStamp32): Int {
+    override fun compareTo(other: TimeDateStamp32): Int {
         return rawValue.compareTo(other.rawValue)
     }
 
@@ -62,7 +62,7 @@ value class TimeDataStamp32(val rawValue: UInt) : Comparable<TimeDataStamp32> {
          */
         @JvmStatic
         fun toString(rawValue: Int): String {
-            return TimeDataStamp32(rawValue.toUInt()).toString()
+            return TimeDateStamp32(rawValue.toUInt()).toString()
         }
     }
 }

@@ -14,13 +14,13 @@ import space.iseki.executables.pe.Address32
 import space.iseki.executables.pe.Characteristics
 import space.iseki.executables.pe.CoffHeader
 import space.iseki.executables.pe.MachineType
-import space.iseki.executables.pe.TimeDataStamp32
+import space.iseki.executables.pe.TimeDateStamp32
 
 internal object CoffHeaderSerializer : KSerializer<CoffHeader> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("space.iseki.executables.pe.CoffHeader") {
         element("machine", MachineTypeSerializer.descriptor)
         element<UShort>("numbersOfSections")
-        element("timeDateStamp", TimeDataStamp32.serializer().descriptor)
+        element("timeDateStamp", TimeDateStamp32.serializer().descriptor)
         element("pointerToSymbolTable", Address32.serializer().descriptor)
         element<UInt>("numbersOfSymbols")
         element<UShort>("sizeOfOptionalHeader")
@@ -31,7 +31,7 @@ internal object CoffHeaderSerializer : KSerializer<CoffHeader> {
         encoder.encodeStructure(descriptor) {
             encodeSerializableElement(descriptor, 0, MachineTypeSerializer, value.machine)
             encodeSerializableElement(descriptor, 1, UShort.serializer(), value.numbersOfSections)
-            encodeSerializableElement(descriptor, 2, TimeDataStamp32.serializer(), value.timeDateStamp)
+            encodeSerializableElement(descriptor, 2, TimeDateStamp32.serializer(), value.timeDateStamp)
             encodeSerializableElement(descriptor, 3, Address32.serializer(), value.pointerToSymbolTable)
             encodeSerializableElement(descriptor, 4, UInt.serializer(), value.numbersOfSymbols)
             encodeSerializableElement(descriptor, 5, UShort.serializer(), value.sizeOfOptionalHeader)
@@ -43,7 +43,7 @@ internal object CoffHeaderSerializer : KSerializer<CoffHeader> {
         return decoder.decodeStructure(descriptor) {
             var machine: MachineType? = null
             var numbersOfSections = 0u.toUShort()
-            var timeDateStamp: TimeDataStamp32? = null
+            var timeDateStamp: TimeDateStamp32? = null
             var pointerToSymbolTable = Address32(0u)
             var numbersOfSymbols = 0u
             var sizeOfOptionalHeader = 0u.toUShort()
@@ -54,7 +54,7 @@ internal object CoffHeaderSerializer : KSerializer<CoffHeader> {
                     CompositeDecoder.DECODE_DONE -> break
                     0 -> machine = decodeSerializableElement(descriptor, 0, MachineTypeSerializer)
                     1 -> numbersOfSections = decodeSerializableElement(descriptor, 1, UShort.serializer())
-                    2 -> timeDateStamp = decodeSerializableElement(descriptor, 2, TimeDataStamp32.serializer())
+                    2 -> timeDateStamp = decodeSerializableElement(descriptor, 2, TimeDateStamp32.serializer())
                     3 -> pointerToSymbolTable = decodeSerializableElement(descriptor, 3, Address32.serializer())
                     4 -> numbersOfSymbols = decodeSerializableElement(descriptor, 4, UInt.serializer())
                     5 -> sizeOfOptionalHeader = decodeSerializableElement(descriptor, 5, UShort.serializer())

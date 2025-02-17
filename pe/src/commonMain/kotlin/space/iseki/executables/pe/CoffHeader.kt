@@ -16,7 +16,7 @@ import kotlin.jvm.JvmStatic
 data class CoffHeader(
     val machine: MachineType,
     val numbersOfSections: UShort,
-    val timeDateStamp: TimeDataStamp32,
+    val timeDateStamp: TimeDateStamp32,
     val pointerToSymbolTable: Address32,
     val numbersOfSymbols: UInt,
     val sizeOfOptionalHeader: UShort,
@@ -25,7 +25,7 @@ data class CoffHeader(
     constructor(
         machine: MachineType,
         numbersOfSections: UShort,
-        timeDateStamp: TimeDataStamp32,
+        timeDateStamp: TimeDateStamp32,
         sizeOfOptionalHeader: UShort,
         characteristics: Characteristics,
     ) : this(
@@ -59,7 +59,7 @@ data class CoffHeader(
         fun parse(bytes: ByteArray, offset: Int): CoffHeader {
             val machine = MachineType(bytes.getUShort(offset).toShort())
             val numbersOfSections = bytes.getUShort(offset + 2)
-            val timeDateStamp = TimeDataStamp32(bytes.getUInt(offset + 4))
+            val timeDateStamp = TimeDateStamp32(bytes.getUInt(offset + 4))
             val pointerToSymbolTable = Address32(bytes.getUInt(offset + 8))
             val numbersOfSymbols = bytes.getUInt(offset + 12)
             val sizeOfOptionalHeader = bytes.getUShort(offset + 16)

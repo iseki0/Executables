@@ -196,13 +196,13 @@ public final class space/iseki/executables/pe/CoffHeader {
 	public synthetic fun <init> (SSISSLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-Q4oK7tQ ()S
 	public final fun component2-Mh2AYeg ()S
-	public final fun component3-p6VWK4Y ()I
+	public final fun component3-n7FkWIM ()I
 	public final fun component4-hRLxnt0 ()I
 	public final fun component5-pVg5ArA ()I
 	public final fun component6-Mh2AYeg ()S
 	public final fun component7-ZvpUuhw ()S
-	public final fun copy-7uDhSzw (SSIIISS)Lspace/iseki/executables/pe/CoffHeader;
-	public static synthetic fun copy-7uDhSzw$default (Lspace/iseki/executables/pe/CoffHeader;SSIIISSILjava/lang/Object;)Lspace/iseki/executables/pe/CoffHeader;
+	public final fun copy-vgin4lA (SSIIISS)Lspace/iseki/executables/pe/CoffHeader;
+	public static synthetic fun copy-vgin4lA$default (Lspace/iseki/executables/pe/CoffHeader;SSIIISSILjava/lang/Object;)Lspace/iseki/executables/pe/CoffHeader;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-ZvpUuhw ()S
 	public final fun getMachine-Q4oK7tQ ()S
@@ -210,7 +210,7 @@ public final class space/iseki/executables/pe/CoffHeader {
 	public final fun getNumbersOfSymbols-pVg5ArA ()I
 	public final fun getPointerToSymbolTable-hRLxnt0 ()I
 	public final fun getSizeOfOptionalHeader-Mh2AYeg ()S
-	public final fun getTimeDateStamp-p6VWK4Y ()I
+	public final fun getTimeDateStamp-n7FkWIM ()I
 	public fun hashCode ()I
 	public static final fun parse ([BI)Lspace/iseki/executables/pe/CoffHeader;
 	public fun toString ()Ljava/lang/String;
@@ -387,20 +387,20 @@ public final class space/iseki/executables/pe/ImageResourceDirectory {
 	public static final field LENGTH I
 	public synthetic fun <init> (IISSSSLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-pVg5ArA ()I
-	public final fun component2-p6VWK4Y ()I
+	public final fun component2-n7FkWIM ()I
 	public final fun component3-Mh2AYeg ()S
 	public final fun component4-Mh2AYeg ()S
 	public final fun component5-Mh2AYeg ()S
 	public final fun component6-Mh2AYeg ()S
-	public final fun copy-ml7wVvs (IISSSS)Lspace/iseki/executables/pe/ImageResourceDirectory;
-	public static synthetic fun copy-ml7wVvs$default (Lspace/iseki/executables/pe/ImageResourceDirectory;IISSSSILjava/lang/Object;)Lspace/iseki/executables/pe/ImageResourceDirectory;
+	public final fun copy-H-ov3hw (IISSSS)Lspace/iseki/executables/pe/ImageResourceDirectory;
+	public static synthetic fun copy-H-ov3hw$default (Lspace/iseki/executables/pe/ImageResourceDirectory;IISSSSILjava/lang/Object;)Lspace/iseki/executables/pe/ImageResourceDirectory;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-pVg5ArA ()I
 	public final fun getMajorVersion-Mh2AYeg ()S
 	public final fun getMinorVersion-Mh2AYeg ()S
 	public final fun getNumberOfIdEntries-Mh2AYeg ()S
 	public final fun getNumberOfNamedEntries-Mh2AYeg ()S
-	public final fun getTimeDataStamp32-p6VWK4Y ()I
+	public final fun getTimeDateStamp32-n7FkWIM ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -790,12 +790,12 @@ public final class space/iseki/executables/pe/StandardHeader$Companion {
 	public final fun parse ([BI)Lspace/iseki/executables/pe/StandardHeader;
 }
 
-public final class space/iseki/executables/pe/TimeDataStamp32 : java/lang/Comparable {
-	public static final field Companion Lspace/iseki/executables/pe/TimeDataStamp32$Companion;
-	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/TimeDataStamp32;
+public final class space/iseki/executables/pe/TimeDateStamp32 : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/pe/TimeDateStamp32$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/TimeDateStamp32;
 	public synthetic fun compareTo (Ljava/lang/Object;)I
-	public fun compareTo-A_p6EZ8 (I)I
-	public static fun compareTo-A_p6EZ8 (II)I
+	public fun compareTo-eUIBwo4 (I)I
+	public static fun compareTo-eUIBwo4 (II)I
 	public static fun constructor-impl (I)I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
@@ -809,18 +809,18 @@ public final class space/iseki/executables/pe/TimeDataStamp32 : java/lang/Compar
 	public final synthetic fun unbox-impl ()I
 }
 
-public final class space/iseki/executables/pe/TimeDataStamp32$Companion {
+public final class space/iseki/executables/pe/TimeDateStamp32$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 	public final fun toString (I)Ljava/lang/String;
 }
 
-public final class space/iseki/executables/pe/TimeDataStamp32$Serializer : kotlinx/serialization/KSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/TimeDataStamp32$Serializer;
+public final class space/iseki/executables/pe/TimeDateStamp32$Serializer : kotlinx/serialization/KSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/pe/TimeDateStamp32$Serializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun deserialize-AIX3Fr8 (Lkotlinx/serialization/encoding/Decoder;)I
+	public fun deserialize--tGDJAI (Lkotlinx/serialization/encoding/Decoder;)I
 	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun serialize-HLZe-zY (Lkotlinx/serialization/encoding/Encoder;I)V
+	public fun serialize--Lk6_5U (Lkotlinx/serialization/encoding/Encoder;I)V
 }
 
 public final class space/iseki/executables/pe/WindowsSpecifiedHeader {

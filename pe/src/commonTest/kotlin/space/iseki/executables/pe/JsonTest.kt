@@ -37,7 +37,7 @@ class JsonTest {
         val coffHeader = CoffHeader(
             machine = MachineType.ALPHA,
             numbersOfSections = 1u,
-            timeDateStamp = TimeDataStamp32(1u),
+            timeDateStamp = TimeDateStamp32(1u),
             sizeOfOptionalHeader = 0u,
             characteristics = Characteristics.IMAGE_FILE_EXECUTABLE_IMAGE + Characteristics.IMAGE_FILE_DLL,
         )
