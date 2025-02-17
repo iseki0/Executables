@@ -2,17 +2,17 @@ package: space.iseki.executables.pe.vi
 typename: FileOs
 dataLength: 4
 list:
-  - { name: "VOS_DOS"        , value: "0x00010000" }
-  - { name: "VOS_NT"         , value: "0x00040000" }
-  - { name: "VOS__WINDOWS16" , value: "0x00000001" }
-  - { name: "VOS__WINDOWS32" , value: "0x00000004" }
-  - { name: "VOS_OS216"      , value: "0x00020000" }
-  - { name: "VOS_OS232"      , value: "0x00030000" }
-  - { name: "VOS__PM16"      , value: "0x00000002" }
-  - { name: "VOS__PM32"      , value: "0x00000003" }
-  - { name: "VOS_UNKNOWN"    , value: "0x00000000" }
-  - { name: "VOS_DOS_WINDOWS16" , value: "0x00010001" }
-  - { name: "VOS_DOS_WINDOWS32" , value: "0x00010004" }
-  - { name: "VOS_NT_WINDOWS32"  , value: "0x00040004" }
-  - { name: "VOS_OS216_PM16"    , value: "0x00020002" }
-  - { name: "VOS_OS232_PM32"    , value: "0x00030003" }
+  - { name: "VOS_DOS", value: "0x00010000", docs: "The file was designed for MS-DOS." }
+  - { name: "VOS_NT", value: "0x00040000", docs: "The file was designed for Windows NT." }
+  - { name: "VOS__WINDOWS16", value: "0x00000001", docs: "The file was designed for 16-bit Windows." }
+  - { name: "VOS__WINDOWS32", value: "0x00000004", docs: "The file was designed for 32-bit Windows." }
+  - { name: "VOS_OS216", value: "0x00020000", docs: "The file was designed for 16-bit OS/2." }
+  - { name: "VOS_OS232", value: "0x00030000", docs: "The file was designed for 32-bit OS/2." }
+  - { name: "VOS__PM16", value: "0x00000002", docs: "The file was designed for 16-bit Presentation Manager." }
+  - { name: "VOS__PM32", value: "0x00000003", docs: "The file was designed for 32-bit Presentation Manager." }
+  - { name: "VOS_UNKNOWN", value: "0x00000000", docs: "The operating system for which the file was designed is unknown to the system." }
+  - { name: "VOS_DOS_WINDOWS16", value: "0x00010001", docs: "The file was designed for 16-bit Windows running on MS-DOS." }
+  - { name: "VOS_DOS_WINDOWS32", value: "0x00010004", docs: "The file was designed for 32-bit Windows running on MS-DOS." }
+  - { name: "VOS_NT_WINDOWS32", value: "0x00040004", docs: "The file was designed for Windows NT." }
+  - { name: "VOS_OS216_PM16", value: "0x00020002", docs: "The file was designed for 16-bit Presentation Manager running on 16-bit OS/2." }
+  - { name: "VOS_OS232_PM32", value: "0x00030003", docs: "The file was designed for 32-bit Presentation Manager running on 32-bit OS/2." }

@@ -22,7 +22,9 @@ value class ${typename}(val rawValue: ${rawType}){
     object Constants{
         <#list list as item>
             /**
-            Raw value: `${item.value}`
+            * ${item.docs}
+            *
+            * Raw value: `${item.value}`
             */
         const val ${item.name}: ${rawType} = ${item.value}.to${rawType}()
         </#list>
@@ -66,7 +68,9 @@ value class ${typename}(val rawValue: ${rawType}){
 
     <#list list as item>
         /**
-        Raw value: `${item.value}`
+        * ${item.docs}
+        *
+        * Raw value: `${item.value}`
         */
         val ${item.name}: ${typename} = ${typename}(Constants.${item.name})
     </#list>

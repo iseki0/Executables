@@ -22,7 +22,9 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
     object Constants{
     <#list list as item>
         /**
-        Raw value: `${item.value}`
+        * ${item.docs}
+        *
+        * Raw value: `${item.value}`
         */
         const val ${item.name}: ${rawType} = ${item.value}.to${rawType}()
     </#list>
@@ -31,7 +33,9 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
         val ZERO = ${typename}(0.to${rawType}())
     <#list list as item>
         /**
-        Raw value: `${item.value}`
+        * ${item.docs}
+        *
+        * Raw value: `${item.value}`
         */
         val ${item.name}: ${typename} = ${typename}(Constants.${item.name})
     </#list>

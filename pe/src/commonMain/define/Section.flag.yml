@@ -2,38 +2,38 @@ package: space.iseki.executables.pe
 typename: SectionFlags
 dataLength: 4
 list:
-  - { name: "IMAGE_SCN_TYPE_NO_PAD", value: "0x00000008" }
-  - { name: "IMAGE_SCN_CNT_CODE", value: "0x00000020" }
-  - { name: "IMAGE_SCN_CNT_INITIALIZED_DATA", value: "0x00000040" }
-  - { name: "IMAGE_SCN_CNT_UNINITIALIZED_DATA", value: "0x00000080" }
-  - { name: "IMAGE_SCN_LNK_OTHER", value: "0x00000100" }
-  - { name: "IMAGE_SCN_LNK_INFO", value: "0x00000200" }
-  - { name: "IMAGE_SCN_LNK_REMOVE", value: "0x00000800" }
-  - { name: "IMAGE_SCN_LNK_COMDAT", value: "0x00001000" }
-  - { name: "IMAGE_SCN_GPREL", value: "0x00008000" }
-  - { name: "IMAGE_SCN_MEM_PURGEABLE", value: "0x00020000" }
-  - { name: "IMAGE_SCN_MEM_16BIT", value: "0x00020000" }
-  - { name: "IMAGE_SCN_MEM_LOCKED", value: "0x00040000" }
-  - { name: "IMAGE_SCN_MEM_PRELOAD", value: "0x00080000" }
-  - { name: "IMAGE_SCN_ALIGN_1BYTES", value: "0x00100000" }
-  - { name: "IMAGE_SCN_ALIGN_2BYTES", value: "0x00200000" }
-  - { name: "IMAGE_SCN_ALIGN_4BYTES", value: "0x00300000" }
-  - { name: "IMAGE_SCN_ALIGN_8BYTES", value: "0x00400000" }
-  - { name: "IMAGE_SCN_ALIGN_16BYTES", value: "0x00500000" }
-  - { name: "IMAGE_SCN_ALIGN_32BYTES", value: "0x00600000" }
-  - { name: "IMAGE_SCN_ALIGN_64BYTES", value: "0x00700000" }
-  - { name: "IMAGE_SCN_ALIGN_128BYTES", value: "0x00800000" }
-  - { name: "IMAGE_SCN_ALIGN_256BYTES", value: "0x00900000" }
-  - { name: "IMAGE_SCN_ALIGN_512BYTES", value: "0x00A00000" }
-  - { name: "IMAGE_SCN_ALIGN_1024BYTES", value: "0x00B00000" }
-  - { name: "IMAGE_SCN_ALIGN_2048BYTES", value: "0x00C00000" }
-  - { name: "IMAGE_SCN_ALIGN_4096BYTES", value: "0x00D00000" }
-  - { name: "IMAGE_SCN_ALIGN_8192BYTES", value: "0x00E00000" }
-  - { name: "IMAGE_SCN_LNK_NRELOC_OVFL", value: "0x01000000" }
-  - { name: "IMAGE_SCN_MEM_DISCARDABLE", value: "0x02000000" }
-  - { name: "IMAGE_SCN_MEM_NOT_CACHED", value: "0x04000000" }
-  - { name: "IMAGE_SCN_MEM_NOT_PAGED", value: "0x08000000" }
-  - { name: "IMAGE_SCN_MEM_SHARED", value: "0x10000000" }
-  - { name: "IMAGE_SCN_MEM_EXECUTE", value: "0x20000000" }
-  - { name: "IMAGE_SCN_MEM_READ", value: "0x40000000" }
-  - { name: "IMAGE_SCN_MEM_WRITE", value: "0x80000000" }
+  - { name: "IMAGE_SCN_TYPE_NO_PAD", value: "0x00000008", docs: "The section should not be padded to the next boundary. This flag is obsolete and is replaced by IMAGE_SCN_ALIGN_1BYTES. This is valid only for object files." }
+  - { name: "IMAGE_SCN_CNT_CODE", value: "0x00000020", docs: "The section contains executable code." }
+  - { name: "IMAGE_SCN_CNT_INITIALIZED_DATA", value: "0x00000040", docs: "The section contains initialized data." }
+  - { name: "IMAGE_SCN_CNT_UNINITIALIZED_DATA", value: "0x00000080", docs: "The section contains uninitialized data." }
+  - { name: "IMAGE_SCN_LNK_OTHER", value: "0x00000100", docs: "Reserved for future use." }
+  - { name: "IMAGE_SCN_LNK_INFO", value: "0x00000200", docs: "The section contains comments or other information. The .drectve section has this type. This is valid for object files only." }
+  - { name: "IMAGE_SCN_LNK_REMOVE", value: "0x00000800", docs: "The section will not become part of the image. This is valid only for object files." }
+  - { name: "IMAGE_SCN_LNK_COMDAT", value: "0x00001000", docs: "The section contains COMDAT data. For more information, see COMDAT Sections (Object Only). This is valid only for object files." }
+  - { name: "IMAGE_SCN_GPREL", value: "0x00008000", docs: "The section contains data referenced through the global pointer (GP)." }
+  - { name: "IMAGE_SCN_MEM_PURGEABLE", value: "0x00020000", docs: "Reserved for future use." }
+  - { name: "IMAGE_SCN_MEM_16BIT", value: "0x00020000", docs: "Reserved for future use." }
+  - { name: "IMAGE_SCN_MEM_LOCKED", value: "0x00040000", docs: "Reserved for future use." }
+  - { name: "IMAGE_SCN_MEM_PRELOAD", value: "0x00080000", docs: "Reserved for future use." }
+  - { name: "IMAGE_SCN_ALIGN_1BYTES", value: "0x00100000", docs: "Align data on a 1-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_2BYTES", value: "0x00200000", docs: "Align data on a 2-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_4BYTES", value: "0x00300000", docs: "Align data on a 4-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_8BYTES", value: "0x00400000", docs: "Align data on an 8-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_16BYTES", value: "0x00500000", docs: "Align data on a 16-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_32BYTES", value: "0x00600000", docs: "Align data on a 32-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_64BYTES", value: "0x00700000", docs: "Align data on a 64-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_128BYTES", value: "0x00800000", docs: "Align data on a 128-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_256BYTES", value: "0x00900000", docs: "Align data on a 256-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_512BYTES", value: "0x00A00000", docs: "Align data on a 512-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_1024BYTES", value: "0x00B00000", docs: "Align data on a 1024-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_2048BYTES", value: "0x00C00000", docs: "Align data on a 2048-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_4096BYTES", value: "0x00D00000", docs: "Align data on a 4096-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_ALIGN_8192BYTES", value: "0x00E00000", docs: "Align data on an 8192-byte boundary. Valid only for object files." }
+  - { name: "IMAGE_SCN_LNK_NRELOC_OVFL", value: "0x01000000", docs: "The section contains extended relocations." }
+  - { name: "IMAGE_SCN_MEM_DISCARDABLE", value: "0x02000000", docs: "The section can be discarded as needed." }
+  - { name: "IMAGE_SCN_MEM_NOT_CACHED", value: "0x04000000", docs: "The section cannot be cached." }
+  - { name: "IMAGE_SCN_MEM_NOT_PAGED", value: "0x08000000", docs: "The section is not pageable." }
+  - { name: "IMAGE_SCN_MEM_SHARED", value: "0x10000000", docs: "The section can be shared in memory." }
+  - { name: "IMAGE_SCN_MEM_EXECUTE", value: "0x20000000", docs: "The section can be executed as code." }
+  - { name: "IMAGE_SCN_MEM_READ", value: "0x40000000", docs: "The section can be read." }
+  - { name: "IMAGE_SCN_MEM_WRITE", value: "0x80000000", docs: "The section can be written to." }

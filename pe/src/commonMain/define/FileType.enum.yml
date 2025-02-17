@@ -2,10 +2,10 @@ package: space.iseki.executables.pe.vi
 typename: FileType
 dataLength: 4
 list:
-  - { name: "APP"        , value: "0x00000001" }
-  - { name: "DLL"        , value: "0x00000002" }
-  - { name: "DRV"        , value: "0x00000003" }
-  - { name: "FONT"       , value: "0x00000004" }
-  - { name: "STATIC_LIB" , value: "0x00000007" }
-  - { name: "UNKNOWN"    , value: "0x00000000" }
-  - { name: "VXD"        , value: "0x00000005" }
+  - { name: "APP", value: "0x00000001", docs: "The file contains an application." }
+  - { name: "DLL", value: "0x00000002", docs: "The file contains a DLL." }
+  - { name: "DRV", value: "0x00000003", docs: "The file contains a device driver. If dwFileType is VFT_DRV, dwFileSubtype contains a more specific description of the driver." }
+  - { name: "FONT", value: "0x00000004", docs: "The file contains a font. If dwFileType is VFT_FONT, dwFileSubtype contains a more specific description of the font file." }
+  - { name: "VXD", value: "0x00000005", docs: "The file contains a virtual device." }
+  - { name: "STATIC_LIB", value: "0x00000007", docs: "The file contains a static-link library." }
+  - { name: "UNKNOWN", value: "0x00000000", docs: "The file type is unknown to the system." }

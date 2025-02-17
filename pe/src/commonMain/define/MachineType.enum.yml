@@ -2,33 +2,33 @@ package: space.iseki.executables.pe
 typename: MachineType
 dataLength: 2
 list:
-  - { name: "UNKNOWN", value: "0x0" }
-  - { name: "ALPHA", value: "0x184" }
-  - { name: "ALPHA64", value: "0x284" }
-  - { name: "AM33", value: "0x1d3" }
-  - { name: "AMD64", value: "0x8664" }
-  - { name: "ARM", value: "0x1c0" }
-  - { name: "ARM64", value: "0xaa64" }
-  - { name: "ARMNT", value: "0x1c4" }
-  - { name: "AXP64", value: "0x284" }
-  - { name: "EBC", value: "0xebc" }
-  - { name: "I386", value: "0x14c" }
-  - { name: "IA64", value: "0x200" }
-  - { name: "LOONGARCH32", value: "0x6232" }
-  - { name: "LOONGARCH64", value: "0x6264" }
-  - { name: "M32R", value: "0x9041" }
-  - { name: "MIPS16", value: "0x266" }
-  - { name: "MIPSFPU", value: "0x366" }
-  - { name: "MIPSFPU16", value: "0x466" }
-  - { name: "POWERPC", value: "0x1f0" }
-  - { name: "POWERPCFP", value: "0x1f1" }
-  - { name: "R4000", value: "0x166" }
-  - { name: "RISCV32", value: "0x5032" }
-  - { name: "RISCV64", value: "0x5064" }
-  - { name: "RISCV128", value: "0x5128" }
-  - { name: "SH3", value: "0x1a2" }
-  - { name: "SH3DSP", value: "0x1a3" }
-  - { name: "SH4", value: "0x1a6" }
-  - { name: "SH5", value: "0x1a8" }
-  - { name: "THUMB", value: "0x1c2" }
-  - { name: "WCEMIPSV2", value: "0x169" }
+  - { name: "UNKNOWN", value: "0x0", docs: "The content of this field is assumed to be applicable to any machine type" }
+  - { name: "ALPHA", value: "0x184", docs: "Alpha AXP, 32-bit address space" }
+  - { name: "ALPHA64", value: "0x284", docs: "Alpha 64, 64-bit address space" }
+  - { name: "AM33", value: "0x1d3", docs: "Matsushita AM33" }
+  - { name: "AMD64", value: "0x8664", docs: "x64" }
+  - { name: "ARM", value: "0x1c0", docs: "ARM little endian" }
+  - { name: "ARM64", value: "0xaa64", docs: "ARM64 little endian" }
+  - { name: "ARMNT", value: "0x1c4", docs: "ARM Thumb-2 little endian" }
+  - { name: "AXP64", value: "0x284", docs: "AXP 64 (Same as Alpha 64)" }
+  - { name: "EBC", value: "0xebc", docs: "EFI byte code" }
+  - { name: "I386", value: "0x14c", docs: "Intel 386 or later processors and compatible processors" }
+  - { name: "IA64", value: "0x200", docs: "Intel Itanium processor family" }
+  - { name: "LOONGARCH32", value: "0x6232", docs: "LoongArch 32-bit processor family" }
+  - { name: "LOONGARCH64", value: "0x6264", docs: "LoongArch 64-bit processor family" }
+  - { name: "M32R", value: "0x9041", docs: "Mitsubishi M32R little endian" }
+  - { name: "MIPS16", value: "0x266", docs: "MIPS16" }
+  - { name: "MIPSFPU", value: "0x366", docs: "MIPS with FPU" }
+  - { name: "MIPSFPU16", value: "0x466", docs: "MIPS16 with FPU" }
+  - { name: "POWERPC", value: "0x1f0", docs: "Power PC little endian" }
+  - { name: "POWERPCFP", value: "0x1f1", docs: "Power PC with floating point support" }
+  - { name: "R4000", value: "0x166", docs: "MIPS little endian" }
+  - { name: "RISCV32", value: "0x5032", docs: "RISC-V 32-bit address space" }
+  - { name: "RISCV64", value: "0x5064", docs: "RISC-V 64-bit address space" }
+  - { name: "RISCV128", value: "0x5128", docs: "RISC-V 128-bit address space" }
+  - { name: "SH3", value: "0x1a2", docs: "Hitachi SH3" }
+  - { name: "SH3DSP", value: "0x1a3", docs: "Hitachi SH3 DSP" }
+  - { name: "SH4", value: "0x1a6", docs: "Hitachi SH4" }
+  - { name: "SH5", value: "0x1a8", docs: "Hitachi SH5" }
+  - { name: "THUMB", value: "0x1c2", docs: "Thumb" }
+  - { name: "WCEMIPSV2", value: "0x169", docs: "MIPS little-endian WCE v2" }

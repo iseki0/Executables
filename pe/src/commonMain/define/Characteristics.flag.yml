@@ -2,18 +2,18 @@ package: space.iseki.executables.pe
 typename: Characteristics
 dataLength: 2
 list:
-  - { name: "IMAGE_FILE_RELOCS_STRIPPED", value: "0x0001" }
-  - { name: "IMAGE_FILE_EXECUTABLE_IMAGE", value: "0x0002" }
-  - { name: "IMAGE_FILE_LINE_NUMS_STRIPPED", value: "0x0004" }
-  - { name: "IMAGE_FILE_LOCAL_SYMS_STRIPPED", value: "0x0008" }
-  - { name: "IMAGE_FILE_AGGRESSIVE_WS_TRIM", value: "0x0010" }
-  - { name: "IMAGE_FILE_LARGE_ADDRESS_AWARE", value: "0x0020" }
-  - { name: "IMAGE_FILE_BYTES_REVERSED_LO", value: "0x0080" }
-  - { name: "IMAGE_FILE_32BIT_MACHINE", value: "0x0100" }
-  - { name: "IMAGE_FILE_DEBUG_STRIPPED", value: "0x0200" }
-  - { name: "IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP", value: "0x0400" }
-  - { name: "IMAGE_FILE_NET_RUN_FROM_SWAP", value: "0x0800" }
-  - { name: "IMAGE_FILE_SYSTEM", value: "0x1000" }
-  - { name: "IMAGE_FILE_DLL", value: "0x2000" }
-  - { name: "IMAGE_FILE_UP_SYSTEM_ONLY", value: "0x4000" }
-  - { name: "IMAGE_FILE_BYTES_REVERSED_HI", value: "0x8000" }
+  - { name: "IMAGE_FILE_RELOCS_STRIPPED", value: "0x0001", docs: "Image only, Windows CE, and Microsoft Windows NT and later. This indicates that the file does not contain base relocations and must therefore be loaded at its preferred base address. If the base address is not available, the loader reports an error. The default behavior of the linker is to strip base relocations from executable (EXE) files." }
+  - { name: "IMAGE_FILE_EXECUTABLE_IMAGE", value: "0x0002", docs: "Image only. This indicates that the image file is valid and can be run. If this flag is not set, it indicates a linker error." }
+  - { name: "IMAGE_FILE_LINE_NUMS_STRIPPED", value: "0x0004", docs: "COFF line numbers have been removed. This flag is deprecated and should be zero." }
+  - { name: "IMAGE_FILE_LOCAL_SYMS_STRIPPED", value: "0x0008", docs: "COFF symbol table entries for local symbols have been removed. This flag is deprecated and should be zero." }
+  - { name: "IMAGE_FILE_AGGRESSIVE_WS_TRIM", value: "0x0010", docs: "Obsolete. Aggressively trim working set. This flag is deprecated for Windows 2000 and later and must be zero." }
+  - { name: "IMAGE_FILE_LARGE_ADDRESS_AWARE", value: "0x0020", docs: "Application can handle > 2-GB addresses." }
+  - { name: "IMAGE_FILE_BYTES_REVERSED_LO", value: "0x0080", docs: "Little endian: the least significant bit (LSB) precedes the most significant bit (MSB) in memory. This flag is deprecated and should be zero." }
+  - { name: "IMAGE_FILE_32BIT_MACHINE", value: "0x0100", docs: "Machine is based on a 32-bit-word architecture." }
+  - { name: "IMAGE_FILE_DEBUG_STRIPPED", value: "0x0200", docs: "Debugging information is removed from the image file." }
+  - { name: "IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP", value: "0x0400", docs: "If the image is on removable media, fully load it and copy it to the swap file." }
+  - { name: "IMAGE_FILE_NET_RUN_FROM_SWAP", value: "0x0800", docs: "If the image is on network media, fully load it and copy it to the swap file." }
+  - { name: "IMAGE_FILE_SYSTEM", value: "0x1000", docs: "The image file is a system file, not a user program." }
+  - { name: "IMAGE_FILE_DLL", value: "0x2000", docs: "The image file is a dynamic-link library (DLL). Such files are considered executable files for almost all purposes, although they cannot be directly run." }
+  - { name: "IMAGE_FILE_UP_SYSTEM_ONLY", value: "0x4000", docs: "The file should be run only on a uniprocessor machine." }
+  - { name: "IMAGE_FILE_BYTES_REVERSED_HI", value: "0x8000", docs: "Big endian: the MSB precedes the LSB in memory. This flag is deprecated and should be zero." }

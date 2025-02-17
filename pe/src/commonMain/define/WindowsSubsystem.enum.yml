@@ -2,17 +2,17 @@ package: space.iseki.executables.pe
 typename: WindowsSubsystems
 dataLength: 2
 list:
-  - { name: "UNKNOWN", value: "0" }
-  - { name: "NATIVE", value: "1" }
-  - { name: "WINDOWS_GUI", value: "2" }
-  - { name: "WINDOWS_CUI", value: "3" }
-  - { name: "OS2_CUI", value: "5" }
-  - { name: "POSIX_CUI", value: "7" }
-  - { name: "NATIVE_WINDOWS", value: "8" }
-  - { name: "WINDOWS_CE_GUI", value: "9" }
-  - { name: "EFI_APPLICATION", value: "10" }
-  - { name: "EFI_BOOT_SERVICE_DRIVER", value: "11" }
-  - { name: "EFI_RUNTIME_DRIVER", value: "12" }
-  - { name: "EFI_ROM", value: "13" }
-  - { name: "XBOX", value: "14" }
-  - { name: "WINDOWS_BOOT_APPLICATION", value: "16" }
+  - { name: "UNKNOWN", value: "0", docs: "An unknown subsystem" }
+  - { name: "NATIVE", value: "1", docs: "Device drivers and native Windows processes" }
+  - { name: "WINDOWS_GUI", value: "2", docs: "The Windows graphical user interface (GUI) subsystem" }
+  - { name: "WINDOWS_CUI", value: "3", docs: "The Windows character subsystem" }
+  - { name: "OS2_CUI", value: "5", docs: "The OS/2 character subsystem" }
+  - { name: "POSIX_CUI", value: "7", docs: "The Posix character subsystem" }
+  - { name: "NATIVE_WINDOWS", value: "8", docs: "Native Win9x driver" }
+  - { name: "WINDOWS_CE_GUI", value: "9", docs: "Windows CE" }
+  - { name: "EFI_APPLICATION", value: "10", docs: "An Extensible Firmware Interface (EFI) application" }
+  - { name: "EFI_BOOT_SERVICE_DRIVER", value: "11", docs: "An EFI driver with boot services" }
+  - { name: "EFI_RUNTIME_DRIVER", value: "12", docs: "An EFI driver with run-time services" }
+  - { name: "EFI_ROM", value: "13", docs: "An EFI ROM image" }
+  - { name: "XBOX", value: "14", docs: "XBOX" }
+  - { name: "WINDOWS_BOOT_APPLICATION", value: "16", docs: "Windows boot application." }

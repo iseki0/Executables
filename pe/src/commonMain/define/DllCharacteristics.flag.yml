@@ -3,14 +3,14 @@ package: space.iseki.executables.pe
 typename: DllCharacteristics
 dataLength: 2
 list:
-  - { name: "HIGH_ENTROPY_VA", value: "0x0020" }
-  - { name: "DYNAMIC_BASE", value: "0x0040" }
-  - { name: "FORCE_INTEGRITY", value: "0x0080" }
-  - { name: "NX_COMPAT", value: "0x0100" }
-  - { name: "NO_ISOLATION", value: "0x0200" }
-  - { name: "NO_SEH", value: "0x0400" }
-  - { name: "NO_BIND", value: "0x0800" }
-  - { name: "APPCONTAINER", value: "0x1000" }
-  - { name: "WDM_DRIVER", value: "0x2000" }
-  - { name: "GUARD_CF", value: "0x4000" }
-  - { name: "TERMINAL_SERVER_AWARE", value: "0x8000" }
+  - { name: "HIGH_ENTROPY_VA", value: "0x0020", docs: "Image can handle a high entropy 64-bit virtual address space." }
+  - { name: "DYNAMIC_BASE", value: "0x0040", docs: "DLL can be relocated at load time." }
+  - { name: "FORCE_INTEGRITY", value: "0x0080", docs: "Code Integrity checks are enforced." }
+  - { name: "NX_COMPAT", value: "0x0100", docs: "Image is NX compatible." }
+  - { name: "NO_ISOLATION", value: "0x0200", docs: "Isolation aware, but do not isolate the image." }
+  - { name: "NO_SEH", value: "0x0400", docs: "Does not use structured exception (SE) handling. No SE handler may be called in this image." }
+  - { name: "NO_BIND", value: "0x0800", docs: "Do not bind the image." }
+  - { name: "APPCONTAINER", value: "0x1000", docs: "Image must execute in an AppContainer." }
+  - { name: "WDM_DRIVER", value: "0x2000", docs: "A WDM driver." }
+  - { name: "GUARD_CF", value: "0x4000", docs: "Image supports Control Flow Guard." }
+  - { name: "TERMINAL_SERVER_AWARE", value: "0x8000", docs: "Terminal Server aware." }

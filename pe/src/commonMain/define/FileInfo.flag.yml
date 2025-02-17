@@ -2,9 +2,9 @@ package: space.iseki.executables.pe.vi
 typename: FileInfoFlags
 dataLength: 4
 list:
-  - { name: "DEBUG", value: "0x00000001" }
-  - { name: "PRERELEASE", value: "0x00000002" }
-  - { name: "PATCHED", value: "0x00000004" }
-  - { name: "PRIVATEBUILD", value: "0x00000008" }
-  - { name: "INFOINFERRED", value: "0x00000010" }
-  - { name: "SPECIALBUILD", value: "0x00000020" }
+  - { name: "DEBUG", value: "0x00000001", docs: "The file contains debugging information or is compiled with debugging features enabled." }
+  - { name: "PRERELEASE", value: "0x00000002", docs: "The file is a development version, not a commercially released product." }
+  - { name: "PATCHED", value: "0x00000004", docs: "The file has been modified and is not identical to the original shipping file of the same version number." }
+  - { name: "PRIVATEBUILD", value: "0x00000008", docs: "The file was not built using standard release procedures. If this flag is set, the StringFileInfo structure should contain a PrivateBuild entry." }
+  - { name: "INFOINFERRED", value: "0x00000010", docs: "The file's version structure was created dynamically; therefore, some of the members in this structure may be empty or incorrect. This flag should never be set in a file's VS_VERSIONINFO data." }
+  - { name: "SPECIALBUILD", value: "0x00000020", docs: "The file was built by the original company using standard release procedures but is a variation of the normal file of the same version number. If this flag is set, the StringFileInfo structure should contain a SpecialBuild entry." }
