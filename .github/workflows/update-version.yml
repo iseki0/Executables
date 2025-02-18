@@ -29,6 +29,9 @@ jobs:
           VERSION=${VERSION#v}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Switch to master
+        run: git switch master
+
       - name: Update version in README
         run: |
           # 这里演示两处替换：Gradle 和 Maven 片段的版本号。
