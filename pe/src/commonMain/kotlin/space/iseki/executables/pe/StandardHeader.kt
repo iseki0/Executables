@@ -37,21 +37,34 @@ data class StandardHeader(
         }
     }
 
-    override fun toString(): String {
-        return """
-            |StandardHeader(
-            |   magic = $magic,
-            |   majorLinkerVersion = $majorLinkerVersion,
-            |   minorLinkerVersion = $minorLinkerVersion,
-            |   sizeOfCode = $sizeOfCode,
-            |   sizeOfInitializedData = $sizeOfInitializedData,
-            |   sizeOfUninitializedData = $sizeOfUninitializedData,
-            |   addressOfEntryPoint = $addressOfEntryPoint,
-            |   baseOfCode = $baseOfCode,
-            |   baseOfData = ${if (magic == PE32Magic.PE32) "N/A" else baseOfData},
-            |)
-        """.trimMargin()
-    }
+    val fields: Map<String, Any>
+        get() = if (magic == PE32Magic.PE32Plus) {
+            mapOf(
+                "magic" to magic,
+                "majorLinkerVersion" to majorLinkerVersion,
+                "minorLinkerVersion" to minorLinkerVersion,
+                "sizeOfCode" to sizeOfCode,
+                "sizeOfInitializedData" to sizeOfInitializedData,
+                "sizeOfUninitializedData" to sizeOfUninitializedData,
+                "addressOfEntryPoint" to addressOfEntryPoint,
+                "baseOfCode" to baseOfCode,
+                "baseOfData" to baseOfData,
+            )
+        } else {
+            mapOf(
+                "magic" to magic,
+                "majorLinkerVersion" to majorLinkerVersion,
+                "minorLinkerVersion" to minorLinkerVersion,
+                "sizeOfCode" to sizeOfCode,
+                "sizeOfInitializedData" to sizeOfInitializedData,
+                "sizeOfUninitializedData" to sizeOfUninitializedData,
+                "addressOfEntryPoint" to addressOfEntryPoint,
+                "baseOfCode" to baseOfCode,
+            )
+        }
+
+    override fun toString(): String =
+        fields.entries.joinToString("", prefix = "StandardHeader(", postfix = ")") { (k, v) -> "   $k = $v,\n" }
 
     fun length(): Int {
         return if (magic == PE32Magic.PE32) 28 else 24

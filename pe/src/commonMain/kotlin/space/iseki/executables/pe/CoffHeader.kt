@@ -38,6 +38,17 @@ data class CoffHeader(
         characteristics = characteristics
     )
 
+    val fields: Map<String, Any>
+        get() = mapOf(
+            "machine" to machine,
+            "numbersOfSections" to numbersOfSections,
+            "timeDateStamp" to timeDateStamp,
+            "pointerToSymbolTable" to pointerToSymbolTable,
+            "numbersOfSymbols" to numbersOfSymbols,
+            "sizeOfOptionalHeader" to sizeOfOptionalHeader,
+            "characteristics" to characteristics,
+        )
+
     override fun toString(): String {
         return """
             |CoffHeader(

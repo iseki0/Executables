@@ -33,22 +33,21 @@ data class FixedFileInfo(
             (productVersionLS and 0xFFFFu).toUShort()   // Patch
         )
 
-    override fun toString(): String {
-        return """
-            |VersionInfo(
-            |   structVersion = $structVersion,
-            |   fileVersion = $fileVersion,
-            |   productVersion = $productVersion,
-            |   fileFlagsMask = $fileFlagsMask,
-            |   fileFlags = $fileFlags,
-            |   fileOS = $fileOS,
-            |   fileType = $fileType,
-            |   fileSubtype = $fileSubtype,
-            |   fileDateMS = $fileDateMS,
-            |   fileDateLS = $fileDateLS
-            |)
-        """.trimMargin()
-    }
+    val fields: Map<String, Any>
+        get() = mapOf(
+            "structVersion" to structVersion,
+            "fileVersion" to fileVersion,
+            "productVersion" to productVersion,
+            "fileFlagsMask" to fileFlagsMask,
+            "fileFlags" to fileFlags,
+            "fileOS" to fileOS,
+            "fileType" to fileType,
+            "fileSubtype" to fileSubtype,
+            "fileDateMS" to fileDateMS,
+            "fileDateLS" to fileDateLS,
+        )
+
+    override fun toString(): String = fields.entries.joinToString("", "VersionInfo(", ")") { (k, v) -> "   $k = $v,\n" }
 
     companion object {
         const val LENGTH = 52

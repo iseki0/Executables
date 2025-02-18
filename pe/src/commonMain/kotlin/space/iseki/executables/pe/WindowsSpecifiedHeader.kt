@@ -98,49 +98,57 @@ data class WindowsSpecifiedHeader(
     val clrRuntimeHeader: DataDirectoryItem,
 ) {
 
-    override fun toString(): String {
-        return """
-            |WindowsSpecifiedHeader(
-            |   magic = $magic,
-            |   imageBase = ${if (magic == PE32Magic.PE32) Address32(imageBase.rawValue.toUInt()) else imageBase},
-            |   sectionAlignment = $sectionAlignment,
-            |   fileAlignment = $fileAlignment,
-            |   majorOperatingSystemVersion = $majorOperatingSystemVersion,
-            |   minorOperatingSystemVersion = $minorOperatingSystemVersion,
-            |   majorImageVersion = $majorImageVersion,
-            |   minorImageVersion = $minorImageVersion,
-            |   majorSubsystemVersion = $majorSubsystemVersion,
-            |   minorSubsystemVersion = $minorSubsystemVersion,
-            |   win32VersionValue = $win32VersionValue,
-            |   sizeOfImage = $sizeOfImage,
-            |   sizeOfHeaders = $sizeOfHeaders,
-            |   checkSum = $checkSum,
-            |   subsystem = $subsystem,
-            |   dllCharacteristics = $dllCharacteristics,
-            |   sizeOfStackReserve = $sizeOfStackReserve,
-            |   sizeOfStackCommit = $sizeOfStackCommit,
-            |   sizeOfHeapReserve = $sizeOfHeapReserve,
-            |   sizeOfHeapCommit = $sizeOfHeapCommit,
-            |   loaderFlags = $loaderFlags,
-            |   numbersOfRvaAndSizes = $numbersOfRvaAndSizes,
-            |   exportTable = $exportTable,
-            |   importTable = $importTable,
-            |   resourceTable = $resourceTable,
-            |   exceptionTable = $exceptionTable,
-            |   certificateTable = $certificateTable,
-            |   baseRelocationTable = $baseRelocationTable,
-            |   debug = $debug,
-            |   architecture = $architecture,
-            |   globalPtr = $globalPtr,
-            |   tlsTable = $tlsTable,
-            |   loadConfigTable = $loadConfigTable,
-            |   boundImport = $boundImport,
-            |   iat = $iat,
-            |   delayImportDescriptor = $delayImportDescriptor,
-            |   clrRuntimeHeader = $clrRuntimeHeader,
-            |)
-        """.trimMargin()
-    }
+    val fields: Map<String, Any>
+        get() = mapOf(
+            "magic" to magic,
+            "imageBase" to imageBase,
+            "sectionAlignment" to sectionAlignment,
+            "fileAlignment" to fileAlignment,
+            "majorOperatingSystemVersion" to majorOperatingSystemVersion,
+            "minorOperatingSystemVersion" to minorOperatingSystemVersion,
+            "majorImageVersion" to majorImageVersion,
+            "minorImageVersion" to minorImageVersion,
+            "majorSubsystemVersion" to majorSubsystemVersion,
+            "minorSubsystemVersion" to minorSubsystemVersion,
+            "win32VersionValue" to win32VersionValue,
+            "sizeOfImage" to sizeOfImage,
+            "sizeOfHeaders" to sizeOfHeaders,
+            "checkSum" to checkSum,
+            "subsystem" to subsystem,
+            "dllCharacteristics" to dllCharacteristics,
+            "sizeOfStackReserve" to sizeOfStackReserve,
+            "sizeOfStackCommit" to sizeOfStackCommit,
+            "sizeOfHeapReserve" to sizeOfHeapReserve,
+            "sizeOfHeapCommit" to sizeOfHeapCommit,
+            "loaderFlags" to loaderFlags,
+            "numbersOfRvaAndSizes" to numbersOfRvaAndSizes,
+        )
+
+    val rvaList
+        get() = buildMap(numbersOfRvaAndSizes) {
+            if (numbersOfRvaAndSizes > 0) put("exportTable", exportTable)
+            if (numbersOfRvaAndSizes > 1) put("importTable", importTable)
+            if (numbersOfRvaAndSizes > 2) put("resourceTable", resourceTable)
+            if (numbersOfRvaAndSizes > 3) put("exceptionTable", exceptionTable)
+            if (numbersOfRvaAndSizes > 4) put("certificateTable", certificateTable)
+            if (numbersOfRvaAndSizes > 5) put("baseRelocationTable", baseRelocationTable)
+            if (numbersOfRvaAndSizes > 6) put("debug", debug)
+            if (numbersOfRvaAndSizes > 7) put("architecture", architecture)
+            if (numbersOfRvaAndSizes > 8) put("globalPtr", globalPtr)
+            if (numbersOfRvaAndSizes > 9) put("tlsTable", tlsTable)
+            if (numbersOfRvaAndSizes > 10) put("loadConfigTable", loadConfigTable)
+            if (numbersOfRvaAndSizes > 11) put("boundImport", boundImport)
+            if (numbersOfRvaAndSizes > 12) put("iat", iat)
+            if (numbersOfRvaAndSizes > 13) put("delayImportDescriptor", delayImportDescriptor)
+            if (numbersOfRvaAndSizes > 14) put("clrRuntimeHeader", clrRuntimeHeader)
+        }
+
+    override fun toString(): String = (fields.entries + rvaList.entries as Set<Map.Entry<String, Any>>).joinToString(
+        "",
+        "WindowsSpecifiedHeader(",
+        ")"
+    ) { (k, v) -> "   $k = $v,\n" }
+
 
     fun length(): Int {
         return if (magic == PE32Magic.PE32Plus) 112 - 24 else 96 - 28

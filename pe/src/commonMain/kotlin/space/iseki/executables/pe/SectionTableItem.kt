@@ -44,20 +44,20 @@ data class SectionTableItem(
         }
     }
 
-    override fun toString(): String {
-        return """
-            |SectionTableItem(
-            |   name = $name,
-            |   virtualSize = $virtualSize,
-            |   virtualAddress = $virtualAddress,
-            |   sizeOfRawData = $sizeOfRawData,
-            |   pointerToRawData = $pointerToRawData,
-            |   pointerToRelocations = $pointerToRelocations,
-            |   pointerToLinenumbers = $pointerToLinenumbers,
-            |   numberOfRelocations = $numberOfRelocations,
-            |   numberOfLinenumbers = $numberOfLinenumbers,
-            |   characteristics = $characteristics,
-            |)
-        """.trimMargin()
-    }
+    val fields
+        get() = mapOf(
+            "name" to name,
+            "virtualSize" to virtualSize,
+            "virtualAddress" to virtualAddress,
+            "sizeOfRawData" to sizeOfRawData,
+            "pointerToRawData" to pointerToRawData,
+            "pointerToRelocations" to pointerToRelocations,
+            "pointerToLinenumbers" to pointerToLinenumbers,
+            "numberOfRelocations" to numberOfRelocations,
+            "numberOfLinenumbers" to numberOfLinenumbers,
+            "characteristics" to characteristics,
+        )
+
+    override fun toString(): String =
+        fields.entries.joinToString("", prefix = "SectionTableItem(", postfix = ")") { (k, v) -> "   $k = $v,\n" }
 }

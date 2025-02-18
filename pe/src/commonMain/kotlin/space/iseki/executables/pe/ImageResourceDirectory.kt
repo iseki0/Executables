@@ -18,18 +18,18 @@ data class ImageResourceDirectory(
     val numberOfNamedEntries: UShort,
     val numberOfIdEntries: UShort,
 ) {
-    override fun toString(): String {
-        return """
-            |ImageResourceDirectory(
-            |   characteristics = $characteristics,
-            |   timeDataStamp32 = $timeDateStamp32,
-            |   majorVersion = $majorVersion,
-            |   minorVersion = $minorVersion,
-            |   numberOfNamedEntries = $numberOfNamedEntries,
-            |   numberOfIdEntries = $numberOfIdEntries,
-            |)
-        """.trimMargin()
-    }
+    override fun toString(): String =
+        fields.entries.joinToString("", "ImageResourceDirectory(", ")") { (k, v) -> "   $k = $v,\n" }
+
+    val fields: Map<String, Any>
+        get() = mapOf(
+            "characteristics" to characteristics,
+            "timeDateStamp32" to timeDateStamp32,
+            "majorVersion" to majorVersion,
+            "minorVersion" to minorVersion,
+            "numberOfNamedEntries" to numberOfNamedEntries,
+            "numberOfIdEntries" to numberOfIdEntries,
+        )
 
     companion object {
         const val LENGTH = 16

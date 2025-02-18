@@ -208,6 +208,7 @@ public final class space/iseki/executables/pe/CoffHeader {
 	public static synthetic fun copy-vgin4lA$default (Lspace/iseki/executables/pe/CoffHeader;SSIIISSILjava/lang/Object;)Lspace/iseki/executables/pe/CoffHeader;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-ZvpUuhw ()S
+	public final fun getFields ()Ljava/util/Map;
 	public final fun getMachine-Q4oK7tQ ()S
 	public final fun getNumbersOfSections-Mh2AYeg ()S
 	public final fun getNumbersOfSymbols-pVg5ArA ()I
@@ -399,6 +400,7 @@ public final class space/iseki/executables/pe/ImageResourceDirectory {
 	public static synthetic fun copy-H-ov3hw$default (Lspace/iseki/executables/pe/ImageResourceDirectory;IISSSSILjava/lang/Object;)Lspace/iseki/executables/pe/ImageResourceDirectory;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-pVg5ArA ()I
+	public final fun getFields ()Ljava/util/Map;
 	public final fun getMajorVersion-Mh2AYeg ()S
 	public final fun getMinorVersion-Mh2AYeg ()S
 	public final fun getNumberOfIdEntries-Mh2AYeg ()S
@@ -735,6 +737,7 @@ public final class space/iseki/executables/pe/SectionTableItem {
 	public static synthetic fun copy-ahEX5hA$default (Lspace/iseki/executables/pe/SectionTableItem;Ljava/lang/String;IIIIIISSIILjava/lang/Object;)Lspace/iseki/executables/pe/SectionTableItem;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-CVJ1pB8 ()I
+	public final fun getFields ()Ljava/util/Map;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getNumberOfLinenumbers-Mh2AYeg ()S
 	public final fun getNumberOfRelocations-Mh2AYeg ()S
@@ -772,6 +775,7 @@ public final class space/iseki/executables/pe/StandardHeader {
 	public final fun getAddressOfEntryPoint-hRLxnt0 ()I
 	public final fun getBaseOfCode-hRLxnt0 ()I
 	public final fun getBaseOfData-hRLxnt0 ()I
+	public final fun getFields ()Ljava/util/Map;
 	public final fun getMagic-zC7-h34 ()S
 	public final fun getMajorLinkerVersion ()B
 	public final fun getMinorLinkerVersion ()B
@@ -875,6 +879,7 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
 	public final fun getDllCharacteristics-UaHtHC4 ()S
 	public final fun getExceptionTable-ZAUXGwc ()J
 	public final fun getExportTable-ZAUXGwc ()J
+	public final fun getFields ()Ljava/util/Map;
 	public final fun getFileAlignment-pVg5ArA ()I
 	public final fun getGlobalPtr-ZAUXGwc ()J
 	public final fun getIat-ZAUXGwc ()J
@@ -891,6 +896,7 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
 	public final fun getMinorSubsystemVersion-Mh2AYeg ()S
 	public final fun getNumbersOfRvaAndSizes ()I
 	public final fun getResourceTable-ZAUXGwc ()J
+	public final fun getRvaList ()Ljava/util/Map;
 	public final fun getSectionAlignment-pVg5ArA ()I
 	public final fun getSizeOfHeaders-pVg5ArA ()I
 	public final fun getSizeOfHeapCommit-s-VKNKU ()J
@@ -1146,6 +1152,7 @@ public final class space/iseki/executables/pe/vi/FixedFileInfo {
 	public final fun copy-dItPTec (IIIIIIIIIIII)Lspace/iseki/executables/pe/vi/FixedFileInfo;
 	public static synthetic fun copy-dItPTec$default (Lspace/iseki/executables/pe/vi/FixedFileInfo;IIIIIIIIIIIIILjava/lang/Object;)Lspace/iseki/executables/pe/vi/FixedFileInfo;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFields ()Ljava/util/Map;
 	public final fun getFileDateLS-pVg5ArA ()I
 	public final fun getFileDateMS-pVg5ArA ()I
 	public final fun getFileFlags-NLjZLkA ()I
