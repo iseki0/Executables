@@ -9,7 +9,7 @@ import kotlin.jvm.JvmStatic
  * @property rawValue the raw short value representing the magic
  */
 @JvmInline
-value class PE32Magic(val rawValue: Short) {
+value class PE32Magic(val rawValue: Short): Comparable<PE32Magic> {
     companion object {
         /**
          * Returns the [PE32Magic] corresponding to the given name.
@@ -35,6 +35,8 @@ value class PE32Magic(val rawValue: Short) {
          */
         val PE32Plus = PE32Magic(0x20b)
     }
+
+    override fun compareTo(other: PE32Magic): Int = rawValue.compareTo(other.rawValue)
 
     override fun toString(): String = when (this) {
         PE32 -> "PE32"

@@ -174,8 +174,11 @@ public final class space/iseki/executables/pe/Characteristics$Constants {
 	public static final field INSTANCE Lspace/iseki/executables/pe/Characteristics$Constants;
 }
 
-public final class space/iseki/executables/pe/CodePage {
+public final class space/iseki/executables/pe/CodePage : java/lang/Comparable {
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/CodePage;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-sFkN9mA (I)I
+	public static fun compareTo-sFkN9mA (II)I
 	public static fun constructor-impl (I)I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
@@ -493,9 +496,12 @@ public final class space/iseki/executables/pe/MachineType$Constants {
 	public static final field WCEMIPSV2 S
 }
 
-public final class space/iseki/executables/pe/PE32Magic {
+public final class space/iseki/executables/pe/PE32Magic : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/PE32Magic$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/PE32Magic;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-pJNapHo (S)I
+	public static fun compareTo-pJNapHo (SS)I
 	public static fun constructor-impl (S)S
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
