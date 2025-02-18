@@ -236,7 +236,10 @@ class PEFilesTest {
             val jsonText = json.encodeToString(PEFileSummarySerializer, pe.summary)
             println(jsonText)
             val summary = json.decodeFromString(PEFileSummarySerializer, jsonText)
-            assertEquals(pe.summary, summary)
+            assertEquals(pe.summary.coffHeader, summary.coffHeader)
+            assertEquals(pe.summary.standardHeader, summary.standardHeader)
+            assertEquals(pe.summary.windowsHeader, summary.windowsHeader)
+            assertEquals(pe.summary.sectionTable, summary.sectionTable)
             assertEquals(json.decodeFromString<JsonElement>(jsonRef), json.decodeFromString<JsonElement>(jsonText))
         }
     }
