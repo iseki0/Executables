@@ -34,7 +34,10 @@ open class SeekableByteChannelDataAccessor(private val channel: SeekableByteChan
         channel.position(pos)
         while (buffer.hasRemaining()) {
             val i = channel.read(buffer)
-            if (i == -1) break
+            if (i == -1) {
+                if (buffer.position() == 0) return -1
+                break
+            }
         }
         return buffer.position()
     }
