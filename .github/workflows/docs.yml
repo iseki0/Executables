@@ -41,12 +41,12 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
           gradle-version: wrapper
       - name: Generate docs
-        run: ./gradlew dokkaHtmlMultiModule
+        run: ./gradlew dokkaGenerate
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: 'build/dokka/htmlMultiModule'
+          path: 'build/dokka/html'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
