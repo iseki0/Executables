@@ -279,6 +279,7 @@ class PEFile private constructor(
     }
 
     private fun readResourceDirectoryNode(dataRva: Address32): List<ResourceNode> {
+        if (rsrcRva.rawValue == 0u) return emptyList()
         val buf = ByteArray(16)
         copyBytes(dataRva + rsrcRva, buf)
         val characteristics = buf.getUInt(0)
