@@ -161,23 +161,64 @@ class PEFile private constructor(
 
         fun copyBytes(rva: Address32, buf: ByteArray) = copyBytes(rva, buf, 0, buf.size)
 
+        /**
+         * @author ChatGPT
+         */
         fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
-            var rva0 = rva
-            var off0 = off
-            var len0 = len
-            if (rva0 < table.virtualAddress) {
-                val delta = (table.virtualAddress - rva0).toInt()
-                if (delta !in 0..<len) {
-                    return
-                }
-                len0 -= delta
-                off0 += delta
-                rva0 = table.virtualAddress
+            check(len >= 0)
+            // 请求区间：[reqStart, reqEnd)
+            val reqStart: UInt = rva.rawValue
+            val reqEnd: UInt = reqStart + len.toUInt()
+
+            // section 的虚拟地址区间：[sectionStart, sectionEnd)
+            val sectionStart: UInt = table.virtualAddress.rawValue
+            val sectionEnd: UInt = sectionStart + table.sizeOfRawData
+
+            // 计算交集区间：[copyStart, copyEnd)
+            val copyStart: UInt = maxOf(reqStart, sectionStart)
+            val copyEnd: UInt = minOf(reqEnd, sectionEnd)
+
+            if (copyEnd <= copyStart) {
+                return // 无交集，不做处理
             }
-            val readBegin = table.pointerToRawData + (rva0 - table.virtualAddress)
-            val readSize = len0.toUInt().coerceAtMost(table.sizeOfRawData - (rva0 - table.virtualAddress).rawValue)
-            dataAccessor.readFully(readBegin.rawValue.toLong(), buf, off0, readSize.toInt())
+
+            // 交集区间的长度（确保不会超过 Int 范围）
+            val copyLen: Int = (copyEnd - copyStart).toInt()
+
+            // 文件中对应的读取位置：
+            // section 在内存中的起始地址 table.virtualAddress 对应文件中的位置为 table.pointerToRawData，
+            // 因此读取位置为 pointerToRawData + (copyStart - sectionStart)
+            val filePos: Long = table.pointerToRawData.rawValue.toLong() + (copyStart - sectionStart).toLong()
+
+            // 目标 buffer 中写入数据的起始偏移：请求区间和交集区间之间的偏移量
+            val destOff: Int = off + (copyStart - reqStart).toInt()
+
+            // 调用 dataAccessor 读取数据到 buf 中指定区域
+            dataAccessor.readFully(filePos, buf, destOff, copyLen)
         }
+    }
+    /**
+     * Copy bytes from the given RVA to the buffer.
+     *
+     * @param rva the relative virtual address
+     * @param buf the buffer to copy to
+     * @param off the offset in the buffer
+     * @param len the length to copy
+     */
+    internal fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
+        for (sectionReader in sectionReaders) {
+            sectionReader.copyBytes(rva, buf, off, len)
+        }
+    }
+
+    /**
+     * Copy bytes from the given RVA to the buffer.
+     *
+     * @param rva the relative virtual address
+     * @param buf the buffer to copy to
+     */
+    internal fun copyBytes(rva: Address32, buf: ByteArray) {
+        copyBytes(rva, buf, 0, buf.size)
     }
 
     private val rsrcRva: Address32 = windowsHeader.resourceTable.virtualAddress
