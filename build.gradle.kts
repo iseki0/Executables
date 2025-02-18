@@ -15,6 +15,11 @@ allprojects {
     }
 }
 
-tasks.dokkaHtmlMultiModule {
+dokka {
     moduleName = "executables"
+}
+
+dependencies {
+    dokka(project(":common"))
+    dokka(project(":pe"))
 }

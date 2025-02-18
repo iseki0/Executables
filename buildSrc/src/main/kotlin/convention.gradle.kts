@@ -1,8 +1,6 @@
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.net.URI
-import java.net.URL
 import java.util.*
 
 plugins {
@@ -207,7 +205,8 @@ tasks.withType<Jar> {
     }
 }
 
-tasks.withType<DokkaTaskPartial> {
+
+dokka {
     dokkaSourceSets.configureEach {
         includes.from(rootProject.layout.projectDirectory.file("module.md"))
         sourceLink {
@@ -216,11 +215,11 @@ tasks.withType<DokkaTaskPartial> {
                 project.layout.projectDirectory.dir("src").asFile.relativeTo(rootProject.layout.projectDirectory.asFile)
                     .toString()
                     .replace('\\', '/')
-            remoteUrl = URI.create("https://github.com/iseki0/Executables/tree/master/$p").toURL()
+            remoteUrl = URI.create("https://github.com/iseki0/Executables/tree/master/$p")
             remoteLineSuffix = "#L"
         }
-        externalDocumentationLink {
-            url = URL("https://kotlinlang.org/api/kotlinx.serialization/")
+        externalDocumentationLinks.create("") {
+            url = URI.create("https://kotlinlang.org/api/kotlinx.serialization/")
         }
     }
 }
