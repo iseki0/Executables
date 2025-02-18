@@ -154,9 +154,6 @@ class PEFile private constructor(
         return SectionReader(section)
     }
 
-    private val rsrcSectionReader = sectionReader(".rsrc")
-
-
     internal inner class SectionReader internal constructor(val table: SectionTableItem) {
 
         fun copyBytes(rva: Address32, buf: ByteArray) = copyBytes(rva, buf, 0, buf.size)
@@ -196,7 +193,11 @@ class PEFile private constructor(
             // 调用 dataAccessor 读取数据到 buf 中指定区域
             dataAccessor.readFully(filePos, buf, destOff, copyLen)
         }
+
     }
+
+    private val sectionReaders = sectionTable.map { SectionReader(it) }.toTypedArray()
+
     /**
      * Copy bytes from the given RVA to the buffer.
      *
@@ -229,10 +230,9 @@ class PEFile private constructor(
         numberOfIdEntries: UShort,
         dirNodeAddr: Address32,
     ): List<ResourceNode> {
-        requireNotNull(rsrcSectionReader)
         val totalNodes = (numberOfNamedEntries + numberOfIdEntries).coerceAtMost(Int.MAX_VALUE.toUInt() / 8u).toInt()
         val buf = ByteArray(8 * totalNodes)
-        rsrcSectionReader.copyBytes(dirNodeAddr + 16, buf)
+        copyBytes(dirNodeAddr + 16, buf)
         return buildList(capacity = totalNodes) {
             for (off in buf.indices step 8) {
                 val nameOrId = buf.getUInt(off)
@@ -243,7 +243,6 @@ class PEFile private constructor(
     }
 
     private fun readSubNode(dataRva: Address32, nameOrId: UInt): ResourceNode {
-        requireNotNull(rsrcSectionReader)
         val name: String
         val resourceID: UInt
         if (nameOrId < 0x80000000u) {
@@ -254,10 +253,10 @@ class PEFile private constructor(
             // by name
             val namePtr = rsrcRva + (nameOrId and 0x7FFFFFFFu)
             val lenBuf = ByteArray(2)
-            rsrcSectionReader.copyBytes(namePtr, lenBuf)
+            copyBytes(namePtr, lenBuf)
             val nameLen = lenBuf.getUShort(0)
             val nameBuf = ByteArray(nameLen.toInt())
-            rsrcSectionReader.copyBytes(namePtr + 2, nameBuf)
+            copyBytes(namePtr + 2, nameBuf)
             val charArray = CharArray(nameLen.toInt())
             nameBuf.forEachIndexed { index, byte -> charArray[index] = byte.toInt().toChar() }
             resourceID = 0u
@@ -269,7 +268,7 @@ class PEFile private constructor(
         } else {
             // file
             val fileBuf = ByteArray(16)
-            rsrcSectionReader.copyBytes(dataRva + rsrcRva, fileBuf)
+            copyBytes(dataRva + rsrcRva, fileBuf)
             val contentRva = Address32(fileBuf.getUInt(0))
             val size = fileBuf.getUInt(4)
             val codePage = CodePage(fileBuf.getUInt(8))
@@ -278,9 +277,8 @@ class PEFile private constructor(
     }
 
     private fun readResourceDirectoryNode(dataRva: Address32): List<ResourceNode> {
-        requireNotNull(rsrcSectionReader)
         val buf = ByteArray(16)
-        rsrcSectionReader.copyBytes(dataRva + rsrcRva, buf)
+        copyBytes(dataRva + rsrcRva, buf)
         val characteristics = buf.getUInt(0)
         if (characteristics != 0u) throw PEFileException("Invalid resource directory node, characteristics is not 0, $dataRva")
 //        val timeDateStamp = TimeDataStamp32(buf.getUInt(4))
@@ -313,7 +311,6 @@ class PEFile private constructor(
          * @return a list of resource nodes
          */
         override fun listChildren(): List<ResourceNode> {
-            rsrcSectionReader ?: return emptyList()
             return readResourceDirectoryNode(dataRva)
         }
 
@@ -374,9 +371,8 @@ class PEFile private constructor(
         override fun hashCode(): Int = dataRva.rawValue.toInt()
 
         override fun readAllBytes(): ByteArray {
-            rsrcSectionReader ?: return ByteArray(0)
             val buf = ByteArray(size.toInt())
-            rsrcSectionReader.copyBytes(contentRva, buf)
+            copyBytes(contentRva, buf)
             return buf
         }
     }
