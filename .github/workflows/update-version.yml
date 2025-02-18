@@ -1,0 +1,47 @@
+name: Update Version in README
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Set up Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          # 例如如果 Tag 是 'v0.1.2'，会去掉 'v' 前缀，得到 '0.1.2'
+          VERSION=${GITHUB_REF##*/}
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update version in README
+        run: |
+          # 这里演示两处替换：Gradle 和 Maven 片段的版本号。
+          # 你可以把下面的 '0.0.5' 改成你的旧版本号的正则匹配模式。
+          # 或者，如果不确定旧版本号，每次可以直接根据周边文字做精确匹配。
+          
+          # 替换 Gradle 示例中的版本号 executables-all:0.0.5
+          sed -i "s|\(executables-all:\)[0-9]\+\.[0-9]\+\.[0-9]\+|\1${{ steps.get_version.outputs.version }}|g" README.md
+          
+          # 替换 Maven 片段中的 <version>0.0.5</version>
+          sed -i "s|\(<version>\)[0-9]\+\.[0-9]\+\.[0-9]\+\(</version>\)|\1${{ steps.get_version.outputs.version }}\2|g" README.md
+
+      - name: Commit changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git add README.md
+            git commit -m "chore: bump version to ${{ steps.get_version.outputs.version }}"
+            git push
+          else
+            echo "No changes to commit."
