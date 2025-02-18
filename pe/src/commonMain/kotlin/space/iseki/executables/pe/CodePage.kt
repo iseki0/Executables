@@ -8,12 +8,13 @@ import kotlin.jvm.JvmInline
  * @property rawValue the raw value of the code page
  */
 @JvmInline
-value class CodePage(val rawValue: UInt): Comparable<CodePage> {
+value class CodePage(val rawValue: UInt) : Comparable<CodePage> {
     override fun toString(): String {
         return codePageRef[rawValue] ?: rawValue.toString()
     }
 
     override fun compareTo(other: CodePage): Int = rawValue.compareTo(other.rawValue)
+
     /**
      * returns the .net name of the code page, such as "windows-1252" for code page 1252; returns null if there is no corresponding .net name.
      */

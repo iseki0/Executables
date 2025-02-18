@@ -9,7 +9,7 @@ import kotlin.jvm.JvmStatic
  * @property rawValue the raw short value representing the magic
  */
 @JvmInline
-value class PE32Magic(val rawValue: Short): Comparable<PE32Magic> {
+value class PE32Magic(val rawValue: Short) : Comparable<PE32Magic> {
     companion object {
         /**
          * Returns the [PE32Magic] corresponding to the given name.
