@@ -32,8 +32,8 @@ data class StandardHeader(
     val baseOfData: Address32,
 ) {
     init {
-        if (magic == PE32Magic.PE32) {
-            require(baseOfData == Address32(0u)) { "baseOfData must be 0 for PE32" }
+        if (magic == PE32Magic.PE32Plus) {
+            require(baseOfData == Address32(0u)) { "baseOfData must be 0 for PE32+" }
         }
     }
 
