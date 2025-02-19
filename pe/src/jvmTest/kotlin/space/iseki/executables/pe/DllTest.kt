@@ -6,16 +6,17 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 private val data = DllTest::class.java.classLoader.getResourceAsStream("cygintl-8.dll")!!.readAllBytes()
-class DllTest{
+
+class DllTest {
 
     @Test
-    fun testType(){
+    fun testType() {
         assertEquals(ExecutableFile.PE, ExecutableFile.detect(ByteArrayDataAccessor(data)))
     }
 
     @Test
-    fun testOpen(){
-        PEFile.wrap(data).use { f->
+    fun testOpen() {
+        PEFile.wrap(data).use { f ->
             println(f.summary)
         }
     }
