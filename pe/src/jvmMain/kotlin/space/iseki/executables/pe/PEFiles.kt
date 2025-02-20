@@ -2,6 +2,7 @@
 
 package space.iseki.executables.pe
 
+import space.iseki.executables.common.ByteArrayDataAccessor
 import space.iseki.executables.common.SeekableByteChannelDataAccessor
 import java.io.File
 import java.io.FileNotFoundException
@@ -83,3 +84,5 @@ fun PEFile(path: Path): PEFile {
         throw th
     }
 }
+
+actual fun PEFile(bytes: ByteArray): PEFile = PEFile.open(ByteArrayDataAccessor(bytes))

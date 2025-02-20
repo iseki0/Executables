@@ -23,7 +23,7 @@ class GoTest {
     @Test
     fun test() {
         assertEquals(ExecutableFile.PE, ExecutableFile.detect(ByteArrayDataAccessor(data)))
-        PEFile.wrap(data).use { pe ->
+        PEFile(data).use { pe ->
             assertEquals(summaryJson, json.encodeToJsonElement(pe.summary))
             println(json.encodeToString(pe.versionInfo?.stringFileInfo?.strings))
         }

@@ -5,11 +5,22 @@ import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ByteArrayDataAccessor
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
+import space.iseki.executables.common.IOException
 import space.iseki.executables.pe.serializer.PEFileSummarySerializer
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
 import kotlin.jvm.JvmStatic
+
+/**
+ * Open a PE file from a [ByteArray].
+ *
+ * @param bytes the byte array representing a PE file
+ * @return the PE file
+ * @throws PEFileException if the file is not a valid PE file
+ * @throws IOException if an I/O error occurs
+ */
+expect fun PEFile(bytes: ByteArray): PEFile
 
 class PEFile private constructor(
     val coffHeader: CoffHeader,
@@ -62,6 +73,7 @@ class PEFile private constructor(
          * @return a [PEFile] instance
          */
         @JvmStatic
+        @Deprecated("Use PEFile(d: ByteArray) instead", ReplaceWith("PEFile(d)"), level = DeprecationLevel.HIDDEN)
         fun wrap(data: ByteArray) = open(ByteArrayDataAccessor(data))
 
         /**
