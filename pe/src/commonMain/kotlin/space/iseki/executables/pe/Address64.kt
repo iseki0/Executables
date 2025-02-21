@@ -28,7 +28,7 @@ value class Address64(val rawValue: Long) : Comparable<Address64> {
             get() = serialDescriptor<String>()
 
         override fun deserialize(decoder: Decoder): Address64 {
-            return Address64(decodeLongHex(decoder, "Address64"))
+            return Address64(decodeULongHex(decoder, "Address64").toLong())
         }
 
         override fun serialize(encoder: Encoder, value: Address64) {

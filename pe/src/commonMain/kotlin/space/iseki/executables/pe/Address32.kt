@@ -37,8 +37,8 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
             get() = serialDescriptor<String>()
 
         override fun deserialize(decoder: Decoder): Address32 {
-            val v = decodeLongHex(decoder, "Address32")
-            if (v.toULong() > UInt.MAX_VALUE) {
+            val v = decodeULongHex(decoder, "Address32")
+            if (v > UInt.MAX_VALUE) {
                 throw SerializationException("Address32 should be less than 0x100000000")
             }
             return Address32(v.toUInt())
@@ -51,7 +51,7 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
     }
 
     override fun compareTo(other: Address32): Int {
-        return rawValue.toUInt().compareTo(other.rawValue.toUInt())
+        return rawValue.compareTo(other.rawValue)
     }
 
     /**
