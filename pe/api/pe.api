@@ -225,61 +225,6 @@ public final class space/iseki/executables/pe/CoffHeader$Companion {
 	public final fun parse ([BI)Lspace/iseki/executables/pe/CoffHeader;
 }
 
-public final class space/iseki/executables/pe/DataDirectories {
-	public static final field Companion Lspace/iseki/executables/pe/DataDirectories$Companion;
-	public fun <init> ()V
-}
-
-public final class space/iseki/executables/pe/DataDirectories$Companion {
-	public final fun getArchitecture-jAWtorI ()I
-	public final fun getBaseRelocationTable-jAWtorI ()I
-	public final fun getBoundImport-jAWtorI ()I
-	public final fun getCLRRuntimeHeader-jAWtorI ()I
-	public final fun getCertificateTable-jAWtorI ()I
-	public final fun getDebug-jAWtorI ()I
-	public final fun getDelayImportDescriptor-jAWtorI ()I
-	public final fun getExceptionTable-jAWtorI ()I
-	public final fun getExportTable-jAWtorI ()I
-	public final fun getGlobalPtr-jAWtorI ()I
-	public final fun getIAT-jAWtorI ()I
-	public final fun getImportTable-jAWtorI ()I
-	public final fun getLoadConfigTable-jAWtorI ()I
-	public final fun getResourceTable-jAWtorI ()I
-	public final fun getTLSTable-jAWtorI ()I
-}
-
-public final class space/iseki/executables/pe/DataDirectories$Constants {
-	public static final field ARCHITECTURE_INDEX I
-	public static final field BASE_RELOCATION_TABLE_INDEX I
-	public static final field BOUND_IMPORT_INDEX I
-	public static final field CERTIFICATE_TABLE_INDEX I
-	public static final field CLR_RUNTIME_HEADER_INDEX I
-	public static final field DEBUG_INDEX I
-	public static final field DELAY_IMPORT_DESCRIPTOR_INDEX I
-	public static final field EXCEPTION_TABLE_INDEX I
-	public static final field EXPORT_TABLE_INDEX I
-	public static final field GLOBAL_PTR_INDEX I
-	public static final field IAT_INDEX I
-	public static final field IMPORT_TABLE_INDEX I
-	public static final field INSTANCE Lspace/iseki/executables/pe/DataDirectories$Constants;
-	public static final field LOAD_CONFIG_TABLE_INDEX I
-	public static final field RESOURCE_TABLE_INDEX I
-	public static final field TLS_TABLE_INDEX I
-}
-
-public final class space/iseki/executables/pe/DataDirectories$Key {
-	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/DataDirectories$Key;
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public final fun getIndex ()I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
 public final class space/iseki/executables/pe/DataDirectoryItem {
 	public static final field Companion Lspace/iseki/executables/pe/DataDirectoryItem$Companion;
 	public static final synthetic fun box-impl (J)Lspace/iseki/executables/pe/DataDirectoryItem;
@@ -385,34 +330,6 @@ public final class space/iseki/executables/pe/DllCharacteristics$Constants {
 	public static final field NX_COMPAT S
 	public static final field TERMINAL_SERVER_AWARE S
 	public static final field WDM_DRIVER S
-}
-
-public final class space/iseki/executables/pe/ImageResourceDirectory {
-	public static final field Companion Lspace/iseki/executables/pe/ImageResourceDirectory$Companion;
-	public static final field LENGTH I
-	public synthetic fun <init> (IISSSSLkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-pVg5ArA ()I
-	public final fun component2-n7FkWIM ()I
-	public final fun component3-Mh2AYeg ()S
-	public final fun component4-Mh2AYeg ()S
-	public final fun component5-Mh2AYeg ()S
-	public final fun component6-Mh2AYeg ()S
-	public final fun copy-H-ov3hw (IISSSS)Lspace/iseki/executables/pe/ImageResourceDirectory;
-	public static synthetic fun copy-H-ov3hw$default (Lspace/iseki/executables/pe/ImageResourceDirectory;IISSSSILjava/lang/Object;)Lspace/iseki/executables/pe/ImageResourceDirectory;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getCharacteristics-pVg5ArA ()I
-	public final fun getFields ()Ljava/util/Map;
-	public final fun getMajorVersion-Mh2AYeg ()S
-	public final fun getMinorVersion-Mh2AYeg ()S
-	public final fun getNumberOfIdEntries-Mh2AYeg ()S
-	public final fun getNumberOfNamedEntries-Mh2AYeg ()S
-	public final fun getTimeDateStamp32-n7FkWIM ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class space/iseki/executables/pe/ImageResourceDirectory$Companion {
-	public final fun parse ([BI)Lspace/iseki/executables/pe/ImageResourceDirectory;
 }
 
 public final class space/iseki/executables/pe/MachineType {
