@@ -2,27 +2,31 @@
 
 package space.iseki.executables.pe
 
-import java.lang.invoke.MethodHandles
-import java.lang.invoke.VarHandle
-import java.nio.ByteOrder
-
-private val SH: VarHandle =
-    MethodHandles.byteArrayViewVarHandle(ShortArray::class.java, ByteOrder.LITTLE_ENDIAN).withInvokeExactBehavior()
-private val IH: VarHandle =
-    MethodHandles.byteArrayViewVarHandle(IntArray::class.java, ByteOrder.LITTLE_ENDIAN).withInvokeExactBehavior()
-private val LH: VarHandle =
-    MethodHandles.byteArrayViewVarHandle(LongArray::class.java, ByteOrder.LITTLE_ENDIAN).withInvokeExactBehavior()
-
 internal actual fun ByteArray.getUShort(offset: Int): UShort {
-    return (SH.get(this, offset) as Short).toUShort()
+    var r = 0
+    for (i in 1 downTo 0) {
+        r = r shl 8
+        r = r or (this[offset + i].toInt() and 0xff)
+    }
+    return r.toUShort()
 }
 
 internal actual fun ByteArray.getUInt(offset: Int): UInt {
-    return (IH.get(this, offset) as Int).toUInt()
+    var r = 0
+    for (i in 3 downTo 0) {
+        r = r shl 8
+        r = r or (this[offset + i].toInt() and 0xff)
+    }
+    return r.toUInt()
 }
 
 internal actual fun ByteArray.getULong(offset: Int): ULong {
-    return (LH.get(this, offset) as Long).toULong()
+    var r = 0L
+    for (i in 7 downTo 0) {
+        r = r shl 8
+        r = r or (this[offset + i].toLong() and 0xff)
+    }
+    return r.toULong()
 }
 
 internal actual fun <T> Array<T>.toUnmodifiableList(): List<T> = java.util.Collections.unmodifiableList(this.asList())
