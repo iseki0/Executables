@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.common.ReadableStructure
 import kotlin.jvm.JvmStatic
 
 /**
@@ -21,7 +22,7 @@ data class CoffHeader(
     val numbersOfSymbols: UInt,
     val sizeOfOptionalHeader: UShort,
     val characteristics: Characteristics,
-) {
+) : ReadableStructure {
     constructor(
         machine: MachineType,
         numbersOfSections: UShort,
@@ -38,7 +39,7 @@ data class CoffHeader(
         characteristics = characteristics
     )
 
-    val fields: Map<String, Any>
+    override val fields: Map<String, Any>
         get() = mapOf(
             "machine" to machine,
             "numbersOfSections" to numbersOfSections,
@@ -48,6 +49,9 @@ data class CoffHeader(
             "sizeOfOptionalHeader" to sizeOfOptionalHeader,
             "characteristics" to characteristics,
         )
+
+    override val totalFields: Int
+        get() = 7
 
     override fun toString(): String {
         return """

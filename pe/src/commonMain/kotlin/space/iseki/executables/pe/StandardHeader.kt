@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.common.ReadableStructure
 import kotlin.jvm.JvmStatic
 
 /**
@@ -30,14 +31,14 @@ data class StandardHeader(
     val addressOfEntryPoint: Address32,
     val baseOfCode: Address32,
     val baseOfData: Address32,
-) {
+) : ReadableStructure {
     init {
         if (magic == PE32Magic.PE32Plus) {
             require(baseOfData == Address32(0u)) { "baseOfData must be 0 for PE32+" }
         }
     }
 
-    val fields: Map<String, Any>
+    override val fields: Map<String, Any>
         get() = if (magic == PE32Magic.PE32) {
             mapOf(
                 "magic" to magic,
@@ -62,6 +63,9 @@ data class StandardHeader(
                 "baseOfCode" to baseOfCode,
             )
         }
+
+    override val totalFields: Int
+        get() = if (magic == PE32Magic.PE32) 9 else 8
 
     override fun toString(): String =
         fields.entries.joinToString("", prefix = "StandardHeader(", postfix = ")") { (k, v) -> "   $k = $v,\n" }

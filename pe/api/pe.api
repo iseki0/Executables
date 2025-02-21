@@ -192,7 +192,7 @@ public final class space/iseki/executables/pe/CodePage : java/lang/Comparable {
 	public final synthetic fun unbox-impl ()I
 }
 
-public final class space/iseki/executables/pe/CoffHeader {
+public final class space/iseki/executables/pe/CoffHeader : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/pe/CoffHeader$Companion;
 	public static final field LENGTH I
 	public synthetic fun <init> (SSIIISSLkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -208,13 +208,14 @@ public final class space/iseki/executables/pe/CoffHeader {
 	public static synthetic fun copy-vgin4lA$default (Lspace/iseki/executables/pe/CoffHeader;SSIIISSILjava/lang/Object;)Lspace/iseki/executables/pe/CoffHeader;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-ZvpUuhw ()S
-	public final fun getFields ()Ljava/util/Map;
+	public fun getFields ()Ljava/util/Map;
 	public final fun getMachine-Q4oK7tQ ()S
 	public final fun getNumbersOfSections-Mh2AYeg ()S
 	public final fun getNumbersOfSymbols-pVg5ArA ()I
 	public final fun getPointerToSymbolTable-hRLxnt0 ()I
 	public final fun getSizeOfOptionalHeader-Mh2AYeg ()S
 	public final fun getTimeDateStamp-n7FkWIM ()I
+	public fun getTotalFields ()I
 	public fun hashCode ()I
 	public static final fun parse ([BI)Lspace/iseki/executables/pe/CoffHeader;
 	public fun toString ()Ljava/lang/String;
@@ -757,7 +758,7 @@ public final class space/iseki/executables/pe/SectionTableItem$Companion {
 	public final fun parse ([BI)Lspace/iseki/executables/pe/SectionTableItem;
 }
 
-public final class space/iseki/executables/pe/StandardHeader {
+public final class space/iseki/executables/pe/StandardHeader : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/pe/StandardHeader$Companion;
 	public static final field MAX_LENGTH I
 	public synthetic fun <init> (SBBIIIIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -776,13 +777,14 @@ public final class space/iseki/executables/pe/StandardHeader {
 	public final fun getAddressOfEntryPoint-hRLxnt0 ()I
 	public final fun getBaseOfCode-hRLxnt0 ()I
 	public final fun getBaseOfData-hRLxnt0 ()I
-	public final fun getFields ()Ljava/util/Map;
+	public fun getFields ()Ljava/util/Map;
 	public final fun getMagic-zC7-h34 ()S
 	public final fun getMajorLinkerVersion ()B
 	public final fun getMinorLinkerVersion ()B
 	public final fun getSizeOfCode-pVg5ArA ()I
 	public final fun getSizeOfInitializedData-pVg5ArA ()I
 	public final fun getSizeOfUninitializedData-pVg5ArA ()I
+	public fun getTotalFields ()I
 	public fun hashCode ()I
 	public final fun length ()I
 	public static final fun parse ([BI)Lspace/iseki/executables/pe/StandardHeader;
@@ -826,7 +828,7 @@ public final class space/iseki/executables/pe/TimeDateStamp32$Serializer : kotli
 	public fun serialize--Lk6_5U (Lkotlinx/serialization/encoding/Encoder;I)V
 }
 
-public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
+public final class space/iseki/executables/pe/WindowsSpecifiedHeader : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/pe/WindowsSpecifiedHeader$Companion;
 	public synthetic fun <init> (SJIISSSSSSIIIISSJJJJIIJJJJJJJJJJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-zC7-h34 ()S
@@ -880,7 +882,7 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
 	public final fun getDllCharacteristics-UaHtHC4 ()S
 	public final fun getExceptionTable-ZAUXGwc ()J
 	public final fun getExportTable-ZAUXGwc ()J
-	public final fun getFields ()Ljava/util/Map;
+	public fun getFields ()Ljava/util/Map;
 	public final fun getFileAlignment-pVg5ArA ()I
 	public final fun getGlobalPtr-ZAUXGwc ()J
 	public final fun getIat-ZAUXGwc ()J
@@ -907,6 +909,7 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader {
 	public final fun getSizeOfStackReserve-s-VKNKU ()J
 	public final fun getSubsystem-kp653uA ()S
 	public final fun getTlsTable-ZAUXGwc ()J
+	public fun getTotalFields ()I
 	public final fun getWin32VersionValue-pVg5ArA ()I
 	public fun hashCode ()I
 	public final fun length ()I

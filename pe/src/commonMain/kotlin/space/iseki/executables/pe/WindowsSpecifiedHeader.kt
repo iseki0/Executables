@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.common.ReadableStructure
 import kotlin.jvm.JvmStatic
 
 /**
@@ -96,57 +97,67 @@ data class WindowsSpecifiedHeader(
     val iat: DataDirectoryItem,
     val delayImportDescriptor: DataDirectoryItem,
     val clrRuntimeHeader: DataDirectoryItem,
-) {
+) : ReadableStructure {
 
-    val fields: Map<String, Any>
-        get() = mapOf(
-            "magic" to magic,
-            "imageBase" to imageBase,
-            "sectionAlignment" to sectionAlignment,
-            "fileAlignment" to fileAlignment,
-            "majorOperatingSystemVersion" to majorOperatingSystemVersion,
-            "minorOperatingSystemVersion" to minorOperatingSystemVersion,
-            "majorImageVersion" to majorImageVersion,
-            "minorImageVersion" to minorImageVersion,
-            "majorSubsystemVersion" to majorSubsystemVersion,
-            "minorSubsystemVersion" to minorSubsystemVersion,
-            "win32VersionValue" to win32VersionValue,
-            "sizeOfImage" to sizeOfImage,
-            "sizeOfHeaders" to sizeOfHeaders,
-            "checkSum" to checkSum,
-            "subsystem" to subsystem,
-            "dllCharacteristics" to dllCharacteristics,
-            "sizeOfStackReserve" to sizeOfStackReserve,
-            "sizeOfStackCommit" to sizeOfStackCommit,
-            "sizeOfHeapReserve" to sizeOfHeapReserve,
-            "sizeOfHeapCommit" to sizeOfHeapCommit,
-            "loaderFlags" to loaderFlags,
-            "numbersOfRvaAndSizes" to numbersOfRvaAndSizes,
-        )
-
-    val rvaList
-        get() = buildMap(numbersOfRvaAndSizes) {
-            if (numbersOfRvaAndSizes > 0) put("exportTable", exportTable)
-            if (numbersOfRvaAndSizes > 1) put("importTable", importTable)
-            if (numbersOfRvaAndSizes > 2) put("resourceTable", resourceTable)
-            if (numbersOfRvaAndSizes > 3) put("exceptionTable", exceptionTable)
-            if (numbersOfRvaAndSizes > 4) put("certificateTable", certificateTable)
-            if (numbersOfRvaAndSizes > 5) put("baseRelocationTable", baseRelocationTable)
-            if (numbersOfRvaAndSizes > 6) put("debug", debug)
-            if (numbersOfRvaAndSizes > 7) put("architecture", architecture)
-            if (numbersOfRvaAndSizes > 8) put("globalPtr", globalPtr)
-            if (numbersOfRvaAndSizes > 9) put("tlsTable", tlsTable)
-            if (numbersOfRvaAndSizes > 10) put("loadConfigTable", loadConfigTable)
-            if (numbersOfRvaAndSizes > 11) put("boundImport", boundImport)
-            if (numbersOfRvaAndSizes > 12) put("iat", iat)
-            if (numbersOfRvaAndSizes > 13) put("delayImportDescriptor", delayImportDescriptor)
-            if (numbersOfRvaAndSizes > 14) put("clrRuntimeHeader", clrRuntimeHeader)
+    /**
+     * Get all fields of the structure
+     *
+     * For convenient, the `magic` will be a field in the map, but it doesn't exist in the original structure.
+     * @return a map of field names to their values
+     */
+    override val fields: Map<String, Any>
+        get() = buildMap(capacity = 22 + numbersOfRvaAndSizes) {
+            put("magic", magic)
+            put("imageBase", imageBase)
+            put("sectionAlignment", sectionAlignment)
+            put("fileAlignment", fileAlignment)
+            put("majorOperatingSystemVersion", majorOperatingSystemVersion)
+            put("minorOperatingSystemVersion", minorOperatingSystemVersion)
+            put("majorImageVersion", majorImageVersion)
+            put("minorImageVersion", minorImageVersion)
+            put("majorSubsystemVersion", majorSubsystemVersion)
+            put("minorSubsystemVersion", minorSubsystemVersion)
+            put("win32VersionValue", win32VersionValue)
+            put("sizeOfImage", sizeOfImage)
+            put("sizeOfHeaders", sizeOfHeaders)
+            put("checkSum", checkSum)
+            put("subsystem", subsystem)
+            put("dllCharacteristics", dllCharacteristics)
+            put("sizeOfStackReserve", sizeOfStackReserve)
+            put("sizeOfStackCommit", sizeOfStackCommit)
+            put("sizeOfHeapReserve", sizeOfHeapReserve)
+            put("sizeOfHeapCommit", sizeOfHeapCommit)
+            put("loaderFlags", loaderFlags)
+            put("numbersOfRvaAndSizes", numbersOfRvaAndSizes)
+            fillRvaMap()
         }
 
+    override val totalFields: Int
+        get() = 22 + numbersOfRvaAndSizes
+
+    private fun MutableMap<String, in DataDirectoryItem>.fillRvaMap() {
+        if (numbersOfRvaAndSizes > 0) put("exportTable", exportTable)
+        if (numbersOfRvaAndSizes > 1) put("importTable", importTable)
+        if (numbersOfRvaAndSizes > 2) put("resourceTable", resourceTable)
+        if (numbersOfRvaAndSizes > 3) put("exceptionTable", exceptionTable)
+        if (numbersOfRvaAndSizes > 4) put("certificateTable", certificateTable)
+        if (numbersOfRvaAndSizes > 5) put("baseRelocationTable", baseRelocationTable)
+        if (numbersOfRvaAndSizes > 6) put("debug", debug)
+        if (numbersOfRvaAndSizes > 7) put("architecture", architecture)
+        if (numbersOfRvaAndSizes > 8) put("globalPtr", globalPtr)
+        if (numbersOfRvaAndSizes > 9) put("tlsTable", tlsTable)
+        if (numbersOfRvaAndSizes > 10) put("loadConfigTable", loadConfigTable)
+        if (numbersOfRvaAndSizes > 11) put("boundImport", boundImport)
+        if (numbersOfRvaAndSizes > 12) put("iat", iat)
+        if (numbersOfRvaAndSizes > 13) put("delayImportDescriptor", delayImportDescriptor)
+        if (numbersOfRvaAndSizes > 14) put("clrRuntimeHeader", clrRuntimeHeader)
+    }
+
+    val rvaList
+        get() = buildMap(numbersOfRvaAndSizes) { fillRvaMap() }
+
     override fun toString(): String = (fields.entries + rvaList.entries as Set<Map.Entry<String, Any>>).joinToString(
-        "",
-        "WindowsSpecifiedHeader(",
-        ")"
+        "", "WindowsSpecifiedHeader(", ")"
     ) { (k, v) -> "   $k = $v,\n" }
 
 
