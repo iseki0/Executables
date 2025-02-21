@@ -64,9 +64,6 @@ data class StandardHeader(
             )
         }
 
-    override val totalFields: Int
-        get() = if (magic == PE32Magic.PE32) 9 else 8
-
     override fun toString(): String =
         fields.entries.joinToString("", prefix = "StandardHeader(", postfix = ")") { (k, v) -> "   $k = $v,\n" }
 

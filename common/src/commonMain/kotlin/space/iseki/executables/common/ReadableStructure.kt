@@ -11,11 +11,4 @@ interface ReadableStructure {
      */
     val fields: Map<String, Any>
 
-    /**
-     * Get the total number of fields in the structure
-     *
-     * @return the total number of fields, returns -1 if unknown or variable
-     */
-    val totalFields: Int
-        get() = -1
 }

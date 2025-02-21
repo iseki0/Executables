@@ -48,9 +48,6 @@ data class FixedFileInfo(
             "fileDateLS" to fileDateLS,
         )
 
-    override val totalFields: Int
-        get() = 10
-
     override fun toString(): String = fields.entries.joinToString("", "VersionInfo(", ")") { (k, v) -> "   $k = $v,\n" }
 
     companion object {

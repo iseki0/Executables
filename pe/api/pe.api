@@ -215,7 +215,6 @@ public final class space/iseki/executables/pe/CoffHeader : space/iseki/executabl
 	public final fun getPointerToSymbolTable-hRLxnt0 ()I
 	public final fun getSizeOfOptionalHeader-Mh2AYeg ()S
 	public final fun getTimeDateStamp-n7FkWIM ()I
-	public fun getTotalFields ()I
 	public fun hashCode ()I
 	public static final fun parse ([BI)Lspace/iseki/executables/pe/CoffHeader;
 	public fun toString ()Ljava/lang/String;
@@ -664,7 +663,6 @@ public final class space/iseki/executables/pe/SectionTableItem : space/iseki/exe
 	public final fun getPointerToRawData-hRLxnt0 ()I
 	public final fun getPointerToRelocations-hRLxnt0 ()I
 	public final fun getSizeOfRawData-pVg5ArA ()I
-	public fun getTotalFields ()I
 	public final fun getVirtualAddress-hRLxnt0 ()I
 	public final fun getVirtualSize-pVg5ArA ()I
 	public fun hashCode ()I
@@ -702,7 +700,6 @@ public final class space/iseki/executables/pe/StandardHeader : space/iseki/execu
 	public final fun getSizeOfCode-pVg5ArA ()I
 	public final fun getSizeOfInitializedData-pVg5ArA ()I
 	public final fun getSizeOfUninitializedData-pVg5ArA ()I
-	public fun getTotalFields ()I
 	public fun hashCode ()I
 	public final fun length ()I
 	public static final fun parse ([BI)Lspace/iseki/executables/pe/StandardHeader;
@@ -827,7 +824,6 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader : space/ise
 	public final fun getSizeOfStackReserve-s-VKNKU ()J
 	public final fun getSubsystem-kp653uA ()S
 	public final fun getTlsTable-ZAUXGwc ()J
-	public fun getTotalFields ()I
 	public final fun getWin32VersionValue-pVg5ArA ()I
 	public fun hashCode ()I
 	public final fun length ()I
@@ -1089,7 +1085,6 @@ public final class space/iseki/executables/pe/vi/FixedFileInfo : space/iseki/exe
 	public final fun getProductVersionLS-pVg5ArA ()I
 	public final fun getProductVersionMS-pVg5ArA ()I
 	public final fun getStructVersion-pVg5ArA ()I
-	public fun getTotalFields ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

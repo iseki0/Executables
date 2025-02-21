@@ -50,9 +50,6 @@ data class CoffHeader(
             "characteristics" to characteristics,
         )
 
-    override val totalFields: Int
-        get() = 7
-
     override fun toString(): String {
         return """
             |CoffHeader(

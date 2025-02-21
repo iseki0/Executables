@@ -59,9 +59,6 @@ data class SectionTableItem(
             "characteristics" to characteristics,
         )
 
-    override val totalFields: Int
-        get() = 10
-
     override fun toString(): String =
         fields.entries.joinToString("", prefix = "SectionTableItem(", postfix = ")") { (k, v) -> "   $k = $v,\n" }
 }

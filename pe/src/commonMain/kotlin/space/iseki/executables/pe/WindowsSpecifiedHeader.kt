@@ -132,9 +132,6 @@ data class WindowsSpecifiedHeader(
             fillRvaMap()
         }
 
-    override val totalFields: Int
-        get() = 22 + numbersOfRvaAndSizes
-
     private fun MutableMap<String, in DataDirectoryItem>.fillRvaMap() {
         if (numbersOfRvaAndSizes > 0) put("exportTable", exportTable)
         if (numbersOfRvaAndSizes > 1) put("importTable", importTable)
