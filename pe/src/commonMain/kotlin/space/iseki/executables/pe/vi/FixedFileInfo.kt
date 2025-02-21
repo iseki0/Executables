@@ -1,6 +1,7 @@
 package space.iseki.executables.pe.vi
 
 import kotlinx.serialization.Serializable
+import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.pe.getUInt
 
 data class FixedFileInfo(
@@ -16,7 +17,7 @@ data class FixedFileInfo(
     val fileSubtype: UInt,
     val fileDateMS: UInt,
     val fileDateLS: UInt,
-) {
+) : ReadableStructure {
     val fileVersion: Version
         get() = Version(
             (fileVersionMS shr 16).toUShort(),  // Major (high word of MS)
@@ -33,7 +34,7 @@ data class FixedFileInfo(
             (productVersionLS and 0xFFFFu).toUShort()   // Patch
         )
 
-    val fields: Map<String, Any>
+    override val fields: Map<String, Any>
         get() = mapOf(
             "structVersion" to structVersion,
             "fileVersion" to fileVersion,
@@ -46,6 +47,9 @@ data class FixedFileInfo(
             "fileDateMS" to fileDateMS,
             "fileDateLS" to fileDateLS,
         )
+
+    override val totalFields: Int
+        get() = 10
 
     override fun toString(): String = fields.entries.joinToString("", "VersionInfo(", ")") { (k, v) -> "   $k = $v,\n" }
 

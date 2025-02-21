@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.common.ReadableStructure
 import kotlin.jvm.JvmStatic
 
 data class SectionTableItem(
@@ -13,7 +14,7 @@ data class SectionTableItem(
     val numberOfRelocations: UShort,
     val numberOfLinenumbers: UShort,
     val characteristics: SectionFlags,
-) {
+) : ReadableStructure {
     companion object {
         const val LENGTH = 40
 
@@ -44,7 +45,7 @@ data class SectionTableItem(
         }
     }
 
-    val fields
+    override val fields
         get() = mapOf(
             "name" to name,
             "virtualSize" to virtualSize,
@@ -57,6 +58,9 @@ data class SectionTableItem(
             "numberOfLinenumbers" to numberOfLinenumbers,
             "characteristics" to characteristics,
         )
+
+    override val totalFields: Int
+        get() = 10
 
     override fun toString(): String =
         fields.entries.joinToString("", prefix = "SectionTableItem(", postfix = ")") { (k, v) -> "   $k = $v,\n" }

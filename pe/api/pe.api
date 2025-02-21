@@ -638,7 +638,7 @@ public final class space/iseki/executables/pe/SectionFlags$Constants {
 	public static final field INSTANCE Lspace/iseki/executables/pe/SectionFlags$Constants;
 }
 
-public final class space/iseki/executables/pe/SectionTableItem {
+public final class space/iseki/executables/pe/SectionTableItem : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/pe/SectionTableItem$Companion;
 	public static final field LENGTH I
 	public synthetic fun <init> (Ljava/lang/String;IIIIIISSILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -656,7 +656,7 @@ public final class space/iseki/executables/pe/SectionTableItem {
 	public static synthetic fun copy-ahEX5hA$default (Lspace/iseki/executables/pe/SectionTableItem;Ljava/lang/String;IIIIIISSIILjava/lang/Object;)Lspace/iseki/executables/pe/SectionTableItem;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-CVJ1pB8 ()I
-	public final fun getFields ()Ljava/util/Map;
+	public fun getFields ()Ljava/util/Map;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getNumberOfLinenumbers-Mh2AYeg ()S
 	public final fun getNumberOfRelocations-Mh2AYeg ()S
@@ -664,6 +664,7 @@ public final class space/iseki/executables/pe/SectionTableItem {
 	public final fun getPointerToRawData-hRLxnt0 ()I
 	public final fun getPointerToRelocations-hRLxnt0 ()I
 	public final fun getSizeOfRawData-pVg5ArA ()I
+	public fun getTotalFields ()I
 	public final fun getVirtualAddress-hRLxnt0 ()I
 	public final fun getVirtualSize-pVg5ArA ()I
 	public fun hashCode ()I
@@ -1053,7 +1054,7 @@ public final class space/iseki/executables/pe/vi/FileType$Constants {
 	public static final field VXD I
 }
 
-public final class space/iseki/executables/pe/vi/FixedFileInfo {
+public final class space/iseki/executables/pe/vi/FixedFileInfo : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/pe/vi/FixedFileInfo$Companion;
 	public static final field LENGTH I
 	public static final field SIGNATURE I
@@ -1073,7 +1074,7 @@ public final class space/iseki/executables/pe/vi/FixedFileInfo {
 	public final fun copy-dItPTec (IIIIIIIIIIII)Lspace/iseki/executables/pe/vi/FixedFileInfo;
 	public static synthetic fun copy-dItPTec$default (Lspace/iseki/executables/pe/vi/FixedFileInfo;IIIIIIIIIIIIILjava/lang/Object;)Lspace/iseki/executables/pe/vi/FixedFileInfo;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getFields ()Ljava/util/Map;
+	public fun getFields ()Ljava/util/Map;
 	public final fun getFileDateLS-pVg5ArA ()I
 	public final fun getFileDateMS-pVg5ArA ()I
 	public final fun getFileFlags-NLjZLkA ()I
@@ -1088,6 +1089,7 @@ public final class space/iseki/executables/pe/vi/FixedFileInfo {
 	public final fun getProductVersionLS-pVg5ArA ()I
 	public final fun getProductVersionMS-pVg5ArA ()I
 	public final fun getStructVersion-pVg5ArA ()I
+	public fun getTotalFields ()I
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
