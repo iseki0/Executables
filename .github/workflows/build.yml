@@ -28,7 +28,8 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
       - uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-gradle-${{ hashFiles('buildSrc/**/*.kt', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('buildSrc/**/*.kt', '**/*.kts', '**/gradle-wrapper.properties') }}-${{ hashFiles('g/build/**', 'buildSrc/build/**') }}
+          restore-keys: ${{ runner.os }}-gradle-${{ hashFiles('buildSrc/**/*.kt', '**/*.kts', '**/gradle-wrapper.properties') }}
           path: |
             ./g/build
             ./buildSrc/build
