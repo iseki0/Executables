@@ -95,14 +95,25 @@ open class JigsawImpl(private val project: Project) : Jigsaw {
                 }
             }
 
-            tasks.named("compileJpmsJava", JavaCompile::class).configure {
-                sourceCompatibility = "9"
-                targetCompatibility = "9"
-                // todo
-//                val clap = CommandLineArgumentProvider {
-//                    listOf("--patch-module", "$moduleName=${sourceSets["main"].output.asPath}")
-//                }
-//                options.compilerArgumentProviders.add(clap)
+            val jpmsOutputPath = sourceSets["jpms"].output.asPath
+            project.kotlin {
+                targets {
+                    jvm {
+                        compilations.named("jpms").configure {
+                            compileTaskProvider.configure {
+                                compilerOptions {
+                                    jvmTarget = JvmTarget.JVM_9
+                                }
+                            }
+                            compileJavaTaskProvider!!.configure {
+                                sourceCompatibility = "9"
+                                targetCompatibility = "9"
+                                options.compilerArgs.add("--patch-module")
+                                options.compilerArgs.add("$moduleName=$jpmsOutputPath")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
