@@ -38,7 +38,7 @@ data class StandardHeader(
     }
 
     val fields: Map<String, Any>
-        get() = if (magic == PE32Magic.PE32Plus) {
+        get() = if (magic == PE32Magic.PE32) {
             mapOf(
                 "magic" to magic,
                 "majorLinkerVersion" to majorLinkerVersion,
