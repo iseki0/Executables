@@ -1,8 +1,10 @@
+@file:JvmName("-U")
 package space.iseki.executables.elf
+
+import kotlin.jvm.JvmName
 
 internal fun ByteArray.u1(offset: Int): UByte = (this[offset].toUInt() and 0xFFu).toUByte()
 
-// Little-endian read internal functions
 internal fun ByteArray.u2l(offset: Int): UShort =
     ((this[offset].toUInt() and 0xFFu) or
             ((this[offset + 1].toUInt() and 0xFFu) shl 8)).toUShort()
@@ -23,7 +25,6 @@ internal fun ByteArray.u8l(offset: Int): ULong =
             ((this[offset + 6].toULong() and 0xFFu) shl 48) or
             ((this[offset + 7].toULong() and 0xFFu) shl 56))
 
-// Big-endian read internal functions
 internal fun ByteArray.u2b(offset: Int): UShort =
     (((this[offset].toUInt() and 0xFFu) shl 8) or
             (this[offset + 1].toUInt() and 0xFFu)).toUShort()
