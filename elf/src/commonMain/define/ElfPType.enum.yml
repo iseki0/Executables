@@ -1,0 +1,14 @@
+package: space.iseki.executables.elf
+typename: ElfPType
+dataLength: 4
+list:
+  - { name: "PT_NULL", value: "0", docs: "The array element is unused and the other members' values are undefined. This lets the program header have ignored entries." }
+  - { name: "PT_LOAD", value: "1", docs: "The array element specifies a loadable segment, described by p_filesz and p_memsz. The bytes from the file are mapped to the beginning of the memory segment." }
+  - { name: "PT_DYNAMIC", value: "2", docs: "The array element specifies dynamic linking information." }
+  - { name: "PT_INTERP", value: "3", docs: "The array element specifies the location and size of a null-terminated pathname to invoke as an interpreter." }
+  - { name: "PT_NOTE", value: "4", docs: "The array element specifies the location of notes (ElfN_Nhdr)." }
+  - { name: "PT_SHLIB", value: "5", docs: "This segment type is reserved but has unspecified semantics. Programs that contain an array element of this type do not conform to the ABI." }
+  - { name: "PT_PHDR", value: "6", docs: "The array element specifies the location and size of the program header table itself, both in the file and in the memory image of the program." }
+  - { name: "PT_LOPROC", value: "0x70000000", docs: "Lower bound of the range reserved for processor-specific semantics." }
+  - { name: "PT_HIPROC", value: "0x7fffffff", docs: "Upper bound of the range reserved for processor-specific semantics." }
+  - { name: "PT_GNU_STACK", value: "0x6474e551", docs: "GNU extension which is used by the Linux kernel to control the state of the stack via the flags set in the p_flags member." } 

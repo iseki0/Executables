@@ -1,0 +1,7 @@
+package: space.iseki.executables.elf
+typename: ElfPFlags
+dataLength: 4
+list:
+  - { name: "PF_X", value: "0x1", docs: "An executable segment." }
+  - { name: "PF_W", value: "0x2", docs: "A writable segment." }
+  - { name: "PF_R", value: "0x4", docs: "A readable segment." } 

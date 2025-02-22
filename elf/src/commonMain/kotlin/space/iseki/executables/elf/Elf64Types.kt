@@ -8,14 +8,42 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 
+/**
+ * Represents a 16-bit unsigned integer in ELF format.
+ * Equivalent to uint16_t in C.
+ */
 @JvmInline
 @Serializable
 value class Elf64Half(val value: UShort)
 
+/**
+ * Represents a 32-bit unsigned integer in ELF format.
+ * Equivalent to uint32_t in C.
+ */
 @JvmInline
 @Serializable
 value class Elf64Word(val value: UInt)
 
+/**
+ * Represents a 64-bit unsigned integer in ELF format.
+ * Equivalent to uint64_t in C.
+ */
+@JvmInline
+@Serializable
+value class Elf64Xword(val value: ULong)
+
+/**
+ * Represents a 64-bit signed integer in ELF format.
+ * Equivalent to int64_t in C.
+ */
+@JvmInline
+@Serializable
+value class Elf64Sxword(val value: Long)
+
+/**
+ * Represents an unsigned program address in 64-bit ELF format.
+ * Equivalent to uint64_t in C.
+ */
 @JvmInline
 @Serializable(Elf64Addr.Serializer::class)
 value class Elf64Addr(val value: ULong) {
@@ -39,6 +67,10 @@ value class Elf64Addr(val value: ULong) {
     }
 }
 
+/**
+ * Represents an unsigned file offset in 64-bit ELF format.
+ * Equivalent to uint64_t in C.
+ */
 @JvmInline
 @Serializable
 value class Elf64Off(val value: ULong)

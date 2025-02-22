@@ -1,0 +1,20 @@
+package: space.iseki.executables.elf
+typename: ElfSType
+dataLength: 4
+list:
+  - { name: "SHT_NULL", value: "0", docs: "Marks the section header as inactive. It does not have an associated section." }
+  - { name: "SHT_PROGBITS", value: "1", docs: "Section holds information defined by the program, whose format and meaning are determined solely by the program." }
+  - { name: "SHT_SYMTAB", value: "2", docs: "Section holds a symbol table. Typically provides symbols for link editing, though it may also be used for dynamic linking." }
+  - { name: "SHT_STRTAB", value: "3", docs: "Section holds a string table. An object file may have multiple string table sections." }
+  - { name: "SHT_RELA", value: "4", docs: "Section holds relocation entries with explicit addends, such as type Elf32_Rela for the 32-bit class of object files." }
+  - { name: "SHT_HASH", value: "5", docs: "Section holds a symbol hash table. Required for dynamic linking." }
+  - { name: "SHT_DYNAMIC", value: "6", docs: "Section holds information for dynamic linking. An object file may have only one dynamic section." }
+  - { name: "SHT_NOTE", value: "7", docs: "Section holds notes (ElfN_Nhdr)." }
+  - { name: "SHT_NOBITS", value: "8", docs: "Section occupies no space in the file but otherwise resembles SHT_PROGBITS." }
+  - { name: "SHT_REL", value: "9", docs: "Section holds relocation offsets without explicit addends, such as type Elf32_Rel for the 32-bit class of object files." }
+  - { name: "SHT_SHLIB", value: "10", docs: "Reserved section with unspecified semantics." }
+  - { name: "SHT_DYNSYM", value: "11", docs: "Section holds a minimal set of dynamic linking symbols." }
+  - { name: "SHT_LOPROC", value: "0x70000000", docs: "Lower bound of the range reserved for processor-specific semantics." }
+  - { name: "SHT_HIPROC", value: "0x7fffffff", docs: "Upper bound of the range reserved for processor-specific semantics." }
+  - { name: "SHT_LOUSER", value: "0x80000000", docs: "Lower bound of the range of indices reserved for application programs." }
+  - { name: "SHT_HIUSER", value: "0xffffffff", docs: "Upper bound of the range of indices reserved for application programs." } 

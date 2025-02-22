@@ -1,0 +1,10 @@
+package: space.iseki.executables.elf
+typename: ElfSFlags
+dataLength: 8
+list:
+  - { name: "SHF_WRITE", value: "0x1", docs: "Section contains data that should be writable during process execution." }
+  - { name: "SHF_ALLOC", value: "0x2", docs: "Section occupies memory during process execution." }
+  - { name: "SHF_EXECINSTR", value: "0x4", docs: "Section contains executable machine instructions." }
+  - { name: "SHF_RELA_LIVEPATCH", value: "0x00100000", docs: "Section is a live-patch relocation section." }
+  - { name: "SHF_RO_AFTER_INIT", value: "0x00200000", docs: "Section becomes read-only after initialization." }
+  - { name: "SHF_MASKPROC", value: "0xf0000000", docs: "All bits in this mask are reserved for processor-specific semantics." } 

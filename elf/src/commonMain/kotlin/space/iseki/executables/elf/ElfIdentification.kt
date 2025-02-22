@@ -3,6 +3,19 @@ package space.iseki.executables.elf
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 
+/**
+ * Represents the initial bytes of an ELF file that specify how to interpret the file.
+ *
+ * The ELF identification provides an object file framework to support multiple processors,
+ * multiple data encodings, and multiple classes of machines. These initial bytes help interpret
+ * the file independent of the processor and the file's remaining contents.
+ *
+ * @property eiClass Identifies the file's class or capacity (32-bit or 64-bit objects).
+ * @property eiData Specifies the data encoding of processor-specific data (little or big endian).
+ * @property eiVersion Specifies the ELF header version number.
+ * @property eiOsAbi Identifies the operating system and ABI for which the object is prepared.
+ * @property eiAbiVersion The ABI version.
+ */
 @Serializable
 data class ElfIdentification(
     val eiClass: ElfClass,

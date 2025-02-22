@@ -15,6 +15,8 @@ class ElfFile private constructor(
     private val dataAccessor: DataAccessor,
     val ident: ElfIdentification,
     val ehdr: ElfEhdr,
+    val programHeaders: List<ElfPhdr>,
+    val sectionHeaders: List<ElfShdr>,
 ) : AutoCloseable {
 
     companion object {
@@ -38,7 +40,68 @@ class ElfFile private constructor(
             } else {
                 throw ElfFileException("Invalid ElfClass: " + ident.eiClass)
             }
-            return ElfFile(accessor, ident, ehdr)
+
+            // 读取 Program Header 表
+            val programHeaders = when (ehdr) {
+                is Elf32Ehdr -> {
+                    if (ehdr.ePhoff.value != 0u && ehdr.ePhnum.value.toInt() > 0) {
+                        val phSize = ehdr.ePhentsize.value.toInt() * ehdr.ePhnum.value.toInt()
+                        val phBuffer = ByteArray(phSize)
+                        accessor.readFully(ehdr.ePhoff.value.toLong(), phBuffer)
+                        List(ehdr.ePhnum.value.toInt()) { i ->
+                            Elf32Phdr.parse(phBuffer, i * ehdr.ePhentsize.value.toInt(), ident)
+                        }
+                    } else {
+                        emptyList()
+                    }
+                }
+
+                is Elf64Ehdr -> {
+                    if (ehdr.ePhoff.value != 0UL && ehdr.ePhnum.value.toInt() > 0) {
+                        val phSize = ehdr.ePhentsize.value.toInt() * ehdr.ePhnum.value.toInt()
+                        val phBuffer = ByteArray(phSize)
+                        accessor.readFully(ehdr.ePhoff.value.toLong(), phBuffer)
+                        List(ehdr.ePhnum.value.toInt()) { i ->
+                            Elf64Phdr.parse(phBuffer, i * ehdr.ePhentsize.value.toInt(), ident)
+                        }
+                    } else {
+                        emptyList()
+                    }
+                }
+            }
+
+            // 读取 Section Header 表
+            val le = ident.eiData == ElfData.ELFDATA2LSB
+            val sectionHeaders = when (ehdr) {
+                is Elf32Ehdr -> {
+                    if (ehdr.eShoff.value != 0u && ehdr.eShnum.value.toInt() > 0) {
+                        val shSize = ehdr.eShentsize.value.toInt() * ehdr.eShnum.value.toInt()
+                        val shBuffer = ByteArray(shSize)
+                        accessor.readFully(ehdr.eShoff.value.toLong(), shBuffer)
+                        List(ehdr.eShnum.value.toInt()) { i ->
+                            Elf32Shdr.parse(shBuffer, i * ehdr.eShentsize.value.toInt(), le)
+                        }
+                    } else {
+                        emptyList()
+                    }
+                }
+
+                is Elf64Ehdr -> {
+                    if (ehdr.eShoff.value != 0UL && ehdr.eShnum.value.toInt() > 0) {
+                        val shSize = ehdr.eShentsize.value.toInt() * ehdr.eShnum.value.toInt()
+                        val shBuffer = ByteArray(shSize)
+                        accessor.readFully(ehdr.eShoff.value.toLong(), shBuffer)
+                        List(ehdr.eShnum.value.toInt()) { i ->
+                            Elf64Shdr.parse(shBuffer, i * ehdr.eShentsize.value.toInt(), le)
+                        }
+                    } else {
+                        emptyList()
+                    }
+                }
+            }
+
+            // 如果需要后续使用 programHeaders 和 sectionHeaders，可以考虑将它们保存到 ElfFile 对象中
+            return ElfFile(accessor, ident, ehdr, programHeaders, sectionHeaders)
         }
     }
 
