@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     commonMainApi(project(":pe"))
+    commonMainApi(project(":elf"))
 }
