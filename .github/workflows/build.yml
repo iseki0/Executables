@@ -33,7 +33,7 @@ jobs:
             ./g/build
             ./buildSrc/build
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           cache-encryption-key: ${{ secrets.GradleEncryptionKey }} # openssl rand -base64 16
           validate-wrappers: true
