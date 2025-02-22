@@ -3,7 +3,6 @@ package space.iseki.executables.pe
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import org.intellij.lang.annotations.Language
-import space.iseki.executables.pe.serializer.PEFileSummarySerializer
 import java.nio.file.Path
 import kotlin.io.path.absolute
 import kotlin.io.path.isRegularFile
@@ -233,9 +232,9 @@ class PEFilesTest {
         assertTrue { java.isRegularFile() }
         val json = Json { prettyPrint = true }
         PEFile(java).use { pe ->
-            val jsonText = json.encodeToString(PEFileSummarySerializer, pe.summary)
+            val jsonText = json.encodeToString(pe.summary)
             println(jsonText)
-            val summary = json.decodeFromString(PEFileSummarySerializer, jsonText)
+            val summary = json.decodeFromString<PEFile.Summary>(jsonText)
             assertEquals(pe.summary.coffHeader, summary.coffHeader)
             assertEquals(pe.summary.standardHeader, summary.standardHeader)
             assertEquals(pe.summary.windowsHeader, summary.windowsHeader)

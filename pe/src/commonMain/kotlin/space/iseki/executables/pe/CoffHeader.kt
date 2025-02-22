@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 import kotlin.jvm.JvmStatic
 
@@ -14,6 +15,7 @@ import kotlin.jvm.JvmStatic
  * @property sizeOfOptionalHeader The size of the optional header, which is required for executable files but not for object files. This value should be zero for an object file. For a description of the header format, see Optional Header (Image Only).
  * @property characteristics The flags that indicate the attributes of the file. For specific flag values, see [Characteristics].
  */
+@Serializable
 data class CoffHeader(
     val machine: MachineType,
     val numbersOfSections: UShort,

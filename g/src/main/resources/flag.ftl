@@ -1,5 +1,5 @@
 @file:JvmName("-${typename}")
-@file:Suppress("MemberVisibilityCanBePrivate", "unused", "RemoveRedundantCallsOfConversionMethods", "UnusedImport")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused", "RemoveRedundantCallsOfConversionMethods", "UnusedImport", "RemoveRedundantQualifierName")
 package ${package}
 
 import kotlin.experimental.and
@@ -8,6 +8,14 @@ import kotlin.experimental.xor
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 import kotlin.jvm.JvmName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.serialDescriptor
+import kotlinx.serialization.encoding.CompositeDecoder
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 fun ${typename}(rawValue: U${rawType}) = ${typename}(rawValue.to${rawType}())
 
@@ -18,6 +26,7 @@ fun ${typename}(rawValue: U${rawType}) = ${typename}(rawValue.to${rawType}())
 */
 @OptIn(ExperimentalStdlibApi::class)
 @JvmInline
+@Serializable(with = ${typename}.Serializer::class)
 value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
     object Constants{
     <#list list as item>
@@ -124,4 +133,38 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
     override fun contains(element: ${typename}): Boolean {
         return rawValue and element.rawValue == element.rawValue
     }
+
+internal object Serializer : KSerializer<${typename}> {
+override val descriptor: SerialDescriptor
+get() = serialDescriptor
+<List
+<String>>()
+
+    override fun deserialize(decoder: Decoder): ${typename} {
+    var acc: ${typename} = ${typename}.ZERO
+    val dec = decoder.beginStructure(descriptor)
+    while (true){
+    val i = dec.decodeElementIndex(descriptor)
+    if (i == CompositeDecoder.DECODE_DONE) break
+    val s = dec.decodeStringElement(descriptor, i)
+    try{
+    acc += ${typename}.valueOf(s)
+    }catch(e: Exception){
+    if(e !is IllegalArgumentException && e !is NumberFormatException) throw e
+    throw SerializationException("Invalid ${typename} value: "+e.message, e)
+    }
+    }
+    dec.endStructure(descriptor)
+    return acc
+    }
+
+    override fun serialize(encoder: Encoder, value: ${typename}) {
+    val enc = encoder.beginCollection(descriptor, value.size)
+    for((i, it) in value.withIndex()){
+    enc.encodeStringElement(descriptor, i, it.toString())
+    }
+    enc.endStructure(descriptor)
+    }
+    }
+
 }

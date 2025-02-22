@@ -75,7 +75,7 @@ fun main() {
     PEFile(file).use { peFile: PEFile ->
         println(peFile.coffHeader)
         println(peFile.summary)
-        println(Json.encodeToString(PEFile.Summary.prettySerializer, peFile.summary))
+        println(Json.encodeToString(peFile.summary))
         println(peFile.versionInfo)
     }
 }

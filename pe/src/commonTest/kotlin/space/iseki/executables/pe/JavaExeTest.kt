@@ -2,7 +2,6 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import space.iseki.executables.pe.serializer.PEFileSummarySerializer
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
 import kotlin.test.Test
@@ -22,8 +21,8 @@ class JavaExeTest {
         println(pe.standardHeader)
         println(pe.windowsHeader)
         println(pe.sectionTable)
-        val jsonText = json.encodeToString(PEFileSummarySerializer, pe.summary)
-        println(json.encodeToString(PEFileSummarySerializer, pe.summary))
+        val jsonText = json.encodeToString(pe.summary)
+        println(json.encodeToString(pe.summary))
         val je = Json.decodeFromString<JsonElement>(jsonText)
         assertEquals(java_exe_json, je)
     }

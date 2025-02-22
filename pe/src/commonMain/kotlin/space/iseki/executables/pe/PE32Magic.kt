@@ -1,5 +1,11 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.serialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
@@ -9,7 +15,21 @@ import kotlin.jvm.JvmStatic
  * @property rawValue the raw short value representing the magic
  */
 @JvmInline
+@Serializable(with = PE32Magic.Serializer::class)
 value class PE32Magic(val rawValue: Short) : Comparable<PE32Magic> {
+    internal object Serializer : KSerializer<PE32Magic> {
+        override val descriptor: SerialDescriptor
+            get() = serialDescriptor<String>()
+
+        override fun deserialize(decoder: Decoder): PE32Magic {
+            return valueOf(decoder.decodeString())
+        }
+
+        override fun serialize(encoder: Encoder, value: PE32Magic) {
+            encoder.encodeString(value.toString())
+        }
+
+    }
     companion object {
         /**
          * Returns the [PE32Magic] corresponding to the given name.

@@ -1,12 +1,10 @@
 package space.iseki.executables.pe
 
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ByteArrayDataAccessor
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.IOException
-import space.iseki.executables.pe.serializer.PEFileSummarySerializer
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
@@ -38,23 +36,13 @@ class PEFile private constructor(
      * @property windowsHeader the windows specific header
      * @property sectionTable the list of section table items
      */
-    @Serializable(PEFileSummarySerializer::class)
+    @Serializable
     class Summary(
         val coffHeader: CoffHeader,
         val standardHeader: StandardHeader,
         val windowsHeader: WindowsSpecifiedHeader,
         val sectionTable: List<SectionTableItem>,
-    ) {
-        companion object {
-            /**
-             * Returns a pretty serializer for the summary.
-             *
-             * @return a KSerializer for pretty summary format
-             */
-            @JvmStatic
-            val prettySerializer: KSerializer<Summary> = PEFileSummarySerializer
-        }
-    }
+    )
 
     /**
      * Returns a summary of the pe file headers.

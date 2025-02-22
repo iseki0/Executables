@@ -60,11 +60,6 @@ class G : Plugin<Project> {
                         typeOutFile.outputStream().bufferedWriter(StandardCharsets.UTF_8).use { w ->
                             cfg.getTemplate(if (isFlag) "flag.ftl" else "enum.ftl").process(data, w)
                         }
-                        val serOutFile = od.asFile.resolve(pkgPath + "/serializer/" + data.typename + "Serializer.kt")
-                        serOutFile.parentFile.mkdirs()
-                        serOutFile.outputStream().bufferedWriter(StandardCharsets.UTF_8).use { w ->
-                            cfg.getTemplate(if (isFlag) "flagser.ftl" else "enumser.ftl").process(data, w)
-                        }
                     }
                 }
             }

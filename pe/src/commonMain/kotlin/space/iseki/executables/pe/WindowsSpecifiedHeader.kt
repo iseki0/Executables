@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 import kotlin.jvm.JvmStatic
 
@@ -59,6 +60,7 @@ import kotlin.jvm.JvmStatic
  * @property delayImportDescriptor The delay import descriptor address and size. For more information, see Delay-Load Import Tables (Image Only).
  * @property clrRuntimeHeader The CLR runtime header address and size. For more information, see The .cormeta Section (Object Only).
  */
+@Serializable
 data class WindowsSpecifiedHeader(
     val magic: PE32Magic,
     val imageBase: Address64,

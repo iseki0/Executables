@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 import kotlin.jvm.JvmStatic
 
@@ -21,6 +22,7 @@ import kotlin.jvm.JvmStatic
  * @property baseOfData The address that is relative to the image base of the beginning-of-data section when it is loaded into memory.
  *                      This field is only present in PE32 format, and is absent in PE32+.
  */
+@Serializable
 data class StandardHeader(
     val magic: PE32Magic,
     val majorLinkerVersion: Byte,

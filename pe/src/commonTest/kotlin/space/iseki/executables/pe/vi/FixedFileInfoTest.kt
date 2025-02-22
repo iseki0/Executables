@@ -1,7 +1,7 @@
 package space.iseki.executables.pe.vi
 
 import kotlinx.serialization.json.Json
-import space.iseki.executables.pe.serializer.FixedFileInfoSerializer
+import kotlinx.serialization.json.encodeToJsonElement
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -21,8 +21,8 @@ class FixedFileInfoTest {
         """.trimMargin().replace(Regex("""[\r\n ]"""), "").hexToByteArray()
         val info = FixedFileInfo.parse(bytes, 0)
         assertEquals(FixedFileInfo.LENGTH, bytes.size)
-        val jt = json.encodeToString(FixedFileInfoSerializer, info)
+        val jt = json.encodeToString(info)
         println(jt)
-        assertEquals(json.parseToJsonElement(jt), json.encodeToJsonElement(FixedFileInfoSerializer, info))
+        assertEquals(json.parseToJsonElement(jt), json.encodeToJsonElement(info))
     }
 } 
