@@ -95,8 +95,7 @@ value class ${typename}(val rawValue: ${rawType}){
 
 internal object Serializer: KSerializer<${typename}>{
 override val descriptor: SerialDescriptor
-get() = serialDescriptor
-<String>()
+get() = serialDescriptor<String>()
 
     override fun deserialize(decoder: Decoder): ${typename} {
     try{

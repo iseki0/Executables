@@ -136,9 +136,7 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
 
 internal object Serializer : KSerializer<${typename}> {
 override val descriptor: SerialDescriptor
-get() = serialDescriptor
-<List
-<String>>()
+get() = serialDescriptor<List<String>>()
 
     override fun deserialize(decoder: Decoder): ${typename} {
     var acc: ${typename} = ${typename}.ZERO
