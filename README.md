@@ -102,6 +102,6 @@ fun main() {
 
 [space.iseki.executables:executables-pe]: https://central.sonatype.com/artifact/space.iseki.executables/executables-pe
 
-[space.iseki.executables:executables-pe]: https://central.sonatype.com/artifact/space.iseki.executables/executables-elf
+[space.iseki.executables:executables-elf]: https://central.sonatype.com/artifact/space.iseki.executables/executables-elf
 
 [space.iseki.executables:executables-all]: https://central.sonatype.com/artifact/space.iseki.executables/executables-all
