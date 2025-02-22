@@ -440,6 +440,12 @@ public class space/iseki/executables/elf/ElfFileException : java/lang/RuntimeExc
 	public fun getCause ()Ljava/lang/Throwable;
 }
 
+public final class space/iseki/executables/elf/ElfFiles {
+	public static final fun ElfFile (Ljava/io/File;)Lspace/iseki/executables/elf/ElfFile;
+	public static final fun ElfFile (Ljava/nio/file/Path;)Lspace/iseki/executables/elf/ElfFile;
+	public static final fun ElfFile ([B)Lspace/iseki/executables/elf/ElfFile;
+}
+
 public final class space/iseki/executables/elf/ElfIdentification : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/elf/ElfIdentification$Companion;
 	public synthetic fun <init> (BBBBBLkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -756,11 +762,5 @@ public final class space/iseki/executables/elf/ElfType$Constants {
 	public static final field ET_NONE S
 	public static final field ET_REL S
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfType$Constants;
-}
-
-public final class space/iseki/executables/elf/Elf_jvmKt {
-	public static final fun ElfFile (Ljava/io/File;)Lspace/iseki/executables/elf/ElfFile;
-	public static final fun ElfFile (Ljava/nio/file/Path;)Lspace/iseki/executables/elf/ElfFile;
-	public static final fun ElfFile ([B)Lspace/iseki/executables/elf/ElfFile;
 }
 
