@@ -1,0 +1,7 @@
+package: space.iseki.executables.elf
+typename: ElfClass
+dataLength: 1
+list:
+  - { name: "ELFCLASSNONE", value: "0", docs: "Invalid class" }
+  - { name: "ELFCLASS32", value: "1", docs: "32-bit objects. Supports machines with 32-bit architectures; uses basic types from the '32-Bit Data Types' table." }
+  - { name: "ELFCLASS64", value: "2", docs: "64-bit objects. Supports machines with 64-bit architectures; uses basic types from the '64-Bit Data Types' table." }

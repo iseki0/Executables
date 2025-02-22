@@ -1,0 +1,760 @@
+public final class space/iseki/executables/elf/-ElfClass {
+	public static final fun ElfClass-7apg3OU (B)B
+}
+
+public final class space/iseki/executables/elf/-ElfData {
+	public static final fun ElfData-7apg3OU (B)B
+}
+
+public final class space/iseki/executables/elf/-ElfMachine {
+	public static final fun ElfMachine-xj2QHRw (S)S
+}
+
+public final class space/iseki/executables/elf/-ElfOsAbi {
+	public static final fun ElfOsAbi-7apg3OU (B)B
+}
+
+public final class space/iseki/executables/elf/-ElfType {
+	public static final fun ElfType-xj2QHRw (S)S
+}
+
+public final class space/iseki/executables/elf/Elf32Addr {
+	public static final field Companion Lspace/iseki/executables/elf/Elf32Addr$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/elf/Elf32Addr;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/elf/Elf32Addr$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf32Addr$Serializer : kotlinx/serialization/KSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf32Addr$Serializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun deserialize-KWYtIPM (Lkotlinx/serialization/encoding/Decoder;)I
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun serialize-RrA8k0s (Lkotlinx/serialization/encoding/Encoder;I)V
+}
+
+public final class space/iseki/executables/elf/Elf32Ehdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfEhdr {
+	public static final field Companion Lspace/iseki/executables/elf/Elf32Ehdr$Companion;
+	public synthetic fun <init> (SSIIIIISSSSSSLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-PfRsyB4 ()S
+	public final fun component10--AGyQ7A ()S
+	public final fun component11--AGyQ7A ()S
+	public final fun component12--AGyQ7A ()S
+	public final fun component13--AGyQ7A ()S
+	public final fun component2-g3grjjo ()S
+	public final fun component3-nFKMrNA ()I
+	public final fun component4-Kk3U2zw ()I
+	public final fun component5-UGsYpoU ()I
+	public final fun component6-UGsYpoU ()I
+	public final fun component7-nFKMrNA ()I
+	public final fun component8--AGyQ7A ()S
+	public final fun component9--AGyQ7A ()S
+	public final fun copy-P1t__WM (SSIIIIISSSSSS)Lspace/iseki/executables/elf/Elf32Ehdr;
+	public static synthetic fun copy-P1t__WM$default (Lspace/iseki/executables/elf/Elf32Ehdr;SSIIIIISSSSSSILjava/lang/Object;)Lspace/iseki/executables/elf/Elf32Ehdr;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEEhsize--AGyQ7A ()S
+	public final fun getEEntry-Kk3U2zw ()I
+	public final fun getEFlags-nFKMrNA ()I
+	public final fun getEMachine-g3grjjo ()S
+	public final fun getEPhentsize--AGyQ7A ()S
+	public final fun getEPhnum--AGyQ7A ()S
+	public final fun getEPhoff-UGsYpoU ()I
+	public final fun getEShentsize--AGyQ7A ()S
+	public final fun getEShnum--AGyQ7A ()S
+	public final fun getEShoff-UGsYpoU ()I
+	public final fun getEShstrndx--AGyQ7A ()S
+	public final fun getEType-PfRsyB4 ()S
+	public final fun getEVersion-nFKMrNA ()I
+	public fun getFields ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/elf/Elf32Ehdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf32Ehdr$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/Elf32Ehdr;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/Elf32Ehdr;)V
+}
+
+public final class space/iseki/executables/elf/Elf32Ehdr$Companion {
+	public final fun parse ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/Elf32Ehdr;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf32Half {
+	public static final field Companion Lspace/iseki/executables/elf/Elf32Half$Companion;
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/elf/Elf32Half;
+	public static fun constructor-impl (S)S
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getValue-Mh2AYeg ()S
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public synthetic class space/iseki/executables/elf/Elf32Half$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf32Half$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize-gyVPW7U (Lkotlinx/serialization/encoding/Decoder;)S
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize-GhVF_tE (Lkotlinx/serialization/encoding/Encoder;S)V
+}
+
+public final class space/iseki/executables/elf/Elf32Half$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf32Off {
+	public static final field Companion Lspace/iseki/executables/elf/Elf32Off$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/elf/Elf32Off;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public synthetic class space/iseki/executables/elf/Elf32Off$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf32Off$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize-A_vjfSI (Lkotlinx/serialization/encoding/Decoder;)I
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize-N6BqZAs (Lkotlinx/serialization/encoding/Encoder;I)V
+}
+
+public final class space/iseki/executables/elf/Elf32Off$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf32Word {
+	public static final field Companion Lspace/iseki/executables/elf/Elf32Word$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/elf/Elf32Word;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public synthetic class space/iseki/executables/elf/Elf32Word$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf32Word$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize-OPLpwQg (Lkotlinx/serialization/encoding/Decoder;)I
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize-r6mWEBs (Lkotlinx/serialization/encoding/Encoder;I)V
+}
+
+public final class space/iseki/executables/elf/Elf32Word$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf64Addr {
+	public static final field Companion Lspace/iseki/executables/elf/Elf64Addr$Companion;
+	public static final synthetic fun box-impl (J)Lspace/iseki/executables/elf/Elf64Addr;
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getValue-s-VKNKU ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public final class space/iseki/executables/elf/Elf64Addr$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf64Addr$Serializer : kotlinx/serialization/KSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf64Addr$Serializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun deserialize-522wmMw (Lkotlinx/serialization/encoding/Decoder;)J
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun serialize-SGWIaJk (Lkotlinx/serialization/encoding/Encoder;J)V
+}
+
+public final class space/iseki/executables/elf/Elf64Ehdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfEhdr {
+	public static final field Companion Lspace/iseki/executables/elf/Elf64Ehdr$Companion;
+	public synthetic fun <init> (SSIJJJISSSSSSLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-PfRsyB4 ()S
+	public final fun component10-AOHzrO0 ()S
+	public final fun component11-AOHzrO0 ()S
+	public final fun component12-AOHzrO0 ()S
+	public final fun component13-AOHzrO0 ()S
+	public final fun component2-g3grjjo ()S
+	public final fun component3-4mhg-h8 ()I
+	public final fun component4-274mneU ()J
+	public final fun component5-lLVqvh4 ()J
+	public final fun component6-lLVqvh4 ()J
+	public final fun component7-4mhg-h8 ()I
+	public final fun component8-AOHzrO0 ()S
+	public final fun component9-AOHzrO0 ()S
+	public final fun copy-5xcjtpk (SSIJJJISSSSSS)Lspace/iseki/executables/elf/Elf64Ehdr;
+	public static synthetic fun copy-5xcjtpk$default (Lspace/iseki/executables/elf/Elf64Ehdr;SSIJJJISSSSSSILjava/lang/Object;)Lspace/iseki/executables/elf/Elf64Ehdr;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEEhsize-AOHzrO0 ()S
+	public final fun getEEntry-274mneU ()J
+	public final fun getEFlags-4mhg-h8 ()I
+	public final fun getEMachine-g3grjjo ()S
+	public final fun getEPhentsize-AOHzrO0 ()S
+	public final fun getEPhnum-AOHzrO0 ()S
+	public final fun getEPhoff-lLVqvh4 ()J
+	public final fun getEShentsize-AOHzrO0 ()S
+	public final fun getEShnum-AOHzrO0 ()S
+	public final fun getEShoff-lLVqvh4 ()J
+	public final fun getEShstrndx-AOHzrO0 ()S
+	public final fun getEType-PfRsyB4 ()S
+	public final fun getEVersion-4mhg-h8 ()I
+	public fun getFields ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/elf/Elf64Ehdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf64Ehdr$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/Elf64Ehdr;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/Elf64Ehdr;)V
+}
+
+public final class space/iseki/executables/elf/Elf64Ehdr$Companion {
+	public final fun parse ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/Elf64Ehdr;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf64Half {
+	public static final field Companion Lspace/iseki/executables/elf/Elf64Half$Companion;
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/elf/Elf64Half;
+	public static fun constructor-impl (S)S
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getValue-Mh2AYeg ()S
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public synthetic class space/iseki/executables/elf/Elf64Half$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf64Half$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize-kvdJ6Ts (Lkotlinx/serialization/encoding/Decoder;)S
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize-cNorI9U (Lkotlinx/serialization/encoding/Encoder;S)V
+}
+
+public final class space/iseki/executables/elf/Elf64Half$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf64Off {
+	public static final field Companion Lspace/iseki/executables/elf/Elf64Off$Companion;
+	public static final synthetic fun box-impl (J)Lspace/iseki/executables/elf/Elf64Off;
+	public static fun constructor-impl (J)J
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (JLjava/lang/Object;)Z
+	public static final fun equals-impl0 (JJ)Z
+	public final fun getValue-s-VKNKU ()J
+	public fun hashCode ()I
+	public static fun hashCode-impl (J)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (J)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()J
+}
+
+public synthetic class space/iseki/executables/elf/Elf64Off$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf64Off$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize-6rM57bI (Lkotlinx/serialization/encoding/Decoder;)J
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize-02hCH00 (Lkotlinx/serialization/encoding/Encoder;J)V
+}
+
+public final class space/iseki/executables/elf/Elf64Off$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/Elf64Word {
+	public static final field Companion Lspace/iseki/executables/elf/Elf64Word$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/elf/Elf64Word;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public synthetic class space/iseki/executables/elf/Elf64Word$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/Elf64Word$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize-z8PTH8s (Lkotlinx/serialization/encoding/Decoder;)I
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize-fszfTIA (Lkotlinx/serialization/encoding/Encoder;I)V
+}
+
+public final class space/iseki/executables/elf/Elf64Word$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/ElfClass {
+	public static final field Companion Lspace/iseki/executables/elf/ElfClass$Companion;
+	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfClass;
+	public static fun constructor-impl (B)B
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (BLjava/lang/Object;)Z
+	public static final fun equals-impl0 (BB)Z
+	public final fun getRawValue ()B
+	public fun hashCode ()I
+	public static fun hashCode-impl (B)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (B)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()B
+}
+
+public final class space/iseki/executables/elf/ElfClass$Companion {
+	public final fun getELFCLASS32-c3FtmGA ()B
+	public final fun getELFCLASS64-c3FtmGA ()B
+	public final fun getELFCLASSNONE-c3FtmGA ()B
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-tM658r4 (Ljava/lang/String;)B
+	public final fun valueOfOrNull-jxi6oog (Ljava/lang/String;)Lspace/iseki/executables/elf/ElfClass;
+}
+
+public final class space/iseki/executables/elf/ElfClass$Constants {
+	public static final field ELFCLASS32 B
+	public static final field ELFCLASS64 B
+	public static final field ELFCLASSNONE B
+	public static final field INSTANCE Lspace/iseki/executables/elf/ElfClass$Constants;
+}
+
+public final class space/iseki/executables/elf/ElfData {
+	public static final field Companion Lspace/iseki/executables/elf/ElfData$Companion;
+	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfData;
+	public static fun constructor-impl (B)B
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (BLjava/lang/Object;)Z
+	public static final fun equals-impl0 (BB)Z
+	public final fun getRawValue ()B
+	public fun hashCode ()I
+	public static fun hashCode-impl (B)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (B)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()B
+}
+
+public final class space/iseki/executables/elf/ElfData$Companion {
+	public final fun getELFDATA2LSB-wf8XVRY ()B
+	public final fun getELFDATA2MSB-wf8XVRY ()B
+	public final fun getELFDATANONE-wf8XVRY ()B
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-_SA7Fmc (Ljava/lang/String;)B
+	public final fun valueOfOrNull-umu6q4M (Ljava/lang/String;)Lspace/iseki/executables/elf/ElfData;
+}
+
+public final class space/iseki/executables/elf/ElfData$Constants {
+	public static final field ELFDATA2LSB B
+	public static final field ELFDATA2MSB B
+	public static final field ELFDATANONE B
+	public static final field INSTANCE Lspace/iseki/executables/elf/ElfData$Constants;
+}
+
+public abstract interface class space/iseki/executables/elf/ElfEhdr : space/iseki/executables/common/ReadableStructure {
+	public static final field Companion Lspace/iseki/executables/elf/ElfEhdr$Companion;
+}
+
+public final class space/iseki/executables/elf/ElfEhdr$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable {
+	public static final field Companion Lspace/iseki/executables/elf/ElfFile$Companion;
+	public synthetic fun <init> (Lspace/iseki/executables/common/DataAccessor;Lspace/iseki/executables/elf/ElfIdentification;Lspace/iseki/executables/elf/ElfEhdr;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun close ()V
+	public final fun getEhdr ()Lspace/iseki/executables/elf/ElfEhdr;
+	public final fun getIdent ()Lspace/iseki/executables/elf/ElfIdentification;
+}
+
+public final class space/iseki/executables/elf/ElfFile$Companion {
+}
+
+public class space/iseki/executables/elf/ElfFileException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getCause ()Ljava/lang/Throwable;
+}
+
+public final class space/iseki/executables/elf/ElfIdentification : space/iseki/executables/common/ReadableStructure {
+	public static final field Companion Lspace/iseki/executables/elf/ElfIdentification$Companion;
+	public synthetic fun <init> (BBBBBLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-c3FtmGA ()B
+	public final fun component2-wf8XVRY ()B
+	public final fun component3-w2LRezQ ()B
+	public final fun component4-qSg-ays ()B
+	public final fun component5-w2LRezQ ()B
+	public final fun copy-Asih7LE (BBBBB)Lspace/iseki/executables/elf/ElfIdentification;
+	public static synthetic fun copy-Asih7LE$default (Lspace/iseki/executables/elf/ElfIdentification;BBBBBILjava/lang/Object;)Lspace/iseki/executables/elf/ElfIdentification;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEiAbiVersion-w2LRezQ ()B
+	public final fun getEiClass-c3FtmGA ()B
+	public final fun getEiData-wf8XVRY ()B
+	public final fun getEiOsAbi-qSg-ays ()B
+	public final fun getEiVersion-w2LRezQ ()B
+	public fun getFields ()Ljava/util/Map;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/elf/ElfIdentification$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/ElfIdentification$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/ElfIdentification;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfIdentification;)V
+}
+
+public final class space/iseki/executables/elf/ElfIdentification$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/elf/ElfMachine {
+	public static final field Companion Lspace/iseki/executables/elf/ElfMachine$Companion;
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/elf/ElfMachine;
+	public static fun constructor-impl (S)S
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getRawValue ()S
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public final class space/iseki/executables/elf/ElfMachine$Companion {
+	public final fun getALPHA-g3grjjo ()S
+	public final fun getARC-g3grjjo ()S
+	public final fun getARC_A5-g3grjjo ()S
+	public final fun getARM-g3grjjo ()S
+	public final fun getAVR-g3grjjo ()S
+	public final fun getCOLDFIRE-g3grjjo ()S
+	public final fun getCRIS-g3grjjo ()S
+	public final fun getD10V-g3grjjo ()S
+	public final fun getD30V-g3grjjo ()S
+	public final fun getFIREPATH-g3grjjo ()S
+	public final fun getFR20-g3grjjo ()S
+	public final fun getFR30-g3grjjo ()S
+	public final fun getFX66-g3grjjo ()S
+	public final fun getH8S-g3grjjo ()S
+	public final fun getH8_300-g3grjjo ()S
+	public final fun getH8_300H-g3grjjo ()S
+	public final fun getH8_500-g3grjjo ()S
+	public final fun getHUANY-g3grjjo ()S
+	public final fun getI386-g3grjjo ()S
+	public final fun getI860-g3grjjo ()S
+	public final fun getI960-g3grjjo ()S
+	public final fun getIA_64-g3grjjo ()S
+	public final fun getJAVELIN-g3grjjo ()S
+	public final fun getM32-g3grjjo ()S
+	public final fun getM32R-g3grjjo ()S
+	public final fun getM68HC05-g3grjjo ()S
+	public final fun getM68HC08-g3grjjo ()S
+	public final fun getM68HC11-g3grjjo ()S
+	public final fun getM68HC12-g3grjjo ()S
+	public final fun getM68HC16-g3grjjo ()S
+	public final fun getM68K-g3grjjo ()S
+	public final fun getM88K-g3grjjo ()S
+	public final fun getME16-g3grjjo ()S
+	public final fun getMIPS-g3grjjo ()S
+	public final fun getMIPS_RS3_LE-g3grjjo ()S
+	public final fun getMIPS_X-g3grjjo ()S
+	public final fun getMMA-g3grjjo ()S
+	public final fun getMMIX-g3grjjo ()S
+	public final fun getMN10200-g3grjjo ()S
+	public final fun getMN10300-g3grjjo ()S
+	public final fun getNCPU-g3grjjo ()S
+	public final fun getNDR1-g3grjjo ()S
+	public final fun getNONE-g3grjjo ()S
+	public final fun getNS32K-g3grjjo ()S
+	public final fun getOPENRISC-g3grjjo ()S
+	public final fun getPARISC-g3grjjo ()S
+	public final fun getPCP-g3grjjo ()S
+	public final fun getPDP10-g3grjjo ()S
+	public final fun getPDP11-g3grjjo ()S
+	public final fun getPDSP-g3grjjo ()S
+	public final fun getPJ-g3grjjo ()S
+	public final fun getPPC-g3grjjo ()S
+	public final fun getPPC64-g3grjjo ()S
+	public final fun getPRISM-g3grjjo ()S
+	public final fun getRCE-g3grjjo ()S
+	public final fun getRH32-g3grjjo ()S
+	public final fun getS370-g3grjjo ()S
+	public final fun getS390-g3grjjo ()S
+	public final fun getSH-g3grjjo ()S
+	public final fun getSNP1K-g3grjjo ()S
+	public final fun getSPARC-g3grjjo ()S
+	public final fun getSPARC32PLUS-g3grjjo ()S
+	public final fun getSPARCV9-g3grjjo ()S
+	public final fun getST100-g3grjjo ()S
+	public final fun getST19-g3grjjo ()S
+	public final fun getST200-g3grjjo ()S
+	public final fun getST7-g3grjjo ()S
+	public final fun getST9PLUS-g3grjjo ()S
+	public final fun getSTARCORE-g3grjjo ()S
+	public final fun getSVX-g3grjjo ()S
+	public final fun getTINYJ-g3grjjo ()S
+	public final fun getTMM_GPP-g3grjjo ()S
+	public final fun getTPC-g3grjjo ()S
+	public final fun getTRICORE-g3grjjo ()S
+	public final fun getV800-g3grjjo ()S
+	public final fun getV850-g3grjjo ()S
+	public final fun getVAX-g3grjjo ()S
+	public final fun getVIDEOCORE-g3grjjo ()S
+	public final fun getVPP500-g3grjjo ()S
+	public final fun getX86_64-g3grjjo ()S
+	public final fun getXTENSA-g3grjjo ()S
+	public final fun getZSP-g3grjjo ()S
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-rjyLV0c (Ljava/lang/String;)S
+	public final fun valueOfOrNull-PdEpyiE (Ljava/lang/String;)Lspace/iseki/executables/elf/ElfMachine;
+}
+
+public final class space/iseki/executables/elf/ElfMachine$Constants {
+	public static final field ALPHA S
+	public static final field ARC S
+	public static final field ARC_A5 S
+	public static final field ARM S
+	public static final field AVR S
+	public static final field COLDFIRE S
+	public static final field CRIS S
+	public static final field D10V S
+	public static final field D30V S
+	public static final field FIREPATH S
+	public static final field FR20 S
+	public static final field FR30 S
+	public static final field FX66 S
+	public static final field H8S S
+	public static final field H8_300 S
+	public static final field H8_300H S
+	public static final field H8_500 S
+	public static final field HUANY S
+	public static final field I386 S
+	public static final field I860 S
+	public static final field I960 S
+	public static final field IA_64 S
+	public static final field INSTANCE Lspace/iseki/executables/elf/ElfMachine$Constants;
+	public static final field JAVELIN S
+	public static final field M32 S
+	public static final field M32R S
+	public static final field M68HC05 S
+	public static final field M68HC08 S
+	public static final field M68HC11 S
+	public static final field M68HC12 S
+	public static final field M68HC16 S
+	public static final field M68K S
+	public static final field M88K S
+	public static final field ME16 S
+	public static final field MIPS S
+	public static final field MIPS_RS3_LE S
+	public static final field MIPS_X S
+	public static final field MMA S
+	public static final field MMIX S
+	public static final field MN10200 S
+	public static final field MN10300 S
+	public static final field NCPU S
+	public static final field NDR1 S
+	public static final field NONE S
+	public static final field NS32K S
+	public static final field OPENRISC S
+	public static final field PARISC S
+	public static final field PCP S
+	public static final field PDP10 S
+	public static final field PDP11 S
+	public static final field PDSP S
+	public static final field PJ S
+	public static final field PPC S
+	public static final field PPC64 S
+	public static final field PRISM S
+	public static final field RCE S
+	public static final field RH32 S
+	public static final field S370 S
+	public static final field S390 S
+	public static final field SH S
+	public static final field SNP1K S
+	public static final field SPARC S
+	public static final field SPARC32PLUS S
+	public static final field SPARCV9 S
+	public static final field ST100 S
+	public static final field ST19 S
+	public static final field ST200 S
+	public static final field ST7 S
+	public static final field ST9PLUS S
+	public static final field STARCORE S
+	public static final field SVX S
+	public static final field TINYJ S
+	public static final field TMM_GPP S
+	public static final field TPC S
+	public static final field TRICORE S
+	public static final field V800 S
+	public static final field V850 S
+	public static final field VAX S
+	public static final field VIDEOCORE S
+	public static final field VPP500 S
+	public static final field X86_64 S
+	public static final field XTENSA S
+	public static final field ZSP S
+}
+
+public final class space/iseki/executables/elf/ElfOsAbi {
+	public static final field Companion Lspace/iseki/executables/elf/ElfOsAbi$Companion;
+	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfOsAbi;
+	public static fun constructor-impl (B)B
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (BLjava/lang/Object;)Z
+	public static final fun equals-impl0 (BB)Z
+	public final fun getRawValue ()B
+	public fun hashCode ()I
+	public static fun hashCode-impl (B)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (B)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()B
+}
+
+public final class space/iseki/executables/elf/ElfOsAbi$Companion {
+	public final fun getELFOSABI_AIX-qSg-ays ()B
+	public final fun getELFOSABI_FREEBSD-qSg-ays ()B
+	public final fun getELFOSABI_HPUX-qSg-ays ()B
+	public final fun getELFOSABI_IRIX-qSg-ays ()B
+	public final fun getELFOSABI_LINUX-qSg-ays ()B
+	public final fun getELFOSABI_MODESTO-qSg-ays ()B
+	public final fun getELFOSABI_NETBSD-qSg-ays ()B
+	public final fun getELFOSABI_NONE-qSg-ays ()B
+	public final fun getELFOSABI_NSK-qSg-ays ()B
+	public final fun getELFOSABI_OPENBSD-qSg-ays ()B
+	public final fun getELFOSABI_OPENVMS-qSg-ays ()B
+	public final fun getELFOSABI_SOLARIS-qSg-ays ()B
+	public final fun getELFOSABI_TRU64-qSg-ays ()B
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-cOGUQdo (Ljava/lang/String;)B
+	public final fun valueOfOrNull-yvUNLKw (Ljava/lang/String;)Lspace/iseki/executables/elf/ElfOsAbi;
+}
+
+public final class space/iseki/executables/elf/ElfOsAbi$Constants {
+	public static final field ELFOSABI_AIX B
+	public static final field ELFOSABI_FREEBSD B
+	public static final field ELFOSABI_HPUX B
+	public static final field ELFOSABI_IRIX B
+	public static final field ELFOSABI_LINUX B
+	public static final field ELFOSABI_MODESTO B
+	public static final field ELFOSABI_NETBSD B
+	public static final field ELFOSABI_NONE B
+	public static final field ELFOSABI_NSK B
+	public static final field ELFOSABI_OPENBSD B
+	public static final field ELFOSABI_OPENVMS B
+	public static final field ELFOSABI_SOLARIS B
+	public static final field ELFOSABI_TRU64 B
+	public static final field INSTANCE Lspace/iseki/executables/elf/ElfOsAbi$Constants;
+}
+
+public final class space/iseki/executables/elf/ElfType {
+	public static final field Companion Lspace/iseki/executables/elf/ElfType$Companion;
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/elf/ElfType;
+	public static fun constructor-impl (S)S
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getRawValue ()S
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public final class space/iseki/executables/elf/ElfType$Companion {
+	public final fun getET_CORE-PfRsyB4 ()S
+	public final fun getET_DYN-PfRsyB4 ()S
+	public final fun getET_EXEC-PfRsyB4 ()S
+	public final fun getET_HIOS-PfRsyB4 ()S
+	public final fun getET_HIPROC-PfRsyB4 ()S
+	public final fun getET_LOOS-PfRsyB4 ()S
+	public final fun getET_LOPROC-PfRsyB4 ()S
+	public final fun getET_NONE-PfRsyB4 ()S
+	public final fun getET_REL-PfRsyB4 ()S
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-2cZQOlM (Ljava/lang/String;)S
+	public final fun valueOfOrNull-JAGgHMM (Ljava/lang/String;)Lspace/iseki/executables/elf/ElfType;
+}
+
+public final class space/iseki/executables/elf/ElfType$Constants {
+	public static final field ET_CORE S
+	public static final field ET_DYN S
+	public static final field ET_EXEC S
+	public static final field ET_HIOS S
+	public static final field ET_HIPROC S
+	public static final field ET_LOOS S
+	public static final field ET_LOPROC S
+	public static final field ET_NONE S
+	public static final field ET_REL S
+	public static final field INSTANCE Lspace/iseki/executables/elf/ElfType$Constants;
+}
+

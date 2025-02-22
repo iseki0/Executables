@@ -13,6 +13,8 @@ Currently, this library can:
 - [x] PE: Read version information (aka. [VS_VERSIONINFO] structure)
 - [ ] PE: Read import/export symbol tables
 - [ ] ELF: Read basic information
+  - [x] Identification, ELF Header
+  - [ ] Section headers and data
 - [ ] Macho: Read basic information
 - [x] Chore: Jigsaw ready
 
@@ -31,11 +33,12 @@ Currently, this library can:
 
 ### Add dependency
 
-This project contains four modules on Maven Central:
+This project contains several modules on Maven Central:
 
 - [space.iseki.executables:executables-common] contains the code shared by pe, elf, and macho
 - [space.iseki.executables:executables-pe] contains the code for parsing PE files
-- [space.iseki.executables:executables-all] (common + pe)
+- [space.iseki.executables:executables-elf] contains the code for parsing ELF files
+- [space.iseki.executables:executables-all] (common + pe + elf)
 
 If the dependency size is not a concern, you can use executables-all directly.
 
@@ -98,5 +101,7 @@ fun main() {
 [space.iseki.executables:executables-common]: https://central.sonatype.com/artifact/space.iseki.executables/executables-common
 
 [space.iseki.executables:executables-pe]: https://central.sonatype.com/artifact/space.iseki.executables/executables-pe
+
+[space.iseki.executables:executables-pe]: https://central.sonatype.com/artifact/space.iseki.executables/executables-elf
 
 [space.iseki.executables:executables-all]: https://central.sonatype.com/artifact/space.iseki.executables/executables-all

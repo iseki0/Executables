@@ -1,0 +1,17 @@
+package: space.iseki.executables.elf
+typename: ElfOsAbi
+dataLength: 1
+list:
+  - { name: "ELFOSABI_NONE", value: "0", docs: "No extensions or unspecified" }
+  - { name: "ELFOSABI_HPUX", value: "1", docs: "Hewlett-Packard HP-UX" }
+  - { name: "ELFOSABI_NETBSD", value: "2", docs: "NetBSD" }
+  - { name: "ELFOSABI_LINUX", value: "3", docs: "Linux" }
+  - { name: "ELFOSABI_SOLARIS", value: "6", docs: "Sun Solaris" }
+  - { name: "ELFOSABI_AIX", value: "7", docs: "AIX" }
+  - { name: "ELFOSABI_IRIX", value: "8", docs: "IRIX" }
+  - { name: "ELFOSABI_FREEBSD", value: "9", docs: "FreeBSD" }
+  - { name: "ELFOSABI_TRU64", value: "10", docs: "Compaq TRU64 UNIX" }
+  - { name: "ELFOSABI_MODESTO", value: "11", docs: "Novell Modesto" }
+  - { name: "ELFOSABI_OPENBSD", value: "12", docs: "Open BSD" }
+  - { name: "ELFOSABI_OPENVMS", value: "13", docs: "Open VMS" }
+  - { name: "ELFOSABI_NSK", value: "14", docs: "Hewlett-Packard Non-Stop Kernel" }

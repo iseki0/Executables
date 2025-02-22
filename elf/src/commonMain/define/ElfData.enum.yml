@@ -1,0 +1,7 @@
+package: space.iseki.executables.elf
+typename: ElfData
+dataLength: 1
+list:
+  - { name: "ELFDATANONE", value: "0", docs: "Invalid data encoding" }
+  - { name: "ELFDATA2LSB", value: "1", docs: "Little-endian encoding" }
+  - { name: "ELFDATA2MSB", value: "2", docs: "Big-endian encoding" }

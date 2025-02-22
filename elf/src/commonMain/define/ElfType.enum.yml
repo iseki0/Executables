@@ -1,0 +1,13 @@
+package: space.iseki.executables.elf
+typename: ElfType
+dataLength: 2
+list:
+  - { name: "ET_NONE", value: "0", docs: "No file type" }
+  - { name: "ET_REL", value: "1", docs: "Relocatable file" }
+  - { name: "ET_EXEC", value: "2", docs: "Executable file" }
+  - { name: "ET_DYN", value: "3", docs: "Shared object file" }
+  - { name: "ET_CORE", value: "4", docs: "Core file" }
+  - { name: "ET_LOOS", value: "0xfe00", docs: "Operating system-specific" }
+  - { name: "ET_HIOS", value: "0xfeff", docs: "Operating system-specific" }
+  - { name: "ET_LOPROC", value: "0xff00", docs: "Processor-specific" }
+  - { name: "ET_HIPROC", value: "0xffff", docs: "Processor-specific" }

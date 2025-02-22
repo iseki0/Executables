@@ -1,0 +1,86 @@
+package: space.iseki.executables.elf
+typename: ElfMachine
+dataLength: 2
+list:
+  - { name: "NONE", value: "0", docs: "No machine" }
+  - { name: "M32", value: "1", docs: "AT&T WE 32100" }
+  - { name: "SPARC", value: "2", docs: "SPARC" }
+  - { name: "I386", value: "3", docs: "Intel 80386" }
+  - { name: "M68K", value: "4", docs: "Motorola 68000" }
+  - { name: "M88K", value: "5", docs: "Motorola 88000" }
+  - { name: "I860", value: "7", docs: "Intel 80860" }
+  - { name: "MIPS", value: "8", docs: "MIPS I Architecture" }
+  - { name: "S370", value: "9", docs: "IBM System/370 Processor" }
+  - { name: "MIPS_RS3_LE", value: "10", docs: "MIPS RS3000 Little-endian" }
+  - { name: "PARISC", value: "15", docs: "Hewlett-Packard PA-RISC" }
+  - { name: "VPP500", value: "17", docs: "Fujitsu VPP500" }
+  - { name: "SPARC32PLUS", value: "18", docs: "Enhanced instruction set SPARC" }
+  - { name: "I960", value: "19", docs: "Intel 80960" }
+  - { name: "PPC", value: "20", docs: "PowerPC" }
+  - { name: "PPC64", value: "21", docs: "64-bit PowerPC" }
+  - { name: "S390", value: "22", docs: "IBM System/390 Processor" }
+  - { name: "V800", value: "36", docs: "NEC V800" }
+  - { name: "FR20", value: "37", docs: "Fujitsu FR20" }
+  - { name: "RH32", value: "38", docs: "TRW RH-32" }
+  - { name: "RCE", value: "39", docs: "Motorola RCE" }
+  - { name: "ARM", value: "40", docs: "Advanced RISC Machines ARM" }
+  - { name: "ALPHA", value: "41", docs: "Digital Alpha" }
+  - { name: "SH", value: "42", docs: "Hitachi SH" }
+  - { name: "SPARCV9", value: "43", docs: "SPARC Version 9" }
+  - { name: "TRICORE", value: "44", docs: "Siemens TriCore embedded processor" }
+  - { name: "ARC", value: "45", docs: "Argonaut RISC Core, Argonaut Technologies Inc." }
+  - { name: "H8_300", value: "46", docs: "Hitachi H8/300" }
+  - { name: "H8_300H", value: "47", docs: "Hitachi H8/300H" }
+  - { name: "H8S", value: "48", docs: "Hitachi H8S" }
+  - { name: "H8_500", value: "49", docs: "Hitachi H8/500" }
+  - { name: "IA_64", value: "50", docs: "Intel IA-64 processor architecture" }
+  - { name: "MIPS_X", value: "51", docs: "Stanford MIPS-X" }
+  - { name: "COLDFIRE", value: "52", docs: "Motorola ColdFire" }
+  - { name: "M68HC12", value: "53", docs: "Motorola M68HC12" }
+  - { name: "MMA", value: "54", docs: "Fujitsu MMA Multimedia Accelerator" }
+  - { name: "PCP", value: "55", docs: "Siemens PCP" }
+  - { name: "NCPU", value: "56", docs: "Sony nCPU embedded RISC processor" }
+  - { name: "NDR1", value: "57", docs: "Denso NDR1 microprocessor" }
+  - { name: "STARCORE", value: "58", docs: "Motorola Star*Core processor" }
+  - { name: "ME16", value: "59", docs: "Toyota ME16 processor" }
+  - { name: "ST100", value: "60", docs: "STMicroelectronics ST100 processor" }
+  - { name: "TINYJ", value: "61", docs: "Advanced Logic Corp. TinyJ embedded processor family" }
+  - { name: "X86_64", value: "62", docs: "AMD x86-64 architecture" }
+  - { name: "PDSP", value: "63", docs: "Sony DSP Processor" }
+  - { name: "PDP10", value: "64", docs: "Digital Equipment Corp. PDP-10" }
+  - { name: "PDP11", value: "65", docs: "Digital Equipment Corp. PDP-11" }
+  - { name: "FX66", value: "66", docs: "Siemens FX66 microcontroller" }
+  - { name: "ST9PLUS", value: "67", docs: "STMicroelectronics ST9+ 8/16 bit microcontroller" }
+  - { name: "ST7", value: "68", docs: "STMicroelectronics ST7 8-bit microcontroller" }
+  - { name: "M68HC16", value: "69", docs: "Motorola MC68HC16 Microcontroller" }
+  - { name: "M68HC11", value: "70", docs: "Motorola MC68HC11 Microcontroller" }
+  - { name: "M68HC08", value: "71", docs: "Motorola MC68HC08 Microcontroller" }
+  - { name: "M68HC05", value: "72", docs: "Motorola MC68HC05 Microcontroller" }
+  - { name: "SVX", value: "73", docs: "Silicon Graphics SVx" }
+  - { name: "ST19", value: "74", docs: "STMicroelectronics ST19 8-bit microcontroller" }
+  - { name: "VAX", value: "75", docs: "Digital VAX" }
+  - { name: "CRIS", value: "76", docs: "Axis Communications 32-bit embedded processor" }
+  - { name: "JAVELIN", value: "77", docs: "Infineon Technologies 32-bit embedded processor" }
+  - { name: "FIREPATH", value: "78", docs: "Element 14 64-bit DSP Processor" }
+  - { name: "ZSP", value: "79", docs: "LSI Logic 16-bit DSP Processor" }
+  - { name: "MMIX", value: "80", docs: "Donald Knuth's educational 64-bit processor" }
+  - { name: "HUANY", value: "81", docs: "Harvard University machine-independent object files" }
+  - { name: "PRISM", value: "82", docs: "SiTera Prism" }
+  - { name: "AVR", value: "83", docs: "Atmel AVR 8-bit microcontroller" }
+  - { name: "FR30", value: "84", docs: "Fujitsu FR30" }
+  - { name: "D10V", value: "85", docs: "Mitsubishi D10V" }
+  - { name: "D30V", value: "86", docs: "Mitsubishi D30V" }
+  - { name: "V850", value: "87", docs: "NEC v850" }
+  - { name: "M32R", value: "88", docs: "Mitsubishi M32R" }
+  - { name: "MN10300", value: "89", docs: "Matsushita MN10300" }
+  - { name: "MN10200", value: "90", docs: "Matsushita MN10200" }
+  - { name: "PJ", value: "91", docs: "picoJava" }
+  - { name: "OPENRISC", value: "92", docs: "OpenRISC 32-bit embedded processor" }
+  - { name: "ARC_A5", value: "93", docs: "ARC Cores Tangent-A5" }
+  - { name: "XTENSA", value: "94", docs: "Tensilica Xtensa Architecture" }
+  - { name: "VIDEOCORE", value: "95", docs: "Alphamosaic VideoCore processor" }
+  - { name: "TMM_GPP", value: "96", docs: "Thompson Multimedia General Purpose Processor" }
+  - { name: "NS32K", value: "97", docs: "National Semiconductor 32000 series" }
+  - { name: "TPC", value: "98", docs: "Tenor Network TPC processor" }
+  - { name: "SNP1K", value: "99", docs: "Trebia SNP 1000 processor" }
+  - { name: "ST200", value: "100", docs: "STMicroelectronics ST200 microcontroller" } 
