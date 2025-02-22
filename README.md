@@ -23,7 +23,7 @@ Currently, this library can:
 
 ## Kotlin targets
 
-- Kotlin/JVM
+- Kotlin/JVM: Java 8 or later (Jigsaw since Java 9 is supported by multi-release jar)
 - Kotlin/JavaScript
 - Kotlin/WasmJS (browser)
 
