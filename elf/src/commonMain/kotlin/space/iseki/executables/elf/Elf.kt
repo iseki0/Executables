@@ -2,7 +2,15 @@ package space.iseki.executables.elf
 
 import space.iseki.executables.common.DataAccessor
 
-
+/**
+ * Represents an ELF file and provides access to its contents.
+ *
+ * This class encapsulates the functionality for opening, parsing, and closing ELF files.
+ * It provides methods to read and interpret the ELF header and other structures within the file.
+ * @property dataAccessor The data accessor that provides access to the file content
+ * @property ident The identification of the ELF file
+ * @property ehdr The ELF header of the file
+ */
 class ElfFile private constructor(
     private val dataAccessor: DataAccessor,
     val ident: ElfIdentification,
@@ -10,6 +18,13 @@ class ElfFile private constructor(
 ) : AutoCloseable {
 
     companion object {
+        /**
+         * Opens and parses an ELF file from the given data accessor.
+         *
+         * @param accessor The data accessor that provides access to the file content
+         * @return A new ELF file instance
+         * @throws ElfFileException if the file format is invalid or unsupported
+         */
         internal fun open(accessor: DataAccessor): ElfFile {
             val buf = ByteArray(16)
             accessor.readFully(0, buf)
