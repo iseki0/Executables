@@ -96,6 +96,12 @@ fun main() {
 }
 ```
 
+## References
+
+- PE Format: https://docs.microsoft.com/en-us/windows/win32/debug/pe-format
+- PE VS_VERSIONINFO: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
+- ELF Format: https://refspecs.linuxfoundation.org/elf/elf.pdf
+
 [VS_VERSIONINFO]: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
 
 [space.iseki.executables:executables-common]: https://central.sonatype.com/artifact/space.iseki.executables/executables-common
