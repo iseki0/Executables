@@ -758,3 +758,9 @@ public final class space/iseki/executables/elf/ElfType$Constants {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfType$Constants;
 }
 
+public final class space/iseki/executables/elf/Elf_jvmKt {
+	public static final fun ElfFile (Ljava/io/File;)Lspace/iseki/executables/elf/ElfFile;
+	public static final fun ElfFile (Ljava/nio/file/Path;)Lspace/iseki/executables/elf/ElfFile;
+	public static final fun ElfFile ([B)Lspace/iseki/executables/elf/ElfFile;
+}
+

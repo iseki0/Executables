@@ -39,3 +39,12 @@ internal val ElfClass.ehdrSize: Int
         ElfClass.ELFCLASS64 -> 64
         else -> throw ElfFileException("Invalid ElfClass: $this")
     }
+
+/**
+ * Open an ELF file from the given bytes.
+ *
+ * @param bytes the bytes of the ELF file
+ * @return the ELF file
+ * @throws ElfFileException if the ELF file is invalid
+ */
+expect fun ElfFile(bytes: ByteArray): ElfFile
