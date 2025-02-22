@@ -37,6 +37,52 @@ public final class space/iseki/executables/common/ExecutableFileKt {
 	public static final fun detect (Lspace/iseki/executables/common/ExecutableFile$Companion;Ljava/nio/file/Path;)Lspace/iseki/executables/common/ExecutableFile;
 }
 
+public final class space/iseki/executables/common/ExecutableFileType {
+	public static final field Companion Lspace/iseki/executables/common/ExecutableFileType$Companion;
+	public static final synthetic fun box-impl (B)Lspace/iseki/executables/common/ExecutableFileType;
+	public static fun constructor-impl (B)B
+	public static final fun detect-cHsH6GY (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFileType;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (BLjava/lang/Object;)Z
+	public static final fun equals-impl0 (BB)Z
+	public static final fun fromString-hCAE3vg (Ljava/lang/String;)B
+	public fun hashCode ()I
+	public static fun hashCode-impl (B)I
+	public static final fun isElf-impl (B)Z
+	public static final fun isMacho-impl (B)Z
+	public static final fun isPE-impl (B)Z
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (B)Ljava/lang/String;
+	public static fun toString-impl (B)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()B
+}
+
+public synthetic class space/iseki/executables/common/ExecutableFileType$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/common/ExecutableFileType$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize-hCAE3vg (Lkotlinx/serialization/encoding/Decoder;)B
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize-xvvWuOw (Lkotlinx/serialization/encoding/Encoder;B)V
+}
+
+public final class space/iseki/executables/common/ExecutableFileType$Companion {
+	public final fun detect-cHsH6GY (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFileType;
+	public final fun detect-cHsH6GY ([B)Lspace/iseki/executables/common/ExecutableFileType;
+	public final fun fromString-hCAE3vg (Ljava/lang/String;)B
+	public final fun getELF-3MNUFgw ()B
+	public final fun getMACHO-3MNUFgw ()B
+	public final fun getPE-3MNUFgw ()B
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun toString (B)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/common/ExecutableFileTypeKt {
+	public static final fun detect (Lspace/iseki/executables/common/ExecutableFileType$Companion;Ljava/io/File;)Lspace/iseki/executables/common/ExecutableFileType;
+	public static final fun detect (Lspace/iseki/executables/common/ExecutableFileType$Companion;Ljava/nio/file/Path;)Lspace/iseki/executables/common/ExecutableFileType;
+}
+
 public abstract interface class space/iseki/executables/common/ReadableStructure {
 	public abstract fun getFields ()Ljava/util/Map;
 }

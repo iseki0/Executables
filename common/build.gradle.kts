@@ -6,6 +6,10 @@ jigsaw {
     enable("space.iseki.executables.base")
 }
 
+dependencies {
+    commonMainCompileOnly(libs.kotlinx.serialization.core)
+}
+
 kotlin {
     sourceSets {
         val commonMain by getting

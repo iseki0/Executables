@@ -2,6 +2,7 @@ package space.iseki.executables.common
 
 import kotlin.jvm.JvmStatic
 
+@Deprecated("Use ExecutableFileType instead", ReplaceWith("ExecutableFileType"), level = DeprecationLevel.WARNING)
 enum class ExecutableFile {
     PE, ELF, MACHO,
     ;
@@ -14,7 +15,13 @@ enum class ExecutableFile {
          * @throws IOException if an I/O error occurs
          * @return the detected [ExecutableFile], or `null` if the type could not be detected
          */
+        @Suppress("DEPRECATION")
         @Throws(IOException::class)
+        @Deprecated(
+            "Use ExecutableFileType.detect instead",
+            ReplaceWith("ExecutableFileType.detect(dataAccessor)"),
+            level = DeprecationLevel.WARNING
+        )
         @JvmStatic
         fun detect(dataAccessor: DataAccessor): ExecutableFile? {
             val buf = ByteArray(4)
