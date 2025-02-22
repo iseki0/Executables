@@ -30,6 +30,7 @@ value class PE32Magic(val rawValue: Short) : Comparable<PE32Magic> {
         }
 
     }
+
     companion object {
         /**
          * Returns the [PE32Magic] corresponding to the given name.
