@@ -14,7 +14,8 @@ Currently, this library can:
 - [ ] PE: Read import/export symbol tables
 - [ ] ELF: Read basic information
   - [x] Identification, ELF Header
-  - [ ] Section headers and data
+  - [x] Section headers, Program headers
+  - [ ] Section data
 - [ ] Macho: Read basic information
 - [x] Chore: Jigsaw ready
 
