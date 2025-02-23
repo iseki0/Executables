@@ -6,6 +6,10 @@ This module provides support for PE files
 
 This module provides common functions for all modules
 
+# Module elf
+
+This module provides support for ELF files
+
 # Package space.iseki.executables.pe.vi
 
 This package provides function and structures for PE file version
