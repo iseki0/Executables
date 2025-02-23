@@ -33,7 +33,7 @@ class WhoTest {
         """.trimIndent().let { Json.decodeFromString<ElfIdentification>(it) }.also { assertEquals(it, file.ident) }
         """
             {
-                "type": "space.iseki.executables.elf.Elf64Ehdr",
+                "type": "Elf64Ehdr",
                 "eType": "ET_DYN",
                 "eMachine": "X86_64",
                 "eVersion": 1,
@@ -53,7 +53,7 @@ class WhoTest {
         """
             [
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_PHDR",
                     "pFlags": [
                         "PF_R"
@@ -66,7 +66,7 @@ class WhoTest {
                     "pAlign": 8
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_INTERP",
                     "pFlags": [
                         "PF_R"
@@ -79,7 +79,7 @@ class WhoTest {
                     "pAlign": 1
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_LOAD",
                     "pFlags": [
                         "PF_R"
@@ -92,7 +92,7 @@ class WhoTest {
                     "pAlign": 4096
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_LOAD",
                     "pFlags": [
                         "PF_X",
@@ -106,7 +106,7 @@ class WhoTest {
                     "pAlign": 4096
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_LOAD",
                     "pFlags": [
                         "PF_R"
@@ -119,7 +119,7 @@ class WhoTest {
                     "pAlign": 4096
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_LOAD",
                     "pFlags": [
                         "PF_W",
@@ -133,7 +133,7 @@ class WhoTest {
                     "pAlign": 4096
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_DYNAMIC",
                     "pFlags": [
                         "PF_W",
@@ -147,7 +147,7 @@ class WhoTest {
                     "pAlign": 8
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_NOTE",
                     "pFlags": [
                         "PF_R"
@@ -160,7 +160,7 @@ class WhoTest {
                     "pAlign": 8
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_NOTE",
                     "pFlags": [
                         "PF_R"
@@ -173,7 +173,7 @@ class WhoTest {
                     "pAlign": 4
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "0x6474e553",
                     "pFlags": [
                         "PF_R"
@@ -186,7 +186,7 @@ class WhoTest {
                     "pAlign": 8
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "0x6474e550",
                     "pFlags": [
                         "PF_R"
@@ -199,7 +199,7 @@ class WhoTest {
                     "pAlign": 4
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "PT_GNU_STACK",
                     "pFlags": [
                         "PF_W",
@@ -213,7 +213,7 @@ class WhoTest {
                     "pAlign": 16
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Phdr",
+                    "type": "Elf64Phdr",
                     "pType": "0x6474e552",
                     "pFlags": [
                         "PF_R"
@@ -233,7 +233,7 @@ class WhoTest {
         """
             [
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 0,
                     "shType": "SHT_NULL",
                     "shFlags": [],
@@ -246,7 +246,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 11,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -261,7 +261,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 19,
                     "shType": "SHT_NOTE",
                     "shFlags": [
@@ -276,7 +276,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 38,
                     "shType": "SHT_NOTE",
                     "shFlags": [
@@ -291,7 +291,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 57,
                     "shType": "SHT_NOTE",
                     "shFlags": [
@@ -306,7 +306,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 71,
                     "shType": "0x6ffffff6",
                     "shFlags": [
@@ -321,7 +321,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 81,
                     "shType": "SHT_DYNSYM",
                     "shFlags": [
@@ -336,7 +336,7 @@ class WhoTest {
                     "shEntsize": 24
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 89,
                     "shType": "SHT_STRTAB",
                     "shFlags": [
@@ -351,7 +351,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 97,
                     "shType": "0x6fffffff",
                     "shFlags": [
@@ -366,7 +366,7 @@ class WhoTest {
                     "shEntsize": 2
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 110,
                     "shType": "0x6ffffffe",
                     "shFlags": [
@@ -381,7 +381,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 125,
                     "shType": "SHT_RELA",
                     "shFlags": [
@@ -396,7 +396,7 @@ class WhoTest {
                     "shEntsize": 24
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 135,
                     "shType": "SHT_RELA",
                     "shFlags": [
@@ -412,7 +412,7 @@ class WhoTest {
                     "shEntsize": 24
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 145,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -428,7 +428,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 140,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -444,7 +444,7 @@ class WhoTest {
                     "shEntsize": 16
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 151,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -460,7 +460,7 @@ class WhoTest {
                     "shEntsize": 16
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 160,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -476,7 +476,7 @@ class WhoTest {
                     "shEntsize": 16
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 169,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -492,7 +492,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 175,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -508,7 +508,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 181,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -523,7 +523,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 189,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -538,7 +538,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 203,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -553,7 +553,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 213,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -569,7 +569,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 220,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -585,7 +585,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 227,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -601,7 +601,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 240,
                     "shType": "SHT_DYNAMIC",
                     "shFlags": [
@@ -617,7 +617,7 @@ class WhoTest {
                     "shEntsize": 16
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 155,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -633,7 +633,7 @@ class WhoTest {
                     "shEntsize": 8
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 249,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -649,7 +649,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 255,
                     "shType": "SHT_NOBITS",
                     "shFlags": [
@@ -665,7 +665,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 260,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [],
@@ -678,7 +678,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 278,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [],
@@ -691,7 +691,7 @@ class WhoTest {
                     "shEntsize": 0
                 },
                 {
-                    "type": "space.iseki.executables.elf.Elf64Shdr",
+                    "type": "Elf64Shdr",
                     "shName": 1,
                     "shType": "SHT_STRTAB",
                     "shFlags": [],

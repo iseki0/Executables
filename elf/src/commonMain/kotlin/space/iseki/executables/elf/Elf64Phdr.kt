@@ -1,9 +1,11 @@
 package space.iseki.executables.elf
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 
 @Serializable
+@SerialName("Elf64Phdr")
 data class Elf64Phdr(
     /**
      * This member indicates what kind of segment this array element describes

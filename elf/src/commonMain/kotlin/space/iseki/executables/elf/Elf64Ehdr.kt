@@ -1,5 +1,6 @@
 package space.iseki.executables.elf
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 
@@ -16,6 +17,7 @@ import space.iseki.executables.common.ReadableStructure
  * which are expanded to accommodate 64-bit addresses and offsets.
  */
 @Serializable
+@SerialName("Elf64Ehdr")
 data class Elf64Ehdr(
     /**
      * This member identifies the object file type.

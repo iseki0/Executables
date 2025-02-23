@@ -1,5 +1,6 @@
 package space.iseki.executables.elf
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 
@@ -14,6 +15,7 @@ import space.iseki.executables.common.ReadableStructure
  * This class specifically handles the 32-bit version of the ELF header format.
  */
 @Serializable
+@SerialName("Elf32Ehdr")
 data class Elf32Ehdr(
     /**
      * This member identifies the object file type.

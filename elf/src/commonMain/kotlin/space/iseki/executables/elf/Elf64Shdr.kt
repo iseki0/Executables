@@ -1,5 +1,6 @@
 package space.iseki.executables.elf
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 
@@ -11,6 +12,7 @@ import space.iseki.executables.common.ReadableStructure
  * the beginning of the file to the section header table.
  */
 @Serializable
+@SerialName("Elf64Shdr")
 data class Elf64Shdr(
     /**
      * Section name, index in string table.
