@@ -39,6 +39,11 @@ class G : Plugin<Project> {
         @OptIn(ExperimentalPathApi::class)
         @TaskAction
         fun doGenerate() {
+            od.asFile.toPath()
+                .walk()
+                .filter { it.isRegularFile(LinkOption.NOFOLLOW_LINKS) }
+                .filter { it.extension.equals("kt", true) }
+                .forEach { it.deleteExisting() }
             val cfg = Configuration(Configuration.VERSION_2_3_32)
             cfg.templateLoader = MultiTemplateLoader(arrayOf(ClassTemplateLoader(this::class.java, "/")))
             runBlocking {
@@ -46,11 +51,6 @@ class G : Plugin<Project> {
                     val isEnum = file.name.endsWith(".enum.yml")
                     val isFlag = file.name.endsWith(".flag.yml")
                     if (!isEnum && !isFlag) continue
-                    od.asFile.toPath()
-                        .walk()
-                        .filter { it.isRegularFile(LinkOption.NOFOLLOW_LINKS) }
-                        .filter { it.extension.equals("kt", true) }
-                        .forEach { it.deleteExisting() }
                     launch {
                         val bytes = withContext(Dispatchers.IO) { file.readBytes() }
                         val data = Yaml.default.decodeFromStream<FlagSet>(bytes.inputStream())
