@@ -2,7 +2,7 @@ package space.iseki.executables.elf
 
 import kotlinx.serialization.json.Json
 import space.iseki.executables.common.ByteArrayDataAccessor
-import space.iseki.executables.common.ExecutableFile
+import space.iseki.executables.common.ExecutableFileType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -16,7 +16,7 @@ class GoTest {
     fun test() {
         assertNotNull(data)
         println("Go binary size: ${data.size} bytes")
-        assertEquals(ExecutableFile.ELF, ExecutableFile.detect(ByteArrayDataAccessor(data)))
+        assertEquals(ExecutableFileType.ELF, ExecutableFileType.detect(ByteArrayDataAccessor(data)))
         ElfFile.open(ByteArrayDataAccessor(data))
     }
 }
