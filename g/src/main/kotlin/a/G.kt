@@ -46,7 +46,7 @@ class G : Plugin<Project> {
                 .forEach { it.deleteExisting() }
             val cfg = Configuration(Configuration.VERSION_2_3_32)
             cfg.templateLoader = MultiTemplateLoader(arrayOf(ClassTemplateLoader(this::class.java, "/")))
-            runBlocking {
+            runBlocking(Dispatchers.Default) {
                 for (file in input.asSequence().flatMap { it.walk() }.filter { it.isFile }) {
                     val isEnum = file.name.endsWith(".enum.yml")
                     val isFlag = file.name.endsWith(".flag.yml")
