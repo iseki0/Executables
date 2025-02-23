@@ -11,46 +11,46 @@ data class Elf64Phdr(
      * This member indicates what kind of segment this array element describes
      * or how to interpret the array element's information.
      */
-    val pType: ElfPType,
+    override val pType: ElfPType,
 
     /**
      * This member holds a bit mask of flags relevant to the segment.
      * Note: In 64-bit format, this field is moved up compared to 32-bit format.
      */
-    val pFlags: ElfPFlags,
+    override val pFlags: ElfPFlags,
 
     /**
      * This member holds the offset from the beginning of the file
      * at which the first byte of the segment resides.
      */
-    val pOffset: Elf64Off,
+    override val pOffset: Elf64Off,
 
     /**
      * This member holds the virtual address at which the first byte
      * of the segment resides in memory.
      */
-    val pVaddr: Elf64Addr,
+    override val pVaddr: Elf64Addr,
 
     /**
      * On systems for which physical addressing is relevant, this member
      * is reserved for the segment's physical address.
      */
-    val pPaddr: Elf64Addr,
+    override val pPaddr: Elf64Addr,
 
     /**
      * This member holds the number of bytes in the file image of the segment.
      */
-    val pFilesz: Elf64Xword,
+    override val pFilesz: Elf64Xword,
 
     /**
      * This member holds the number of bytes in the memory image of the segment.
      */
-    val pMemsz: Elf64Xword,
+    override val pMemsz: Elf64Xword,
 
     /**
      * This member holds the value to which the segments are aligned in memory and in the file.
      */
-    val pAlign: Elf64Xword,
+    override val pAlign: Elf64Xword,
 ) : ReadableStructure, ElfPhdr {
     companion object {
         fun parse(bytes: ByteArray, off: Int, ident: ElfIdentification): Elf64Phdr {

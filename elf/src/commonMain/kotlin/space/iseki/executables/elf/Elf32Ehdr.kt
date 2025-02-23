@@ -20,7 +20,7 @@ data class Elf32Ehdr(
     /**
      * This member identifies the object file type.
      */
-    val eType: ElfType,
+    override val eType: ElfType,
 
     /**
      * This member's value specifies the required architecture for an individual file.
@@ -30,52 +30,52 @@ data class Elf32Ehdr(
      * example, the flags mentioned below use the prefix EF_; a flag named WIDGET for
      * the EM_XYZ machine would be called EF_XYZ_WIDGET.
      */
-    val eMachine: ElfMachine,
+    override val eMachine: ElfMachine,
 
     /**
      * This member identifies the object file version.
      */
-    val eVersion: Elf32Word,
+    override val eVersion: Elf32Word,
 
     /**
      * This member gives the virtual address to which the system first transfers control.
      *
      * If the file has no associated entry point, this member holds zero.
      */
-    val eEntry: Elf32Addr,
+    override val eEntry: Elf32Addr,
 
     /**
      * This member holds the program header table's file offset in bytes.
      *
      * If the file has no program header table, this member holds zero.
      */
-    val ePhoff: Elf32Off,
+    override val ePhoff: Elf32Off,
 
     /**
      * This member holds the section header table's file offset in bytes.
      *
      * If the file has no section header table, this member holds zero.
      */
-    val eShoff: Elf32Off,
+    override val eShoff: Elf32Off,
 
     /**
      * This member holds processor-specific flags associated with the file.
      *
      * Flag names take the form EF_machine_flag.
      */
-    val eFlags: Elf32Word,
+    override val eFlags: Elf32Word,
 
     /**
      * This member holds the ELF header's size in bytes.
      */
-    val eEhsize: Elf32Half,
+    override val eEhsize: Elf32Half,
 
     /**
      * This member holds the size in bytes of one entry in the file's program header table.
      *
      * All entries are the same size.
      */
-    val ePhentsize: Elf32Half,
+    override val ePhentsize: Elf32Half,
 
     /**
      * This member holds the number of entries in the program header table.
@@ -83,27 +83,27 @@ data class Elf32Ehdr(
      * Thus the product of e_phentsize and e_phnum gives the table's size in bytes.
      * If a file has no program header table, e_phnum holds the value zero.
      */
-    val ePhnum: Elf32Half,
+    override val ePhnum: Elf32Half,
 
     /**
      * This member holds a section header's size in bytes.
      * A section header is one entry in the section header table; all entries are the same size.
      */
-    val eShentsize: Elf32Half,
+    override val eShentsize: Elf32Half,
 
     /**
      * This member holds the number of entries in the section header table.
      * Thus the product of e_shentsize and e_shnum gives the section header table's size in bytes.
      * If a file has no section header table, e_shnum holds the value zero.
      */
-    val eShnum: Elf32Half,
+    override val eShnum: Elf32Half,
 
     /**
      * This member holds the section header table index of the entry associated with the
      * section name string table. If the file has no section name string table, this member
      * holds the value SHN_UNDEF.
      */
-    val eShstrndx: Elf32Half,
+    override val eShstrndx: Elf32Half,
 ) : ReadableStructure, ElfEhdr {
     companion object {
         fun parse(bytes: ByteArray, off: Int, ident: ElfIdentification): Elf32Ehdr {

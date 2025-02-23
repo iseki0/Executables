@@ -14,7 +14,7 @@ import kotlin.jvm.JvmInline
  */
 @JvmInline
 @Serializable
-value class Elf32Half(val value: UShort)
+value class Elf32Half(val value: UShort) : Primitive
 
 /**
  * Represents a 32-bit unsigned integer in ELF format.
@@ -22,7 +22,7 @@ value class Elf32Half(val value: UShort)
  */
 @JvmInline
 @Serializable
-value class Elf32Word(val value: UInt)
+value class Elf32Word(val value: UInt) : Primitive
 
 /**
  * Represents a 32-bit signed integer in ELF format.
@@ -30,7 +30,7 @@ value class Elf32Word(val value: UInt)
  */
 @JvmInline
 @Serializable
-value class Elf32Sword(val value: Int)
+value class Elf32Sword(val value: Int) : Primitive
 
 /**
  * Represents an unsigned program address in 32-bit ELF format.
@@ -38,7 +38,7 @@ value class Elf32Sword(val value: Int)
  */
 @JvmInline
 @Serializable(Elf32Addr.Serializer::class)
-value class Elf32Addr(val value: UInt) {
+value class Elf32Addr(val value: UInt) : Primitive {
     object Serializer : KSerializer<Elf32Addr> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -65,5 +65,5 @@ value class Elf32Addr(val value: UInt) {
  */
 @JvmInline
 @Serializable
-value class Elf32Off(val value: UInt)
+value class Elf32Off(val value: UInt) : Primitive
 

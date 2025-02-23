@@ -17,52 +17,52 @@ data class Elf64Shdr(
     /**
      * Section name, index in string table.
      */
-    val shName: Elf64Word,
+    override val shName: Elf64Word,
 
     /**
      * Section type.
      */
-    val shType: ElfSType,
+    override val shType: ElfSType,
 
     /**
      * Section flags.
      */
-    val shFlags: ElfSFlags,
+    override val shFlags: ElfSFlags,
 
     /**
      * Section virtual address at execution.
      */
-    val shAddr: Elf64Addr,
+    override val shAddr: Elf64Addr,
 
     /**
      * Section file offset.
      */
-    val shOffset: Elf64Off,
+    override val shOffset: Elf64Off,
 
     /**
      * Section size in bytes.
      */
-    val shSize: Elf64Xword,
+    override val shSize: Elf64Xword,
 
     /**
      * Link to another section.
      */
-    val shLink: Elf64Word,
+    override val shLink: Elf64Word,
 
     /**
      * Additional section information.
      */
-    val shInfo: Elf64Word,
+    override val shInfo: Elf64Word,
 
     /**
      * Section alignment.
      */
-    val shAddralign: Elf64Xword,
+    override val shAddralign: Elf64Xword,
 
     /**
      * Entry size if section holds table.
      */
-    val shEntsize: Elf64Xword,
+    override val shEntsize: Elf64Xword,
 ) : ReadableStructure, ElfShdr {
     companion object {
         fun parse(bytes: ByteArray, off: Int, le: Boolean): Elf64Shdr {

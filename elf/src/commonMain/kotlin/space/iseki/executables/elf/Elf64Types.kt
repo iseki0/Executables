@@ -14,7 +14,7 @@ import kotlin.jvm.JvmInline
  */
 @JvmInline
 @Serializable
-value class Elf64Half(val value: UShort)
+value class Elf64Half(val value: UShort) : Primitive
 
 /**
  * Represents a 32-bit unsigned integer in ELF format.
@@ -22,7 +22,7 @@ value class Elf64Half(val value: UShort)
  */
 @JvmInline
 @Serializable
-value class Elf64Word(val value: UInt)
+value class Elf64Word(val value: UInt) : Primitive
 
 /**
  * Represents a 64-bit unsigned integer in ELF format.
@@ -30,7 +30,7 @@ value class Elf64Word(val value: UInt)
  */
 @JvmInline
 @Serializable
-value class Elf64Xword(val value: ULong)
+value class Elf64Xword(val value: ULong) : Primitive
 
 /**
  * Represents a 64-bit signed integer in ELF format.
@@ -38,7 +38,7 @@ value class Elf64Xword(val value: ULong)
  */
 @JvmInline
 @Serializable
-value class Elf64Sxword(val value: Long)
+value class Elf64Sxword(val value: Long) : Primitive
 
 /**
  * Represents an unsigned program address in 64-bit ELF format.
@@ -46,7 +46,7 @@ value class Elf64Sxword(val value: Long)
  */
 @JvmInline
 @Serializable(Elf64Addr.Serializer::class)
-value class Elf64Addr(val value: ULong) {
+value class Elf64Addr(val value: ULong) : Primitive {
     object Serializer : KSerializer<Elf64Addr> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -73,5 +73,5 @@ value class Elf64Addr(val value: ULong) {
  */
 @JvmInline
 @Serializable
-value class Elf64Off(val value: ULong)
+value class Elf64Off(val value: ULong) : Primitive
 
