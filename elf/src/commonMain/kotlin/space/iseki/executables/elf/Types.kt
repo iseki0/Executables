@@ -1,8 +1,8 @@
 package space.iseki.executables.elf
 
 sealed interface Primitive {
-    fun castToUByte(): UByte = castToUShort().toUByte()
-    fun castToUShort(): UShort = castToUInt().toUShort()
+    fun castToUByte(): UByte = castToULong().toUByte()
+    fun castToUShort(): UShort = castToULong().toUShort()
     fun castToUInt(): UInt = castToULong().toUInt()
     fun castToULong(): ULong = when (this) {
         is Elf32Half -> value.toULong()
@@ -18,8 +18,8 @@ sealed interface Primitive {
         is Elf64Sxword -> value.toULong()
     }
 
-    fun castToByte(): Byte = castToUByte().toByte()
-    fun castToShort(): Short = castToUShort().toShort()
-    fun castToInt(): Int = castToUInt().toInt()
+    fun castToByte(): Byte = castToULong().toByte()
+    fun castToShort(): Short = castToULong().toShort()
+    fun castToInt(): Int = castToULong().toInt()
     fun castToLong(): Long = castToULong().toLong()
 }
