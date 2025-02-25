@@ -496,7 +496,7 @@ public final class space/iseki/executables/pe/PEFile$Summary$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public class space/iseki/executables/pe/PEFileException : java/lang/RuntimeException {
+public class space/iseki/executables/pe/PEFileException : space/iseki/executables/common/CommonFileException {
 	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V

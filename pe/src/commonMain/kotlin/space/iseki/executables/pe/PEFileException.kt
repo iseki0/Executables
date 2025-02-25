@@ -1,5 +1,6 @@
 package space.iseki.executables.pe
 
+import space.iseki.executables.common.CommonFileException
 import kotlin.jvm.JvmOverloads
 
 /**
@@ -9,4 +10,4 @@ import kotlin.jvm.JvmOverloads
  * @param cause the underlying reason for the exception
  */
 open class PEFileException @JvmOverloads constructor(message: String, override val cause: Throwable? = null) :
-    RuntimeException(message, cause)
+    CommonFileException(message, cause)

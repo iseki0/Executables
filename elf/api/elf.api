@@ -777,7 +777,7 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 public final class space/iseki/executables/elf/ElfFile$Companion {
 }
 
-public class space/iseki/executables/elf/ElfFileException : java/lang/RuntimeException {
+public class space/iseki/executables/elf/ElfFileException : space/iseki/executables/common/CommonFileException {
 	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
