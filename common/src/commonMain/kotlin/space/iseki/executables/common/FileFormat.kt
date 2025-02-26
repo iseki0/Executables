@@ -3,6 +3,7 @@ package space.iseki.executables.common
 /**
  * Represents a object or executable file format.
  */
+@Suppress("RedundantModalityModifier")
 expect interface FileFormat<T : OpenedFile> {
     /**
      * Opens and parses a file from the given data accessor.
@@ -22,6 +23,6 @@ expect interface FileFormat<T : OpenedFile> {
      * @return A new file instance
      * @throws CommonFileException if the file format is invalid or unsupported
      */
-    fun open(bytes: ByteArray): T
+    open fun open(bytes: ByteArray): T
 }
 
