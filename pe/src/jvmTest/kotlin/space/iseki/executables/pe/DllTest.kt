@@ -1,7 +1,7 @@
 package space.iseki.executables.pe
 
 import space.iseki.executables.common.ByteArrayDataAccessor
-import space.iseki.executables.common.ExecutableFile
+import space.iseki.executables.common.ExecutableFileType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -11,7 +11,7 @@ class DllTest {
 
     @Test
     fun testType() {
-        assertEquals(ExecutableFile.PE, ExecutableFile.detect(ByteArrayDataAccessor(data)))
+        assertEquals(ExecutableFileType.PE, ExecutableFileType.detect(ByteArrayDataAccessor(data)))
     }
 
     @Test

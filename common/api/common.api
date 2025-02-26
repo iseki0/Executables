@@ -24,26 +24,6 @@ public final class space/iseki/executables/common/DataAccessor$DefaultImpls {
 	public static fun readFully (Lspace/iseki/executables/common/DataAccessor;J[BII)V
 }
 
-public final class space/iseki/executables/common/ExecutableFile : java/lang/Enum {
-	public static final field Companion Lspace/iseki/executables/common/ExecutableFile$Companion;
-	public static final field ELF Lspace/iseki/executables/common/ExecutableFile;
-	public static final field MACHO Lspace/iseki/executables/common/ExecutableFile;
-	public static final field PE Lspace/iseki/executables/common/ExecutableFile;
-	public static final fun detect (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFile;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Lspace/iseki/executables/common/ExecutableFile;
-	public static fun values ()[Lspace/iseki/executables/common/ExecutableFile;
-}
-
-public final class space/iseki/executables/common/ExecutableFile$Companion {
-	public final fun detect (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFile;
-}
-
-public final class space/iseki/executables/common/ExecutableFileKt {
-	public static final fun detect (Lspace/iseki/executables/common/ExecutableFile$Companion;Ljava/io/File;)Lspace/iseki/executables/common/ExecutableFile;
-	public static final fun detect (Lspace/iseki/executables/common/ExecutableFile$Companion;Ljava/nio/file/Path;)Lspace/iseki/executables/common/ExecutableFile;
-}
-
 public final class space/iseki/executables/common/ExecutableFileType {
 	public static final field Companion Lspace/iseki/executables/common/ExecutableFileType$Companion;
 	public static final synthetic fun box-impl (B)Lspace/iseki/executables/common/ExecutableFileType;
