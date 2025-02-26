@@ -2,6 +2,8 @@ package space.iseki.executables.elf
 
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.FileFormat
+import space.iseki.executables.common.IOException
+import space.iseki.executables.common.OpenedFile
 
 /**
  * Represents an ELF file and provides access to its contents.
@@ -18,9 +20,9 @@ class ElfFile private constructor(
     val ehdr: ElfEhdr,
     val programHeaders: List<ElfPhdr>,
     val sectionHeaders: List<ElfShdr>,
-) : AutoCloseable {
+) : AutoCloseable, OpenedFile {
 
-    companion object : FileFormat {
+    companion object : FileFormat<ElfFile> {
         /**
          * Opens and parses an ELF file from the given data accessor.
          *
@@ -28,7 +30,8 @@ class ElfFile private constructor(
          * @return A new ELF file instance
          * @throws ElfFileException if the file format is invalid or unsupported
          */
-        internal fun open(accessor: DataAccessor): ElfFile {
+        @Throws(IOException::class)
+        override fun open(accessor: DataAccessor): ElfFile {
             val buf = ByteArray(16)
             accessor.readFully(0, buf)
             val ident = ElfIdentification.parse(buf, 0)
@@ -119,11 +122,3 @@ internal val ElfClass.ehdrSize: Int
         else -> throw ElfFileException("Invalid ElfClass: $this")
     }
 
-/**
- * Open an ELF file from the given bytes.
- *
- * @param bytes the bytes of the ELF file
- * @return the ELF file
- * @throws ElfFileException if the ELF file is invalid
- */
-expect fun ElfFile(bytes: ByteArray): ElfFile

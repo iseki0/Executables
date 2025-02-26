@@ -3,7 +3,7 @@ package space.iseki.executables.common
 /**
  * Represents a object or executable file format.
  */
-expect interface FileFormat<T : OpenedFile> {
+actual interface FileFormat<T : OpenedFile> {
     /**
      * Opens and parses a file from the given data accessor.
      *
@@ -13,7 +13,7 @@ expect interface FileFormat<T : OpenedFile> {
      * @throws IOException if an I/O error occurs
      */
     @Throws(IOException::class)
-    fun open(accessor: DataAccessor): T
+    actual fun open(accessor: DataAccessor): T
 
     /**
      * Opens and parses a file from the given bytes.
@@ -22,6 +22,6 @@ expect interface FileFormat<T : OpenedFile> {
      * @return A new file instance
      * @throws CommonFileException if the file format is invalid or unsupported
      */
-    fun open(bytes: ByteArray): T
-}
+    actual fun open(bytes: ByteArray): T = open(ByteArrayDataAccessor(bytes))
 
+}

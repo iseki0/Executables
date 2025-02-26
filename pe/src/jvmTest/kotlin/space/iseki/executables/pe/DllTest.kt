@@ -16,7 +16,7 @@ class DllTest {
 
     @Test
     fun testOpen() {
-        PEFile(data).use { f ->
+        PEFile.open(data).use { f ->
             println(f.summary)
         }
     }

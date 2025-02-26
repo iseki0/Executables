@@ -764,7 +764,7 @@ public final class space/iseki/executables/elf/ElfEhdr$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable {
+public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile {
 	public static final field Companion Lspace/iseki/executables/elf/ElfFile$Companion;
 	public synthetic fun <init> (Lspace/iseki/executables/common/DataAccessor;Lspace/iseki/executables/elf/ElfIdentification;Lspace/iseki/executables/elf/ElfEhdr;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
@@ -775,6 +775,8 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 }
 
 public final class space/iseki/executables/elf/ElfFile$Companion : space/iseki/executables/common/FileFormat {
+	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/elf/ElfFile;
 }
 
 public class space/iseki/executables/elf/ElfFileException : space/iseki/executables/common/CommonFileException {
@@ -782,12 +784,6 @@ public class space/iseki/executables/elf/ElfFileException : space/iseki/executab
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCause ()Ljava/lang/Throwable;
-}
-
-public final class space/iseki/executables/elf/ElfFiles {
-	public static final fun ElfFile (Ljava/io/File;)Lspace/iseki/executables/elf/ElfFile;
-	public static final fun ElfFile (Ljava/nio/file/Path;)Lspace/iseki/executables/elf/ElfFile;
-	public static final fun ElfFile ([B)Lspace/iseki/executables/elf/ElfFile;
 }
 
 public final class space/iseki/executables/elf/ElfIdentification : space/iseki/executables/common/ReadableStructure {

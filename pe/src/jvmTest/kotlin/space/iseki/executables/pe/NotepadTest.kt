@@ -14,7 +14,7 @@ class NotepadTest {
             return
         }
         println(notepad)
-        PEFile(notepad).use { peFile ->
+        PEFile.open(notepad).use { peFile ->
             println(peFile.summary)
             val versionInfo = peFile.versionInfo
             assertNotNull(versionInfo)

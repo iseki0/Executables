@@ -231,7 +231,7 @@ class PEFilesTest {
         val java = Path.of("src/jvmTest/resources/java.exe")
         assertTrue { java.isRegularFile() }
         val json = Json { prettyPrint = true }
-        PEFile(java).use { pe ->
+        PEFile.open(java).use { pe ->
             val jsonText = json.encodeToString(pe.summary)
             println(jsonText)
             val summary = json.decodeFromString<PEFile.Summary>(jsonText)

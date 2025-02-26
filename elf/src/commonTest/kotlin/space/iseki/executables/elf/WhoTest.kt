@@ -13,7 +13,7 @@ class WhoTest {
     @Test
     fun test() {
         assertEquals(ExecutableFileType.ELF, ExecutableFileType.detect(whoData))
-        val file = ElfFile(whoData)
+        val file = ElfFile.open(whoData)
         val ident = json.encodeToString(file.ident)
         val ehdr = json.encodeToString(file.ehdr)
         val phdrs = json.encodeToString(file.programHeaders)

@@ -455,7 +455,7 @@ public final class space/iseki/executables/pe/PE32Magic$Companion {
 	public final fun valueOf-MfaRI1g (Ljava/lang/String;)S
 }
 
-public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable {
+public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile {
 	public static final field Companion Lspace/iseki/executables/pe/PEFile$Companion;
 	public synthetic fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;Lspace/iseki/executables/common/DataAccessor;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
@@ -470,6 +470,8 @@ public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable {
 }
 
 public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/executables/common/FileFormat {
+	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/pe/PEFile;
 	public final synthetic fun wrap ([B)Lspace/iseki/executables/pe/PEFile;
 }
 
@@ -501,15 +503,6 @@ public class space/iseki/executables/pe/PEFileException : space/iseki/executable
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun getCause ()Ljava/lang/Throwable;
-}
-
-public final class space/iseki/executables/pe/PEFiles {
-	public static final fun PEFile ([B)Lspace/iseki/executables/pe/PEFile;
-	public static final fun open (Ljava/io/File;)Lspace/iseki/executables/pe/PEFile;
-	public static final fun open (Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/pe/PEFile;
-	public static final fun open (Ljava/nio/channels/SeekableByteChannel;Z)Lspace/iseki/executables/pe/PEFile;
-	public static final fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/pe/PEFile;
-	public static synthetic fun open$default (Ljava/nio/channels/SeekableByteChannel;ZILjava/lang/Object;)Lspace/iseki/executables/pe/PEFile;
 }
 
 public abstract interface class space/iseki/executables/pe/ResourceNode {

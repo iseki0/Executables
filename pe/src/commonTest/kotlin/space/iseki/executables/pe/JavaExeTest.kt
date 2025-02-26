@@ -16,7 +16,7 @@ class JavaExeTest {
     @Test
     fun test() {
         println(java_exe.size)
-        val pe = PEFile(java_exe)
+        val pe = PEFile.open(java_exe)
         println(pe.coffHeader)
         println(pe.standardHeader)
         println(pe.windowsHeader)
@@ -32,7 +32,7 @@ class JavaExeTest {
         var h = 0
         var c = 0
         var totalSize = 0
-        PEFile(java_exe).use { pe ->
+        PEFile.open(java_exe).use { pe ->
             for (entry in pe.resourceRoot.walk()) {
                 val indent = "  ".repeat(entry.nodePath.size - 1)
                 println(indent + entry.node)
@@ -46,7 +46,7 @@ class JavaExeTest {
 
     @Test
     fun testReadSection() {
-        PEFile(java_exe).use { pe ->
+        PEFile.open(java_exe).use { pe ->
             val sr = pe.sectionReader(".text")
             assertNotNull(sr)
             sr.test(+0, "48 8D 05 B9 30 00 00 C3")
@@ -65,7 +65,7 @@ class JavaExeTest {
 
     @Test
     fun testLocateVersionInfo() {
-        PEFile(java_exe).use { peFile ->
+        PEFile.open(java_exe).use { peFile ->
             val resNode = locateVersionInfo(peFile)
             println(resNode)
             assertEquals(
@@ -106,7 +106,7 @@ class JavaExeTest {
 2400040000005400720061006e0073006c006100740069006f006e0000000000
 0904b004
         """.trimIndent().replace(Regex("[\\r\\n ]"), "").hexToByteArray()
-        val bytes = PEFile(java_exe).use { locateVersionInfo(it)!!.readAllBytes() }
+        val bytes = PEFile.open(java_exe).use { locateVersionInfo(it)!!.readAllBytes() }
         val hexFormat = HexFormat {
             this.bytes.bytesPerLine = 32
         }
@@ -116,7 +116,7 @@ class JavaExeTest {
 
     @Test
     fun testParseVersionInfo() {
-        PEFile(java_exe).use { peFile ->
+        PEFile.open(java_exe).use { peFile ->
             val resNode = locateVersionInfo(peFile)!!
             val vi = parseVersionData(resNode.readAllBytes(), 0)
             println(vi)

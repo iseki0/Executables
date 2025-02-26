@@ -23,7 +23,7 @@ class ExceptionTest {
         copyOf[0x108] = 0
         copyOf[0x109] = 0
         val e = assertFailsWith<PEFileException> {
-            PEFile(copyOf)
+            PEFile.open(copyOf)
         }
         assertEquals("Not a PE file, bad magic: 0x00000000", e.message)
     }

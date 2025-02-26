@@ -7,5 +7,5 @@ import kotlinx.serialization.json.Json
 @JsExport
 fun dumpHeaderJson(data: ByteArray, pretty: Boolean = false): String {
     val json = if (pretty) Json { prettyPrint = true } else Json
-    return json.encodeToString(PEFile(data).summary)
+    return json.encodeToString(PEFile.open(data).summary)
 }

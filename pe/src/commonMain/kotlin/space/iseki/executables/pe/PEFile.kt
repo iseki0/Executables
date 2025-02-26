@@ -6,20 +6,11 @@ import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
+import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
 import kotlin.jvm.JvmStatic
-
-/**
- * Open a PE file from a [ByteArray].
- *
- * @param bytes the byte array representing a PE file
- * @return the PE file
- * @throws PEFileException if the file is not a valid PE file
- * @throws IOException if an I/O error occurs
- */
-expect fun PEFile(bytes: ByteArray): PEFile
 
 class PEFile private constructor(
     val coffHeader: CoffHeader,
@@ -27,7 +18,7 @@ class PEFile private constructor(
     val windowsHeader: WindowsSpecifiedHeader,
     val sectionTable: List<SectionTableItem>,
     private val dataAccessor: DataAccessor,
-) : AutoCloseable {
+) : AutoCloseable, OpenedFile {
 
     /**
      * Represents a summary of the pe file headers.
@@ -52,7 +43,7 @@ class PEFile private constructor(
      */
     val summary: Summary = Summary(coffHeader, standardHeader, windowsHeader, sectionTable)
 
-    companion object : FileFormat {
+    companion object : FileFormat<PEFile> {
         private const val PE_SIGNATURE_LE = 0x00004550
 
         /**
@@ -73,7 +64,8 @@ class PEFile private constructor(
          * @throws PEFileException if the file is not a valid pe file
          */
         @OptIn(ExperimentalStdlibApi::class)
-        internal fun open(accessor: DataAccessor): PEFile {
+        @Throws(IOException::class)
+        override fun open(accessor: DataAccessor): PEFile {
             var pos = 0x3cL
             try {
                 val signatureBuffer = byteArrayOf(0, 0, 0, 0)
