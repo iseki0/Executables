@@ -6,8 +6,8 @@ import space.iseki.executables.common.ByteArrayDataAccessor
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.SeekableByteChannelDataAccessor
 import java.io.File
+import java.io.RandomAccessFile
 import java.nio.file.Files
-import java.nio.file.InvalidPathException
 import java.nio.file.Path
 
 
@@ -28,8 +28,20 @@ actual fun ElfFile(bytes: ByteArray): ElfFile = ElfFile.open(ByteArrayDataAccess
  * @throws ElfFileException if the ELF file is invalid
  * @throws IOException if an I/O error occurs
  */
-fun ElfFile(path: Path): ElfFile =
-    Files.newByteChannel(path).let { ElfFile.open(SeekableByteChannelDataAccessor(it)) }
+fun ElfFile(path: Path): ElfFile {
+    val channel = Files.newByteChannel(path)
+    try {
+        val accessor = SeekableByteChannelDataAccessor(channel)
+        return ElfFile.open(accessor)
+    } catch (e: Throwable) {
+        try {
+            channel.close()
+        } catch (e2: Throwable) {
+            e.addSuppressed(e2)
+        }
+        throw e
+    }
+}
 
 /**
  * Open an ELF file from the given file.
@@ -38,7 +50,19 @@ fun ElfFile(path: Path): ElfFile =
  * @return the ELF file
  * @throws ElfFileException if the ELF file is invalid
  * @throws IOException if an I/O error occurs
- * @throws InvalidPathException if the path is invalid
  * @see File.toPath
  */
-fun ElfFile(file: File): ElfFile = ElfFile(file.toPath())
+fun ElfFile(file: File): ElfFile {
+    val raf = RandomAccessFile(file, "r")
+    try {
+        val accessor = SeekableByteChannelDataAccessor(raf.channel)
+        return ElfFile.open(accessor)
+    } catch (e: Throwable) {
+        try {
+            raf.close()
+        } catch (e2: Throwable) {
+            e.addSuppressed(e2)
+        }
+        throw e
+    }
+}
