@@ -1,6 +1,7 @@
 package space.iseki.executables.elf
 
 import space.iseki.executables.common.DataAccessor
+import space.iseki.executables.common.FileFormat
 
 /**
  * Represents an ELF file and provides access to its contents.
@@ -19,7 +20,7 @@ class ElfFile private constructor(
     val sectionHeaders: List<ElfShdr>,
 ) : AutoCloseable {
 
-    companion object {
+    companion object : FileFormat {
         /**
          * Opens and parses an ELF file from the given data accessor.
          *

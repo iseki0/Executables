@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ByteArrayDataAccessor
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
+import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
@@ -51,7 +52,7 @@ class PEFile private constructor(
      */
     val summary: Summary = Summary(coffHeader, standardHeader, windowsHeader, sectionTable)
 
-    companion object {
+    companion object: FileFormat {
         private const val PE_SIGNATURE_LE = 0x00004550
 
         /**

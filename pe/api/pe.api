@@ -469,7 +469,7 @@ public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable {
 	public static final synthetic fun wrap ([B)Lspace/iseki/executables/pe/PEFile;
 }
 
-public final class space/iseki/executables/pe/PEFile$Companion {
+public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/executables/common/FileFormat {
 	public final synthetic fun wrap ([B)Lspace/iseki/executables/pe/PEFile;
 }
 

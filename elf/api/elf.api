@@ -774,7 +774,7 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 	public final fun getSectionHeaders ()Ljava/util/List;
 }
 
-public final class space/iseki/executables/elf/ElfFile$Companion {
+public final class space/iseki/executables/elf/ElfFile$Companion : space/iseki/executables/common/FileFormat {
 }
 
 public class space/iseki/executables/elf/ElfFileException : space/iseki/executables/common/CommonFileException {
