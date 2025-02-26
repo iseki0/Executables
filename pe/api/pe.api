@@ -120,6 +120,7 @@ public final class space/iseki/executables/pe/Characteristics : java/util/Set, k
 	public static fun isEmpty-impl (S)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (S)Ljava/util/Iterator;
+	public static final fun or-aBs7NGY (SS)S
 	public static final fun plus-aBs7NGY (SS)S
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
@@ -297,6 +298,7 @@ public final class space/iseki/executables/pe/DllCharacteristics : java/util/Set
 	public static fun isEmpty-impl (S)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (S)Ljava/util/Iterator;
+	public static final fun or-g5EIHHA (SS)S
 	public static final fun plus-g5EIHHA (SS)S
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
@@ -559,6 +561,7 @@ public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotl
 	public static fun isEmpty-impl (I)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (I)Ljava/util/Iterator;
+	public static final fun or-00BuObY (II)I
 	public static final fun plus-00BuObY (II)I
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
@@ -975,6 +978,7 @@ public final class space/iseki/executables/pe/vi/FileInfoFlags : java/util/Set, 
 	public static fun isEmpty-impl (I)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (I)Ljava/util/Iterator;
+	public static final fun or-jApl0VI (II)I
 	public static final fun plus-jApl0VI (II)I
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z

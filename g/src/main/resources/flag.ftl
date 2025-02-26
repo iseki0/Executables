@@ -102,14 +102,21 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
         get() = rawValue.countOneBits()
 
 /**
-* Returns a new ${typename} with the specified bit set to true
-* @param bit the bit to set
-* @return a new ${typename} with the specified bit set to true
-* @see or
-*/
-    operator fun plus(other: ${typename}): ${typename} {
-        return ${typename}(rawValue or other.rawValue)
+ * Returns a new ${typename} with the specified bit set to true
+ * @param bit the bit to set
+ * @return a new ${typename} with the specified bit set to true
+ * @see or
+ */
+    operator fun plus(bit: ${typename}): ${typename} {
+        return ${typename}(rawValue or bit.rawValue)
     }
+
+/**
+ * Returns a new ElfPFlags with the specified bit set to true
+ * @param bit the bit to set
+ * @return a new ElfPFlags with the specified bit set to true
+ */
+infix fun or(bit: ${typename}): ${typename} = plus(bit)
 
     override fun iterator(): Iterator<${typename}> = object : Iterator<${typename}> {
         var remaining = rawValue.to${rawType}()
