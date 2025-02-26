@@ -21,6 +21,9 @@ Currently, this library can:
 
 > This project is currently in the early stages of development. This means it is still evolving and may undergo frequent
 > updates and changes.
+>
+> Due to the current status of Kotlin/Multiplatform, it can be expected that for a period of time following the stable
+> release, binary compatibility guarantees will only be provided for Kotlin/JVM.
 
 ## Kotlin targets
 
@@ -76,7 +79,7 @@ import space.iseki.executables.pe.PEFile
 
 fun main() {
     val file = Path.of("C:\\System32\\notepad.exe")
-    PEFile(file).use { peFile: PEFile ->
+  PEFile.open(file).use { peFile: PEFile ->
         println(peFile.coffHeader)
         println(peFile.summary)
         println(Json.encodeToString(peFile.summary))
@@ -93,7 +96,7 @@ import space.iseki.executables.common.ExecutableFile
 
 fun main() {
     val file = Path.of("C:\\System32\\notepad.exe")
-    println(ExecutableFile.detect(file))
+  println(ExecutableFileType.detect(file))
 }
 ```
 
