@@ -346,6 +346,35 @@ public final class space/iseki/executables/pe/DllCharacteristics$Constants {
 	public static final field WDM_DRIVER S
 }
 
+public final class space/iseki/executables/pe/LangID {
+	public static final field Companion Lspace/iseki/executables/pe/LangID$Companion;
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/LangID;
+	public static fun constructor-impl (Ljava/lang/String;)S
+	public static fun constructor-impl (S)S
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public final fun getValue-Mh2AYeg ()S
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+}
+
+public final class space/iseki/executables/pe/LangID$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/pe/LangID$Serializer : kotlinx/serialization/KSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/pe/LangID$Serializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun deserialize-4UmRvSc (Lkotlinx/serialization/encoding/Decoder;)S
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun serialize-JfIa9s8 (Lkotlinx/serialization/encoding/Encoder;S)V
+}
+
 public final class space/iseki/executables/pe/MachineType {
 	public static final field Companion Lspace/iseki/executables/pe/MachineType$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/MachineType;
