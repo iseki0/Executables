@@ -1,7 +1,6 @@
 package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
-import space.iseki.executables.common.ByteArrayDataAccessor
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.FileFormat
@@ -10,7 +9,6 @@ import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
-import kotlin.jvm.JvmStatic
 
 class PEFile private constructor(
     val coffHeader: CoffHeader,
@@ -45,16 +43,6 @@ class PEFile private constructor(
 
     companion object : FileFormat<PEFile> {
         private const val PE_SIGNATURE_LE = 0x00004550
-
-        /**
-         * Wraps the given byte array into a [PEFile].
-         *
-         * @param data the byte array representing a pe file
-         * @return a [PEFile] instance
-         */
-        @JvmStatic
-        @Deprecated("Use PEFile(d: ByteArray) instead", ReplaceWith("PEFile(d)"), level = DeprecationLevel.HIDDEN)
-        fun wrap(data: ByteArray) = open(ByteArrayDataAccessor(data))
 
         /**
          * Opens a pe file from the given data accessor.
