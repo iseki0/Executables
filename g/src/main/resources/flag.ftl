@@ -17,7 +17,7 @@ import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-fun ${typename}(rawValue: U${rawType}) = ${typename}(rawValue.to${rawType}())
+fun ${typename}(value: U${rawType}) = ${typename}(value.to${rawType}())
 
 /**
 * Type for C flag-set ${typename}
@@ -27,7 +27,7 @@ fun ${typename}(rawValue: U${rawType}) = ${typename}(rawValue.to${rawType}())
 @OptIn(ExperimentalStdlibApi::class)
 @JvmInline
 @Serializable(with = ${typename}.Serializer::class)
-value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
+value class ${typename}(val value: ${rawType}): Set<${typename}>{
     object Constants{
     <#list list as item>
         /**
@@ -88,18 +88,18 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
 
     override fun toString(): String {
         if (size == 1) {
-            return when (rawValue) {
+            return when (value) {
             <#list list as item>
                 Constants.${item.name} -> "${item.name}"
             </#list>
-                else -> "0x" + rawValue.toU${rawType}().toHexString()
+                else -> "0x" + value.toU${rawType}().toHexString()
             }
         }
         return joinToString("|")
     }
 
     override val size: Int
-        get() = rawValue.countOneBits()
+        get() = value.countOneBits()
 
 /**
  * Returns a new ${typename} with the specified bit set to true
@@ -108,7 +108,7 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
  * @see or
  */
     operator fun plus(bit: ${typename}): ${typename} {
-        return ${typename}(rawValue or bit.rawValue)
+        return ${typename}(value or bit.value)
     }
 
 /**
@@ -119,7 +119,7 @@ value class ${typename}(val rawValue: ${rawType}): Set<${typename}>{
 infix fun or(bit: ${typename}): ${typename} = plus(bit)
 
     override fun iterator(): Iterator<${typename}> = object : Iterator<${typename}> {
-        var remaining = rawValue.to${rawType}()
+        var remaining = value.to${rawType}()
         override fun hasNext(): Boolean = remaining != 0.to${rawType}()
         override fun next(): ${typename} {
             val bit = remaining and (-remaining).to${rawType}()
@@ -128,17 +128,17 @@ infix fun or(bit: ${typename}): ${typename} = plus(bit)
         }
     }
 
-    override fun isEmpty(): Boolean = rawValue == 0.to${rawType}()
+    override fun isEmpty(): Boolean = value == 0.to${rawType}()
 
     override fun containsAll(elements: Collection<${typename}>): Boolean {
         if (elements is ${typename}) {
             contains(elements)
         }
-        return elements.all { rawValue and it.rawValue == it.rawValue }
+        return elements.all { value and it.value == it.value }
     }
 
     override fun contains(element: ${typename}): Boolean {
-        return rawValue and element.rawValue == element.rawValue
+        return value and element.value == element.value
     }
 
 internal object Serializer : KSerializer<${typename}> {

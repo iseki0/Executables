@@ -17,7 +17,7 @@ import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-fun ${typename}(rawValue: U${rawType}) = ${typename}(rawValue.to${rawType}())
+fun ${typename}(value: U${rawType}) = ${typename}(value.to${rawType}())
 
 /**
 * Type for C enum ${typename}
@@ -27,7 +27,7 @@ fun ${typename}(rawValue: U${rawType}) = ${typename}(rawValue.to${rawType}())
 @OptIn(ExperimentalStdlibApi::class)
 @JvmInline
 @Serializable(with = ${typename}.Serializer::class)
-value class ${typename}(val rawValue: ${rawType}){
+value class ${typename}(val value: ${rawType}){
 
     object Constants{
         <#list list as item>
@@ -86,11 +86,11 @@ value class ${typename}(val rawValue: ${rawType}){
     </#list>
     }
 
-    override fun toString(): String = when(rawValue){
+    override fun toString(): String = when(value){
     <#list list as item>
         Constants.${item.name} -> "${item.name}"
     </#list>
-        else -> "0x" + rawValue.toU${rawType}().toHexString()
+        else -> "0x" + value.toU${rawType}().toHexString()
     }
 
 internal object Serializer: KSerializer<${typename}>{
