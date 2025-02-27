@@ -146,34 +146,34 @@ class PEFile private constructor(
          */
         fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
             check(len >= 0)
-            // 请求区间：[reqStart, reqEnd)
+            // Request range: [reqStart, reqEnd)
             val reqStart: UInt = rva.rawValue
             val reqEnd: UInt = reqStart + len.toUInt()
 
-            // section 的虚拟地址区间：[sectionStart, sectionEnd)
+            // Section's virtual address range: [sectionStart, sectionEnd)
             val sectionStart: UInt = table.virtualAddress.rawValue
             val sectionEnd: UInt = sectionStart + table.sizeOfRawData
 
-            // 计算交集区间：[copyStart, copyEnd)
+            // Calculate intersection range: [copyStart, copyEnd)
             val copyStart: UInt = maxOf(reqStart, sectionStart)
             val copyEnd: UInt = minOf(reqEnd, sectionEnd)
 
             if (copyEnd <= copyStart) {
-                return // 无交集，不做处理
+                return // No intersection, no processing needed
             }
 
-            // 交集区间的长度（确保不会超过 Int 范围）
+            // Length of the intersection range (ensuring it doesn't exceed Int range)
             val copyLen: Int = (copyEnd - copyStart).toInt()
 
-            // 文件中对应的读取位置：
-            // section 在内存中的起始地址 table.virtualAddress 对应文件中的位置为 table.pointerToRawData，
-            // 因此读取位置为 pointerToRawData + (copyStart - sectionStart)
+            // File reading position:
+            // The section's starting address in memory (table.virtualAddress) corresponds to table.pointerToRawData in the file,
+            // so the reading position is pointerToRawData + (copyStart - sectionStart)
             val filePos: Long = table.pointerToRawData.rawValue.toLong() + (copyStart - sectionStart).toLong()
 
-            // 目标 buffer 中写入数据的起始偏移：请求区间和交集区间之间的偏移量
+            // Starting offset in the destination buffer: offset between request range and intersection range
             val destOff: Int = off + (copyStart - reqStart).toInt()
 
-            // 调用 dataAccessor 读取数据到 buf 中指定区域
+            // Call dataAccessor to read data into the specified region of the buffer
             dataAccessor.readFully(filePos, buf, destOff, copyLen)
         }
 
