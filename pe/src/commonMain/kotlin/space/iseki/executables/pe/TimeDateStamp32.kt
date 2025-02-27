@@ -21,11 +21,11 @@ import kotlin.jvm.JvmStatic
  * - Import Directory: date/time stamp of the DLL to import
  * - Debug Directory: date/time stamp of the debug information
  *
- * @property rawValue The raw 32-bit value representing seconds since Unix epoch (00:00 January 1, 1970).
+ * @property value The raw 32-bit value representing seconds since Unix epoch (00:00 January 1, 1970).
  */
 @Serializable(with = TimeDateStamp32.Serializer::class)
 @JvmInline
-value class TimeDateStamp32(val rawValue: UInt) : Comparable<TimeDateStamp32> {
+value class TimeDateStamp32(val value: UInt) : Comparable<TimeDateStamp32> {
     object Serializer : KSerializer<TimeDateStamp32> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -41,7 +41,7 @@ value class TimeDateStamp32(val rawValue: UInt) : Comparable<TimeDateStamp32> {
     }
 
     override fun compareTo(other: TimeDateStamp32): Int {
-        return rawValue.compareTo(other.rawValue)
+        return value.compareTo(other.value)
     }
 
     /**
@@ -50,19 +50,19 @@ value class TimeDateStamp32(val rawValue: UInt) : Comparable<TimeDateStamp32> {
      * @return The ISO-8601 formatted date-time string representing this time stamp.
      */
     override fun toString(): String {
-        return Instant.fromEpochSeconds(rawValue.toLong()).toString()
+        return Instant.fromEpochSeconds(value.toLong()).toString()
     }
 
     companion object {
         /**
          * Converts a raw time stamp value to its string representation in ISO-8601 format.
          *
-         * @param rawValue The raw time stamp value as Int.
+         * @param value The raw time stamp value as Int.
          * @return The ISO-8601 formatted date-time string representing the time stamp.
          */
         @JvmStatic
-        fun toString(rawValue: Int): String {
-            return TimeDateStamp32(rawValue.toUInt()).toString()
+        fun toString(value: Int): String {
+            return TimeDateStamp32(value.toUInt()).toString()
         }
     }
 }

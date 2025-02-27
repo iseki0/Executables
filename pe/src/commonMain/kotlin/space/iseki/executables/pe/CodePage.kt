@@ -5,21 +5,21 @@ import kotlin.jvm.JvmInline
 /**
  * Represents a code page in a PE file.
  *
- * @property rawValue the raw value of the code page
+ * @property value the raw value of the code page
  */
 @JvmInline
-value class CodePage(val rawValue: UInt) : Comparable<CodePage> {
+value class CodePage(val value: UInt) : Comparable<CodePage> {
     override fun toString(): String {
-        return codePageRef[rawValue] ?: rawValue.toString()
+        return codePageRef[value] ?: value.toString()
     }
 
-    override fun compareTo(other: CodePage): Int = rawValue.compareTo(other.rawValue)
+    override fun compareTo(other: CodePage): Int = value.compareTo(other.value)
 
     /**
      * returns the .net name of the code page, such as "windows-1252" for code page 1252; returns null if there is no corresponding .net name.
      */
     val dotNetName: String?
-        get() = codePageRef[rawValue]
+        get() = codePageRef[value]
 }
 
 private val codePageRef by lazy(LazyThreadSafetyMode.PUBLICATION) {

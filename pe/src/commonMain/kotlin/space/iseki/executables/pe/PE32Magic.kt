@@ -12,11 +12,11 @@ import kotlin.jvm.JvmStatic
 /**
  * Represents the pe32 magic value in a pe file.
  *
- * @property rawValue the raw short value representing the magic
+ * @property value the raw short value representing the magic
  */
 @JvmInline
 @Serializable(with = PE32Magic.Serializer::class)
-value class PE32Magic(val rawValue: Short) : Comparable<PE32Magic> {
+value class PE32Magic(val value: Short) : Comparable<PE32Magic> {
     internal object Serializer : KSerializer<PE32Magic> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -57,11 +57,11 @@ value class PE32Magic(val rawValue: Short) : Comparable<PE32Magic> {
         val PE32Plus = PE32Magic(0x20b)
     }
 
-    override fun compareTo(other: PE32Magic): Int = rawValue.compareTo(other.rawValue)
+    override fun compareTo(other: PE32Magic): Int = value.compareTo(other.value)
 
     override fun toString(): String = when (this) {
         PE32 -> "PE32"
         PE32Plus -> "PE32+"
-        else -> "UNKNOWN($rawValue)"
+        else -> "UNKNOWN($value)"
     }
 }

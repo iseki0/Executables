@@ -52,8 +52,8 @@ class PEParseTest {
 
         // 验证解析结果
         assertEquals(3.toUShort(), coffHeader.numbersOfSections)
-        assertEquals(0x5F3E2D1Cu, coffHeader.timeDateStamp.rawValue)
-        assertEquals(0u, coffHeader.pointerToSymbolTable.rawValue)
+        assertEquals(0x5F3E2D1Cu, coffHeader.timeDateStamp.value)
+        assertEquals(0u, coffHeader.pointerToSymbolTable.value)
         assertEquals(0u, coffHeader.numbersOfSymbols)
         assertEquals(0xe0.toUShort(), coffHeader.sizeOfOptionalHeader)
     }
@@ -119,9 +119,9 @@ class PEParseTest {
         assertEquals(0x1000u, stdHeader.sizeOfCode)
         assertEquals(0x2000u, stdHeader.sizeOfInitializedData)
         assertEquals(0u, stdHeader.sizeOfUninitializedData)
-        assertEquals(0x1000u, stdHeader.addressOfEntryPoint.rawValue)
-        assertEquals(0x1000u, stdHeader.baseOfCode.rawValue)
-        assertEquals(0x2000u, stdHeader.baseOfData.rawValue)
+        assertEquals(0x1000u, stdHeader.addressOfEntryPoint.value)
+        assertEquals(0x1000u, stdHeader.baseOfCode.value)
+        assertEquals(0x2000u, stdHeader.baseOfData.value)
     }
 
     @Test
@@ -145,7 +145,7 @@ class PEParseTest {
         val ddItem = DataDirectoryItem.parse(ddBytes, 0)
 
         // 验证解析结果
-        assertEquals(0x1000u, ddItem.virtualAddress.rawValue)
+        assertEquals(0x1000u, ddItem.virtualAddress.value)
         assertEquals(0x200, ddItem.size)
     }
 
@@ -224,11 +224,11 @@ class PEParseTest {
         // 验证解析结果
         assertEquals(".text", sectionItem.name)
         assertEquals(0x1000u, sectionItem.virtualSize)
-        assertEquals(0x1000u, sectionItem.virtualAddress.rawValue)
+        assertEquals(0x1000u, sectionItem.virtualAddress.value)
         assertEquals(0x800u, sectionItem.sizeOfRawData)
-        assertEquals(0x400u, sectionItem.pointerToRawData.rawValue)
-        assertEquals(0u, sectionItem.pointerToRelocations.rawValue)
-        assertEquals(0u, sectionItem.pointerToLinenumbers.rawValue)
+        assertEquals(0x400u, sectionItem.pointerToRawData.value)
+        assertEquals(0u, sectionItem.pointerToRelocations.value)
+        assertEquals(0u, sectionItem.pointerToLinenumbers.value)
         assertEquals(0.toUShort(), sectionItem.numberOfRelocations)
         assertEquals(0.toUShort(), sectionItem.numberOfLinenumbers)
     }

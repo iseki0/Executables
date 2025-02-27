@@ -147,11 +147,11 @@ class PEFile private constructor(
         fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
             check(len >= 0)
             // Request range: [reqStart, reqEnd)
-            val reqStart: UInt = rva.rawValue
+            val reqStart: UInt = rva.value
             val reqEnd: UInt = reqStart + len.toUInt()
 
             // Section's virtual address range: [sectionStart, sectionEnd)
-            val sectionStart: UInt = table.virtualAddress.rawValue
+            val sectionStart: UInt = table.virtualAddress.value
             val sectionEnd: UInt = sectionStart + table.sizeOfRawData
 
             // Calculate intersection range: [copyStart, copyEnd)
@@ -168,7 +168,7 @@ class PEFile private constructor(
             // File reading position:
             // The section's starting address in memory (table.virtualAddress) corresponds to table.pointerToRawData in the file,
             // so the reading position is pointerToRawData + (copyStart - sectionStart)
-            val filePos: Long = table.pointerToRawData.rawValue.toLong() + (copyStart - sectionStart).toLong()
+            val filePos: Long = table.pointerToRawData.value.toLong() + (copyStart - sectionStart).toLong()
 
             // Starting offset in the destination buffer: offset between request range and intersection range
             val destOff: Int = off + (copyStart - reqStart).toInt()
@@ -245,7 +245,7 @@ class PEFile private constructor(
             resourceID = 0u
             name = charArray.concatToString()
         }
-        if ((dataRva and 0x80000000u).rawValue != 0u) {
+        if ((dataRva and 0x80000000u).value != 0u) {
             // directory
             return ResourceDirectory(name, resourceID, dataRva and 0x7FFFFFFFu)
         } else {
@@ -260,7 +260,7 @@ class PEFile private constructor(
     }
 
     private fun readResourceDirectoryNode(dataRva: Address32): List<ResourceNode> {
-        if (rsrcRva.rawValue == 0u) return emptyList()
+        if (rsrcRva.value == 0u) return emptyList()
         val buf = ByteArray(16)
         copyBytes(dataRva + rsrcRva, buf)
         val characteristics = buf.getUInt(0)
@@ -305,7 +305,7 @@ class PEFile private constructor(
          */
         override fun toString(): String = "<ROOT>"
 
-        override fun hashCode(): Int = dataRva.rawValue.toInt()
+        override fun hashCode(): Int = dataRva.value.toInt()
     }
 
     @Suppress("EqualsOrHashCode")
@@ -336,7 +336,7 @@ class PEFile private constructor(
          * @return a string representation
          */
         override fun toString(): String = "<DIR:${if (id == 0u) name else "ID=$id"}> @$dataRva"
-        override fun hashCode(): Int = dataRva.rawValue.toInt()
+        override fun hashCode(): Int = dataRva.value.toInt()
     }
 
     @Suppress("EqualsOrHashCode")
@@ -352,7 +352,7 @@ class PEFile private constructor(
         override fun toString(): String =
             "<FILE:${if (id == 0u) name else "ID=$id"}, CodePage=$codePage, Size=$size, ContentRVA=$contentRva> @$dataRva"
 
-        override fun hashCode(): Int = dataRva.rawValue.toInt()
+        override fun hashCode(): Int = dataRva.value.toInt()
 
         override fun readAllBytes(): ByteArray {
             val buf = ByteArray(size.toInt())

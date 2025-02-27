@@ -13,19 +13,19 @@ import kotlin.jvm.JvmStatic
 /**
  * Convert from raw value to 32-bit address.
  *
- * @param rawValue raw value
+ * @param value raw value
  * @return 32-bit address
  */
-fun Address32(rawValue: Int): Address32 = Address32(rawValue.toUInt())
+fun Address32(value: Int): Address32 = Address32(value.toUInt())
 
 /**
  * Represents a 32-bit address in a PE file.
  *
- * @property rawValue the unsigned integer representing the address
+ * @property value the unsigned integer representing the address
  */
 @Serializable(with = Address32.Serializer::class)
 @JvmInline
-value class Address32(val rawValue: UInt) : Comparable<Address32> {
+value class Address32(val value: UInt) : Comparable<Address32> {
 
     /**
      * A serializer for [Address32].
@@ -51,7 +51,7 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
     }
 
     override fun compareTo(other: Address32): Int {
-        return rawValue.compareTo(other.rawValue)
+        return value.compareTo(other.value)
     }
 
     /**
@@ -61,19 +61,19 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
      */
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
-        return "0x${rawValue.toHexString()}"
+        return "0x${value.toHexString()}"
     }
 
     companion object {
         /**
          * converts the given raw integer value to a hexadecimal string representation of a 32-bit address.
          *
-         * @param rawValue the raw integer value
+         * @param value the raw integer value
          * @return a string in hex format
          */
         @JvmStatic
-        fun toString(rawValue: Int): String {
-            return Address32(rawValue.toUInt()).toString()
+        fun toString(value: Int): String {
+            return Address32(value.toUInt()).toString()
         }
     }
 
@@ -84,7 +84,7 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
      * @return the summed address
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline operator fun plus(other: Address32): Address32 = Address32(this.rawValue.plus(other.rawValue))
+    inline operator fun plus(other: Address32): Address32 = Address32(this.value.plus(other.value))
 
     /**
      * adds the given integer (treated as an address) to this address.
@@ -111,7 +111,7 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
      * @return the resulting address
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline operator fun minus(other: Address32): Address32 = Address32(this.rawValue.minus(other.rawValue))
+    inline operator fun minus(other: Address32): Address32 = Address32(this.value.minus(other.value))
 
     /**
      * returns the bitwise and of this address and the given address.
@@ -120,7 +120,7 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
      * @return the result of the bitwise and
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline infix fun and(other: Address32): Address32 = Address32(this.rawValue and other.rawValue)
+    inline infix fun and(other: Address32): Address32 = Address32(this.value and other.value)
 
     /**
      * returns the bitwise and of this address and the given unsigned integer.
@@ -129,7 +129,7 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
      * @return the result of the bitwise and
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline infix fun and(other: UInt): Address32 = Address32(this.rawValue and other)
+    inline infix fun and(other: UInt): Address32 = Address32(this.value and other)
 
     /**
      * converts this address to an integer.
@@ -137,5 +137,5 @@ value class Address32(val rawValue: UInt) : Comparable<Address32> {
      * @return the integer representation of the address
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline fun toInt(): Int = rawValue.toInt()
+    inline fun toInt(): Int = value.toInt()
 }

@@ -13,12 +13,12 @@ import kotlin.jvm.JvmStatic
  *
  * the raw value is a long combining the virtual address (upper 32 bits) and the size (lower 32 bits).
  *
- * @property rawValue the combined raw value
+ * @property value the combined raw value
  */
 @Serializable(with = DataDirectoryItem.Serializer::class)
 @JvmInline
 value class DataDirectoryItem(
-    private val rawValue: Long,
+    private val value: Long,
 ) {
     object Serializer : KSerializer<DataDirectoryItem> {
         @Serializable
@@ -31,7 +31,7 @@ value class DataDirectoryItem(
 
         override fun deserialize(decoder: Decoder): DataDirectoryItem {
             decoder.decodeSerializableValue(DTO.serializer()).let {
-                val v = it.virtualAddress.rawValue.toLong() shl 32 or (it.size.toLong() and 0xFFFFFFFFL)
+                val v = it.virtualAddress.value.toLong() shl 32 or (it.size.toLong() and 0xFFFFFFFFL)
                 return DataDirectoryItem(v)
             }
         }
@@ -73,12 +73,12 @@ value class DataDirectoryItem(
         /**
          * Converts the given raw value to its string representation as a data directory item.
          *
-         * @param rawValue the raw long value
+         * @param value the raw long value
          * @return a string representation
          */
         @JvmStatic
-        fun toString(rawValue: Long): String {
-            return DataDirectoryItem(rawValue).toString()
+        fun toString(value: Long): String {
+            return DataDirectoryItem(value).toString()
         }
 
         /**
@@ -102,7 +102,7 @@ value class DataDirectoryItem(
      * @return the virtual address as an [Address32]
      */
     val virtualAddress: Address32
-        get() = Address32((rawValue ushr 32).toInt())
+        get() = Address32((value ushr 32).toInt())
 
     /**
      * Retrieves the size part of the data directory item.
@@ -110,7 +110,7 @@ value class DataDirectoryItem(
      * @return the size as an integer
      */
     val size: Int
-        get() = rawValue.toInt()
+        get() = value.toInt()
 
     /**
      * Returns the string representation of the data directory item.

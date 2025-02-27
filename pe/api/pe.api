@@ -30,7 +30,7 @@ public final class space/iseki/executables/pe/Address32 : java/lang/Comparable {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public final fun getRawValue-pVg5ArA ()I
+	public final fun getValue-pVg5ArA ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public static final fun minus-EELq8wE (II)I
@@ -72,7 +72,7 @@ public final class space/iseki/executables/pe/Address64 : java/lang/Comparable {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (JLjava/lang/Object;)Z
 	public static final fun equals-impl0 (JJ)Z
-	public final fun getRawValue ()J
+	public final fun getValue ()J
 	public fun hashCode ()I
 	public static fun hashCode-impl (J)I
 	public fun toString ()Ljava/lang/String;
@@ -111,9 +111,9 @@ public final class space/iseki/executables/pe/Characteristics : java/util/Set, k
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
 	public static final fun equals-impl0 (SS)Z
-	public final fun getRawValue ()S
 	public fun getSize ()I
 	public static fun getSize-impl (S)I
+	public final fun getValue ()S
 	public fun hashCode ()I
 	public static fun hashCode-impl (S)I
 	public fun isEmpty ()Z
@@ -186,7 +186,7 @@ public final class space/iseki/executables/pe/CodePage : java/lang/Comparable {
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
 	public static final fun getDotNetName-impl (I)Ljava/lang/String;
-	public final fun getRawValue-pVg5ArA ()I
+	public final fun getValue-pVg5ArA ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public fun toString ()Ljava/lang/String;
@@ -289,9 +289,9 @@ public final class space/iseki/executables/pe/DllCharacteristics : java/util/Set
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
 	public static final fun equals-impl0 (SS)Z
-	public final fun getRawValue ()S
 	public fun getSize ()I
 	public static fun getSize-impl (S)I
+	public final fun getValue ()S
 	public fun hashCode ()I
 	public static fun hashCode-impl (S)I
 	public fun isEmpty ()Z
@@ -382,7 +382,7 @@ public final class space/iseki/executables/pe/MachineType {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
 	public static final fun equals-impl0 (SS)Z
-	public final fun getRawValue ()S
+	public final fun getValue ()S
 	public fun hashCode ()I
 	public static fun hashCode-impl (S)I
 	public fun toString ()Ljava/lang/String;
@@ -470,7 +470,7 @@ public final class space/iseki/executables/pe/PE32Magic : java/lang/Comparable {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
 	public static final fun equals-impl0 (SS)Z
-	public final fun getRawValue ()S
+	public final fun getValue ()S
 	public fun hashCode ()I
 	public static fun hashCode-impl (S)I
 	public fun toString ()Ljava/lang/String;
@@ -579,9 +579,9 @@ public final class space/iseki/executables/pe/SectionFlags : java/util/Set, kotl
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public final fun getRawValue ()I
 	public fun getSize ()I
 	public static fun getSize-impl (I)I
+	public final fun getValue ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public fun isEmpty ()Z
@@ -789,7 +789,7 @@ public final class space/iseki/executables/pe/TimeDateStamp32 : java/lang/Compar
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public final fun getRawValue-pVg5ArA ()I
+	public final fun getValue-pVg5ArA ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public fun toString ()Ljava/lang/String;
@@ -922,7 +922,7 @@ public final class space/iseki/executables/pe/WindowsSubsystems {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
 	public static final fun equals-impl0 (SS)Z
-	public final fun getRawValue ()S
+	public final fun getValue ()S
 	public fun hashCode ()I
 	public static fun hashCode-impl (S)I
 	public fun toString ()Ljava/lang/String;
@@ -996,9 +996,9 @@ public final class space/iseki/executables/pe/vi/FileInfoFlags : java/util/Set, 
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public final fun getRawValue ()I
 	public fun getSize ()I
 	public static fun getSize-impl (I)I
+	public final fun getValue ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public fun isEmpty ()Z
@@ -1050,7 +1050,7 @@ public final class space/iseki/executables/pe/vi/FileOs {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public final fun getRawValue ()I
+	public final fun getValue ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public fun toString ()Ljava/lang/String;
@@ -1103,7 +1103,7 @@ public final class space/iseki/executables/pe/vi/FileType {
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public final fun getRawValue ()I
+	public final fun getValue ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public fun toString ()Ljava/lang/String;

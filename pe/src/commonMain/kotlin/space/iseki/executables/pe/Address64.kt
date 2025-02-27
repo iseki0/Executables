@@ -12,11 +12,11 @@ import kotlin.jvm.JvmStatic
 /**
  * Represents a 64-bit address in a PE file.
  *
- * @property rawValue the long value representing the address
+ * @property value the long value representing the address
  */
 @Serializable(with = Address64.Serializer::class)
 @JvmInline
-value class Address64(val rawValue: Long) : Comparable<Address64> {
+value class Address64(val value: Long) : Comparable<Address64> {
 
     /**
      * A serializer for [Address64].
@@ -38,7 +38,7 @@ value class Address64(val rawValue: Long) : Comparable<Address64> {
     }
 
     override fun compareTo(other: Address64): Int {
-        return rawValue.toULong().compareTo(other.rawValue.toULong())
+        return value.toULong().compareTo(other.value.toULong())
     }
 
     /**
@@ -48,19 +48,19 @@ value class Address64(val rawValue: Long) : Comparable<Address64> {
      */
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
-        return "0x${rawValue.toHexString()}"
+        return "0x${value.toHexString()}"
     }
 
     companion object {
         /**
          * Converts the given raw long value to a hexadecimal string representation of a 64-bit address.
          *
-         * @param rawValue the raw long value
+         * @param value the raw long value
          * @return a string in hex format
          */
         @JvmStatic
-        fun toString(rawValue: Long): String {
-            return Address64(rawValue).toString()
+        fun toString(value: Long): String {
+            return Address64(value).toString()
         }
     }
 }
