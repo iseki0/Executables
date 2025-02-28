@@ -56,7 +56,11 @@ internal fun parseStringTable(bytes: ByteArray, header: StructureHeader): String
         while (pos < end) {
             val stringHeader = parseStructureHeader(bytes, pos)
             pos += stringHeader.length
-            val value = bytes.getWString(pos, stringHeader.wValueLength.toInt() * 2 - 2)
+            val value = if (stringHeader.wValueLength.toInt() == 0) {
+                ""
+            } else {
+                bytes.getWString(pos, stringHeader.wValueLength.toInt() * 2 - 2)
+            }
             pos += stringHeader.wValueLength.toInt() * 2
             add(stringHeader.szKey to value)
             pos += paddingAlignTo32Bit(pos)
