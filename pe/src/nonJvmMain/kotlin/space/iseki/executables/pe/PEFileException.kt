@@ -3,9 +3,12 @@ package space.iseki.executables.pe
 import space.iseki.executables.common.CommonFileException
 
 /**
- * Represents an exception occurring during PE file processing.
+ * Non-JVM implementation of [PEFileException].
  *
  * @param message the detailed message describing the error
  * @param cause the underlying reason for the exception
  */
-expect open class PEFileException(message: String, cause: Throwable? = null) : CommonFileException
+actual open class PEFileException actual constructor(
+    message: String,
+    override val cause: Throwable?
+) : CommonFileException(message, cause) 
