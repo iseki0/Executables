@@ -3,9 +3,12 @@ package space.iseki.executables.elf
 import space.iseki.executables.common.CommonFileException
 
 /**
- * Represents an exception occurring during ELF file processing.
+ * Non-JVM implementation of [ElfFileException].
  *
  * @param message the detailed message describing the error
  * @param cause the underlying reason for the exception
  */
-expect open class ElfFileException(message: String, cause: Throwable? = null) : CommonFileException
+actual open class ElfFileException actual constructor(
+    message: String,
+    override val cause: Throwable?
+) : CommonFileException(message, cause) 
