@@ -37,6 +37,7 @@ class ReadSysTest {
                     PEFile.open(path.toFile()).use { peFile ->
                         println(peFile)
                         println(peFile.importSymbols)
+                        println(peFile.exportSymbols)
                         peFile.versionInfo?.stringFileInfo?.strings.orEmpty().forEach { (k, v) -> println("$k: $v") }
                     }
                 })

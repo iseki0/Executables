@@ -486,11 +486,32 @@ public final class space/iseki/executables/pe/PE32Magic$Companion {
 	public final fun valueOf-MfaRI1g (Ljava/lang/String;)S
 }
 
-public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, space/iseki/executables/common/ImportSymbolContainer, space/iseki/executables/common/OpenedFile, space/iseki/executables/common/ReadableSectionContainer {
+public final class space/iseki/executables/pe/PEExportSymbol : space/iseki/executables/common/ExportSymbol {
+	public synthetic fun <init> (Ljava/lang/String;SIZLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;SIZLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2-Mh2AYeg ()S
+	public final fun component3-hRLxnt0 ()I
+	public final fun component4 ()Z
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy-uneWdeA (Ljava/lang/String;SIZLjava/lang/String;)Lspace/iseki/executables/pe/PEExportSymbol;
+	public static synthetic fun copy-uneWdeA$default (Lspace/iseki/executables/pe/PEExportSymbol;Ljava/lang/String;SIZLjava/lang/String;ILjava/lang/Object;)Lspace/iseki/executables/pe/PEExportSymbol;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddress-hRLxnt0 ()I
+	public final fun getForwarderString ()Ljava/lang/String;
+	public fun getName ()Ljava/lang/String;
+	public final fun getOrdinal-Mh2AYeg ()S
+	public fun hashCode ()I
+	public final fun isForwarder ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, space/iseki/executables/common/ExportSymbolContainer, space/iseki/executables/common/ImportSymbolContainer, space/iseki/executables/common/OpenedFile, space/iseki/executables/common/ReadableSectionContainer {
 	public static final field Companion Lspace/iseki/executables/pe/PEFile$Companion;
 	public synthetic fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;Lspace/iseki/executables/common/DataAccessor;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
 	public final fun getCoffHeader ()Lspace/iseki/executables/pe/CoffHeader;
+	public fun getExportSymbols ()Ljava/util/List;
 	public fun getImportSymbols ()Ljava/util/List;
 	public final fun getResourceRoot ()Lspace/iseki/executables/pe/ResourceNode;
 	public final fun getSectionTable ()Ljava/util/List;

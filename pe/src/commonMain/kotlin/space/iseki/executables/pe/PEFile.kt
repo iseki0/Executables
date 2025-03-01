@@ -3,6 +3,8 @@ package space.iseki.executables.pe
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
+import space.iseki.executables.common.ExportSymbol
+import space.iseki.executables.common.ExportSymbolContainer
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.ImportSymbol
@@ -20,7 +22,7 @@ class PEFile private constructor(
     val windowsHeader: WindowsSpecifiedHeader,
     val sectionTable: List<SectionTableItem>,
     private val dataAccessor: DataAccessor,
-) : AutoCloseable, OpenedFile, ReadableSectionContainer, ImportSymbolContainer {
+) : AutoCloseable, OpenedFile, ReadableSectionContainer, ImportSymbolContainer, ExportSymbolContainer {
 
     /**
      * Represents a summary of the pe file headers.
@@ -724,5 +726,113 @@ class PEFile private constructor(
                 currentRva += bufferSize.toUInt()
             }
         }
+    }
+
+    /**
+     * Get all export symbols from the PE file
+     */
+    override val exportSymbols: List<ExportSymbol> by lazy {
+        parseExportSymbols()
+    }
+
+    /**
+     * Parse the export table of the PE file and extract all export symbols
+     *
+     * @return list of export symbols
+     */
+    private fun parseExportSymbols(): List<ExportSymbol> {
+        val exportTable = windowsHeader.exportTable
+
+        // If export table is empty, return an empty list
+        if (exportTable == DataDirectoryItem.ZERO) {
+            return emptyList()
+        }
+
+        val result = mutableListOf<ExportSymbol>()
+
+        // Read the export directory table
+        val exportDirectoryRva = exportTable.virtualAddress
+
+        // Create a buffer for reading the export directory table (40 bytes)
+        val directoryBuffer = ByteArray(40)
+        readVirtualMemory(exportDirectoryRva, directoryBuffer, 0, directoryBuffer.size)
+
+        // Parse the export directory table
+        val timeStamp = directoryBuffer.getUInt(4)
+        val majorVersion = directoryBuffer.getUShort(8)
+        val minorVersion = directoryBuffer.getUShort(10)
+        val nameRva = Address32(directoryBuffer.getUInt(12))
+        val ordinalBase = directoryBuffer.getUInt(16)
+        val addressTableEntries = directoryBuffer.getUInt(20)
+        val numberOfNamePointers = directoryBuffer.getUInt(24)
+        val exportAddressTableRva = Address32(directoryBuffer.getUInt(28))
+        val namePointerRva = Address32(directoryBuffer.getUInt(32))
+        val ordinalTableRva = Address32(directoryBuffer.getUInt(36))
+
+        // Read the DLL name
+        val dllName = readCString(nameRva)
+
+        // Read the export address table
+        val exportAddressTable = Array(addressTableEntries.toInt()) { index ->
+            val addressBuffer = ByteArray(4)
+            readVirtualMemory(exportAddressTableRva + (index * 4), addressBuffer, 0, 4)
+            Address32(addressBuffer.getUInt(0))
+        }
+
+        // Read the name pointer table
+        val namePointerTable = Array(numberOfNamePointers.toInt()) { index ->
+            val pointerBuffer = ByteArray(4)
+            readVirtualMemory(namePointerRva + (index * 4), pointerBuffer, 0, 4)
+            Address32(pointerBuffer.getUInt(0))
+        }
+
+        // Read the ordinal table
+        val ordinalTable = Array(numberOfNamePointers.toInt()) { index ->
+            val ordinalBuffer = ByteArray(2)
+            readVirtualMemory(ordinalTableRva + (index * 2), ordinalBuffer, 0, 2)
+            ordinalBuffer.getUShort(0)
+        }
+
+        // Create a map of ordinals to names
+        val ordinalToNameMap = mutableMapOf<UShort, String>()
+        for (i in 0 until numberOfNamePointers.toInt()) {
+            val name = readCString(namePointerTable[i])
+            ordinalToNameMap[ordinalTable[i]] = name
+        }
+
+        // Process all exports in the address table
+        for (i in 0 until addressTableEntries.toInt()) {
+            val ordinal = i.toUShort()
+            val rva = exportAddressTable[i]
+
+            // Check if this is a forwarder RVA (within the export section)
+            val isForwarder =
+                rva.value >= exportDirectoryRva.value && rva.value < exportDirectoryRva.value + exportTable.size.toUInt()
+
+            val name = ordinalToNameMap[ordinal] ?: "#${ordinal.toInt() + ordinalBase.toInt()}"
+
+            if (isForwarder) {
+                // This is a forwarder, read the forwarder string
+                val forwarderString = readCString(rva)
+                result.add(
+                    PEExportSymbol(
+                        name = name,
+                        ordinal = ((ordinal + ordinalBase).toUShort()),
+                        address = rva,
+                        isForwarder = true,
+                        forwarderString = forwarderString
+                    )
+                )
+            } else {
+                // Regular export
+                result.add(
+                    PEExportSymbol(
+                        name = name, ordinal = ((ordinal + ordinalBase).toUShort()), address = rva
+                    )
+                )
+            }
+        }
+
+        return result
     }
 }
