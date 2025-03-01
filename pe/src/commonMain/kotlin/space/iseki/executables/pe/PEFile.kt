@@ -444,6 +444,17 @@ class PEFile private constructor(
         override val size: Long
             get() = sizeOfRawData.toLong()
 
+        /**
+         * Reads bytes from the section.
+         *
+         * @param sectionOffset the offset within the section to read from
+         * @param buf the buffer to read into
+         * @param bufOffset the offset within the buffer to read into
+         * @param size the number of bytes to read
+         * @throws IndexOutOfBoundsException if buffer offset or size is out of bounds
+         * @throws IllegalArgumentException if size or section offset is negative
+         * @throws IOException if reading from the file fails
+         */
         override fun readBytes(
             sectionOffset: Long,
             buf: ByteArray,
@@ -452,13 +463,13 @@ class PEFile private constructor(
         ) {
             // Check parameter validity
             if (bufOffset < 0 || bufOffset + size > buf.size) {
-                throw IndexOutOfBoundsException("Buffer offset or size out of bounds")
+                throw IndexOutOfBoundsException("Buffer offset or size out of bounds: offset=$bufOffset, size=$size, buffer size=${buf.size}")
             }
             if (size < 0) {
-                throw IllegalArgumentException("Size cannot be negative")
+                throw IllegalArgumentException("Size cannot be negative: $size")
             }
             if (sectionOffset < 0) {
-                throw IllegalArgumentException("Section offset cannot be negative")
+                throw IllegalArgumentException("Section offset cannot be negative: $sectionOffset")
             }
 
             // Calculate actual readable bytes
@@ -478,7 +489,11 @@ class PEFile private constructor(
             val filePosition = pointerToRawData.value.toLong() + sectionOffset
 
             // Read data from file
-            dataAccessor.readFully(filePosition, buf, bufOffset, bytesToRead)
+            try {
+                dataAccessor.readFully(filePosition, buf, bufOffset, bytesToRead)
+            } catch (e: IOException) {
+                throw IOException("Failed to read section '$name' at offset $filePosition", e)
+            }
         }
 
         /**
