@@ -38,6 +38,7 @@ class ElfFile private constructor(
          * @param ehdr The ELF header
          * @param sectionHeaders The original section headers list
          * @return Section headers list with names
+         * @throws ElfFileException if reading section names fails
          */
         private fun readSectionNames(
             accessor: DataAccessor,
@@ -47,20 +48,30 @@ class ElfFile private constructor(
             if (sectionHeaders.isEmpty()) return sectionHeaders
 
             val shstrndx = ehdr.eShstrndx.castToInt()
-            if (shstrndx < 0 || shstrndx >= sectionHeaders.size) return sectionHeaders
+            if (shstrndx < 0 || shstrndx >= sectionHeaders.size) {
+                throw ElfFileException("Invalid section header string table index: $shstrndx, section count: ${sectionHeaders.size}")
+            }
 
             val stringTableHeader = sectionHeaders[shstrndx]
             val stringTableSize = stringTableHeader.shSize.castToInt()
-            if (stringTableSize <= 0) return sectionHeaders
+            if (stringTableSize <= 0) {
+                throw ElfFileException("Invalid string table size: $stringTableSize")
+            }
 
             val stringTableOffset = stringTableHeader.shOffset.castToLong()
             val stringTableData = ByteArray(stringTableSize)
-            accessor.readFully(stringTableOffset, stringTableData)
+            try {
+                accessor.readFully(stringTableOffset, stringTableData)
+            } catch (e: IOException) {
+                throw ElfFileException("Failed to read string table at offset $stringTableOffset with size $stringTableSize", e)
+            }
 
             // Add name to each section header
             return sectionHeaders.map { shdr ->
                 val nameIndex = shdr.shName.castToInt()
-                if (nameIndex < 0 || nameIndex >= stringTableSize) return@map shdr
+                if (nameIndex < 0 || nameIndex >= stringTableSize) {
+                    return@map shdr
+                }
 
                 // Read null-terminated string
                 val nameBytes = mutableListOf<Byte>()
@@ -69,7 +80,11 @@ class ElfFile private constructor(
                     nameBytes.add(stringTableData[i])
                     i++
                 }
-                val name = nameBytes.toByteArray().decodeToString()
+                val name = try {
+                    nameBytes.toByteArray().decodeToString()
+                } catch (e: Exception) {
+                    throw ElfFileException("Failed to decode section name at index $nameIndex", e)
+                }
 
                 // Create a new section header with name using the auto-generated copy function
                 when (shdr) {
@@ -90,10 +105,20 @@ class ElfFile private constructor(
         @Throws(IOException::class)
         override fun open(accessor: DataAccessor): ElfFile {
             val buf = ByteArray(16)
-            accessor.readFully(0, buf)
+            try {
+                accessor.readFully(0, buf)
+            } catch (e: IOException) {
+                throw ElfFileException("Failed to read ELF identification bytes", e)
+            }
+            
             val ident = ElfIdentification.parse(buf, 0)
             val buf2 = ByteArray(ident.eiClass.ehdrSize)
-            accessor.readFully(0, buf2)
+            try {
+                accessor.readFully(0, buf2)
+            } catch (e: IOException) {
+                throw ElfFileException("Failed to read ELF header", e)
+            }
+            
             val ehdr = if (ident.eiClass == ElfClass.ELFCLASS32) {
                 Elf32Ehdr.parse(buf2, 0, ident)
             } else if (ident.eiClass == ElfClass.ELFCLASS64) {
@@ -108,9 +133,17 @@ class ElfFile private constructor(
                     if (ehdr.ePhoff.value != 0u && ehdr.ePhnum.value.toInt() > 0) {
                         val phSize = ehdr.ePhentsize.value.toInt() * ehdr.ePhnum.value.toInt()
                         val phBuffer = ByteArray(phSize)
-                        accessor.readFully(ehdr.ePhoff.value.toLong(), phBuffer)
-                        List(ehdr.ePhnum.value.toInt()) { i ->
-                            Elf32Phdr.parse(phBuffer, i * ehdr.ePhentsize.value.toInt(), ident)
+                        try {
+                            accessor.readFully(ehdr.ePhoff.value.toLong(), phBuffer)
+                        } catch (e: IOException) {
+                            throw ElfFileException("Failed to read program headers at offset ${ehdr.ePhoff.value}", e)
+                        }
+                        try {
+                            List(ehdr.ePhnum.value.toInt()) { i ->
+                                Elf32Phdr.parse(phBuffer, i * ehdr.ePhentsize.value.toInt(), ident)
+                            }
+                        } catch (e: Exception) {
+                            throw ElfFileException("Failed to parse program headers, invalid format", e)
                         }
                     } else {
                         emptyList()
@@ -121,9 +154,17 @@ class ElfFile private constructor(
                     if (ehdr.ePhoff.value != 0UL && ehdr.ePhnum.value.toInt() > 0) {
                         val phSize = ehdr.ePhentsize.value.toInt() * ehdr.ePhnum.value.toInt()
                         val phBuffer = ByteArray(phSize)
-                        accessor.readFully(ehdr.ePhoff.value.toLong(), phBuffer)
-                        List(ehdr.ePhnum.value.toInt()) { i ->
-                            Elf64Phdr.parse(phBuffer, i * ehdr.ePhentsize.value.toInt(), ident)
+                        try {
+                            accessor.readFully(ehdr.ePhoff.value.toLong(), phBuffer)
+                        } catch (e: IOException) {
+                            throw ElfFileException("Failed to read program headers at offset ${ehdr.ePhoff.value}", e)
+                        }
+                        try {
+                            List(ehdr.ePhnum.value.toInt()) { i ->
+                                Elf64Phdr.parse(phBuffer, i * ehdr.ePhentsize.value.toInt(), ident)
+                            }
+                        } catch (e: Exception) {
+                            throw ElfFileException("Failed to parse program headers, invalid format", e)
                         }
                     } else {
                         emptyList()
@@ -138,9 +179,17 @@ class ElfFile private constructor(
                     if (ehdr.eShoff.value != 0u && ehdr.eShnum.value.toInt() > 0) {
                         val shSize = ehdr.eShentsize.value.toInt() * ehdr.eShnum.value.toInt()
                         val shBuffer = ByteArray(shSize)
-                        accessor.readFully(ehdr.eShoff.value.toLong(), shBuffer)
-                        List(ehdr.eShnum.value.toInt()) { i ->
-                            Elf32Shdr.parse(shBuffer, i * ehdr.eShentsize.value.toInt(), le)
+                        try {
+                            accessor.readFully(ehdr.eShoff.value.toLong(), shBuffer)
+                        } catch (e: IOException) {
+                            throw ElfFileException("Failed to read section headers at offset ${ehdr.eShoff.value}", e)
+                        }
+                        try {
+                            List(ehdr.eShnum.value.toInt()) { i ->
+                                Elf32Shdr.parse(shBuffer, i * ehdr.eShentsize.value.toInt(), le)
+                            }
+                        } catch (e: Exception) {
+                            throw ElfFileException("Failed to parse section headers, invalid format", e)
                         }
                     } else {
                         emptyList()
@@ -151,9 +200,17 @@ class ElfFile private constructor(
                     if (ehdr.eShoff.value != 0UL && ehdr.eShnum.value.toInt() > 0) {
                         val shSize = ehdr.eShentsize.value.toInt() * ehdr.eShnum.value.toInt()
                         val shBuffer = ByteArray(shSize)
-                        accessor.readFully(ehdr.eShoff.value.toLong(), shBuffer)
-                        List(ehdr.eShnum.value.toInt()) { i ->
-                            Elf64Shdr.parse(shBuffer, i * ehdr.eShentsize.value.toInt(), le)
+                        try {
+                            accessor.readFully(ehdr.eShoff.value.toLong(), shBuffer)
+                        } catch (e: IOException) {
+                            throw ElfFileException("Failed to read section headers at offset ${ehdr.eShoff.value}", e)
+                        }
+                        try {
+                            List(ehdr.eShnum.value.toInt()) { i ->
+                                Elf64Shdr.parse(shBuffer, i * ehdr.eShentsize.value.toInt(), le)
+                            }
+                        } catch (e: Exception) {
+                            throw ElfFileException("Failed to parse section headers, invalid format", e)
                         }
                     } else {
                         emptyList()
@@ -162,7 +219,11 @@ class ElfFile private constructor(
             }
 
             // Read section name string table and add names to section headers
-            val sectionHeadersWithNames = readSectionNames(accessor, ehdr, sectionHeaders)
+            val sectionHeadersWithNames = try {
+                readSectionNames(accessor, ehdr, sectionHeaders)
+            } catch (e: Exception) {
+                throw ElfFileException("Failed to read section names", e)
+            }
 
             return ElfFile(accessor, ident, ehdr, programHeaders, sectionHeadersWithNames)
         }
@@ -192,6 +253,9 @@ class ElfFile private constructor(
          * @param buf the buffer to read into
          * @param bufOffset the offset within the buffer to read into
          * @param size the number of bytes to read
+         * @throws IndexOutOfBoundsException if buffer offset or size is out of bounds
+         * @throws IllegalArgumentException if size or section offset is negative
+         * @throws IOException if reading from the file fails
          */
         override fun readBytes(
             sectionOffset: Long,
@@ -201,13 +265,13 @@ class ElfFile private constructor(
         ) {
             // Check parameter validity
             if (bufOffset < 0 || bufOffset + size > buf.size) {
-                throw IndexOutOfBoundsException("Buffer offset or size out of bounds")
+                throw IndexOutOfBoundsException("Buffer offset or size out of bounds: offset=$bufOffset, size=$size, buffer size=${buf.size}")
             }
             if (size < 0) {
-                throw IllegalArgumentException("Size cannot be negative")
+                throw IllegalArgumentException("Size cannot be negative: $size")
             }
             if (sectionOffset < 0) {
-                throw IllegalArgumentException("Section offset cannot be negative")
+                throw IllegalArgumentException("Section offset cannot be negative: $sectionOffset")
             }
 
             // Calculate actual readable bytes
@@ -227,7 +291,11 @@ class ElfFile private constructor(
             val filePosition = sectionHeader.shOffset.castToLong() + sectionOffset
 
             // Read data from file
-            dataAccessor.readFully(filePosition, buf, bufOffset, bytesToRead)
+            try {
+                dataAccessor.readFully(filePosition, buf, bufOffset, bytesToRead)
+            } catch (e: IOException) {
+                throw IOException("Failed to read section '${name ?: "unnamed"}' at offset $filePosition", e)
+            }
         }
 
     }
