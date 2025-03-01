@@ -4,6 +4,7 @@ import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.OpenedFile
+import space.iseki.executables.common.ReadableSection
 
 /**
  * Represents an ELF file and provides access to its contents.
@@ -101,7 +102,7 @@ class ElfFile private constructor(
                 throw ElfFileException("Invalid ElfClass: " + ident.eiClass)
             }
 
-            // 读取 Program Header 表
+            // Read Program Header table
             val programHeaders = when (ehdr) {
                 is Elf32Ehdr -> {
                     if (ehdr.ePhoff.value != 0u && ehdr.ePhnum.value.toInt() > 0) {
@@ -130,7 +131,7 @@ class ElfFile private constructor(
                 }
             }
 
-            // 读取 Section Header 表
+            // Read Section Header table
             val le = ident.eiData == ElfData.ELFDATA2LSB
             val sectionHeaders = when (ehdr) {
                 is Elf32Ehdr -> {
@@ -171,12 +172,65 @@ class ElfFile private constructor(
         dataAccessor.close()
     }
 
-}
+    /**
+     * Represents an ELF section.
+     */
+    inner class Section internal constructor(
+        val sectionHeader: ElfShdr,
+    ) : ReadableSection {
 
-internal val ElfClass.ehdrSize: Int
-    get() = when (this) {
-        ElfClass.ELFCLASS32 -> 52
-        ElfClass.ELFCLASS64 -> 64
-        else -> throw ElfFileException("Invalid ElfClass: $this")
+        override val name: String?
+            get() = sectionHeader.name
+
+        override val size: Long
+            get() = sectionHeader.shSize.castToLong()
+
+        /**
+         * Reads bytes from the section.
+         *
+         * @param sectionOffset the offset within the section to read from
+         * @param buf the buffer to read into
+         * @param bufOffset the offset within the buffer to read into
+         * @param size the number of bytes to read
+         */
+        override fun readBytes(
+            sectionOffset: Long,
+            buf: ByteArray,
+            bufOffset: Int,
+            size: Int,
+        ) {
+            // Check parameter validity
+            if (bufOffset < 0 || bufOffset + size > buf.size) {
+                throw IndexOutOfBoundsException("Buffer offset or size out of bounds")
+            }
+            if (size < 0) {
+                throw IllegalArgumentException("Size cannot be negative")
+            }
+            if (sectionOffset < 0) {
+                throw IllegalArgumentException("Section offset cannot be negative")
+            }
+
+            // Calculate actual readable bytes
+            val availableBytes = maxOf(0L, this.size - sectionOffset)
+            if (availableBytes <= 0) {
+                // No data available to read
+                return
+            }
+
+            // Calculate actual bytes to read
+            val bytesToRead = minOf(availableBytes, size.toLong()).toInt()
+            if (bytesToRead <= 0) {
+                return
+            }
+
+            // Calculate actual position in file
+            val filePosition = sectionHeader.shOffset.castToLong() + sectionOffset
+
+            // Read data from file
+            dataAccessor.readFully(filePosition, buf, bufOffset, bytesToRead)
+        }
+
     }
+
+}
 

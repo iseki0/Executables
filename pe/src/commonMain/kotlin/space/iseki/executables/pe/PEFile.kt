@@ -6,10 +6,10 @@ import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.OpenedFile
+import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
-import kotlin.jvm.JvmName
 
 class PEFile private constructor(
     val coffHeader: CoffHeader,
@@ -332,7 +332,8 @@ class PEFile private constructor(
         override val id: UInt,
         override val dataRva: Address32,
     ) : ResourceNode {
-        override fun getPEFile(): PEFile =this@PEFile
+        override fun getPEFile(): PEFile = this@PEFile
+
         /**
          * Indicates whether this node represents a file.
          *
@@ -384,7 +385,7 @@ class PEFile private constructor(
         override val codePage: CodePage,
         val contentRva: Address32,
     ) : ResourceNode {
-        override fun getPEFile(): PEFile =this@PEFile
+        override fun getPEFile(): PEFile = this@PEFile
         override fun isFile(): Boolean = true
         override fun toString(): String =
             "<FILE:${if (id == 0u) name else "ID=$id"}, CodePage=$codePage, Size=$size, ContentRVA=$contentRva> @$dataRva"
@@ -421,5 +422,80 @@ class PEFile private constructor(
 
     override fun toString(): String {
         return "PEFile(dataAccessor=$dataAccessor)"
+    }
+
+    /**
+     * Represents a PE section.
+     */
+    inner class Section internal constructor(
+        val tableItem: SectionTableItem,
+    ) : ReadableSection {
+        override val name: String get() = tableItem.name
+        val virtualSize: UInt get() = tableItem.virtualSize
+        val virtualAddress: Address32 get() = tableItem.virtualAddress
+        val sizeOfRawData: UInt get() = tableItem.sizeOfRawData
+        val pointerToRawData: Address32 get() = tableItem.pointerToRawData
+        val pointerToRelocations: Address32 get() = tableItem.pointerToRelocations
+        val pointerToLinenumbers: Address32 get() = tableItem.pointerToLinenumbers
+        val numberOfRelocations: UShort get() = tableItem.numberOfRelocations
+        val numberOfLinenumbers: UShort get() = tableItem.numberOfLinenumbers
+        val characteristics: SectionFlags get() = tableItem.characteristics
+
+        override val size: Long
+            get() = sizeOfRawData.toLong()
+
+        override fun readBytes(
+            sectionOffset: Long,
+            buf: ByteArray,
+            bufOffset: Int,
+            size: Int,
+        ) {
+            // Check parameter validity
+            if (bufOffset < 0 || bufOffset + size > buf.size) {
+                throw IndexOutOfBoundsException("Buffer offset or size out of bounds")
+            }
+            if (size < 0) {
+                throw IllegalArgumentException("Size cannot be negative")
+            }
+            if (sectionOffset < 0) {
+                throw IllegalArgumentException("Section offset cannot be negative")
+            }
+
+            // Calculate actual readable bytes
+            val availableBytes = maxOf(0L, sizeOfRawData.toLong() - sectionOffset)
+            if (availableBytes <= 0) {
+                // No data available to read
+                return
+            }
+
+            // Calculate actual bytes to read
+            val bytesToRead = minOf(availableBytes, size.toLong()).toInt()
+            if (bytesToRead <= 0) {
+                return
+            }
+
+            // Calculate actual position in file
+            val filePosition = pointerToRawData.value.toLong() + sectionOffset
+
+            // Read data from file
+            dataAccessor.readFully(filePosition, buf, bufOffset, bytesToRead)
+        }
+
+        /**
+         * Returns a string representation of the section.
+         *
+         * @return a string representation
+         */
+        override fun toString(): String {
+            val flagsStr = buildString {
+                if (SectionFlags.IMAGE_SCN_MEM_READ in characteristics) append('R')
+                if (SectionFlags.IMAGE_SCN_MEM_WRITE in characteristics) append('W')
+                if (SectionFlags.IMAGE_SCN_MEM_EXECUTE in characteristics) append('X')
+                if (SectionFlags.IMAGE_SCN_CNT_CODE in characteristics) append('C')
+                if (SectionFlags.IMAGE_SCN_CNT_INITIALIZED_DATA in characteristics) append('I')
+                if (SectionFlags.IMAGE_SCN_CNT_UNINITIALIZED_DATA in characteristics) append('U')
+            }
+            return "Section[$name, VirtualSize=$virtualSize, VirtualAddress=$virtualAddress, RawSize=$sizeOfRawData, RawOffset=$pointerToRawData, Flags=$flagsStr]"
+        }
     }
 }
