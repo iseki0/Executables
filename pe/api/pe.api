@@ -539,6 +539,7 @@ public abstract interface class space/iseki/executables/pe/ResourceNode {
 	public abstract fun getDataRva-hRLxnt0 ()I
 	public abstract fun getId-pVg5ArA ()I
 	public abstract fun getName ()Ljava/lang/String;
+	public abstract fun getPEFile ()Lspace/iseki/executables/pe/PEFile;
 	public fun getSize-pVg5ArA ()I
 	public fun isDirectory ()Z
 	public abstract fun isFile ()Z

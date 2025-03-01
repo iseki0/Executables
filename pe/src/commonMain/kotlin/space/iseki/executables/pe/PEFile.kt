@@ -9,6 +9,7 @@ import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
+import kotlin.jvm.JvmName
 
 class PEFile private constructor(
     val coffHeader: CoffHeader,
@@ -273,8 +274,10 @@ class PEFile private constructor(
         return readResourceDirectoryChildren(numberOfNamedEntries, numberOfIdEntries, dataRva + rsrcRva)
     }
 
-    @Suppress("EqualsOrHashCode")
     internal inner class ResourceRootNode : ResourceNode {
+
+        override fun getPEFile(): PEFile = this@PEFile
+
         override val name: String
             get() = "<root>"
         override val id: UInt
@@ -304,16 +307,32 @@ class PEFile private constructor(
          * @return a string representation
          */
         override fun toString(): String = "<ROOT>"
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
 
-        override fun hashCode(): Int = dataRva.value.toInt()
+            other as ResourceRootNode
+
+            if (getPEFile() != other.getPEFile()) return false
+            if (dataRva != other.dataRva) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = getPEFile().hashCode()
+            result = 31 * result + dataRva.hashCode()
+            return result
+        }
+
     }
 
-    @Suppress("EqualsOrHashCode")
     internal inner class ResourceDirectory(
         override val name: String,
         override val id: UInt,
         override val dataRva: Address32,
     ) : ResourceNode {
+        override fun getPEFile(): PEFile =this@PEFile
         /**
          * Indicates whether this node represents a file.
          *
@@ -336,10 +355,27 @@ class PEFile private constructor(
          * @return a string representation
          */
         override fun toString(): String = "<DIR:${if (id == 0u) name else "ID=$id"}> @$dataRva"
-        override fun hashCode(): Int = dataRva.value.toInt()
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as ResourceDirectory
+
+            if (dataRva != other.dataRva) return false
+            if (getPEFile() != other.getPEFile()) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = dataRva.hashCode()
+            result = 31 * result + getPEFile().hashCode()
+            return result
+        }
+
+
     }
 
-    @Suppress("EqualsOrHashCode")
     internal inner class ResourceFile(
         override val name: String,
         override val id: UInt,
@@ -348,16 +384,34 @@ class PEFile private constructor(
         override val codePage: CodePage,
         val contentRva: Address32,
     ) : ResourceNode {
+        override fun getPEFile(): PEFile =this@PEFile
         override fun isFile(): Boolean = true
         override fun toString(): String =
             "<FILE:${if (id == 0u) name else "ID=$id"}, CodePage=$codePage, Size=$size, ContentRVA=$contentRva> @$dataRva"
 
-        override fun hashCode(): Int = dataRva.value.toInt()
 
         override fun readAllBytes(): ByteArray {
             val buf = ByteArray(size.toInt())
             copyBytes(contentRva, buf)
             return buf
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as ResourceFile
+
+            if (dataRva != other.dataRva) return false
+            if (getPEFile() != other.getPEFile()) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = dataRva.hashCode()
+            result = 31 * result + getPEFile().hashCode()
+            return result
         }
     }
 

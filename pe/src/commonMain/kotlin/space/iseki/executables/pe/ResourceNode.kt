@@ -1,5 +1,7 @@
 package space.iseki.executables.pe
 
+import kotlin.jvm.JvmName
+
 /**
  * Represents a resource node in a PE file.
  *
@@ -22,6 +24,7 @@ interface ResourceNode {
     val codePage: CodePage
         get() = CodePage(0u)
 
+    fun getPEFile(): PEFile
     fun readAllBytes(): ByteArray = ByteArray(0)
 }
 

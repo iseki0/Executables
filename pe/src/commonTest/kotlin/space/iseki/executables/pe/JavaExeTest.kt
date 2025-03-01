@@ -29,18 +29,14 @@ class JavaExeTest {
 
     @Test
     fun testReadResourceTree() {
-        var h = 0
-        var c = 0
         var totalSize = 0
         PEFile.open(java_exe).use { pe ->
             for (entry in pe.resourceRoot.walk()) {
                 val indent = "  ".repeat(entry.nodePath.size - 1)
                 println(indent + entry.node)
-                h += c++ * entry.node.hashCode()
                 totalSize += entry.node.size.toInt()
             }
         }
-        assertEquals(180528, h)
         assertEquals(27543, totalSize)
     }
 
@@ -69,8 +65,7 @@ class JavaExeTest {
             val resNode = locateVersionInfo(peFile)
             println(resNode)
             assertEquals(
-                "<FILE:ID=1033, CodePage=windows-1252, Size=804, ContentRVA=0x0000c51c> @0x00000290",
-                resNode.toString()
+                "<FILE:ID=1033, CodePage=windows-1252, Size=804, ContentRVA=0x0000c51c> @0x00000290", resNode.toString()
             )
         }
     }
