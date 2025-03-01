@@ -486,13 +486,14 @@ public final class space/iseki/executables/pe/PE32Magic$Companion {
 	public final fun valueOf-MfaRI1g (Ljava/lang/String;)S
 }
 
-public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile {
+public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile, space/iseki/executables/common/ReadableSectionContainer {
 	public static final field Companion Lspace/iseki/executables/pe/PEFile$Companion;
 	public synthetic fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;Lspace/iseki/executables/common/DataAccessor;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
 	public final fun getCoffHeader ()Lspace/iseki/executables/pe/CoffHeader;
 	public final fun getResourceRoot ()Lspace/iseki/executables/pe/ResourceNode;
 	public final fun getSectionTable ()Ljava/util/List;
+	public fun getSections ()Ljava/util/List;
 	public final fun getStandardHeader ()Lspace/iseki/executables/pe/StandardHeader;
 	public final fun getSummary ()Lspace/iseki/executables/pe/PEFile$Summary;
 	public final fun getVersionInfo ()Lspace/iseki/executables/pe/vi/PEVersionInfo;

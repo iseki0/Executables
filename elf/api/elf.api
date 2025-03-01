@@ -770,7 +770,7 @@ public final class space/iseki/executables/elf/ElfEhdr$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile {
+public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile, space/iseki/executables/common/ReadableSectionContainer {
 	public static final field Companion Lspace/iseki/executables/elf/ElfFile$Companion;
 	public synthetic fun <init> (Lspace/iseki/executables/common/DataAccessor;Lspace/iseki/executables/elf/ElfIdentification;Lspace/iseki/executables/elf/ElfEhdr;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
@@ -778,6 +778,7 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 	public final fun getIdent ()Lspace/iseki/executables/elf/ElfIdentification;
 	public final fun getProgramHeaders ()Ljava/util/List;
 	public final fun getSectionHeaders ()Ljava/util/List;
+	public fun getSections ()Ljava/util/List;
 }
 
 public final class space/iseki/executables/elf/ElfFile$Companion : space/iseki/executables/common/FileFormat {

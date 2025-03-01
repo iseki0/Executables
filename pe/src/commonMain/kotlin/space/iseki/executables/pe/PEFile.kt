@@ -7,6 +7,7 @@ import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
+import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
@@ -17,7 +18,7 @@ class PEFile private constructor(
     val windowsHeader: WindowsSpecifiedHeader,
     val sectionTable: List<SectionTableItem>,
     private val dataAccessor: DataAccessor,
-) : AutoCloseable, OpenedFile {
+) : AutoCloseable, OpenedFile, ReadableSectionContainer {
 
     /**
      * Represents a summary of the pe file headers.
@@ -419,6 +420,20 @@ class PEFile private constructor(
     val versionInfo: PEVersionInfo? by lazy {
         locateVersionInfo(this)?.readAllBytes()?.let { parseVersionData(it, 0) }
     }
+
+    /**
+     * Returns the sections of the PE file.
+     *
+     * @return a list of sections, unmodifiable
+     */
+    override val sections: List<Section>
+        get() = object : AbstractList<Section>() {
+            override val size: Int
+                get() = sectionTable.size
+
+            override fun get(index: Int): Section = Section(sectionTable[index])
+
+        }
 
     override fun toString(): String {
         return "PEFile(dataAccessor=$dataAccessor)"

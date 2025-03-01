@@ -5,6 +5,7 @@ import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
+import space.iseki.executables.common.ReadableSectionContainer
 
 /**
  * Represents an ELF file and provides access to its contents.
@@ -21,7 +22,7 @@ class ElfFile private constructor(
     val ehdr: ElfEhdr,
     val programHeaders: List<ElfPhdr>,
     val sectionHeaders: List<ElfShdr>,
-) : AutoCloseable, OpenedFile {
+) : AutoCloseable, OpenedFile, ReadableSectionContainer {
 
     companion object : FileFormat<ElfFile> {
         internal val ElfClass.ehdrSize: Int
@@ -323,6 +324,20 @@ class ElfFile private constructor(
         }
 
     }
+
+    /**
+     * Returns a list of sections in the ELF file.
+     *
+     * @return A list of sections, unmodifiable
+     */
+    override val sections: List<Section>
+        get() = object : AbstractList<Section>() {
+            override val size: Int
+                get() = sections.size
+
+            override fun get(index: Int): Section = Section(sectionHeaders[index])
+
+        }
 
 }
 
