@@ -233,9 +233,11 @@ public final class space/iseki/executables/elf/Elf32Phdr$Companion {
 
 public final class space/iseki/executables/elf/Elf32Shdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfShdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf32Shdr$Companion;
-	public synthetic fun <init> (IIJIIIIIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (IIJIIIIIIILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (IIJIIIIIIILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-nFKMrNA ()I
 	public final fun component10-nFKMrNA ()I
+	public final fun component11 ()Ljava/lang/String;
 	public final fun component2-pDuq0G4 ()I
 	public final fun component3-htE2vZE ()J
 	public final fun component4-Kk3U2zw ()I
@@ -244,10 +246,11 @@ public final class space/iseki/executables/elf/Elf32Shdr : space/iseki/executabl
 	public final fun component7-nFKMrNA ()I
 	public final fun component8-nFKMrNA ()I
 	public final fun component9-nFKMrNA ()I
-	public final fun copy-Ns-Mf9U (IIJIIIIIII)Lspace/iseki/executables/elf/Elf32Shdr;
-	public static synthetic fun copy-Ns-Mf9U$default (Lspace/iseki/executables/elf/Elf32Shdr;IIJIIIIIIIILjava/lang/Object;)Lspace/iseki/executables/elf/Elf32Shdr;
+	public final fun copy-H7T3Fmo (IIJIIIIIIILjava/lang/String;)Lspace/iseki/executables/elf/Elf32Shdr;
+	public static synthetic fun copy-H7T3Fmo$default (Lspace/iseki/executables/elf/Elf32Shdr;IIJIIIIIIILjava/lang/String;ILjava/lang/Object;)Lspace/iseki/executables/elf/Elf32Shdr;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getFields ()Ljava/util/Map;
+	public fun getName ()Ljava/lang/String;
 	public synthetic fun getShAddr ()Lspace/iseki/executables/elf/Primitive;
 	public fun getShAddr-Kk3U2zw ()I
 	public synthetic fun getShAddralign ()Lspace/iseki/executables/elf/Primitive;
@@ -542,9 +545,11 @@ public final class space/iseki/executables/elf/Elf64Phdr$Companion {
 
 public final class space/iseki/executables/elf/Elf64Shdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfShdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf64Shdr$Companion;
-	public synthetic fun <init> (IIJJJJIIJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (IIJJJJIIJJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (IIJJJJIIJJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-4mhg-h8 ()I
 	public final fun component10--oD2zvU ()J
+	public final fun component11 ()Ljava/lang/String;
 	public final fun component2-pDuq0G4 ()I
 	public final fun component3-htE2vZE ()J
 	public final fun component4-274mneU ()J
@@ -553,10 +558,11 @@ public final class space/iseki/executables/elf/Elf64Shdr : space/iseki/executabl
 	public final fun component7-4mhg-h8 ()I
 	public final fun component8-4mhg-h8 ()I
 	public final fun component9--oD2zvU ()J
-	public final fun copy-GHvZ9ms (IIJJJJIIJJ)Lspace/iseki/executables/elf/Elf64Shdr;
-	public static synthetic fun copy-GHvZ9ms$default (Lspace/iseki/executables/elf/Elf64Shdr;IIJJJJIIJJILjava/lang/Object;)Lspace/iseki/executables/elf/Elf64Shdr;
+	public final fun copy-Wn25qo0 (IIJJJJIIJJLjava/lang/String;)Lspace/iseki/executables/elf/Elf64Shdr;
+	public static synthetic fun copy-Wn25qo0$default (Lspace/iseki/executables/elf/Elf64Shdr;IIJJJJIIJJLjava/lang/String;ILjava/lang/Object;)Lspace/iseki/executables/elf/Elf64Shdr;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getFields ()Ljava/util/Map;
+	public fun getName ()Ljava/lang/String;
 	public synthetic fun getShAddr ()Lspace/iseki/executables/elf/Primitive;
 	public fun getShAddr-274mneU ()J
 	public synthetic fun getShAddralign ()Lspace/iseki/executables/elf/Primitive;
@@ -777,6 +783,13 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 public final class space/iseki/executables/elf/ElfFile$Companion : space/iseki/executables/common/FileFormat {
 	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/elf/ElfFile;
+}
+
+public final class space/iseki/executables/elf/ElfFile$Section : space/iseki/executables/common/ReadableSection {
+	public fun getName ()Ljava/lang/String;
+	public final fun getSectionHeader ()Lspace/iseki/executables/elf/ElfShdr;
+	public fun getSize ()J
+	public fun readBytes (J[BII)V
 }
 
 public class space/iseki/executables/elf/ElfFileException : space/iseki/executables/common/CommonFileException {
@@ -1301,6 +1314,7 @@ public final class space/iseki/executables/elf/ElfSType$Constants {
 
 public abstract interface class space/iseki/executables/elf/ElfShdr {
 	public static final field Companion Lspace/iseki/executables/elf/ElfShdr$Companion;
+	public abstract fun getName ()Ljava/lang/String;
 	public abstract fun getShAddr ()Lspace/iseki/executables/elf/Primitive;
 	public abstract fun getShAddralign ()Lspace/iseki/executables/elf/Primitive;
 	public abstract fun getShEntsize ()Lspace/iseki/executables/elf/Primitive;

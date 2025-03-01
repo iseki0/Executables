@@ -505,6 +505,23 @@ public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/exe
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/pe/PEFile;
 }
 
+public final class space/iseki/executables/pe/PEFile$Section : space/iseki/executables/common/ReadableSection {
+	public final fun getCharacteristics-CVJ1pB8 ()I
+	public fun getName ()Ljava/lang/String;
+	public final fun getNumberOfLinenumbers-Mh2AYeg ()S
+	public final fun getNumberOfRelocations-Mh2AYeg ()S
+	public final fun getPointerToLinenumbers-hRLxnt0 ()I
+	public final fun getPointerToRawData-hRLxnt0 ()I
+	public final fun getPointerToRelocations-hRLxnt0 ()I
+	public fun getSize ()J
+	public final fun getSizeOfRawData-pVg5ArA ()I
+	public final fun getTableItem ()Lspace/iseki/executables/pe/SectionTableItem;
+	public final fun getVirtualAddress-hRLxnt0 ()I
+	public final fun getVirtualSize-pVg5ArA ()I
+	public fun readBytes (J[BII)V
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class space/iseki/executables/pe/PEFile$Summary {
 	public static final field Companion Lspace/iseki/executables/pe/PEFile$Summary$Companion;
 	public fun <init> (Lspace/iseki/executables/pe/CoffHeader;Lspace/iseki/executables/pe/StandardHeader;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;Ljava/util/List;)V
