@@ -54,6 +54,9 @@ class ReadSysTest {
             for (importSymbol in file.importSymbols) {
                 println(importSymbol)
             }
+            for (exportSymbol in file.exportSymbols) {
+                println(exportSymbol)
+            }
         }
     }
 }
