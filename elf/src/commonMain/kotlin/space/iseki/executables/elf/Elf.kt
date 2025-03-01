@@ -43,7 +43,7 @@ class ElfFile private constructor(
         private fun readSectionNames(
             accessor: DataAccessor,
             ehdr: ElfEhdr,
-            sectionHeaders: List<ElfShdr>
+            sectionHeaders: List<ElfShdr>,
         ): List<ElfShdr> {
             if (sectionHeaders.isEmpty()) return sectionHeaders
 
@@ -63,7 +63,10 @@ class ElfFile private constructor(
             try {
                 accessor.readFully(stringTableOffset, stringTableData)
             } catch (e: IOException) {
-                throw ElfFileException("Failed to read string table at offset $stringTableOffset with size $stringTableSize", e)
+                throw ElfFileException(
+                    "Failed to read string table at offset $stringTableOffset with size $stringTableSize",
+                    e
+                )
             }
 
             // Add name to each section header
@@ -110,7 +113,7 @@ class ElfFile private constructor(
             } catch (e: IOException) {
                 throw ElfFileException("Failed to read ELF identification bytes", e)
             }
-            
+
             val ident = ElfIdentification.parse(buf, 0)
             val buf2 = ByteArray(ident.eiClass.ehdrSize)
             try {
@@ -118,7 +121,7 @@ class ElfFile private constructor(
             } catch (e: IOException) {
                 throw ElfFileException("Failed to read ELF header", e)
             }
-            
+
             val ehdr = if (ident.eiClass == ElfClass.ELFCLASS32) {
                 Elf32Ehdr.parse(buf2, 0, ident)
             } else if (ident.eiClass == ElfClass.ELFCLASS64) {

@@ -1,7 +1,6 @@
 package space.iseki.executables.elf
 
 import space.iseki.executables.common.CommonFileException
-import kotlin.jvm.JvmOverloads
 
 /**
  * JVM implementation of [ElfFileException].
@@ -11,5 +10,5 @@ import kotlin.jvm.JvmOverloads
  */
 actual open class ElfFileException @JvmOverloads actual constructor(
     message: String,
-    override val cause: Throwable?
+    override val cause: Throwable?,
 ) : CommonFileException(message, cause) 

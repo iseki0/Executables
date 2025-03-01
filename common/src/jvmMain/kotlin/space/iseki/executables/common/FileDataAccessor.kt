@@ -47,7 +47,7 @@ internal open class RandomAccessFileDataAccessor : DataAccessor {
     override fun close() {
         try {
             raf.close()
-        }catch (e: java.io.IOException) {
+        } catch (e: java.io.IOException) {
             throw java.io.UncheckedIOException(e)
         }
     }

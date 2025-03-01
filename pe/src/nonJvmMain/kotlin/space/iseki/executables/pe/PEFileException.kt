@@ -10,5 +10,5 @@ import space.iseki.executables.common.CommonFileException
  */
 actual open class PEFileException actual constructor(
     message: String,
-    override val cause: Throwable?
+    override val cause: Throwable?,
 ) : CommonFileException(message, cause) 

@@ -1,7 +1,6 @@
 package space.iseki.executables.pe
 
 import space.iseki.executables.common.CommonFileException
-import kotlin.jvm.JvmOverloads
 
 /**
  * JVM implementation of [PEFileException].
@@ -11,5 +10,5 @@ import kotlin.jvm.JvmOverloads
  */
 actual open class PEFileException @JvmOverloads actual constructor(
     message: String,
-    override val cause: Throwable?
+    override val cause: Throwable?,
 ) : CommonFileException(message, cause)

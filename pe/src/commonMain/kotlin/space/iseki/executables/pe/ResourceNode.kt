@@ -1,7 +1,5 @@
 package space.iseki.executables.pe
 
-import kotlin.jvm.JvmName
-
 /**
  * Represents a resource node in a PE file.
  *
