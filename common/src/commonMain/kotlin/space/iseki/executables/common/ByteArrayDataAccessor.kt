@@ -20,4 +20,8 @@ class ByteArrayDataAccessor(private val data: ByteArray) : DataAccessor {
      */
     override fun close() {
     }
+
+    override fun toString(): String {
+        return "ByteArrayDataAccessor(data=$data)"
+    }
 }

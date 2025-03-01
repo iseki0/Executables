@@ -1,11 +1,9 @@
 package space.iseki.executables.common
 
 import java.io.File
-import java.io.RandomAccessFile
 import java.nio.channels.SeekableByteChannel
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.StandardOpenOption
 
 /**
  * Represents a object or executable file format.
@@ -43,11 +41,11 @@ actual interface FileFormat<T : OpenedFile> {
      * @see Files.newByteChannel
      */
     fun open(path: Path): T {
-        val channel = Files.newByteChannel(path, StandardOpenOption.READ)
+        val dataAccessor = PathDataAccessor(path)
         try {
-            return open(SeekableByteChannelDataAccessor(channel))
+            return open(dataAccessor)
         } catch (e: Throwable) {
-            runCatching { channel.close() }.onFailure { e.addSuppressed(it) }
+            runCatching { dataAccessor.close() }.onFailure { e.addSuppressed(it) }
             throw e
         }
     }
@@ -62,11 +60,11 @@ actual interface FileFormat<T : OpenedFile> {
      * @throws java.io.FileNotFoundException if the file does not exist
      */
     fun open(file: File): T {
-        val raf = RandomAccessFile(file, "r")
+        val dataAccessor = RandomAccessFileDataAccessor(file)
         try {
-            return open(SeekableByteChannelDataAccessor(raf.channel))
+            return open(dataAccessor)
         } catch (e: Throwable) {
-            runCatching { raf.close() }.onFailure { e.addSuppressed(it) }
+            runCatching { dataAccessor.close() }.onFailure { e.addSuppressed(it) }
             throw e
         }
     }

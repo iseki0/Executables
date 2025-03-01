@@ -26,12 +26,21 @@ class ReadSysTest {
             .filter { it.extension.lowercase() in extSet }
             .take(1000)
             .map { path ->
-                DynamicTest.dynamicTest(path.fileName.pathString) {
+                listOf(DynamicTest.dynamicTest(path.fileName.pathString + " - Path") {
                     println(path)
-                    PEFile.open(path).versionInfo?.stringFileInfo?.strings.orEmpty()
-                        .forEach { (k, v) -> println("$k: $v") }
-                }
+                    PEFile.open(path).use { peFile ->
+                        println(peFile)
+                        peFile.versionInfo?.stringFileInfo?.strings.orEmpty().forEach { (k, v) -> println("$k: $v") }
+                    }
+                }, DynamicTest.dynamicTest(path.fileName.pathString + " - File") {
+                    println(path)
+                    PEFile.open(path.toFile()).use { peFile ->
+                        println(peFile)
+                        peFile.versionInfo?.stringFileInfo?.strings.orEmpty().forEach { (k, v) -> println("$k: $v") }
+                    }
+                })
             }
+            .flatten()
             .toList()
     }
 

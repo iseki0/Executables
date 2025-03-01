@@ -418,4 +418,8 @@ class PEFile private constructor(
     val versionInfo: PEVersionInfo? by lazy {
         locateVersionInfo(this)?.readAllBytes()?.let { parseVersionData(it, 0) }
     }
+
+    override fun toString(): String {
+        return "PEFile(dataAccessor=$dataAccessor)"
+    }
 }
