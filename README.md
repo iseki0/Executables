@@ -11,11 +11,11 @@ Currently, this library can:
 
 - [x] PE: Read basic information (COFF header, optional header, sections)
 - [x] PE: Read version information (aka. [VS_VERSIONINFO] structure)
-- [ ] PE: Read import/export symbol tables
-- [ ] ELF: Read basic information
-  - [x] Identification, ELF Header
-  - [x] Section headers, Program headers
-  - [ ] Section data
+- [x] PE: Read import/export symbol tables
+- [x] PE: Read resources and section data
+- [x] ELF: Read basic information (ELF Header, Section headers, Program headers)
+- [x] ELF: Read symbol tables
+- [x] ELF: Read section data
 - [ ] Macho: Read basic information
 - [x] Chore: Jigsaw ready
 
