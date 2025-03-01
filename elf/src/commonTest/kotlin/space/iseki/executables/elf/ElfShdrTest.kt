@@ -178,7 +178,7 @@ class ElfShdrTest {
 
         // 验证Elf32Shdr的fields映射
         val fields32 = elf32Shdr.fields
-        assertEquals(10, fields32.size)
+        assertEquals(11, fields32.size)
         assertEquals(Elf32Word(1u), fields32["shName"])
         assertEquals(ElfSType.SHT_PROGBITS, fields32["shType"])
         assertEquals(ElfSFlags.SHF_ALLOC or ElfSFlags.SHF_EXECINSTR, fields32["shFlags"])
@@ -192,7 +192,7 @@ class ElfShdrTest {
 
         // 验证Elf64Shdr的fields映射
         val fields64 = elf64Shdr.fields
-        assertEquals(10, fields64.size)
+        assertEquals(11, fields64.size)
         assertEquals(Elf64Word(1u), fields64["shName"])
         assertEquals(ElfSType.SHT_PROGBITS, fields64["shType"])
         assertEquals(ElfSFlags.SHF_ALLOC or ElfSFlags.SHF_EXECINSTR, fields64["shFlags"])
