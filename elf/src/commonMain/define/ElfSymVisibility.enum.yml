@@ -1,0 +1,9 @@
+package: space.iseki.executables.elf
+typename: ElfSymVisibility
+dataLength: 1
+list:
+  - { name: "STV_DEFAULT", value: "0", docs: "Default symbol visibility rules" }
+  - { name: "STV_INTERNAL", value: "1", docs: "Processor-specific hidden class" }
+  - { name: "STV_HIDDEN", value: "2", docs: "Symbol unavailable in other modules" }
+  - { name: "STV_PROTECTED", value: "3", docs: "Not preemptible, not exported" }
+  - { name: "UNKNOWN", value: "255", docs: "Unknown visibility type" } 

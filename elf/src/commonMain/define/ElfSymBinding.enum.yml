@@ -1,0 +1,10 @@
+package: space.iseki.executables.elf
+typename: ElfSymBinding
+dataLength: 1
+list:
+  - { name: "STB_LOCAL", value: "0", docs: "Local symbol" }
+  - { name: "STB_GLOBAL", value: "1", docs: "Global symbol" }
+  - { name: "STB_WEAK", value: "2", docs: "Weak symbol" }
+  - { name: "STB_LOPROC", value: "13", docs: "Processor-specific" }
+  - { name: "STB_HIPROC", value: "15", docs: "Processor-specific" }
+  - { name: "UNKNOWN", value: "255", docs: "Unknown binding type" } 

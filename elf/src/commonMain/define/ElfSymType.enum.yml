@@ -1,0 +1,14 @@
+package: space.iseki.executables.elf
+typename: ElfSymType
+dataLength: 1
+list:
+  - { name: "STT_NOTYPE", value: "0", docs: "Symbol type is not specified" }
+  - { name: "STT_OBJECT", value: "1", docs: "Symbol is a data object" }
+  - { name: "STT_FUNC", value: "2", docs: "Symbol is a code object" }
+  - { name: "STT_SECTION", value: "3", docs: "Symbol associated with a section" }
+  - { name: "STT_FILE", value: "4", docs: "Symbol's name is file name" }
+  - { name: "STT_COMMON", value: "5", docs: "Symbol is a common data object" }
+  - { name: "STT_TLS", value: "6", docs: "Symbol is thread-local data object" }
+  - { name: "STT_LOPROC", value: "13", docs: "Processor-specific" }
+  - { name: "STT_HIPROC", value: "15", docs: "Processor-specific" }
+  - { name: "UNKNOWN", value: "255", docs: "Unknown symbol type" } 

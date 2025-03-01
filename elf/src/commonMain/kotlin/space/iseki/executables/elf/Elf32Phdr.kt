@@ -55,14 +55,14 @@ data class Elf32Phdr(
         fun parse(bytes: ByteArray, off: Int, ident: ElfIdentification): Elf32Phdr {
             val le = ident.eiData == ElfData.ELFDATA2LSB
             return Elf32Phdr(
-                pType = ElfPType(if (le) bytes.u4e(off) else bytes.u4b(off)),
-                pOffset = Elf32Off(if (le) bytes.u4e(off + 4) else bytes.u4b(off + 4)),
-                pVaddr = Elf32Addr(if (le) bytes.u4e(off + 8) else bytes.u4b(off + 8)),
-                pPaddr = Elf32Addr(if (le) bytes.u4e(off + 12) else bytes.u4b(off + 12)),
-                pFilesz = Elf32Word(if (le) bytes.u4e(off + 16) else bytes.u4b(off + 16)),
-                pMemsz = Elf32Word(if (le) bytes.u4e(off + 20) else bytes.u4b(off + 20)),
-                pFlags = ElfPFlags(if (le) bytes.u4e(off + 24) else bytes.u4b(off + 24)),
-                pAlign = Elf32Word(if (le) bytes.u4e(off + 28) else bytes.u4b(off + 28))
+                pType = ElfPType(if (le) bytes.u4l(off) else bytes.u4b(off)),
+                pOffset = Elf32Off(if (le) bytes.u4l(off + 4) else bytes.u4b(off + 4)),
+                pVaddr = Elf32Addr(if (le) bytes.u4l(off + 8) else bytes.u4b(off + 8)),
+                pPaddr = Elf32Addr(if (le) bytes.u4l(off + 12) else bytes.u4b(off + 12)),
+                pFilesz = Elf32Word(if (le) bytes.u4l(off + 16) else bytes.u4b(off + 16)),
+                pMemsz = Elf32Word(if (le) bytes.u4l(off + 20) else bytes.u4b(off + 20)),
+                pFlags = ElfPFlags(if (le) bytes.u4l(off + 24) else bytes.u4b(off + 24)),
+                pAlign = Elf32Word(if (le) bytes.u4l(off + 28) else bytes.u4b(off + 28))
             )
         }
     }

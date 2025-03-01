@@ -10,7 +10,7 @@ internal fun ByteArray.u2l(offset: Int): UShort =
     ((this[offset].toUInt() and 0xFFu) or
             ((this[offset + 1].toUInt() and 0xFFu) shl 8)).toUShort()
 
-internal fun ByteArray.u4e(offset: Int): UInt =
+internal fun ByteArray.u4l(offset: Int): UInt =
     ((this[offset].toUInt() and 0xFFu) or
             ((this[offset + 1].toUInt() and 0xFFu) shl 8) or
             ((this[offset + 2].toUInt() and 0xFFu) shl 16) or

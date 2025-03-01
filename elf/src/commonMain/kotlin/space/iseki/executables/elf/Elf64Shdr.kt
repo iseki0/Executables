@@ -72,14 +72,14 @@ data class Elf64Shdr(
     companion object {
         fun parse(bytes: ByteArray, off: Int, le: Boolean): Elf64Shdr {
             return Elf64Shdr(
-                shName = Elf64Word(if (le) bytes.u4e(off) else bytes.u4b(off)),
-                shType = ElfSType(if (le) bytes.u4e(off + 4) else bytes.u4b(off + 4)),
+                shName = Elf64Word(if (le) bytes.u4l(off) else bytes.u4b(off)),
+                shType = ElfSType(if (le) bytes.u4l(off + 4) else bytes.u4b(off + 4)),
                 shFlags = ElfSFlags(if (le) bytes.u8l(off + 8) else bytes.u8b(off + 8)),
                 shAddr = Elf64Addr(if (le) bytes.u8l(off + 16) else bytes.u8b(off + 16)),
                 shOffset = Elf64Off(if (le) bytes.u8l(off + 24) else bytes.u8b(off + 24)),
                 shSize = Elf64Xword(if (le) bytes.u8l(off + 32) else bytes.u8b(off + 32)),
-                shLink = Elf64Word(if (le) bytes.u4e(off + 40) else bytes.u4b(off + 40)),
-                shInfo = Elf64Word(if (le) bytes.u4e(off + 44) else bytes.u4b(off + 44)),
+                shLink = Elf64Word(if (le) bytes.u4l(off + 40) else bytes.u4b(off + 40)),
+                shInfo = Elf64Word(if (le) bytes.u4l(off + 44) else bytes.u4b(off + 44)),
                 shAddralign = Elf64Xword(if (le) bytes.u8l(off + 48) else bytes.u8b(off + 48)),
                 shEntsize = Elf64Xword(if (le) bytes.u8l(off + 56) else bytes.u8b(off + 56))
             )

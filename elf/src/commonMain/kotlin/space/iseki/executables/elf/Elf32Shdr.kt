@@ -72,16 +72,16 @@ data class Elf32Shdr(
     companion object {
         fun parse(bytes: ByteArray, off: Int, le: Boolean): Elf32Shdr {
             return Elf32Shdr(
-                shName = Elf32Word(if (le) bytes.u4e(off) else bytes.u4b(off)),
-                shType = ElfSType(if (le) bytes.u4e(off + 4) else bytes.u4b(off + 4)),
-                shFlags = ElfSFlags((if (le) bytes.u4e(off + 8) else bytes.u4b(off + 8)).toULong()),
-                shAddr = Elf32Addr(if (le) bytes.u4e(off + 12) else bytes.u4b(off + 12)),
-                shOffset = Elf32Off(if (le) bytes.u4e(off + 16) else bytes.u4b(off + 16)),
-                shSize = Elf32Word(if (le) bytes.u4e(off + 20) else bytes.u4b(off + 20)),
-                shLink = Elf32Word(if (le) bytes.u4e(off + 24) else bytes.u4b(off + 24)),
-                shInfo = Elf32Word(if (le) bytes.u4e(off + 28) else bytes.u4b(off + 28)),
-                shAddralign = Elf32Word(if (le) bytes.u4e(off + 32) else bytes.u4b(off + 32)),
-                shEntsize = Elf32Word(if (le) bytes.u4e(off + 36) else bytes.u4b(off + 36))
+                shName = Elf32Word(if (le) bytes.u4l(off) else bytes.u4b(off)),
+                shType = ElfSType(if (le) bytes.u4l(off + 4) else bytes.u4b(off + 4)),
+                shFlags = ElfSFlags((if (le) bytes.u4l(off + 8) else bytes.u4b(off + 8)).toULong()),
+                shAddr = Elf32Addr(if (le) bytes.u4l(off + 12) else bytes.u4b(off + 12)),
+                shOffset = Elf32Off(if (le) bytes.u4l(off + 16) else bytes.u4b(off + 16)),
+                shSize = Elf32Word(if (le) bytes.u4l(off + 20) else bytes.u4b(off + 20)),
+                shLink = Elf32Word(if (le) bytes.u4l(off + 24) else bytes.u4b(off + 24)),
+                shInfo = Elf32Word(if (le) bytes.u4l(off + 28) else bytes.u4b(off + 28)),
+                shAddralign = Elf32Word(if (le) bytes.u4l(off + 32) else bytes.u4b(off + 32)),
+                shEntsize = Elf32Word(if (le) bytes.u4l(off + 36) else bytes.u4b(off + 36))
             )
         }
     }

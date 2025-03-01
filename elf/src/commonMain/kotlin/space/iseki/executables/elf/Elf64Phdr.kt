@@ -56,8 +56,8 @@ data class Elf64Phdr(
         fun parse(bytes: ByteArray, off: Int, ident: ElfIdentification): Elf64Phdr {
             val le = ident.eiData == ElfData.ELFDATA2LSB
             return Elf64Phdr(
-                pType = ElfPType(if (le) bytes.u4e(off) else bytes.u4b(off)),
-                pFlags = ElfPFlags(if (le) bytes.u4e(off + 4) else bytes.u4b(off + 4)),
+                pType = ElfPType(if (le) bytes.u4l(off) else bytes.u4b(off)),
+                pFlags = ElfPFlags(if (le) bytes.u4l(off + 4) else bytes.u4b(off + 4)),
                 pOffset = Elf64Off(if (le) bytes.u8l(off + 8) else bytes.u8b(off + 8)),
                 pVaddr = Elf64Addr(if (le) bytes.u8l(off + 16) else bytes.u8b(off + 16)),
                 pPaddr = Elf64Addr(if (le) bytes.u8l(off + 24) else bytes.u8b(off + 24)),
