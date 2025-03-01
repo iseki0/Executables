@@ -506,6 +506,7 @@ public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/exe
 }
 
 public final class space/iseki/executables/pe/PEFile$Section : space/iseki/executables/common/ReadableSection {
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-CVJ1pB8 ()I
 	public fun getName ()Ljava/lang/String;
 	public final fun getNumberOfLinenumbers-Mh2AYeg ()S
@@ -518,6 +519,7 @@ public final class space/iseki/executables/pe/PEFile$Section : space/iseki/execu
 	public final fun getTableItem ()Lspace/iseki/executables/pe/SectionTableItem;
 	public final fun getVirtualAddress-hRLxnt0 ()I
 	public final fun getVirtualSize-pVg5ArA ()I
+	public fun hashCode ()I
 	public fun readBytes (J[BII)V
 	public fun toString ()Ljava/lang/String;
 }

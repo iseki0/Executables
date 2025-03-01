@@ -430,6 +430,8 @@ class PEFile private constructor(
     inner class Section internal constructor(
         val tableItem: SectionTableItem,
     ) : ReadableSection {
+        private val peFile: PEFile
+            get() = this@PEFile
         override val name: String get() = tableItem.name
         val virtualSize: UInt get() = tableItem.virtualSize
         val virtualAddress: Address32 get() = tableItem.virtualAddress
@@ -512,5 +514,25 @@ class PEFile private constructor(
             }
             return "Section[$name, VirtualSize=$virtualSize, VirtualAddress=$virtualAddress, RawSize=$sizeOfRawData, RawOffset=$pointerToRawData, Flags=$flagsStr]"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as Section
+
+            if (tableItem != other.tableItem) return false
+            if (peFile != other.peFile) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = tableItem.hashCode()
+            result = 31 * result + peFile.hashCode()
+            return result
+        }
+
+
     }
 }

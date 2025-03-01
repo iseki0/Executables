@@ -243,6 +243,9 @@ class ElfFile private constructor(
         val sectionHeader: ElfShdr,
     ) : ReadableSection {
 
+        private val elf: ElfFile
+            get() = this@ElfFile
+
         override val name: String?
             get() = sectionHeader.name
 
@@ -299,6 +302,24 @@ class ElfFile private constructor(
             } catch (e: IOException) {
                 throw IOException("Failed to read section '${name ?: "unnamed"}' at offset $filePosition", e)
             }
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as Section
+
+            if (sectionHeader != other.sectionHeader) return false
+            if (elf != other.elf) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = sectionHeader.hashCode()
+            result = 31 * result + elf.hashCode()
+            return result
         }
 
     }
