@@ -130,83 +130,6 @@ class PEFile private constructor(
         dataAccessor.close()
     }
 
-    /**
-     * Returns a section reader for the section with the given name.
-     *
-     * @param name the name of the section
-     * @return a [SectionReader] if found; otherwise, null
-     */
-    internal fun sectionReader(name: String): SectionReader? {
-        val section = sectionTable.firstOrNull { it.name == name } ?: return null
-        return SectionReader(section)
-    }
-
-    internal inner class SectionReader internal constructor(val table: SectionTableItem) {
-
-        fun copyBytes(rva: Address32, buf: ByteArray) = copyBytes(rva, buf, 0, buf.size)
-
-        /**
-         * @author ChatGPT
-         */
-        fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
-            check(len >= 0)
-            // Request range: [reqStart, reqEnd)
-            val reqStart: UInt = rva.value
-            val reqEnd: UInt = reqStart + len.toUInt()
-
-            // Section's virtual address range: [sectionStart, sectionEnd)
-            val sectionStart: UInt = table.virtualAddress.value
-            val sectionEnd: UInt = sectionStart + table.sizeOfRawData
-
-            // Calculate intersection range: [copyStart, copyEnd)
-            val copyStart: UInt = maxOf(reqStart, sectionStart)
-            val copyEnd: UInt = minOf(reqEnd, sectionEnd)
-
-            if (copyEnd <= copyStart) {
-                return // No intersection, no processing needed
-            }
-
-            // Length of the intersection range (ensuring it doesn't exceed Int range)
-            val copyLen: Int = (copyEnd - copyStart).toInt()
-
-            // File reading position:
-            // The section's starting address in memory (table.virtualAddress) corresponds to table.pointerToRawData in the file,
-            // so the reading position is pointerToRawData + (copyStart - sectionStart)
-            val filePos: Long = table.pointerToRawData.value.toLong() + (copyStart - sectionStart).toLong()
-
-            // Starting offset in the destination buffer: offset between request range and intersection range
-            val destOff: Int = off + (copyStart - reqStart).toInt()
-
-            // Call dataAccessor to read data into the specified region of the buffer
-            dataAccessor.readFully(filePos, buf, destOff, copyLen)
-        }
-
-    }
-
-    private val sectionReaders = sectionTable.map { SectionReader(it) }.toTypedArray()
-
-    /**
-     * Copy bytes from the given RVA to the buffer.
-     *
-     * @param rva the relative virtual address
-     * @param buf the buffer to copy to
-     * @param off the offset in the buffer
-     * @param len the length to copy
-     */
-    internal fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
-        readVirtualMemory(rva, buf, off, len)
-    }
-
-    /**
-     * Copy bytes from the given RVA to the buffer.
-     *
-     * @param rva the relative virtual address
-     * @param buf the buffer to copy to
-     */
-    internal fun copyBytes(rva: Address32, buf: ByteArray) {
-        copyBytes(rva, buf, 0, buf.size)
-    }
-
     private val rsrcRva: Address32 = windowsHeader.resourceTable.virtualAddress
     val resourceRoot: ResourceNode = ResourceRootNode()
 
@@ -217,7 +140,7 @@ class PEFile private constructor(
     ): List<ResourceNode> {
         val totalNodes = (numberOfNamedEntries + numberOfIdEntries).coerceAtMost(Int.MAX_VALUE.toUInt() / 8u).toInt()
         val buf = ByteArray(8 * totalNodes)
-        copyBytes(dirNodeAddr + 16, buf)
+        readVirtualMemory(dirNodeAddr + 16, buf, 0, buf.size)
         return buildList(capacity = totalNodes) {
             for (off in buf.indices step 8) {
                 val nameOrId = buf.getUInt(off)
@@ -238,10 +161,10 @@ class PEFile private constructor(
             // by name
             val namePtr = rsrcRva + (nameOrId and 0x7FFFFFFFu)
             val lenBuf = ByteArray(2)
-            copyBytes(namePtr, lenBuf)
+            readVirtualMemory(namePtr, lenBuf, 0, lenBuf.size)
             val nameLen = lenBuf.getUShort(0)
             val nameBuf = ByteArray(nameLen.toInt())
-            copyBytes(namePtr + 2, nameBuf)
+            readVirtualMemory(namePtr + 2, nameBuf, 0, nameBuf.size)
             val charArray = CharArray(nameLen.toInt())
             nameBuf.forEachIndexed { index, byte -> charArray[index] = byte.toInt().toChar() }
             resourceID = 0u
@@ -253,7 +176,7 @@ class PEFile private constructor(
         } else {
             // file
             val fileBuf = ByteArray(16)
-            copyBytes(dataRva + rsrcRva, fileBuf)
+            readVirtualMemory(dataRva + rsrcRva, fileBuf, 0, fileBuf.size)
             val contentRva = Address32(fileBuf.getUInt(0))
             val size = fileBuf.getUInt(4)
             val codePage = CodePage(fileBuf.getUInt(8))
@@ -264,7 +187,7 @@ class PEFile private constructor(
     private fun readResourceDirectoryNode(dataRva: Address32): List<ResourceNode> {
         if (rsrcRva.value == 0u) return emptyList()
         val buf = ByteArray(16)
-        copyBytes(dataRva + rsrcRva, buf)
+        readVirtualMemory(dataRva + rsrcRva, buf, 0, buf.size)
         val characteristics = buf.getUInt(0)
         if (characteristics != 0u) throw PEFileException("Invalid resource directory node, characteristics is not 0, $dataRva")
 //        val timeDateStamp = TimeDataStamp32(buf.getUInt(4))
@@ -394,7 +317,7 @@ class PEFile private constructor(
 
         override fun readAllBytes(): ByteArray {
             val buf = ByteArray(size.toInt())
-            copyBytes(contentRva, buf)
+            readVirtualMemory(contentRva, buf, 0, buf.size)
             return buf
         }
 
