@@ -11,6 +11,11 @@ class WhoTest {
     }
 
     @Test
+    fun testOpen() {
+        ElfFile.open(whoData)
+    }
+
+    @Test
     fun test() {
         assertEquals(ExecutableFileType.ELF, ExecutableFileType.detect(whoData))
         val file = ElfFile.open(whoData)
@@ -243,7 +248,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 0,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ""
                 },
                 {
                     "type": "Elf64Shdr",
@@ -258,7 +264,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 1,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".interp"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -273,7 +280,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 8,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".note.gnu.property"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -288,7 +296,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 4,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".note.gnu.build-id"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -303,7 +312,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 4,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".note.ABI-tag"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -318,7 +328,8 @@ class WhoTest {
                     "shLink": 6,
                     "shInfo": 0,
                     "shAddralign": 8,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".gnu.hash"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -333,7 +344,8 @@ class WhoTest {
                     "shLink": 7,
                     "shInfo": 1,
                     "shAddralign": 8,
-                    "shEntsize": 24
+                    "shEntsize": 24,
+                    "name": ".dynsym"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -348,7 +360,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 1,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".dynstr"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -363,7 +376,8 @@ class WhoTest {
                     "shLink": 6,
                     "shInfo": 0,
                     "shAddralign": 2,
-                    "shEntsize": 2
+                    "shEntsize": 2,
+                    "name": ".gnu.version"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -378,7 +392,8 @@ class WhoTest {
                     "shLink": 7,
                     "shInfo": 1,
                     "shAddralign": 8,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".gnu.version_r"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -393,7 +408,8 @@ class WhoTest {
                     "shLink": 6,
                     "shInfo": 0,
                     "shAddralign": 8,
-                    "shEntsize": 24
+                    "shEntsize": 24,
+                    "name": ".rela.dyn"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -409,7 +425,8 @@ class WhoTest {
                     "shLink": 6,
                     "shInfo": 25,
                     "shAddralign": 8,
-                    "shEntsize": 24
+                    "shEntsize": 24,
+                    "name": ".rela.plt"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -425,7 +442,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 4,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".init"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -441,7 +459,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 16,
-                    "shEntsize": 16
+                    "shEntsize": 16,
+                    "name": ".plt"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -457,7 +476,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 16,
-                    "shEntsize": 16
+                    "shEntsize": 16,
+                    "name": ".plt.got"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -473,7 +493,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 16,
-                    "shEntsize": 16
+                    "shEntsize": 16,
+                    "name": ".plt.sec"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -489,7 +510,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 16,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".text"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -505,7 +527,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 4,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".fini"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -520,7 +543,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 32,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".rodata"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -535,7 +559,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 4,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".eh_frame_hdr"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -550,7 +575,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 8,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".eh_frame"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -566,7 +592,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 8,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".ctors"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -582,7 +609,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 8,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".dtors"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -598,7 +626,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 32,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".data.rel.ro"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -614,7 +643,8 @@ class WhoTest {
                     "shLink": 7,
                     "shInfo": 0,
                     "shAddralign": 8,
-                    "shEntsize": 16
+                    "shEntsize": 16,
+                    "name": ".dynamic"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -630,7 +660,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 8,
-                    "shEntsize": 8
+                    "shEntsize": 8,
+                    "name": ".got"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -646,7 +677,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 32,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".data"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -662,7 +694,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 32,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".bss"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -675,7 +708,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 1,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".gnu_debugaltlink"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -688,7 +722,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 4,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".gnu_debuglink"
                 },
                 {
                     "type": "Elf64Shdr",
@@ -701,7 +736,8 @@ class WhoTest {
                     "shLink": 0,
                     "shInfo": 0,
                     "shAddralign": 1,
-                    "shEntsize": 0
+                    "shEntsize": 0,
+                    "name": ".shstrtab"
                 }
             ]
         """.trimIndent().let { Json.decodeFromString<List<ElfShdr>>(it) }.also { assertEquals(it, file.sectionHeaders) }

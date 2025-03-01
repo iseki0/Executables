@@ -63,6 +63,11 @@ data class Elf64Shdr(
      * Entry size if section holds table.
      */
     override val shEntsize: Elf64Xword,
+
+    /**
+     * Section name string.
+     */
+    override val name: String? = null,
 ) : ReadableStructure, ElfShdr {
     companion object {
         fun parse(bytes: ByteArray, off: Int, le: Boolean): Elf64Shdr {
@@ -92,6 +97,7 @@ data class Elf64Shdr(
             "shLink" to shLink,
             "shInfo" to shInfo,
             "shAddralign" to shAddralign,
-            "shEntsize" to shEntsize
+            "shEntsize" to shEntsize,
+            "name" to (name ?: "")
         )
 } 

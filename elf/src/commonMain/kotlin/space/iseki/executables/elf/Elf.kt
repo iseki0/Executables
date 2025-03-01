@@ -23,6 +23,62 @@ class ElfFile private constructor(
 ) : AutoCloseable, OpenedFile {
 
     companion object : FileFormat<ElfFile> {
+        internal val ElfClass.ehdrSize: Int
+            get() = when (this) {
+                ElfClass.ELFCLASS32 -> 52
+                ElfClass.ELFCLASS64 -> 64
+                else -> throw ElfFileException("Invalid ElfClass: $this")
+            }
+
+        /**
+         * Reads section name string table and adds names to section headers.
+         *
+         * @param accessor The data accessor
+         * @param ehdr The ELF header
+         * @param sectionHeaders The original section headers list
+         * @return Section headers list with names
+         */
+        private fun readSectionNames(
+            accessor: DataAccessor,
+            ehdr: ElfEhdr,
+            sectionHeaders: List<ElfShdr>
+        ): List<ElfShdr> {
+            if (sectionHeaders.isEmpty()) return sectionHeaders
+
+            val shstrndx = ehdr.eShstrndx.castToInt()
+            if (shstrndx < 0 || shstrndx >= sectionHeaders.size) return sectionHeaders
+
+            val stringTableHeader = sectionHeaders[shstrndx]
+            val stringTableSize = stringTableHeader.shSize.castToInt()
+            if (stringTableSize <= 0) return sectionHeaders
+
+            val stringTableOffset = stringTableHeader.shOffset.castToLong()
+            val stringTableData = ByteArray(stringTableSize)
+            accessor.readFully(stringTableOffset, stringTableData)
+
+            // Add name to each section header
+            return sectionHeaders.map { shdr ->
+                val nameIndex = shdr.shName.castToInt()
+                if (nameIndex < 0 || nameIndex >= stringTableSize) return@map shdr
+
+                // Read null-terminated string
+                val nameBytes = mutableListOf<Byte>()
+                var i = nameIndex
+                while (i < stringTableSize && stringTableData[i] != 0.toByte()) {
+                    nameBytes.add(stringTableData[i])
+                    i++
+                }
+                val name = nameBytes.toByteArray().decodeToString()
+
+                // Create a new section header with name using the auto-generated copy function
+                when (shdr) {
+                    is Elf32Shdr -> shdr.copy(name = name)
+                    is Elf64Shdr -> shdr.copy(name = name)
+                    else -> shdr // Should not happen
+                }
+            }
+        }
+
         /**
          * Opens and parses an ELF file from the given data accessor.
          *
@@ -104,8 +160,10 @@ class ElfFile private constructor(
                 }
             }
 
-            // 如果需要后续使用 programHeaders 和 sectionHeaders，可以考虑将它们保存到 ElfFile 对象中
-            return ElfFile(accessor, ident, ehdr, programHeaders, sectionHeaders)
+            // Read section name string table and add names to section headers
+            val sectionHeadersWithNames = readSectionNames(accessor, ehdr, sectionHeaders)
+
+            return ElfFile(accessor, ident, ehdr, programHeaders, sectionHeadersWithNames)
         }
     }
 

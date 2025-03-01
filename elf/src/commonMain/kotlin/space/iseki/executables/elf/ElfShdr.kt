@@ -14,4 +14,5 @@ sealed interface ElfShdr {
     val shInfo: Primitive
     val shAddralign: Primitive
     val shEntsize: Primitive
+    val name: String?
 }
