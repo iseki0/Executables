@@ -5,6 +5,8 @@ import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
+import space.iseki.executables.common.ImportSymbol
+import space.iseki.executables.common.ImportSymbolContainer
 import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
@@ -18,7 +20,7 @@ class PEFile private constructor(
     val windowsHeader: WindowsSpecifiedHeader,
     val sectionTable: List<SectionTableItem>,
     private val dataAccessor: DataAccessor,
-) : AutoCloseable, OpenedFile, ReadableSectionContainer {
+) : AutoCloseable, OpenedFile, ReadableSectionContainer, ImportSymbolContainer {
 
     /**
      * Represents a summary of the pe file headers.
@@ -192,9 +194,7 @@ class PEFile private constructor(
      * @param len the length to copy
      */
     internal fun copyBytes(rva: Address32, buf: ByteArray, off: Int, len: Int) {
-        for (sectionReader in sectionReaders) {
-            sectionReader.copyBytes(rva, buf, off, len)
-        }
+        readVirtualMemory(rva, buf, off, len)
     }
 
     /**
@@ -549,5 +549,257 @@ class PEFile private constructor(
         }
 
 
+    }
+
+    /**
+     * Get all import symbols from the PE file
+     */
+    override val importSymbols: List<ImportSymbol> by lazy {
+        parseImportSymbols()
+    }
+
+    /**
+     * Parse the import table of the PE file and extract all import symbols
+     *
+     * @return list of import symbols
+     */
+    private fun parseImportSymbols(): List<ImportSymbol> {
+        val importTable = windowsHeader.importTable
+
+        // If import table is empty, return an empty list
+        if (importTable == DataDirectoryItem.ZERO) {
+            return emptyList()
+        }
+
+        val result = mutableListOf<ImportSymbol>()
+
+        // Read the import directory table
+        val importDirectoryRva = importTable.virtualAddress
+
+        // Create a temporary buffer for reading data
+        val buffer = ByteArray(20) // Import directory entry size is 20 bytes
+
+        var currentImportDescriptorOffset = 0u
+
+        // Process each import directory entry (each DLL)
+        while (true) {
+            // Read import directory entry
+            readVirtualMemory(importDirectoryRva + currentImportDescriptorOffset, buffer, 0, 20)
+
+            val importLookupTableRva = buffer.getUInt(0)
+            val timeDateStamp = buffer.getUInt(4)
+            val forwarderChain = buffer.getUInt(8)
+            val nameRva = buffer.getUInt(12)
+            val importAddressTableRva = buffer.getUInt(16)
+
+            // If all fields are 0, we've reached the end of the import directory table
+            if (importLookupTableRva == 0u && timeDateStamp == 0u && forwarderChain == 0u && nameRva == 0u && importAddressTableRva == 0u) {
+                break
+            }
+
+            // Read DLL name
+            val dllName = readCString(Address32(nameRva))
+
+            // If import lookup table RVA is 0, use import address table RVA
+            val lookupTableRva = if (importLookupTableRva != 0u) importLookupTableRva else importAddressTableRva
+
+            // Determine the size of import lookup table entries based on PE file type
+            val is64Bit = standardHeader.magic == PE32Magic.PE32Plus
+            val entrySize = if (is64Bit) 8 else 4
+
+            var currentLookupOffset = 0u
+
+            while (true) {
+                // Read import lookup table entry
+                val entryBuffer = ByteArray(entrySize)
+                readVirtualMemory(Address32(lookupTableRva) + currentLookupOffset, entryBuffer, 0, entrySize)
+
+                val entry = if (is64Bit) {
+                    entryBuffer.getULong(0)
+                } else {
+                    entryBuffer.getUInt(0).toULong()
+                }
+
+                // If entry is 0, we've reached the end of the import lookup table
+                if (entry == 0uL) {
+                    break
+                }
+
+                // Check the highest bit to determine if import is by ordinal or by name
+                val isImportByOrdinal = if (is64Bit) {
+                    (entry and 0x8000000000000000uL) != 0uL
+                } else {
+                    (entry and 0x80000000uL) != 0uL
+                }
+
+                if (isImportByOrdinal) {
+                    // Import by ordinal
+                    val ordinal = if (is64Bit) {
+                        (entry and 0xFFFFuL).toUShort()
+                    } else {
+                        (entry and 0xFFFFuL).toUShort()
+                    }
+
+                    result.add(
+                        PEImportSymbol(
+                            name = "#$ordinal", file = dllName, ordinal = ordinal, isOrdinal = true
+                        )
+                    )
+                } else {
+                    // Import by name
+                    val hintNameRva = if (is64Bit) {
+                        (entry and 0x7FFFFFFFFFFFFFFFuL).toUInt()
+                    } else {
+                        (entry and 0x7FFFFFFFuL).toUInt()
+                    }
+
+                    // Read Hint (2 bytes)
+                    val hintBuffer = ByteArray(2)
+                    readVirtualMemory(Address32(hintNameRva), hintBuffer, 0, 2)
+
+                    // Read symbol name
+                    val symbolName = readCString(Address32(hintNameRva) + 2u)
+
+                    result.add(
+                        PEImportSymbol(
+                            name = symbolName, file = dllName, isOrdinal = false
+                        )
+                    )
+                }
+
+                // Move to the next entry
+                currentLookupOffset += entrySize.toUInt()
+            }
+
+            // Move to the next import directory entry
+            currentImportDescriptorOffset += 20u
+        }
+
+        return result
+    }
+
+    /**
+     * Read data from the virtual memory of the PE file
+     *
+     * @param rva relative virtual address
+     * @param buffer destination buffer
+     * @param offset buffer offset
+     * @param length length to read
+     */
+    private fun readVirtualMemory(rva: Address32, buffer: ByteArray, offset: Int, length: Int) {
+        // If length is 0, return immediately
+        if (length <= 0) return
+
+        // Track the number of bytes read
+        var bytesRead = 0
+        var currentOffset = offset
+        var currentRva = rva.value
+
+        // First check if the RVA is within the file header range
+        if (currentRva < windowsHeader.sizeOfHeaders) {
+            // Calculate how many bytes can be read from the file header
+            val headerBytesToRead = minOf(
+                (windowsHeader.sizeOfHeaders - currentRva).toInt(), length
+            )
+
+            if (headerBytesToRead > 0) {
+                try {
+                    // For the file header, RVA directly corresponds to file offset
+                    dataAccessor.readFully(currentRva.toLong(), buffer, currentOffset, headerBytesToRead)
+
+                    // Update the number of bytes read and current offset
+                    bytesRead += headerBytesToRead
+                    currentOffset += headerBytesToRead
+                    currentRva += headerBytesToRead.toUInt()
+
+                    // If all requested bytes have been read, exit
+                    if (bytesRead >= length) {
+                        return
+                    }
+                } catch (e: IOException) {
+                    // If reading fails, continue trying to read from sections
+                }
+            }
+        }
+
+        // Search for and read data from sections
+        for (section in sections) {
+            val sectionRva = section.virtualAddress.value
+            val sectionEndRva = sectionRva + section.virtualSize
+
+            // Check if the current RVA is within the current section's range
+            if (currentRva >= sectionRva && currentRva < sectionEndRva) {
+                // Calculate the offset within the section
+                val sectionOffset = currentRva - sectionRva
+
+                // Calculate how many bytes can be read from the current section
+                val bytesToRead = minOf((sectionEndRva - currentRva).toInt(), length - bytesRead)
+
+                if (bytesToRead > 0) {
+                    // Read the data
+                    section.readBytes(sectionOffset.toLong(), buffer, currentOffset, bytesToRead)
+
+                    // Update the number of bytes read and current offset
+                    bytesRead += bytesToRead
+                    currentOffset += bytesToRead
+                    currentRva += bytesToRead.toUInt()
+
+                    // If all requested bytes have been read, exit the loop
+                    if (bytesRead >= length) {
+                        return
+                    }
+                }
+            }
+        }
+
+        // If there are still unread bytes, fill with zeros
+        if (bytesRead < length) {
+            for (i in currentOffset until offset + length) {
+                buffer[i] = 0
+            }
+        }
+    }
+
+    /**
+     * Read a C-style string (null-terminated)
+     *
+     * @param rva relative virtual address
+     * @return the string
+     */
+    private fun readCString(rva: Address32): String {
+        // Initial buffer size, can be adjusted as needed
+        val bufferSize = 64
+        val buffer = ByteArray(bufferSize)
+        var currentRva = rva
+        var result = ByteArray(0)
+
+        while (true) {
+            // Read multiple bytes at once
+            readVirtualMemory(currentRva, buffer, 0, bufferSize)
+
+            // Look for null terminator
+            var nullPos = -1
+            for (i in 0 until bufferSize) {
+                if (buffer[i] == 0.toByte()) {
+                    nullPos = i
+                    break
+                }
+            }
+
+            if (nullPos >= 0) {
+                // Found null terminator, add valid data from current buffer to result
+                val newResult = ByteArray(result.size + nullPos)
+                result.copyInto(newResult)
+                buffer.copyInto(newResult, result.size, 0, nullPos)
+                return newResult.decodeToString()
+            } else {
+                // No null terminator found, add entire buffer to result and continue reading
+                val newResult = ByteArray(result.size + bufferSize)
+                result.copyInto(newResult)
+                buffer.copyInto(newResult, result.size)
+                result = newResult
+                currentRva += bufferSize.toUInt()
+            }
+        }
     }
 }

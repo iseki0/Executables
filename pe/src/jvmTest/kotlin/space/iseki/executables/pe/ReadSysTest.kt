@@ -36,6 +36,7 @@ class ReadSysTest {
                     println(path)
                     PEFile.open(path.toFile()).use { peFile ->
                         println(peFile)
+                        println(peFile.importSymbols)
                         peFile.versionInfo?.stringFileInfo?.strings.orEmpty().forEach { (k, v) -> println("$k: $v") }
                     }
                 })
@@ -47,7 +48,11 @@ class ReadSysTest {
     @Test
     fun testCryptdlgDll() {
         // this file contains zero length string item
-        PEFile.open(Path.of("src/jvmTest/resources/cryptdlg.dll")).versionInfo?.stringFileInfo?.strings.orEmpty()
-            .forEach { (k, v) -> println("$k: $v") }
+        PEFile.open(Path.of("src/jvmTest/resources/cryptdlg.dll")).use { file ->
+            file.versionInfo?.stringFileInfo?.strings.orEmpty().forEach { (k, v) -> println("$k: $v") }
+            for (importSymbol in file.importSymbols) {
+                println(importSymbol)
+            }
+        }
     }
 }
