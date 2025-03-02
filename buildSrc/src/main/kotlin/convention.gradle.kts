@@ -230,3 +230,11 @@ dokka {
         }
     }
 }
+
+// I don't know why this is needed, but it is.
+afterEvaluate {
+    if (tasks.findByName("tGenerateFlagFiles") != null) {
+        tasks.findByName("dokkaGeneratePublicationHtml")?.dependsOn("tGenerateFlagFiles")
+        tasks.findByName("dokkaGenerateModuleHtml")?.dependsOn("tGenerateFlagFiles")
+    }
+}
