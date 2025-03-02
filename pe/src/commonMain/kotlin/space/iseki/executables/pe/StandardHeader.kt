@@ -2,6 +2,8 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
+import space.iseki.executables.common.u2l
+import space.iseki.executables.common.u4l
 import kotlin.jvm.JvmStatic
 
 /**
@@ -78,15 +80,15 @@ data class StandardHeader(
 
         @JvmStatic
         fun parse(bytes: ByteArray, offset: Int): StandardHeader {
-            val magic = PE32Magic(bytes.getUShort(offset).toShort())
+            val magic = PE32Magic(bytes.u2l(offset).toShort())
             val majorLinkerVersion = bytes[offset + 2]
             val minorLinkerVersion = bytes[offset + 3]
-            val sizeOfCode = bytes.getUInt(offset + 4)
-            val sizeOfInitializedData = bytes.getUInt(offset + 8)
-            val sizeOfUninitializedData = bytes.getUInt(offset + 12)
-            val addressOfEntryPoint = Address32(bytes.getUInt(offset + 16))
-            val baseOfCode = Address32(bytes.getUInt(offset + 20))
-            val baseOfData = if (magic == PE32Magic.PE32) Address32(bytes.getUInt(offset + 24)) else Address32(0u)
+            val sizeOfCode = bytes.u4l(offset + 4)
+            val sizeOfInitializedData = bytes.u4l(offset + 8)
+            val sizeOfUninitializedData = bytes.u4l(offset + 12)
+            val addressOfEntryPoint = Address32(bytes.u4l(offset + 16))
+            val baseOfCode = Address32(bytes.u4l(offset + 20))
+            val baseOfData = if (magic == PE32Magic.PE32) Address32(bytes.u4l(offset + 24)) else Address32(0u)
             return StandardHeader(
                 magic,
                 majorLinkerVersion,

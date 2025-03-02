@@ -12,6 +12,9 @@ import space.iseki.executables.common.ImportSymbolContainer
 import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
+import space.iseki.executables.common.u2l
+import space.iseki.executables.common.u4l
+import space.iseki.executables.common.u8l
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
@@ -64,9 +67,9 @@ class PEFile private constructor(
             try {
                 val signatureBuffer = byteArrayOf(0, 0, 0, 0)
                 accessor.readFully(pos, signatureBuffer)
-                pos = signatureBuffer.getUInt(0).toLong()
+                pos = signatureBuffer.u4l(0).toLong()
                 accessor.readFully(pos, signatureBuffer)
-                val readSignature = signatureBuffer.getUInt(0)
+                val readSignature = signatureBuffer.u4l(0)
                 if (readSignature != PE_SIGNATURE_LE.toUInt()) {
                     throw PEFileException("Not a PE file, bad magic: 0x${readSignature.toHexString()}")
                 }
@@ -145,8 +148,8 @@ class PEFile private constructor(
         readVirtualMemory(dirNodeAddr + 16, buf, 0, buf.size)
         return buildList(capacity = totalNodes) {
             for (off in buf.indices step 8) {
-                val nameOrId = buf.getUInt(off)
-                val dataRva = Address32(buf.getUInt(off + 4))
+                val nameOrId = buf.u4l(off)
+                val dataRva = Address32(buf.u4l(off + 4))
                 add(readSubNode(dataRva, nameOrId))
             }
         }
@@ -164,7 +167,7 @@ class PEFile private constructor(
             val namePtr = rsrcRva + (nameOrId and 0x7FFFFFFFu)
             val lenBuf = ByteArray(2)
             readVirtualMemory(namePtr, lenBuf, 0, lenBuf.size)
-            val nameLen = lenBuf.getUShort(0)
+            val nameLen = lenBuf.u2l(0)
             val nameBuf = ByteArray(nameLen.toInt())
             readVirtualMemory(namePtr + 2, nameBuf, 0, nameBuf.size)
             val charArray = CharArray(nameLen.toInt())
@@ -179,9 +182,9 @@ class PEFile private constructor(
             // file
             val fileBuf = ByteArray(16)
             readVirtualMemory(dataRva + rsrcRva, fileBuf, 0, fileBuf.size)
-            val contentRva = Address32(fileBuf.getUInt(0))
-            val size = fileBuf.getUInt(4)
-            val codePage = CodePage(fileBuf.getUInt(8))
+            val contentRva = Address32(fileBuf.u4l(0))
+            val size = fileBuf.u4l(4)
+            val codePage = CodePage(fileBuf.u4l(8))
             return ResourceFile(name, resourceID, size, dataRva, codePage, contentRva)
         }
     }
@@ -190,13 +193,13 @@ class PEFile private constructor(
         if (rsrcRva.value == 0u) return emptyList()
         val buf = ByteArray(16)
         readVirtualMemory(dataRva + rsrcRva, buf, 0, buf.size)
-        val characteristics = buf.getUInt(0)
+        val characteristics = buf.u4l(0)
         if (characteristics != 0u) throw PEFileException("Invalid resource directory node, characteristics is not 0, $dataRva")
-//        val timeDateStamp = TimeDataStamp32(buf.getUInt(4))
-//        val majorVersion = buf.getUShort(8)
-//        val minorVersion = buf.getUShort(10)
-        val numberOfNamedEntries = buf.getUShort(12)
-        val numberOfIdEntries = buf.getUShort(14)
+//        val timeDateStamp = TimeDataStamp32(buf.u4l(4))
+//        val majorVersion = buf.u2l(8)
+//        val minorVersion = buf.u2l(10)
+        val numberOfNamedEntries = buf.u2l(12)
+        val numberOfIdEntries = buf.u2l(14)
         return readResourceDirectoryChildren(numberOfNamedEntries, numberOfIdEntries, dataRva + rsrcRva)
     }
 
@@ -511,11 +514,11 @@ class PEFile private constructor(
             // Read import directory entry
             readVirtualMemory(importDirectoryRva + currentImportDescriptorOffset, buffer, 0, 20)
 
-            val importLookupTableRva = buffer.getUInt(0)
-            val timeDateStamp = buffer.getUInt(4)
-            val forwarderChain = buffer.getUInt(8)
-            val nameRva = buffer.getUInt(12)
-            val importAddressTableRva = buffer.getUInt(16)
+            val importLookupTableRva = buffer.u4l(0)
+            val timeDateStamp = buffer.u4l(4)
+            val forwarderChain = buffer.u4l(8)
+            val nameRva = buffer.u4l(12)
+            val importAddressTableRva = buffer.u4l(16)
 
             // If all fields are 0, we've reached the end of the import directory table
             if (importLookupTableRva == 0u && timeDateStamp == 0u && forwarderChain == 0u && nameRva == 0u && importAddressTableRva == 0u) {
@@ -540,9 +543,9 @@ class PEFile private constructor(
                 readVirtualMemory(Address32(lookupTableRva) + currentLookupOffset, entryBuffer, 0, entrySize)
 
                 val entry = if (is64Bit) {
-                    entryBuffer.getULong(0)
+                    entryBuffer.u8l(0)
                 } else {
-                    entryBuffer.getUInt(0).toULong()
+                    entryBuffer.u4l(0).toULong()
                 }
 
                 // If entry is 0, we've reached the end of the import lookup table
@@ -758,16 +761,16 @@ class PEFile private constructor(
         readVirtualMemory(exportDirectoryRva, directoryBuffer, 0, directoryBuffer.size)
 
         // Parse the export directory table
-        val timeStamp = directoryBuffer.getUInt(4)
-        val majorVersion = directoryBuffer.getUShort(8)
-        val minorVersion = directoryBuffer.getUShort(10)
-        val nameRva = Address32(directoryBuffer.getUInt(12))
-        val ordinalBase = directoryBuffer.getUInt(16)
-        val addressTableEntries = directoryBuffer.getUInt(20)
-        val numberOfNamePointers = directoryBuffer.getUInt(24)
-        val exportAddressTableRva = Address32(directoryBuffer.getUInt(28))
-        val namePointerRva = Address32(directoryBuffer.getUInt(32))
-        val ordinalTableRva = Address32(directoryBuffer.getUInt(36))
+        val timeStamp = directoryBuffer.u4l(4)
+        val majorVersion = directoryBuffer.u2l(8)
+        val minorVersion = directoryBuffer.u2l(10)
+        val nameRva = Address32(directoryBuffer.u4l(12))
+        val ordinalBase = directoryBuffer.u4l(16)
+        val addressTableEntries = directoryBuffer.u4l(20)
+        val numberOfNamePointers = directoryBuffer.u4l(24)
+        val exportAddressTableRva = Address32(directoryBuffer.u4l(28))
+        val namePointerRva = Address32(directoryBuffer.u4l(32))
+        val ordinalTableRva = Address32(directoryBuffer.u4l(36))
 
         // Read the DLL name
         val dllName = readCString(nameRva)
@@ -776,21 +779,21 @@ class PEFile private constructor(
         val exportAddressTable = Array(addressTableEntries.toInt()) { index ->
             val addressBuffer = ByteArray(4)
             readVirtualMemory(exportAddressTableRva + (index * 4), addressBuffer, 0, 4)
-            Address32(addressBuffer.getUInt(0))
+            Address32(addressBuffer.u4l(0))
         }
 
         // Read the name pointer table
         val namePointerTable = Array(numberOfNamePointers.toInt()) { index ->
             val pointerBuffer = ByteArray(4)
             readVirtualMemory(namePointerRva + (index * 4), pointerBuffer, 0, 4)
-            Address32(pointerBuffer.getUInt(0))
+            Address32(pointerBuffer.u4l(0))
         }
 
         // Read the ordinal table
         val ordinalTable = Array(numberOfNamePointers.toInt()) { index ->
             val ordinalBuffer = ByteArray(2)
             readVirtualMemory(ordinalTableRva + (index * 2), ordinalBuffer, 0, 2)
-            ordinalBuffer.getUShort(0)
+            ordinalBuffer.u2l(0)
         }
 
         // Create a map of ordinals to names

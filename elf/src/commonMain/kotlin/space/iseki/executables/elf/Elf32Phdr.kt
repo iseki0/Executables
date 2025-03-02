@@ -3,6 +3,8 @@ package space.iseki.executables.elf
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
+import space.iseki.executables.common.u4b
+import space.iseki.executables.common.u4l
 
 @Serializable
 @SerialName("Elf32Phdr")

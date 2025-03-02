@@ -1,5 +1,13 @@
 package space.iseki.executables.elf
 
+import space.iseki.executables.common.u1
+import space.iseki.executables.common.u2b
+import space.iseki.executables.common.u2l
+import space.iseki.executables.common.u4b
+import space.iseki.executables.common.u4l
+import space.iseki.executables.common.u8b
+import space.iseki.executables.common.u8l
+
 /**
  * Base interface for ELF symbol table entries
  */

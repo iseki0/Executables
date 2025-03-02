@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import space.iseki.executables.common.u4l
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
@@ -90,8 +91,8 @@ value class DataDirectoryItem(
          */
         @JvmStatic
         fun parse(bytes: ByteArray, offset: Int): DataDirectoryItem {
-            val virtualAddress = bytes.getUInt(offset)
-            val size = bytes.getUInt(offset + 4)
+            val virtualAddress = bytes.u4l(offset)
+            val size = bytes.u4l(offset + 4)
             return DataDirectoryItem(virtualAddress, size)
         }
     }

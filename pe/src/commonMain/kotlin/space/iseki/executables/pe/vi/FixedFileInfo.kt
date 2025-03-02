@@ -2,7 +2,7 @@ package space.iseki.executables.pe.vi
 
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
-import space.iseki.executables.pe.getUInt
+import space.iseki.executables.common.u4l
 
 @Serializable
 data class FixedFileInfo(
@@ -56,22 +56,22 @@ data class FixedFileInfo(
         const val SIGNATURE = 0xFEEF04BDu
 
         fun parse(bytes: ByteArray, offset: Int): FixedFileInfo {
-            val signature = bytes.getUInt(offset)
+            val signature = bytes.u4l(offset)
             require(signature == SIGNATURE) { "Invalid VS_VERSIONINFO signature: $signature" }
 
             return FixedFileInfo(
-                structVersion = bytes.getUInt(offset + 4),
-                fileVersionMS = bytes.getUInt(offset + 8),
-                fileVersionLS = bytes.getUInt(offset + 12),
-                productVersionMS = bytes.getUInt(offset + 16),
-                productVersionLS = bytes.getUInt(offset + 20),
-                fileFlagsMask = bytes.getUInt(offset + 24),
-                fileFlags = FileInfoFlags(bytes.getUInt(offset + 28)),
-                fileOS = FileOs(bytes.getUInt(offset + 32)),
-                fileType = FileType(bytes.getUInt(offset + 36)),
-                fileSubtype = bytes.getUInt(offset + 40),
-                fileDateMS = bytes.getUInt(offset + 44),
-                fileDateLS = bytes.getUInt(offset + 48)
+                structVersion = bytes.u4l(offset + 4),
+                fileVersionMS = bytes.u4l(offset + 8),
+                fileVersionLS = bytes.u4l(offset + 12),
+                productVersionMS = bytes.u4l(offset + 16),
+                productVersionLS = bytes.u4l(offset + 20),
+                fileFlagsMask = bytes.u4l(offset + 24),
+                fileFlags = FileInfoFlags(bytes.u4l(offset + 28)),
+                fileOS = FileOs(bytes.u4l(offset + 32)),
+                fileType = FileType(bytes.u4l(offset + 36)),
+                fileSubtype = bytes.u4l(offset + 40),
+                fileDateMS = bytes.u4l(offset + 44),
+                fileDateLS = bytes.u4l(offset + 48)
             )
         }
 

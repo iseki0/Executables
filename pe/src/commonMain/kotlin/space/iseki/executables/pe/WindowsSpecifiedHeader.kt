@@ -2,6 +2,9 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
+import space.iseki.executables.common.u2l
+import space.iseki.executables.common.u4l
+import space.iseki.executables.common.u8l
 import kotlin.jvm.JvmStatic
 
 /**
@@ -170,27 +173,27 @@ data class WindowsSpecifiedHeader(
             val isPlus = magic == PE32Magic.PE32Plus
             val off = offset - if (isPlus) 24 else 28
             val imageBase =
-                Address64(if (isPlus) bytes.getUInt(off + 24).toLong() else bytes.getULong(off + 28).toLong())
-            val sectionAlignment = bytes.getUInt(off + 32)
-            val fileAlignment = bytes.getUInt(off + 36)
-            val majorOperatingSystemVersion = bytes.getUShort(off + 40)
-            val minorOperatingSystemVersion = bytes.getUShort(off + 42)
-            val majorImageVersion = bytes.getUShort(off + 44)
-            val minorImageVersion = bytes.getUShort(off + 46)
-            val majorSubsystemVersion = bytes.getUShort(off + 48)
-            val minorSubsystemVersion = bytes.getUShort(off + 50)
-            val win32VersionValue = bytes.getUInt(off + 52)
-            val sizeOfImage = bytes.getUInt(off + 56)
-            val sizeOfHeaders = bytes.getUInt(off + 60)
-            val checkSum = bytes.getUInt(off + 64)
-            val subsystem = bytes.getUShort(off + 68)
-            val dllCharacteristics = bytes.getUShort(off + 70)
-            val sizeOfStackReserve = if (isPlus) bytes.getULong(off + 72) else bytes.getUInt(off + 72).toULong()
-            val sizeOfStackCommit = if (isPlus) bytes.getULong(off + 80) else bytes.getUInt(off + 76).toULong()
-            val sizeOfHeapReserve = if (isPlus) bytes.getULong(off + 88) else bytes.getUInt(off + 80).toULong()
-            val sizeOfHeapCommit = if (isPlus) bytes.getULong(off + 96) else bytes.getUInt(off + 84).toULong()
-            val loaderFlags = bytes.getUInt(off + (if (isPlus) 104 else 88))
-            val numberOfRvaAndSizes = bytes.getUInt(off + (if (isPlus) 108 else 92)).toInt()
+                Address64(if (isPlus) bytes.u4l(off + 24).toLong() else bytes.u8l(off + 28).toLong())
+            val sectionAlignment = bytes.u4l(off + 32)
+            val fileAlignment = bytes.u4l(off + 36)
+            val majorOperatingSystemVersion = bytes.u2l(off + 40)
+            val minorOperatingSystemVersion = bytes.u2l(off + 42)
+            val majorImageVersion = bytes.u2l(off + 44)
+            val minorImageVersion = bytes.u2l(off + 46)
+            val majorSubsystemVersion = bytes.u2l(off + 48)
+            val minorSubsystemVersion = bytes.u2l(off + 50)
+            val win32VersionValue = bytes.u4l(off + 52)
+            val sizeOfImage = bytes.u4l(off + 56)
+            val sizeOfHeaders = bytes.u4l(off + 60)
+            val checkSum = bytes.u4l(off + 64)
+            val subsystem = bytes.u2l(off + 68)
+            val dllCharacteristics = bytes.u2l(off + 70)
+            val sizeOfStackReserve = if (isPlus) bytes.u8l(off + 72) else bytes.u4l(off + 72).toULong()
+            val sizeOfStackCommit = if (isPlus) bytes.u8l(off + 80) else bytes.u4l(off + 76).toULong()
+            val sizeOfHeapReserve = if (isPlus) bytes.u8l(off + 88) else bytes.u4l(off + 80).toULong()
+            val sizeOfHeapCommit = if (isPlus) bytes.u8l(off + 96) else bytes.u4l(off + 84).toULong()
+            val loaderFlags = bytes.u4l(off + (if (isPlus) 104 else 88))
+            val numberOfRvaAndSizes = bytes.u4l(off + (if (isPlus) 108 else 92)).toInt()
             val ddiOffset = if (isPlus) 112 else 96
             val exportTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 1)
             val importTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 2)

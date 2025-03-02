@@ -1,3 +1,13 @@
+public final class space/iseki/executables/common/-ByteArrayUtils {
+	public static final fun u1 ([BI)B
+	public static final fun u2b ([BI)S
+	public static final fun u2l ([BI)S
+	public static final fun u4b ([BI)I
+	public static final fun u4l ([BI)I
+	public static final fun u8b ([BI)J
+	public static final fun u8l ([BI)J
+}
+
 public final class space/iseki/executables/common/ByteArrayDataAccessor : space/iseki/executables/common/DataAccessor {
 	public fun <init> ([B)V
 	public fun close ()V
@@ -23,6 +33,9 @@ public final class space/iseki/executables/common/DataAccessor$DefaultImpls {
 	public static fun readAtMost (Lspace/iseki/executables/common/DataAccessor;J[B)I
 	public static fun readFully (Lspace/iseki/executables/common/DataAccessor;J[B)V
 	public static fun readFully (Lspace/iseki/executables/common/DataAccessor;J[BII)V
+}
+
+public abstract interface annotation class space/iseki/executables/common/ExeInternalApi : java/lang/annotation/Annotation {
 }
 
 public final class space/iseki/executables/common/ExecutableFileType {

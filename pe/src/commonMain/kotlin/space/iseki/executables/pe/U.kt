@@ -1,8 +1,7 @@
 package space.iseki.executables.pe
 
-internal expect fun ByteArray.getUShort(offset: Int): UShort
-internal expect fun ByteArray.getUInt(offset: Int): UInt
-internal expect fun ByteArray.getULong(offset: Int): ULong
+import space.iseki.executables.common.u2l
+
 internal expect fun <T> Array<T>.toUnmodifiableList(): List<T>
 internal expect fun <T> List<T>.toUnmodifiableList(): List<T>
 internal expect fun ByteArray.getWString(offset: Int, length: Int): String
@@ -12,7 +11,7 @@ internal expect fun ByteArray.getWString(offset: Int, length: Int): String
  */
 internal fun ByteArray.getWString(offset: Int): String {
     var end = offset
-    while (this.getUShort(end) != 0u.toUShort()) {
+    while (this.u2l(end) != 0u.toUShort()) {
         end += 2
     }
     return getWString(offset, end - offset)
