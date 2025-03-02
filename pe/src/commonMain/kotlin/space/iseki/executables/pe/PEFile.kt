@@ -44,6 +44,13 @@ class PEFile private constructor(
         val sectionTable: List<SectionTableItem>,
     )
 
+    override val rootHeaders: Map<String, ReadableStructure>
+        get() = mapOf(
+            "coffHeader" to coffHeader,
+            "standardHeader" to standardHeader,
+            "windowsHeader" to windowsHeader,
+        )
+
     /**
      * Returns a summary of the pe file headers.
      *
@@ -765,9 +772,9 @@ class PEFile private constructor(
         readVirtualMemory(exportDirectoryRva, directoryBuffer, 0, directoryBuffer.size)
 
         // Parse the export directory table
-        val timeStamp = directoryBuffer.u4l(4)
-        val majorVersion = directoryBuffer.u2l(8)
-        val minorVersion = directoryBuffer.u2l(10)
+        directoryBuffer.u4l(4)
+        directoryBuffer.u2l(8)
+        directoryBuffer.u2l(10)
         val nameRva = Address32(directoryBuffer.u4l(12))
         val ordinalBase = directoryBuffer.u4l(16)
         val addressTableEntries = directoryBuffer.u4l(20)
@@ -777,7 +784,7 @@ class PEFile private constructor(
         val ordinalTableRva = Address32(directoryBuffer.u4l(36))
 
         // Read the DLL name
-        val dllName = readCString(nameRva)
+        readCString(nameRva)
 
         // Read the export address table
         val exportAddressTable = Array(addressTableEntries.toInt()) { index ->

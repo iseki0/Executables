@@ -514,6 +514,7 @@ public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, 
 	public fun getExportSymbols ()Ljava/util/List;
 	public fun getImportSymbols ()Ljava/util/List;
 	public final fun getResourceRoot ()Lspace/iseki/executables/pe/ResourceNode;
+	public fun getRootHeaders ()Ljava/util/Map;
 	public final fun getSectionTable ()Ljava/util/List;
 	public fun getSections ()Ljava/util/List;
 	public final fun getStandardHeader ()Lspace/iseki/executables/pe/StandardHeader;

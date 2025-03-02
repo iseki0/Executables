@@ -826,6 +826,7 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 	public final fun getIdent ()Lspace/iseki/executables/elf/ElfIdentification;
 	public fun getImportSymbols ()Ljava/util/List;
 	public final fun getProgramHeaders ()Ljava/util/List;
+	public fun getRootHeaders ()Ljava/util/Map;
 	public final fun getSectionHeaders ()Ljava/util/List;
 	public fun getSections ()Ljava/util/List;
 	public final fun getSymbols ()Ljava/util/List;

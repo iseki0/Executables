@@ -71,8 +71,7 @@ class ElfFile private constructor(
                 accessor.readFully(stringTableOffset, stringTableData)
             } catch (e: IOException) {
                 throw ElfFileException(
-                    "Failed to read string table at offset $stringTableOffset with size $stringTableSize",
-                    e
+                    "Failed to read string table at offset $stringTableOffset with size $stringTableSize", e
                 )
             }
 
@@ -242,6 +241,9 @@ class ElfFile private constructor(
     override fun close() {
         dataAccessor.close()
     }
+
+    override val rootHeaders: Map<String, ReadableStructure>
+        get() = mapOf("ehdr" to ehdr, "ident" to ident)
 
     /**
      * Represents an ELF section.
@@ -439,10 +441,8 @@ class ElfFile private constructor(
             // In ELF, import symbols are typically not directly associated with a specific library file
             // Here we set the file property to an empty string, which may need to be obtained from the dynamic section in actual applications
             ElfImportSymbol(
-                name = sym.name,
-                file = "",  // ELF usually needs to be inferred from the dynamic section
-                binding = sym.binding,
-                type = sym.type
+                name = sym.name, file = "",  // ELF usually needs to be inferred from the dynamic section
+                binding = sym.binding, type = sym.type
             )
         }
     }
