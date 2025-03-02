@@ -78,7 +78,7 @@ import space.iseki.executables.pe.PEFile
 
 fun main() {
     val file = Path.of("C:\\System32\\notepad.exe")
-  PEFile.open(file).use { peFile: PEFile ->
+    PEFile.open(file).use { peFile: PEFile ->
         println(peFile.coffHeader)
         println(peFile.summary)
         println(Json.encodeToString(peFile.summary))
@@ -92,10 +92,79 @@ fun main() {
 ```kotlin
 import java.nio.file.Path
 import space.iseki.executables.common.ExecutableFile
+import space.iseki.executables.common.ExecutableFileType
 
 fun main() {
     val file = Path.of("C:\\System32\\notepad.exe")
-  println(ExecutableFileType.detect(file))
+    println(ExecutableFileType.detect(file))
+}
+```
+
+#### Read PE file import symbols
+
+> This API also works for ELF files.
+
+```kotlin
+import java.nio.file.Path
+import space.iseki.executables.pe.PEFile
+
+fun main() {
+    val file = Path.of("C:\\System32\\notepad.exe")
+    PEFile.open(file).use { peFile ->
+        // Get all imported DLLs and functions
+        peFile.importSymbols.forEach { symbol ->
+            println("Imported: ${symbol.file}::${symbol.name}")
+            if (symbol.isOrdinal) {
+                println("  - Ordinal: ${symbol.ordinal}")
+            }
+        }
+    }
+}
+```
+
+#### Read PE file export symbols
+
+> This API also works for ELF files.
+
+```kotlin
+import java.nio.file.Path
+import space.iseki.executables.pe.PEFile
+
+fun main() {
+    val file = Path.of("C:\\System32\\kernel32.dll")
+    PEFile.open(file).use { peFile ->
+        // Get all exported functions
+        val exportSymbols = peFile.exportSymbols
+        println("Number of exported functions: ${exportSymbols.size}")
+
+        // Print the first 10 exported functions
+        exportSymbols.take(10).forEach { symbol ->
+            println("  - ${symbol.name}, Ordinal: ${symbol.ordinal}")
+            if (symbol.isForwarder) {
+                println("    Forwards to: ${symbol.forwarderString}")
+            }
+        }
+    }
+}
+```
+
+#### Read ELF symbol tables
+
+> Since PE splits the symbol table into import/export, this API is ELF specified.
+
+```kotlin
+import java.nio.file.Path
+import space.iseki.executables.elf.ELFFile
+
+fun main() {
+    val file = Path.of("/bin/ls")  // ELF file on Linux system
+    ELFFile.open(file).use { elfFile ->
+        // Get all symbols
+        elfFile.symbols.forEach { symbol ->
+            val name = symbol.name ?: "<unnamed>"
+            println("  - $name: Name=${symbol.name}, Binding=${symbol.binding}")
+        }
+    }
 }
 ```
 
