@@ -18,4 +18,21 @@ sealed interface ElfEhdr : ReadableStructure {
     val eShentsize: Primitive
     val eShnum: Primitive
     val eShstrndx: Primitive
+
+    override val fields: Map<String, Any>
+        get() = mapOf(
+            "eType" to eType,
+            "eMachine" to eMachine,
+            "eVersion" to eVersion,
+            "eEntry" to eEntry,
+            "ePhoff" to ePhoff,
+            "eShoff" to eShoff,
+            "eFlags" to eFlags,
+            "eEhsize" to eEhsize,
+            "ePhentsize" to ePhentsize,
+            "ePhnum" to ePhnum,
+            "eShentsize" to eShentsize,
+            "eShnum" to eShnum,
+            "eShstrndx" to eShstrndx,
+        )
 }

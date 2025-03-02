@@ -72,7 +72,7 @@ data class Elf64Shdr(
      * Section name string.
      */
     override val name: String? = null,
-) : ReadableStructure, ElfShdr {
+) : ElfShdr {
     companion object {
         fun parse(bytes: ByteArray, off: Int, le: Boolean): Elf64Shdr {
             return Elf64Shdr(
@@ -89,19 +89,4 @@ data class Elf64Shdr(
             )
         }
     }
-
-    override val fields: Map<String, Any>
-        get() = mapOf(
-            "shName" to shName,
-            "shType" to shType,
-            "shFlags" to shFlags,
-            "shAddr" to shAddr,
-            "shOffset" to shOffset,
-            "shSize" to shSize,
-            "shLink" to shLink,
-            "shInfo" to shInfo,
-            "shAddralign" to shAddralign,
-            "shEntsize" to shEntsize,
-            "name" to (name ?: "")
-        )
-} 
+}

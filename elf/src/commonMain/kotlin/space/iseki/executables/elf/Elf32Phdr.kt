@@ -68,16 +68,4 @@ data class Elf32Phdr(
             )
         }
     }
-
-    override val fields: Map<String, Any>
-        get() = mapOf(
-            "pType" to pType,
-            "pOffset" to pOffset,
-            "pVaddr" to pVaddr,
-            "pPaddr" to pPaddr,
-            "pFilesz" to pFilesz,
-            "pMemsz" to pMemsz,
-            "pFlags" to pFlags,
-            "pAlign" to pAlign
-        )
 } 

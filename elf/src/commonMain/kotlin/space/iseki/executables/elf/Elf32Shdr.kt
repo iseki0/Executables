@@ -87,19 +87,4 @@ data class Elf32Shdr(
             )
         }
     }
-
-    override val fields: Map<String, Any>
-        get() = mapOf(
-            "shName" to shName,
-            "shType" to shType,
-            "shFlags" to shFlags,
-            "shAddr" to shAddr,
-            "shOffset" to shOffset,
-            "shSize" to shSize,
-            "shLink" to shLink,
-            "shInfo" to shInfo,
-            "shAddralign" to shAddralign,
-            "shEntsize" to shEntsize,
-            "name" to (name ?: "")
-        )
 } 
