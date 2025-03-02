@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.net.URI
 import java.util.*
@@ -38,9 +37,6 @@ kotlin {
             }
         }
         js {
-            browser()
-        }
-        @OptIn(ExperimentalWasmDsl::class) wasmJs {
             browser()
         }
     }
