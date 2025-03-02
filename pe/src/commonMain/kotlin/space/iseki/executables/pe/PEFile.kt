@@ -12,6 +12,7 @@ import space.iseki.executables.common.ImportSymbolContainer
 import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
+import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.u2l
 import space.iseki.executables.common.u4l
 import space.iseki.executables.common.u8l
@@ -388,6 +389,9 @@ class PEFile private constructor(
 
         override val size: Long
             get() = sizeOfRawData.toLong()
+
+        override val header: ReadableStructure?
+            get() = tableItem
 
         /**
          * Reads bytes from the section.

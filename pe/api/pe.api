@@ -531,6 +531,7 @@ public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/exe
 public final class space/iseki/executables/pe/PEFile$Section : space/iseki/executables/common/ReadableSection {
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-CVJ1pB8 ()I
+	public fun getHeader ()Lspace/iseki/executables/common/ReadableStructure;
 	public fun getName ()Ljava/lang/String;
 	public final fun getNumberOfLinenumbers-Mh2AYeg ()S
 	public final fun getNumberOfRelocations-Mh2AYeg ()S

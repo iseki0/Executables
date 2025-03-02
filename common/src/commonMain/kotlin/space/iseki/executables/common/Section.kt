@@ -20,6 +20,14 @@ interface ReadableSection {
         get() = null
 
     /**
+     * The header of the section, if exists.
+     *
+     * The header is a structure that describes the section.
+     */
+    val header: ReadableStructure?
+        get() = null
+
+    /**
      * Reads bytes from the section.
      *
      * If the specified range exceeds

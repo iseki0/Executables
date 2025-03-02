@@ -11,6 +11,7 @@ import space.iseki.executables.common.ImportSymbolContainer
 import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
+import space.iseki.executables.common.ReadableStructure
 
 /**
  * Represents an ELF file and provides access to its contents.
@@ -257,6 +258,9 @@ class ElfFile private constructor(
 
         override val size: Long
             get() = sectionHeader.shSize.castToLong()
+
+        override val header: ReadableStructure?
+            get() = sectionHeader
 
         /**
          * Reads bytes from the section.
