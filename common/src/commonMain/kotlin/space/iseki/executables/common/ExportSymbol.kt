@@ -1,6 +1,6 @@
 package space.iseki.executables.common
 
-interface ExportSymbol {
+interface ExportSymbol : ReadableStructure {
     val name: String
 }
 

@@ -6,7 +6,7 @@ package space.iseki.executables.common
  * @property name The name of the imported symbol
  * @property file The name of the file (library) from which the symbol is imported
  */
-interface ImportSymbol {
+interface ImportSymbol : ReadableStructure {
     val name: String
     val file: String
 }

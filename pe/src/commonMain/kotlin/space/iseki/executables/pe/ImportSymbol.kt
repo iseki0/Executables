@@ -15,4 +15,12 @@ data class PEImportSymbol(
     override val file: String,
     val ordinal: UShort? = null,
     val isOrdinal: Boolean = false,
-) : ImportSymbol 
+) : ImportSymbol {
+    override val fields: Map<String, Any>
+        get() = buildMap {
+            put("name", name)
+            put("file", file)
+            if (ordinal != null) put("ordinal", ordinal)
+            put("isOrdinal", isOrdinal)
+        }
+}

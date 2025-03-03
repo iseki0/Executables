@@ -21,4 +21,14 @@ data class ElfExportSymbol(
     val binding: ElfSymBinding,
     val type: ElfSymType,
     val visibility: ElfSymVisibility,
-) : ExportSymbol 
+) : ExportSymbol {
+    override val fields: Map<String, Any>
+        get() = mapOf(
+            "name" to name,
+            "value" to value,
+            "size" to size,
+            "binding" to binding,
+            "type" to type,
+            "visibility" to visibility,
+        )
+}

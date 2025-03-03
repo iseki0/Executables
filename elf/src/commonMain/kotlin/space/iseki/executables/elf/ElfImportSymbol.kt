@@ -17,4 +17,13 @@ data class ElfImportSymbol(
     override val file: String,
     val binding: ElfSymBinding,
     val type: ElfSymType,
-) : ImportSymbol 
+) : ImportSymbol {
+    override val fields: Map<String, Any>
+        get() = mapOf(
+            "name" to name,
+            "file" to file,
+            "binding" to binding,
+            "type" to type,
+        )
+
+}

@@ -17,4 +17,13 @@ data class PEExportSymbol(
     val address: Address32,
     val isForwarder: Boolean = false,
     val forwarderString: String? = null,
-) : ExportSymbol
+) : ExportSymbol {
+    override val fields: Map<String, Any>
+        get() = buildMap {
+            put("name", name)
+            put("ordinal", ordinal)
+            put("address", address)
+            put("isForwarder", isForwarder)
+            if (forwarderString != null) put("forwarderString", forwarderString)
+        }
+}
