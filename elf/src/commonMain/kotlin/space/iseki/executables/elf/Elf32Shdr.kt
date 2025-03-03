@@ -2,7 +2,6 @@ package space.iseki.executables.elf
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.share.u4b
 import space.iseki.executables.share.u4l
 
@@ -70,7 +69,7 @@ data class Elf32Shdr(
      * Section name string.
      */
     override val name: String? = null,
-) : ReadableStructure, ElfShdr {
+) : ElfShdr {
     companion object {
         fun parse(bytes: ByteArray, off: Int, le: Boolean): Elf32Shdr {
             return Elf32Shdr(
