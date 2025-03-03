@@ -1,15 +1,11 @@
-@file:JvmName("-ByteArrayUtils")
+package space.iseki.executables.share
 
-package space.iseki.executables.common
-
-import kotlin.jvm.JvmName
 
 /**
  * INTERNAL API - DO NOT USE OUTSIDE OF THIS PROJECT.
  *
  * Gets an unsigned byte at the specified offset.
  */
-@ExeInternalApi
 expect fun ByteArray.u1(offset: Int): UByte
 
 /**
@@ -17,7 +13,6 @@ expect fun ByteArray.u1(offset: Int): UByte
  *
  * Gets an unsigned short in little-endian order at the specified offset.
  */
-@ExeInternalApi
 expect fun ByteArray.u2l(offset: Int): UShort
 
 /**
@@ -25,7 +20,6 @@ expect fun ByteArray.u2l(offset: Int): UShort
  *
  * Gets an unsigned int in little-endian order at the specified offset.
  */
-@ExeInternalApi
 expect fun ByteArray.u4l(offset: Int): UInt
 
 /**
@@ -33,7 +27,6 @@ expect fun ByteArray.u4l(offset: Int): UInt
  *
  * Gets an unsigned long in little-endian order at the specified offset.
  */
-@ExeInternalApi
 expect fun ByteArray.u8l(offset: Int): ULong
 
 /**
@@ -41,7 +34,6 @@ expect fun ByteArray.u8l(offset: Int): ULong
  *
  * Gets an unsigned short in big-endian order at the specified offset.
  */
-@ExeInternalApi
 expect fun ByteArray.u2b(offset: Int): UShort
 
 /**
@@ -49,7 +41,6 @@ expect fun ByteArray.u2b(offset: Int): UShort
  *
  * Gets an unsigned int in big-endian order at the specified offset.
  */
-@ExeInternalApi
 expect fun ByteArray.u4b(offset: Int): UInt
 
 /**
@@ -57,5 +48,4 @@ expect fun ByteArray.u4b(offset: Int): UInt
  *
  * Gets an unsigned long in big-endian order at the specified offset.
  */
-@ExeInternalApi
 expect fun ByteArray.u8b(offset: Int): ULong

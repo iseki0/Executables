@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import space.iseki.executables.common.u4l
+import space.iseki.executables.share.u4l
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 

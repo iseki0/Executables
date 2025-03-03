@@ -1,13 +1,3 @@
-public final class space/iseki/executables/common/-ByteArrayUtils {
-	public static final fun u1 ([BI)B
-	public static final fun u2b ([BI)S
-	public static final fun u2l ([BI)S
-	public static final fun u4b ([BI)I
-	public static final fun u4l ([BI)I
-	public static final fun u8b ([BI)J
-	public static final fun u8l ([BI)J
-}
-
 public final class space/iseki/executables/common/ByteArrayDataAccessor : space/iseki/executables/common/DataAccessor {
 	public fun <init> ([B)V
 	public fun close ()V
@@ -84,7 +74,7 @@ public final class space/iseki/executables/common/ExecutableFileTypeKt {
 	public static final fun detect (Lspace/iseki/executables/common/ExecutableFileType$Companion;Ljava/nio/file/Path;)Lspace/iseki/executables/common/ExecutableFileType;
 }
 
-public abstract interface class space/iseki/executables/common/ExportSymbol {
+public abstract interface class space/iseki/executables/common/ExportSymbol : space/iseki/executables/common/ReadableStructure {
 	public abstract fun getName ()Ljava/lang/String;
 }
 
@@ -107,7 +97,7 @@ public final class space/iseki/executables/common/FileFormat$DefaultImpls {
 	public static fun open (Lspace/iseki/executables/common/FileFormat;[B)Lspace/iseki/executables/common/OpenedFile;
 }
 
-public abstract interface class space/iseki/executables/common/ImportSymbol {
+public abstract interface class space/iseki/executables/common/ImportSymbol : space/iseki/executables/common/ReadableStructure {
 	public abstract fun getFile ()Ljava/lang/String;
 	public abstract fun getName ()Ljava/lang/String;
 }

@@ -3,10 +3,10 @@ package space.iseki.executables.elf
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
-import space.iseki.executables.common.u2b
-import space.iseki.executables.common.u2l
-import space.iseki.executables.common.u4b
-import space.iseki.executables.common.u4l
+import space.iseki.executables.share.u2b
+import space.iseki.executables.share.u2l
+import space.iseki.executables.share.u4b
+import space.iseki.executables.share.u4l
 
 /**
  * Represents the ELF 32-bit file header structure.

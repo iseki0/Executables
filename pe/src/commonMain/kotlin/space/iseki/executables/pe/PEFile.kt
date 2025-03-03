@@ -13,9 +13,9 @@ import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
-import space.iseki.executables.common.u2l
-import space.iseki.executables.common.u4l
-import space.iseki.executables.common.u8l
+import space.iseki.executables.share.u2l
+import space.iseki.executables.share.u4l
+import space.iseki.executables.share.u8l
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData

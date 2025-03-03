@@ -794,6 +794,7 @@ public final class space/iseki/executables/elf/ElfExportSymbol : space/iseki/exe
 	public static synthetic fun copy-O51aftw$default (Lspace/iseki/executables/elf/ElfExportSymbol;Ljava/lang/String;JJBBBILjava/lang/Object;)Lspace/iseki/executables/elf/ElfExportSymbol;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBinding-jkOwOrQ ()B
+	public fun getFields ()Ljava/util/Map;
 	public fun getName ()Ljava/lang/String;
 	public final fun getSize-s-VKNKU ()J
 	public final fun getType-PHbKgxg ()B
@@ -940,6 +941,7 @@ public final class space/iseki/executables/elf/ElfImportSymbol : space/iseki/exe
 	public static synthetic fun copy-tmfApWE$default (Lspace/iseki/executables/elf/ElfImportSymbol;Ljava/lang/String;Ljava/lang/String;BBILjava/lang/Object;)Lspace/iseki/executables/elf/ElfImportSymbol;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBinding-jkOwOrQ ()B
+	public fun getFields ()Ljava/util/Map;
 	public fun getFile ()Ljava/lang/String;
 	public fun getName ()Ljava/lang/String;
 	public final fun getType-PHbKgxg ()B

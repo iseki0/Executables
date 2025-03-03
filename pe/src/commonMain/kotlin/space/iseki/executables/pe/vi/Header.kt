@@ -1,6 +1,6 @@
 package space.iseki.executables.pe.vi
 
-import space.iseki.executables.common.u2l
+import space.iseki.executables.share.u2l
 import space.iseki.executables.pe.getWString
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind

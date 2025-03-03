@@ -1,6 +1,6 @@
 @file:JvmName("-ByteArrayUtils")
 
-package space.iseki.executables.common
+package space.iseki.executables.share
 
 import java.lang.invoke.MethodHandles
 import java.nio.ByteOrder

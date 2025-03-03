@@ -498,6 +498,7 @@ public final class space/iseki/executables/pe/PEExportSymbol : space/iseki/execu
 	public static synthetic fun copy-uneWdeA$default (Lspace/iseki/executables/pe/PEExportSymbol;Ljava/lang/String;SIZLjava/lang/String;ILjava/lang/Object;)Lspace/iseki/executables/pe/PEExportSymbol;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAddress-hRLxnt0 ()I
+	public fun getFields ()Ljava/util/Map;
 	public final fun getForwarderString ()Ljava/lang/String;
 	public fun getName ()Ljava/lang/String;
 	public final fun getOrdinal-Mh2AYeg ()S
@@ -589,6 +590,7 @@ public final class space/iseki/executables/pe/PEImportSymbol : space/iseki/execu
 	public final fun copy-4XFHN7s (Ljava/lang/String;Ljava/lang/String;Lkotlin/UShort;Z)Lspace/iseki/executables/pe/PEImportSymbol;
 	public static synthetic fun copy-4XFHN7s$default (Lspace/iseki/executables/pe/PEImportSymbol;Ljava/lang/String;Ljava/lang/String;Lkotlin/UShort;ZILjava/lang/Object;)Lspace/iseki/executables/pe/PEImportSymbol;
 	public fun equals (Ljava/lang/Object;)Z
+	public fun getFields ()Ljava/util/Map;
 	public fun getFile ()Ljava/lang/String;
 	public fun getName ()Ljava/lang/String;
 	public final fun getOrdinal-XRpZGF0 ()Lkotlin/UShort;

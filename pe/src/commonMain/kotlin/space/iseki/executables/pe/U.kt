@@ -1,6 +1,6 @@
 package space.iseki.executables.pe
 
-import space.iseki.executables.common.u2l
+import space.iseki.executables.share.u2l
 
 internal expect fun <T> Array<T>.toUnmodifiableList(): List<T>
 internal expect fun <T> List<T>.toUnmodifiableList(): List<T>

@@ -2,8 +2,8 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
-import space.iseki.executables.common.u2l
-import space.iseki.executables.common.u4l
+import space.iseki.executables.share.u2l
+import space.iseki.executables.share.u4l
 import kotlin.jvm.JvmStatic
 
 /**

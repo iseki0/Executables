@@ -2,7 +2,7 @@ package space.iseki.executables.pe.vi
 
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
-import space.iseki.executables.common.u4l
+import space.iseki.executables.share.u4l
 
 @Serializable
 data class FixedFileInfo(
