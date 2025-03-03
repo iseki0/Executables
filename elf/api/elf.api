@@ -241,7 +241,7 @@ public final class space/iseki/executables/elf/Elf32Phdr$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/elf/Elf32Shdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfShdr {
+public final class space/iseki/executables/elf/Elf32Shdr : space/iseki/executables/elf/ElfShdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf32Shdr$Companion;
 	public synthetic fun <init> (IIJIIIIIIILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (IIJIIIIIIILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
