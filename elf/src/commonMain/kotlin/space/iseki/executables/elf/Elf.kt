@@ -261,7 +261,7 @@ class ElfFile private constructor(
         override val size: Long
             get() = sectionHeader.shSize.castToLong()
 
-        override val header: ReadableStructure?
+        override val header: ReadableStructure
             get() = sectionHeader
 
         /**
@@ -344,7 +344,7 @@ class ElfFile private constructor(
     override val sections: List<Section>
         get() = object : AbstractList<Section>() {
             override val size: Int
-                get() = sections.size
+                get() = sectionHeaders.size
 
             override fun get(index: Int): Section = Section(sectionHeaders[index])
 
