@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 
 @Serializable
-sealed interface ElfShdr: ReadableStructure {
+sealed interface ElfShdr : ReadableStructure {
     val shName: Primitive
     val shType: ElfSType
     val shFlags: ElfSFlags

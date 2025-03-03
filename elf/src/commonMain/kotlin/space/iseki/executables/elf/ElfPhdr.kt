@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 
 @Serializable
-sealed interface ElfPhdr: ReadableStructure {
+sealed interface ElfPhdr : ReadableStructure {
     val pType: ElfPType
     val pOffset: Primitive
     val pVaddr: Primitive
