@@ -6,6 +6,30 @@ public final class space/iseki/executables/macho/-CpuType {
 	public static final fun CpuType-WZ4Q5Ns (I)I
 }
 
+public final class space/iseki/executables/macho/-HpPaCpuSubtype {
+	public static final fun HpPaCpuSubtype-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/macho/-MC680X0CpuSubtype {
+	public static final fun MC680X0CpuSubtype-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/macho/-MipsCpuSubtype {
+	public static final fun MipsCpuSubtype-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/macho/-PowerPcCpuSubtype {
+	public static final fun PowerPcCpuSubtype-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/macho/-SparcCpuSubtype {
+	public static final fun SparcCpuSubtype-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/macho/-VaxCpuSubtype {
+	public static final fun VaxCpuSubtype-WZ4Q5Ns (I)I
+}
+
 public final class space/iseki/executables/macho/-X86CpuSubtype {
 	public static final fun X86CpuSubtype-WZ4Q5Ns (I)I
 }
@@ -30,6 +54,8 @@ public final class space/iseki/executables/macho/ArmCpuSubtype$Companion {
 	public final fun getA500-hd_xWGQ ()I
 	public final fun getA500_ARCH-hd_xWGQ ()I
 	public final fun getALL-hd_xWGQ ()I
+	public final fun getARM64_ALL-hd_xWGQ ()I
+	public final fun getARM64_V8-hd_xWGQ ()I
 	public final fun getM4-hd_xWGQ ()I
 	public final fun getV4T-hd_xWGQ ()I
 	public final fun getV5TEJ-hd_xWGQ ()I
@@ -53,6 +79,8 @@ public final class space/iseki/executables/macho/ArmCpuSubtype$Constants {
 	public static final field A500 I
 	public static final field A500_ARCH I
 	public static final field ALL I
+	public static final field ARM64_ALL I
+	public static final field ARM64_V8 I
 	public static final field INSTANCE Lspace/iseki/executables/macho/ArmCpuSubtype$Constants;
 	public static final field M4 I
 	public static final field V4T I
@@ -118,6 +146,7 @@ public final class space/iseki/executables/macho/CpuType {
 }
 
 public final class space/iseki/executables/macho/CpuType$Companion {
+	public final fun getANY--hU0BjM ()I
 	public final fun getARM--hU0BjM ()I
 	public final fun getARM_64--hU0BjM ()I
 	public final fun getHP_PA--hU0BjM ()I
@@ -148,6 +177,7 @@ public final class space/iseki/executables/macho/CpuType$Companion {
 	public final fun getSPARC_64--hU0BjM ()I
 	public final fun getVAX--hU0BjM ()I
 	public final fun getVAX_64--hU0BjM ()I
+	public final fun getVEO--hU0BjM ()I
 	public final fun getX86--hU0BjM ()I
 	public final fun getX86_64--hU0BjM ()I
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
@@ -156,6 +186,7 @@ public final class space/iseki/executables/macho/CpuType$Companion {
 }
 
 public final class space/iseki/executables/macho/CpuType$Constants {
+	public static final field ANY I
 	public static final field ARM I
 	public static final field ARM_64 I
 	public static final field HP_PA I
@@ -187,8 +218,259 @@ public final class space/iseki/executables/macho/CpuType$Constants {
 	public static final field SPARC_64 I
 	public static final field VAX I
 	public static final field VAX_64 I
+	public static final field VEO I
 	public static final field X86 I
 	public static final field X86_64 I
+}
+
+public final class space/iseki/executables/macho/HpPaCpuSubtype {
+	public static final field Companion Lspace/iseki/executables/macho/HpPaCpuSubtype$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/HpPaCpuSubtype;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/HpPaCpuSubtype$Companion {
+	public final fun getALL-NQRsZr4 ()I
+	public final fun getHP_PA_7100-NQRsZr4 ()I
+	public final fun getHP_PA_7100LC-NQRsZr4 ()I
+	public final fun getHP_PA_7200-NQRsZr4 ()I
+	public final fun getHP_PA_7300-NQRsZr4 ()I
+	public final fun getHP_PA_8000-NQRsZr4 ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-9VP4HJg (Ljava/lang/String;)I
+	public final fun valueOfOrNull-QvtgQbo (Ljava/lang/String;)Lspace/iseki/executables/macho/HpPaCpuSubtype;
+}
+
+public final class space/iseki/executables/macho/HpPaCpuSubtype$Constants {
+	public static final field ALL I
+	public static final field HP_PA_7100 I
+	public static final field HP_PA_7100LC I
+	public static final field HP_PA_7200 I
+	public static final field HP_PA_7300 I
+	public static final field HP_PA_8000 I
+	public static final field INSTANCE Lspace/iseki/executables/macho/HpPaCpuSubtype$Constants;
+}
+
+public final class space/iseki/executables/macho/MC680X0CpuSubtype {
+	public static final field Companion Lspace/iseki/executables/macho/MC680X0CpuSubtype$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MC680X0CpuSubtype;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/MC680X0CpuSubtype$Companion {
+	public final fun getALL-OdcBxQY ()I
+	public final fun getMC680X0_00-OdcBxQY ()I
+	public final fun getMC680X0_10-OdcBxQY ()I
+	public final fun getMC680X0_20-OdcBxQY ()I
+	public final fun getMC680X0_20_MC68881-OdcBxQY ()I
+	public final fun getMC680X0_30-OdcBxQY ()I
+	public final fun getMC680X0_30_ONLY-OdcBxQY ()I
+	public final fun getMC680X0_40-OdcBxQY ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-RGJnOBk (Ljava/lang/String;)I
+	public final fun valueOfOrNull-jKr3cnQ (Ljava/lang/String;)Lspace/iseki/executables/macho/MC680X0CpuSubtype;
+}
+
+public final class space/iseki/executables/macho/MC680X0CpuSubtype$Constants {
+	public static final field ALL I
+	public static final field INSTANCE Lspace/iseki/executables/macho/MC680X0CpuSubtype$Constants;
+	public static final field MC680X0_00 I
+	public static final field MC680X0_10 I
+	public static final field MC680X0_20 I
+	public static final field MC680X0_20_MC68881 I
+	public static final field MC680X0_30 I
+	public static final field MC680X0_30_ONLY I
+	public static final field MC680X0_40 I
+}
+
+public final class space/iseki/executables/macho/MipsCpuSubtype {
+	public static final field Companion Lspace/iseki/executables/macho/MipsCpuSubtype$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MipsCpuSubtype;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/MipsCpuSubtype$Companion {
+	public final fun getALL-5rae15g ()I
+	public final fun getMIPS_R2000-5rae15g ()I
+	public final fun getMIPS_R2000A-5rae15g ()I
+	public final fun getMIPS_R2300-5rae15g ()I
+	public final fun getMIPS_R2600-5rae15g ()I
+	public final fun getMIPS_R2800-5rae15g ()I
+	public final fun getMIPS_R3000-5rae15g ()I
+	public final fun getMIPS_R3000A-5rae15g ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-e7Bnoz4 (Ljava/lang/String;)I
+	public final fun valueOfOrNull-i7d_Hmw (Ljava/lang/String;)Lspace/iseki/executables/macho/MipsCpuSubtype;
+}
+
+public final class space/iseki/executables/macho/MipsCpuSubtype$Constants {
+	public static final field ALL I
+	public static final field INSTANCE Lspace/iseki/executables/macho/MipsCpuSubtype$Constants;
+	public static final field MIPS_R2000 I
+	public static final field MIPS_R2000A I
+	public static final field MIPS_R2300 I
+	public static final field MIPS_R2600 I
+	public static final field MIPS_R2800 I
+	public static final field MIPS_R3000 I
+	public static final field MIPS_R3000A I
+}
+
+public final class space/iseki/executables/macho/PowerPcCpuSubtype {
+	public static final field Companion Lspace/iseki/executables/macho/PowerPcCpuSubtype$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/PowerPcCpuSubtype;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/PowerPcCpuSubtype$Companion {
+	public final fun getALL-GtSL0j4 ()I
+	public final fun getPOWERPC_601-GtSL0j4 ()I
+	public final fun getPOWERPC_602-GtSL0j4 ()I
+	public final fun getPOWERPC_603-GtSL0j4 ()I
+	public final fun getPOWERPC_603E-GtSL0j4 ()I
+	public final fun getPOWERPC_603EV-GtSL0j4 ()I
+	public final fun getPOWERPC_604-GtSL0j4 ()I
+	public final fun getPOWERPC_604E-GtSL0j4 ()I
+	public final fun getPOWERPC_620-GtSL0j4 ()I
+	public final fun getPOWERPC_7400-GtSL0j4 ()I
+	public final fun getPOWERPC_7450-GtSL0j4 ()I
+	public final fun getPOWERPC_750-GtSL0j4 ()I
+	public final fun getPOWERPC_970-GtSL0j4 ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-tHsm-0E (Ljava/lang/String;)I
+	public final fun valueOfOrNull-TBJvG0A (Ljava/lang/String;)Lspace/iseki/executables/macho/PowerPcCpuSubtype;
+}
+
+public final class space/iseki/executables/macho/PowerPcCpuSubtype$Constants {
+	public static final field ALL I
+	public static final field INSTANCE Lspace/iseki/executables/macho/PowerPcCpuSubtype$Constants;
+	public static final field POWERPC_601 I
+	public static final field POWERPC_602 I
+	public static final field POWERPC_603 I
+	public static final field POWERPC_603E I
+	public static final field POWERPC_603EV I
+	public static final field POWERPC_604 I
+	public static final field POWERPC_604E I
+	public static final field POWERPC_620 I
+	public static final field POWERPC_7400 I
+	public static final field POWERPC_7450 I
+	public static final field POWERPC_750 I
+	public static final field POWERPC_970 I
+}
+
+public final class space/iseki/executables/macho/SparcCpuSubtype {
+	public static final field Companion Lspace/iseki/executables/macho/SparcCpuSubtype$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/SparcCpuSubtype;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/SparcCpuSubtype$Companion {
+	public final fun getALL-rKRupkA ()I
+	public final fun getSPARC_SPARCLITE-rKRupkA ()I
+	public final fun getSPARC_SUN4C-rKRupkA ()I
+	public final fun getSPARC_SUN4M-rKRupkA ()I
+	public final fun getSPARC_ULTRA-rKRupkA ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-G0RjGp4 (Ljava/lang/String;)I
+	public final fun valueOfOrNull-y2VY4Kk (Ljava/lang/String;)Lspace/iseki/executables/macho/SparcCpuSubtype;
+}
+
+public final class space/iseki/executables/macho/SparcCpuSubtype$Constants {
+	public static final field ALL I
+	public static final field INSTANCE Lspace/iseki/executables/macho/SparcCpuSubtype$Constants;
+	public static final field SPARC_SPARCLITE I
+	public static final field SPARC_SUN4C I
+	public static final field SPARC_SUN4M I
+	public static final field SPARC_ULTRA I
+}
+
+public final class space/iseki/executables/macho/VaxCpuSubtype {
+	public static final field Companion Lspace/iseki/executables/macho/VaxCpuSubtype$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/VaxCpuSubtype;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/VaxCpuSubtype$Companion {
+	public final fun getALL-oiCcP0o ()I
+	public final fun getVAX_730-oiCcP0o ()I
+	public final fun getVAX_750-oiCcP0o ()I
+	public final fun getVAX_780-oiCcP0o ()I
+	public final fun getVAX_785-oiCcP0o ()I
+	public final fun getVAX_8200-oiCcP0o ()I
+	public final fun getVAX_8500-oiCcP0o ()I
+	public final fun getVAX_8600-oiCcP0o ()I
+	public final fun getVAX_8650-oiCcP0o ()I
+	public final fun getVAX_8800-oiCcP0o ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-tnmI_PM (Ljava/lang/String;)I
+	public final fun valueOfOrNull-10pJ4xw (Ljava/lang/String;)Lspace/iseki/executables/macho/VaxCpuSubtype;
+}
+
+public final class space/iseki/executables/macho/VaxCpuSubtype$Constants {
+	public static final field ALL I
+	public static final field INSTANCE Lspace/iseki/executables/macho/VaxCpuSubtype$Constants;
+	public static final field VAX_730 I
+	public static final field VAX_750 I
+	public static final field VAX_780 I
+	public static final field VAX_785 I
+	public static final field VAX_8200 I
+	public static final field VAX_8500 I
+	public static final field VAX_8600 I
+	public static final field VAX_8650 I
+	public static final field VAX_8800 I
 }
 
 public final class space/iseki/executables/macho/X86CpuSubtype {
@@ -210,15 +492,23 @@ public final class space/iseki/executables/macho/X86CpuSubtype$Companion {
 	public final fun getALL-iS1f9UI ()I
 	public final fun getCELERON-iS1f9UI ()I
 	public final fun getCELERON_MOBILE-iS1f9UI ()I
+	public final fun getI386-iS1f9UI ()I
 	public final fun getI486-iS1f9UI ()I
 	public final fun getI486SX-iS1f9UI ()I
+	public final fun getI586-iS1f9UI ()I
 	public final fun getITANIUM-iS1f9UI ()I
 	public final fun getITANIUM_2-iS1f9UI ()I
+	public final fun getPENTIUM-iS1f9UI ()I
 	public final fun getPENTIUM_3-iS1f9UI ()I
 	public final fun getPENTIUM_3M-iS1f9UI ()I
 	public final fun getPENTIUM_3_XEON-iS1f9UI ()I
 	public final fun getPENTIUM_4-iS1f9UI ()I
+	public final fun getPENTIUM_II_M3-iS1f9UI ()I
+	public final fun getPENTIUM_II_M5-iS1f9UI ()I
 	public final fun getPENTIUM_M5-iS1f9UI ()I
+	public final fun getPENTIUM_PRO-iS1f9UI ()I
+	public final fun getX86_64_ALL-iS1f9UI ()I
+	public final fun getX86_64_H-iS1f9UI ()I
 	public final fun getXEON-iS1f9UI ()I
 	public final fun getXEON_MP-iS1f9UI ()I
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
@@ -230,16 +520,24 @@ public final class space/iseki/executables/macho/X86CpuSubtype$Constants {
 	public static final field ALL I
 	public static final field CELERON I
 	public static final field CELERON_MOBILE I
+	public static final field I386 I
 	public static final field I486 I
 	public static final field I486SX I
+	public static final field I586 I
 	public static final field INSTANCE Lspace/iseki/executables/macho/X86CpuSubtype$Constants;
 	public static final field ITANIUM I
 	public static final field ITANIUM_2 I
+	public static final field PENTIUM I
 	public static final field PENTIUM_3 I
 	public static final field PENTIUM_3M I
 	public static final field PENTIUM_3_XEON I
 	public static final field PENTIUM_4 I
+	public static final field PENTIUM_II_M3 I
+	public static final field PENTIUM_II_M5 I
 	public static final field PENTIUM_M5 I
+	public static final field PENTIUM_PRO I
+	public static final field X86_64_ALL I
+	public static final field X86_64_H I
 	public static final field XEON I
 	public static final field XEON_MP I
 }
