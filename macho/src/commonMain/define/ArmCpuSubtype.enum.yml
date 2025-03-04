@@ -1,0 +1,21 @@
+package: space.iseki.executables.macho
+typename: ArmCpuSubtype
+dataLength: 4
+list:
+  - { name: "ALL", value: "0x00000000", docs: "All ARM processors" }
+  - { name: "A500_ARCH", value: "0x00000001", docs: "Optimized for ARM-A500 ARCH or newer" }
+  - { name: "A500", value: "0x00000002", docs: "Optimized for ARM-A500 or newer" }
+  - { name: "A440", value: "0x00000003", docs: "Optimized for ARM-A440 or newer" }
+  - { name: "M4", value: "0x00000004", docs: "Optimized for ARM-M4 or newer" }
+  - { name: "V4T", value: "0x00000005", docs: "Optimized for ARM-V4T or newer" }
+  - { name: "V6", value: "0x00000006", docs: "Optimized for ARM-V6 or newer" }
+  - { name: "V5TEJ", value: "0x00000007", docs: "Optimized for ARM-V5TEJ or newer" }
+  - { name: "XSCALE", value: "0x00000008", docs: "Optimized for ARM-XSCALE or newer" }
+  - { name: "V7", value: "0x00000009", docs: "Optimized for ARM-V7 or newer" }
+  - { name: "V7F", value: "0x0000000A", docs: "Optimized for ARM-V7F (Cortex A9) or newer" }
+  - { name: "V7S", value: "0x0000000B", docs: "Optimized for ARM-V7S (Swift) or newer" }
+  - { name: "V7K", value: "0x0000000C", docs: "Optimized for ARM-V7K (Kirkwood40) or newer" }
+  - { name: "V8", value: "0x0000000D", docs: "Optimized for ARM-V8 or newer" }
+  - { name: "V6M", value: "0x0000000E", docs: "Optimized for ARM-V6M or newer" }
+  - { name: "V7M", value: "0x0000000F", docs: "Optimized for ARM-V7M or newer" }
+  - { name: "V7EM", value: "0x00000010", docs: "Optimized for ARM-V7EM or newer" } 

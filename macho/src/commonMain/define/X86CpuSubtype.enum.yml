@@ -1,0 +1,18 @@
+package: space.iseki.executables.macho
+typename: X86CpuSubtype
+dataLength: 4
+list:
+  - { name: "ALL", value: "0x00000003", docs: "All x86 processors" }
+  - { name: "I486", value: "0x00000004", docs: "Optimized for 486 or newer" }
+  - { name: "I486SX", value: "0x00000084", docs: "Optimized for 486SX or newer" }
+  - { name: "PENTIUM_M5", value: "0x00000056", docs: "Optimized for Pentium M5 or newer" }
+  - { name: "CELERON", value: "0x00000067", docs: "Optimized for Celeron or newer" }
+  - { name: "CELERON_MOBILE", value: "0x00000077", docs: "Optimized for Celeron Mobile" }
+  - { name: "PENTIUM_3", value: "0x00000008", docs: "Optimized for Pentium 3 or newer" }
+  - { name: "PENTIUM_3M", value: "0x00000018", docs: "Optimized for Pentium 3-M or newer" }
+  - { name: "PENTIUM_3_XEON", value: "0x00000028", docs: "Optimized for Pentium 3-XEON or newer" }
+  - { name: "PENTIUM_4", value: "0x0000000A", docs: "Optimized for Pentium-4 or newer" }
+  - { name: "ITANIUM", value: "0x0000000B", docs: "Optimized for Itanium or newer" }
+  - { name: "ITANIUM_2", value: "0x0000001B", docs: "Optimized for Itanium-2 or newer" }
+  - { name: "XEON", value: "0x0000000C", docs: "Optimized for XEON or newer" }
+  - { name: "XEON_MP", value: "0x0000001C", docs: "Optimized for XEON-MP or newer" } 

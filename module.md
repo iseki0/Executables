@@ -15,3 +15,7 @@ This module provides support for ELF files
 This package provides function and structures for PE file version
 info([VS_VERSIONINFO](https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo)).
 
+# Module macho
+
+This module provides support for Macho files
+

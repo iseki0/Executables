@@ -1,0 +1,36 @@
+package: space.iseki.executables.macho
+typename: CpuType
+dataLength: 4
+list:
+  - { name: "VAX", value: "0x00000001", docs: "VAX" }
+  - { name: "ROMP", value: "0x00000002", docs: "ROMP" }
+  - { name: "NS32032", value: "0x00000004", docs: "NS32032" }
+  - { name: "NS32332", value: "0x00000005", docs: "NS32332" }
+  - { name: "MC680X0", value: "0x00000006", docs: "MC680x0" }
+  - { name: "X86", value: "0x00000007", docs: "x86" }
+  - { name: "MIPS", value: "0x00000008", docs: "MIPS" }
+  - { name: "NS32352", value: "0x00000009", docs: "NS32352" }
+  - { name: "HP_PA", value: "0x0000000B", docs: "HP-PA" }
+  - { name: "ARM", value: "0x0000000C", docs: "ARM" }
+  - { name: "MC88000", value: "0x0000000D", docs: "MC88000" }
+  - { name: "SPARC", value: "0x0000000E", docs: "SPARC" }
+  - { name: "I860_BE", value: "0x0000000F", docs: "i860 (big-endian)" }
+  - { name: "I860_LE", value: "0x00000010", docs: "i860 (little-endian) or maybe DEC Alpha" }
+  - { name: "RS6000", value: "0x00000011", docs: "RS/6000" }
+  - { name: "POWERPC", value: "0x00000012", docs: "PowerPC / MC98000" }
+  - { name: "VAX_64", value: "0x01000001", docs: "VAX (64-bit)" }
+  - { name: "ROMP_64", value: "0x01000002", docs: "ROMP (64-bit)" }
+  - { name: "NS32032_64", value: "0x01000004", docs: "NS32032 (64-bit)" }
+  - { name: "NS32332_64", value: "0x01000005", docs: "NS32332 (64-bit)" }
+  - { name: "MC680X0_64", value: "0x01000006", docs: "MC680x0 (64-bit)" }
+  - { name: "X86_64", value: "0x01000007", docs: "x86 (64-bit)" }
+  - { name: "MIPS_64", value: "0x01000008", docs: "MIPS (64-bit)" }
+  - { name: "NS32352_64", value: "0x01000009", docs: "NS32352 (64-bit)" }
+  - { name: "HP_PA_64", value: "0x0100000B", docs: "HP-PA (64-bit)" }
+  - { name: "ARM_64", value: "0x0100000C", docs: "ARM (64-bit)" }
+  - { name: "MC88000_64", value: "0x0100000D", docs: "MC88000 (64-bit)" }
+  - { name: "SPARC_64", value: "0x0100000E", docs: "SPARC (64-bit)" }
+  - { name: "I860_BE_64", value: "0x0100000F", docs: "i860 (big-endian, 64-bit)" }
+  - { name: "I860_LE_64", value: "0x01000010", docs: "i860 (little-endian, 64-bit) or maybe DEC Alpha (64-bit)" }
+  - { name: "RS6000_64", value: "0x01000011", docs: "RS/6000 (64-bit)" }
+  - { name: "POWERPC_64", value: "0x01000012", docs: "PowerPC / MC98000 (64-bit)" } 
