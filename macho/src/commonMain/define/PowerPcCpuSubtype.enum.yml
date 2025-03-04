@@ -1,0 +1,17 @@
+package: space.iseki.executables.macho
+typename: PowerPcCpuSubtype
+dataLength: 4
+list:
+  - { name: "ALL", value: "0x00000000", docs: "All PowerPC processors" }
+  - { name: "POWERPC_601", value: "0x00000001", docs: "PowerPC 601" }
+  - { name: "POWERPC_602", value: "0x00000002", docs: "PowerPC 602" }
+  - { name: "POWERPC_603", value: "0x00000003", docs: "PowerPC 603" }
+  - { name: "POWERPC_603E", value: "0x00000004", docs: "PowerPC 603e" }
+  - { name: "POWERPC_603EV", value: "0x00000005", docs: "PowerPC 603ev" }
+  - { name: "POWERPC_604", value: "0x00000006", docs: "PowerPC 604" }
+  - { name: "POWERPC_604E", value: "0x00000007", docs: "PowerPC 604e" }
+  - { name: "POWERPC_620", value: "0x00000008", docs: "PowerPC 620" }
+  - { name: "POWERPC_750", value: "0x00000009", docs: "PowerPC 750" }
+  - { name: "POWERPC_7400", value: "0x0000000A", docs: "PowerPC 7400" }
+  - { name: "POWERPC_7450", value: "0x0000000B", docs: "PowerPC 7450" }
+  - { name: "POWERPC_970", value: "0x00000064", docs: "PowerPC 970" } 

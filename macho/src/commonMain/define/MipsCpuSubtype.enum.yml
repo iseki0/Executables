@@ -1,0 +1,12 @@
+package: space.iseki.executables.macho
+typename: MipsCpuSubtype
+dataLength: 4
+list:
+  - { name: "ALL", value: "0x00000000", docs: "All MIPS processors" }
+  - { name: "MIPS_R2300", value: "0x00000001", docs: "MIPS R2300" }
+  - { name: "MIPS_R2600", value: "0x00000002", docs: "MIPS R2600" }
+  - { name: "MIPS_R2800", value: "0x00000003", docs: "MIPS R2800" }
+  - { name: "MIPS_R2000A", value: "0x00000004", docs: "MIPS R2000A" }
+  - { name: "MIPS_R2000", value: "0x00000005", docs: "MIPS R2000" }
+  - { name: "MIPS_R3000A", value: "0x00000006", docs: "MIPS R3000A" }
+  - { name: "MIPS_R3000", value: "0x00000007", docs: "MIPS R3000" } 

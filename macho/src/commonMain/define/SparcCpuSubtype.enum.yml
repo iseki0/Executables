@@ -1,0 +1,9 @@
+package: space.iseki.executables.macho
+typename: SparcCpuSubtype
+dataLength: 4
+list:
+  - { name: "ALL", value: "0x00000000", docs: "All SPARC processors" }
+  - { name: "SPARC_SUN4C", value: "0x00000001", docs: "SPARC Sun-4c" }
+  - { name: "SPARC_SUN4M", value: "0x00000002", docs: "SPARC Sun-4m" }
+  - { name: "SPARC_SPARCLITE", value: "0x00000003", docs: "SPARC SPARClite" }
+  - { name: "SPARC_ULTRA", value: "0x00000004", docs: "SPARC Ultra" } 

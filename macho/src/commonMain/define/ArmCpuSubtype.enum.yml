@@ -18,4 +18,7 @@ list:
   - { name: "V8", value: "0x0000000D", docs: "Optimized for ARM-V8 or newer" }
   - { name: "V6M", value: "0x0000000E", docs: "Optimized for ARM-V6M or newer" }
   - { name: "V7M", value: "0x0000000F", docs: "Optimized for ARM-V7M or newer" }
-  - { name: "V7EM", value: "0x00000010", docs: "Optimized for ARM-V7EM or newer" } 
+  - { name: "V7EM", value: "0x00000010", docs: "Optimized for ARM-V7EM or newer" }
+  # ARM64 subtypes
+  - { name: "ARM64_ALL", value: "0x00000000", docs: "All ARM64 processors" }
+  - { name: "ARM64_V8", value: "0x00000001", docs: "ARM64 V8" } 

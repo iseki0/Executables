@@ -2,6 +2,7 @@ package: space.iseki.executables.macho
 typename: CpuType
 dataLength: 4
 list:
+  - { name: "ANY", value: "-1", docs: "Any CPU type" }
   - { name: "VAX", value: "0x00000001", docs: "VAX" }
   - { name: "ROMP", value: "0x00000002", docs: "ROMP" }
   - { name: "NS32032", value: "0x00000004", docs: "NS32032" }
@@ -18,6 +19,8 @@ list:
   - { name: "I860_LE", value: "0x00000010", docs: "i860 (little-endian) or maybe DEC Alpha" }
   - { name: "RS6000", value: "0x00000011", docs: "RS/6000" }
   - { name: "POWERPC", value: "0x00000012", docs: "PowerPC / MC98000" }
+  - { name: "VEO", value: "0x000000FF", docs: "VEO" }
+  # 64-bit CPU types (CPU_ARCH_ABI64 = 0x01000000)
   - { name: "VAX_64", value: "0x01000001", docs: "VAX (64-bit)" }
   - { name: "ROMP_64", value: "0x01000002", docs: "ROMP (64-bit)" }
   - { name: "NS32032_64", value: "0x01000004", docs: "NS32032 (64-bit)" }

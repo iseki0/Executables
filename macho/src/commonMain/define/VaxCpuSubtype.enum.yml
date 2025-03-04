@@ -1,0 +1,14 @@
+package: space.iseki.executables.macho
+typename: VaxCpuSubtype
+dataLength: 4
+list:
+  - { name: "ALL", value: "0x00000000", docs: "All VAX processors" }
+  - { name: "VAX_780", value: "0x00000001", docs: "VAX 780" }
+  - { name: "VAX_785", value: "0x00000002", docs: "VAX 785" }
+  - { name: "VAX_750", value: "0x00000003", docs: "VAX 750" }
+  - { name: "VAX_730", value: "0x00000004", docs: "VAX 730" }
+  - { name: "VAX_8600", value: "0x00000005", docs: "VAX 8600" }
+  - { name: "VAX_8500", value: "0x00000006", docs: "VAX 8500" }
+  - { name: "VAX_8200", value: "0x00000007", docs: "VAX 8200" }
+  - { name: "VAX_8800", value: "0x00000008", docs: "VAX 8800" }
+  - { name: "VAX_8650", value: "0x00000009", docs: "VAX 8650" } 

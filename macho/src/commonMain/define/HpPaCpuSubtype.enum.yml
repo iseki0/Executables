@@ -1,0 +1,10 @@
+package: space.iseki.executables.macho
+typename: HpPaCpuSubtype
+dataLength: 4
+list:
+  - { name: "ALL", value: "0x00000000", docs: "All HP-PA processors" }
+  - { name: "HP_PA_7100", value: "0x00000001", docs: "HP-PA 7100" }
+  - { name: "HP_PA_7100LC", value: "0x00000002", docs: "HP-PA 7100LC" }
+  - { name: "HP_PA_7200", value: "0x00000003", docs: "HP-PA 7200" }
+  - { name: "HP_PA_7300", value: "0x00000004", docs: "HP-PA 7300" }
+  - { name: "HP_PA_8000", value: "0x00000005", docs: "HP-PA 8000" } 

@@ -1,0 +1,12 @@
+package: space.iseki.executables.macho
+typename: MC680X0CpuSubtype
+dataLength: 4
+list:
+  - { name: "ALL", value: "0x00000000", docs: "All MC680x0 processors" }
+  - { name: "MC680X0_40", value: "0x00000001", docs: "MC68040" }
+  - { name: "MC680X0_30", value: "0x00000002", docs: "MC68030" }
+  - { name: "MC680X0_30_ONLY", value: "0x00000003", docs: "MC68030 only" }
+  - { name: "MC680X0_20", value: "0x00000004", docs: "MC68020" }
+  - { name: "MC680X0_20_MC68881", value: "0x00000005", docs: "MC68020 + MC68881" }
+  - { name: "MC680X0_10", value: "0x00000006", docs: "MC68010" }
+  - { name: "MC680X0_00", value: "0x00000007", docs: "MC68000" } 

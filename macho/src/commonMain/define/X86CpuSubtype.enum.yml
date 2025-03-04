@@ -3,8 +3,14 @@ typename: X86CpuSubtype
 dataLength: 4
 list:
   - { name: "ALL", value: "0x00000003", docs: "All x86 processors" }
+  - { name: "I386", value: "0x00000003", docs: "386 or newer" }
   - { name: "I486", value: "0x00000004", docs: "Optimized for 486 or newer" }
   - { name: "I486SX", value: "0x00000084", docs: "Optimized for 486SX or newer" }
+  - { name: "I586", value: "0x00000005", docs: "Optimized for 586 or newer" }
+  - { name: "PENTIUM", value: "0x00000050", docs: "Optimized for Pentium or newer" }
+  - { name: "PENTIUM_PRO", value: "0x00000061", docs: "Optimized for Pentium Pro or newer" }
+  - { name: "PENTIUM_II_M3", value: "0x00000063", docs: "Optimized for Pentium II M3 or newer" }
+  - { name: "PENTIUM_II_M5", value: "0x00000065", docs: "Optimized for Pentium II M5 or newer" }
   - { name: "PENTIUM_M5", value: "0x00000056", docs: "Optimized for Pentium M5 or newer" }
   - { name: "CELERON", value: "0x00000067", docs: "Optimized for Celeron or newer" }
   - { name: "CELERON_MOBILE", value: "0x00000077", docs: "Optimized for Celeron Mobile" }
@@ -15,4 +21,7 @@ list:
   - { name: "ITANIUM", value: "0x0000000B", docs: "Optimized for Itanium or newer" }
   - { name: "ITANIUM_2", value: "0x0000001B", docs: "Optimized for Itanium-2 or newer" }
   - { name: "XEON", value: "0x0000000C", docs: "Optimized for XEON or newer" }
-  - { name: "XEON_MP", value: "0x0000001C", docs: "Optimized for XEON-MP or newer" } 
+  - { name: "XEON_MP", value: "0x0000001C", docs: "Optimized for XEON-MP or newer" }
+  # X86_64 subtypes
+  - { name: "X86_64_ALL", value: "0x00000003", docs: "All x86_64 processors" }
+  - { name: "X86_64_H", value: "0x00000008", docs: "Haswell and compatible" } 
