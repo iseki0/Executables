@@ -95,7 +95,7 @@ value class ${typename}(val value: ${rawType}): Set<${typename}>{
                 else -> "0x" + value.toU${rawType}().toHexString()
             }
         }
-        return joinToString("|")
+        return joinToString(" | ")
     }
 
     override val size: Int
