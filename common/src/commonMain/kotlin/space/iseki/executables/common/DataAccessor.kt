@@ -49,5 +49,6 @@ interface DataAccessor : AutoCloseable {
         }
     }
 
+    val size: Long
 }
 

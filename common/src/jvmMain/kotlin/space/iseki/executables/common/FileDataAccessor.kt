@@ -10,18 +10,21 @@ import java.io.RandomAccessFile
  * @see ByteArrayDataAccessor
  *
  */
-internal open class RandomAccessFileDataAccessor : DataAccessor {
+internal class RandomAccessFileDataAccessor : DataAccessor {
     private val raf: RandomAccessFile
     private val file: File?
+    override val size: Long
 
     constructor(raf: RandomAccessFile) {
         this.raf = raf
         this.file = null
+        this.size = raf.length()
     }
 
     constructor(file: File) {
         this.raf = RandomAccessFile(file, "r")
         this.file = file
+        this.size = raf.length()
     }
 
 

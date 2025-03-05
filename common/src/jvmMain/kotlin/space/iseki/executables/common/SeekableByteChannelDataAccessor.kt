@@ -42,5 +42,6 @@ open class SeekableByteChannelDataAccessor(private val channel: SeekableByteChan
         return buffer.position()
     }
 
+    override val size: Long = channel.size()
 }
 
