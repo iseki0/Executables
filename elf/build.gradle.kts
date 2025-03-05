@@ -27,4 +27,9 @@ kotlin {
 
 jigsaw {
     enable("space.iseki.executables.elf")
-} 
+}
+
+tasks.named("jvmTest") {
+    this as Test
+    useJUnitPlatform()
+}
