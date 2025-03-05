@@ -31,16 +31,54 @@ data class ElfIdentification(
             if (off + 16 > bytes.size) {
                 throw ElfFileException("Invalid ELF identification size")
             }
-            // check magic
-            if (bytes[off] != 0x7F.toByte() || bytes[off + 1] != 'E'.code.toByte() || bytes[off + 2] != 'L'.code.toByte() || bytes[off + 3] != 'F'.code.toByte()) {
-                throw ElfFileException("Invalid ELF magic")
+
+            // check magic numbers (EI_MAG0 through EI_MAG3)
+            if (bytes[off] != 0x7F.toByte() ||
+                bytes[off + 1] != 'E'.code.toByte() ||
+                bytes[off + 2] != 'L'.code.toByte() ||
+                bytes[off + 3] != 'F'.code.toByte()
+            ) {
+                throw ElfFileException("Invalid ELF magic number")
             }
+
+            // Check EI_CLASS (byte 4)
+            val eiClass = ElfClass(bytes[off + 4])
+            if (eiClass != ElfClass.ELFCLASS32 && eiClass != ElfClass.ELFCLASS64) {
+                throw ElfFileException("Invalid ELF class: $eiClass")
+            }
+
+            // Check EI_DATA (byte 5)
+            val eiData = ElfData(bytes[off + 5])
+            if (eiData != ElfData.ELFDATA2LSB && eiData != ElfData.ELFDATA2MSB) {
+                throw ElfFileException("Invalid ELF data encoding: $eiData")
+            }
+
+            // Check EI_VERSION (byte 6)
+            val eiVersion = bytes[off + 6].toUByte()
+            if (eiVersion != 1u.toUByte()) {
+                throw ElfFileException("Invalid ELF version: $eiVersion, expected 1")
+            }
+
+            // Check EI_OSABI (byte 7)
+            val eiOsAbi = ElfOsAbi(bytes[off + 7])
+
+            // Check EI_ABIVERSION (byte 8)
+            val eiAbiVersion = bytes[off + 8].toUByte()
+
+            // Check padding bytes (EI_PAD, bytes 9-15)
+            // According to the ELF specification, these bytes should be zero
+            for (i in 9 until 16) {
+                if (bytes[off + i] != 0.toByte()) {
+                    throw ElfFileException("Invalid ELF padding byte at index $i: ${bytes[off + i]}")
+                }
+            }
+
             return ElfIdentification(
-                eiClass = ElfClass(bytes[off + 4]),
-                eiData = ElfData(bytes[off + 5]),
-                eiVersion = bytes[off + 6].toUByte(),
-                eiOsAbi = ElfOsAbi(bytes[off + 7]),
-                eiAbiVersion = bytes[off + 8].toUByte(),
+                eiClass = eiClass,
+                eiData = eiData,
+                eiVersion = eiVersion,
+                eiOsAbi = eiOsAbi,
+                eiAbiVersion = eiAbiVersion,
             )
         }
     }
