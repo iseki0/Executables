@@ -81,11 +81,14 @@ data class FixedFileInfo(
         val minor: UShort,
         val build: UShort,
         val revision: UShort,
-    ) {
+    ) : Comparable<Version> {
         val ms: UInt
             get() = (major.toUInt() shl 16) or minor.toUInt()
         val ls: UInt
             get() = (build.toUInt() shl 16) or revision.toUInt()
+
+        override fun compareTo(other: Version): Int =
+            compareValuesBy(this, other, Version::major, Version::minor, Version::build, Version::revision)
 
         override fun toString(): String = "$major.$minor.$build.$revision"
     }

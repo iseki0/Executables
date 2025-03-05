@@ -1255,9 +1255,11 @@ public final class space/iseki/executables/pe/vi/FixedFileInfo$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/pe/vi/FixedFileInfo$Version {
+public final class space/iseki/executables/pe/vi/FixedFileInfo$Version : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/vi/FixedFileInfo$Version$Companion;
 	public synthetic fun <init> (SSSSLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo (Lspace/iseki/executables/pe/vi/FixedFileInfo$Version;)I
 	public final fun component1-Mh2AYeg ()S
 	public final fun component2-Mh2AYeg ()S
 	public final fun component3-Mh2AYeg ()S
