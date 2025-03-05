@@ -693,9 +693,12 @@ public final class space/iseki/executables/elf/Elf64Xword$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/elf/ElfClass {
+public final class space/iseki/executables/elf/ElfClass : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfClass$Companion;
 	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfClass;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-O3h0MwE (B)I
+	public static fun compareTo-O3h0MwE (BB)I
 	public static fun constructor-impl (B)B
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (BLjava/lang/Object;)Z
@@ -724,9 +727,12 @@ public final class space/iseki/executables/elf/ElfClass$Constants {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfClass$Constants;
 }
 
-public final class space/iseki/executables/elf/ElfData {
+public final class space/iseki/executables/elf/ElfData : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfData$Companion;
 	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfData;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-D6niwpI (B)I
+	public static fun compareTo-D6niwpI (BB)I
 	public static fun constructor-impl (B)B
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (BLjava/lang/Object;)Z
@@ -963,9 +969,12 @@ public final class space/iseki/executables/elf/ElfImportSymbol$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/elf/ElfMachine {
+public final class space/iseki/executables/elf/ElfMachine : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfMachine$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/elf/ElfMachine;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-iQL6Jkw (S)I
+	public static fun compareTo-iQL6Jkw (SS)I
 	public static fun constructor-impl (S)S
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
@@ -1152,9 +1161,12 @@ public final class space/iseki/executables/elf/ElfMachine$Constants {
 	public static final field ZSP S
 }
 
-public final class space/iseki/executables/elf/ElfOsAbi {
+public final class space/iseki/executables/elf/ElfOsAbi : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfOsAbi$Companion;
 	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfOsAbi;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-KpB1_TE (B)I
+	public static fun compareTo-KpB1_TE (BB)I
 	public static fun constructor-impl (B)B
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (BLjava/lang/Object;)Z
@@ -1260,9 +1272,12 @@ public final class space/iseki/executables/elf/ElfPFlags$Constants {
 	public static final field PF_X I
 }
 
-public final class space/iseki/executables/elf/ElfPType {
+public final class space/iseki/executables/elf/ElfPType : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfPType$Companion;
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/elf/ElfPType;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-Fpmv3VE (I)I
+	public static fun compareTo-Fpmv3VE (II)I
 	public static fun constructor-impl (I)I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
@@ -1389,9 +1404,12 @@ public final class space/iseki/executables/elf/ElfSFlags$Constants {
 	public static final field SHF_WRITE J
 }
 
-public final class space/iseki/executables/elf/ElfSType {
+public final class space/iseki/executables/elf/ElfSType : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfSType$Companion;
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/elf/ElfSType;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-E_ditNA (I)I
+	public static fun compareTo-E_ditNA (II)I
 	public static fun constructor-impl (I)I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
@@ -1470,9 +1488,12 @@ public final class space/iseki/executables/elf/ElfShdr$DefaultImpls {
 	public static fun getFields (Lspace/iseki/executables/elf/ElfShdr;)Ljava/util/Map;
 }
 
-public final class space/iseki/executables/elf/ElfSymBinding {
+public final class space/iseki/executables/elf/ElfSymBinding : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfSymBinding$Companion;
 	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfSymBinding;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-OPSej28 (B)I
+	public static fun compareTo-OPSej28 (BB)I
 	public static fun constructor-impl (B)B
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (BLjava/lang/Object;)Z
@@ -1507,9 +1528,12 @@ public final class space/iseki/executables/elf/ElfSymBinding$Constants {
 	public static final field UNKNOWN B
 }
 
-public final class space/iseki/executables/elf/ElfSymType {
+public final class space/iseki/executables/elf/ElfSymType : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfSymType$Companion;
 	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfSymType;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-YcwwmuA (B)I
+	public static fun compareTo-YcwwmuA (BB)I
 	public static fun constructor-impl (B)B
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (BLjava/lang/Object;)Z
@@ -1552,9 +1576,12 @@ public final class space/iseki/executables/elf/ElfSymType$Constants {
 	public static final field UNKNOWN B
 }
 
-public final class space/iseki/executables/elf/ElfSymVisibility {
+public final class space/iseki/executables/elf/ElfSymVisibility : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfSymVisibility$Companion;
 	public static final synthetic fun box-impl (B)Lspace/iseki/executables/elf/ElfSymVisibility;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-BHxUtVA (B)I
+	public static fun compareTo-BHxUtVA (BB)I
 	public static fun constructor-impl (B)B
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (BLjava/lang/Object;)Z
@@ -1587,9 +1614,12 @@ public final class space/iseki/executables/elf/ElfSymVisibility$Constants {
 	public static final field UNKNOWN B
 }
 
-public final class space/iseki/executables/elf/ElfType {
+public final class space/iseki/executables/elf/ElfType : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/elf/ElfType$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/elf/ElfType;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-awleIVc (S)I
+	public static fun compareTo-awleIVc (SS)I
 	public static fun constructor-impl (S)S
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z

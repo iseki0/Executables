@@ -375,9 +375,12 @@ public final class space/iseki/executables/pe/LangID$Serializer : kotlinx/serial
 	public fun serialize-JfIa9s8 (Lkotlinx/serialization/encoding/Encoder;S)V
 }
 
-public final class space/iseki/executables/pe/MachineType {
+public final class space/iseki/executables/pe/MachineType : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/MachineType$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/MachineType;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-GmHasKs (S)I
+	public static fun compareTo-GmHasKs (SS)I
 	public static fun constructor-impl (S)S
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
@@ -981,9 +984,12 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/pe/WindowsSubsystems {
+public final class space/iseki/executables/pe/WindowsSubsystems : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/WindowsSubsystems$Companion;
 	public static final synthetic fun box-impl (S)Lspace/iseki/executables/pe/WindowsSubsystems;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-iWL35NI (S)I
+	public static fun compareTo-iWL35NI (SS)I
 	public static fun constructor-impl (S)S
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (SLjava/lang/Object;)Z
@@ -1109,9 +1115,12 @@ public final class space/iseki/executables/pe/vi/FileInfoFlags$Constants {
 	public static final field SPECIALBUILD I
 }
 
-public final class space/iseki/executables/pe/vi/FileOs {
+public final class space/iseki/executables/pe/vi/FileOs : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/vi/FileOs$Companion;
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/vi/FileOs;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-_DRLp8o (I)I
+	public static fun compareTo-_DRLp8o (II)I
 	public static fun constructor-impl (I)I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
@@ -1162,9 +1171,12 @@ public final class space/iseki/executables/pe/vi/FileOs$Constants {
 	public static final field VOS__WINDOWS32 I
 }
 
-public final class space/iseki/executables/pe/vi/FileType {
+public final class space/iseki/executables/pe/vi/FileType : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/pe/vi/FileType$Companion;
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/vi/FileType;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-Qf8kxIc (I)I
+	public static fun compareTo-Qf8kxIc (II)I
 	public static fun constructor-impl (I)I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z

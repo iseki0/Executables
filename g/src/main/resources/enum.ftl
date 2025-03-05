@@ -27,7 +27,7 @@ fun ${typename}(value: U${rawType}) = ${typename}(value.to${rawType}())
 @OptIn(ExperimentalStdlibApi::class)
 @JvmInline
 @Serializable(with = ${typename}.Serializer::class)
-value class ${typename}(val value: ${rawType}){
+value class ${typename}(val value: ${rawType}) : Comparable<${typename}>{
 
     object Constants{
         <#list list as item>
@@ -85,6 +85,8 @@ value class ${typename}(val value: ${rawType}){
         val ${item.name}: ${typename} = ${typename}(Constants.${item.name})
     </#list>
     }
+
+override fun compareTo(other: ${typename}): Int = value.toU${rawType}().compareTo(other.value.toU${rawType}())
 
     override fun toString(): String = when(value){
     <#list list as item>
