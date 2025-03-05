@@ -49,8 +49,6 @@ data class FixedFileInfo(
             "fileDateLS" to fileDateLS,
         )
 
-    override fun toString(): String = fields.entries.joinToString("", "VersionInfo(", ")") { (k, v) -> "   $k = $v,\n" }
-
     companion object {
         const val LENGTH = 52
         const val SIGNATURE = 0xFEEF04BDu

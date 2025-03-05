@@ -62,7 +62,4 @@ data class SectionTableItem(
             "numberOfLinenumbers" to numberOfLinenumbers,
             "characteristics" to characteristics,
         )
-
-    override fun toString(): String =
-        fields.entries.joinToString("", prefix = "SectionTableItem(", postfix = ")") { (k, v) -> "   $k = $v,\n" }
 }

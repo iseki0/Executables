@@ -1290,8 +1290,14 @@ public final class space/iseki/executables/pe/vi/FixedFileInfo$Version$Companion
 }
 
 public final class space/iseki/executables/pe/vi/PEVersionInfo {
+	public final fun component1 ()Lspace/iseki/executables/pe/vi/FixedFileInfo;
+	public final fun component2 ()Lspace/iseki/executables/pe/vi/StringTable;
+	public final fun copy (Lspace/iseki/executables/pe/vi/FixedFileInfo;Lspace/iseki/executables/pe/vi/StringTable;)Lspace/iseki/executables/pe/vi/PEVersionInfo;
+	public static synthetic fun copy$default (Lspace/iseki/executables/pe/vi/PEVersionInfo;Lspace/iseki/executables/pe/vi/FixedFileInfo;Lspace/iseki/executables/pe/vi/StringTable;ILjava/lang/Object;)Lspace/iseki/executables/pe/vi/PEVersionInfo;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getFixedFileInfo ()Lspace/iseki/executables/pe/vi/FixedFileInfo;
 	public final fun getStringFileInfo ()Lspace/iseki/executables/pe/vi/StringTable;
+	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 

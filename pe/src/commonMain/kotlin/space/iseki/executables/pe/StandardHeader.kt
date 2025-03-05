@@ -68,9 +68,6 @@ data class StandardHeader(
             )
         }
 
-    override fun toString(): String =
-        fields.entries.joinToString("", prefix = "StandardHeader(", postfix = ")") { (k, v) -> "   $k = $v,\n" }
-
     fun length(): Int {
         return if (magic == PE32Magic.PE32) 28 else 24
     }

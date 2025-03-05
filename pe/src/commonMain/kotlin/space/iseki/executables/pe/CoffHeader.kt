@@ -54,20 +54,6 @@ data class CoffHeader(
             "characteristics" to characteristics,
         )
 
-    override fun toString(): String {
-        return """
-            |CoffHeader(
-            |   machine = $machine,
-            |   numbersOfSections = $numbersOfSections,
-            |   timeDateStamp = $timeDateStamp,
-            |   pointerToSymbolTable = $pointerToSymbolTable,
-            |   numbersOfSymbols = $numbersOfSymbols,
-            |   sizeOfOptionalHeader = $sizeOfOptionalHeader,
-            |   characteristics = $characteristics,
-            |)
-        """.trimMargin()
-    }
-
     companion object {
         const val LENGTH = 20
 

@@ -158,10 +158,6 @@ data class WindowsSpecifiedHeader(
     val rvaList
         get() = buildMap(numbersOfRvaAndSizes) { fillRvaMap() }
 
-    override fun toString(): String = (fields.entries + rvaList.entries as Set<Map.Entry<String, Any>>).joinToString(
-        "", "WindowsSpecifiedHeader(", ")"
-    ) { (k, v) -> "   $k = $v,\n" }
-
 
     fun length(): Int {
         return if (magic == PE32Magic.PE32Plus) 112 - 24 else 96 - 28
