@@ -14,7 +14,9 @@ import kotlin.jvm.JvmInline
  */
 @JvmInline
 @Serializable
-value class Elf32Half(val value: UShort) : Primitive
+value class Elf32Half(val value: UShort) : Primitive, Comparable<Elf32Half> {
+    override fun compareTo(other: Elf32Half): Int = value.compareTo(other.value)
+}
 
 /**
  * Represents a 32-bit unsigned integer in ELF format.
@@ -22,7 +24,9 @@ value class Elf32Half(val value: UShort) : Primitive
  */
 @JvmInline
 @Serializable
-value class Elf32Word(val value: UInt) : Primitive
+value class Elf32Word(val value: UInt) : Primitive, Comparable<Elf32Word> {
+    override fun compareTo(other: Elf32Word): Int = value.compareTo(other.value)
+}
 
 /**
  * Represents a 32-bit signed integer in ELF format.
@@ -30,7 +34,9 @@ value class Elf32Word(val value: UInt) : Primitive
  */
 @JvmInline
 @Serializable
-value class Elf32Sword(val value: Int) : Primitive
+value class Elf32Sword(val value: Int) : Primitive, Comparable<Elf32Sword> {
+    override fun compareTo(other: Elf32Sword): Int = value.compareTo(other.value)
+}
 
 /**
  * Represents an unsigned program address in 32-bit ELF format.
@@ -38,7 +44,7 @@ value class Elf32Sword(val value: Int) : Primitive
  */
 @JvmInline
 @Serializable(Elf32Addr.Serializer::class)
-value class Elf32Addr(val value: UInt) : Primitive {
+value class Elf32Addr(val value: UInt) : Primitive, Comparable<Elf32Addr> {
     object Serializer : KSerializer<Elf32Addr> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -53,6 +59,8 @@ value class Elf32Addr(val value: UInt) : Primitive {
         }
     }
 
+    override fun compareTo(other: Elf32Addr): Int = value.compareTo(other.value)
+
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
         return "0x${value.toHexString()}"
@@ -65,5 +73,7 @@ value class Elf32Addr(val value: UInt) : Primitive {
  */
 @JvmInline
 @Serializable
-value class Elf32Off(val value: UInt) : Primitive
+value class Elf32Off(val value: UInt) : Primitive, Comparable<Elf32Off> {
+    override fun compareTo(other: Elf32Off): Int = value.compareTo(other.value)
+}
 

@@ -22,4 +22,5 @@ sealed interface Primitive {
     fun castToShort(): Short = castToULong().toShort()
     fun castToInt(): Int = castToULong().toInt()
     fun castToLong(): Long = castToULong().toLong()
+
 }

@@ -14,7 +14,9 @@ import kotlin.jvm.JvmInline
  */
 @JvmInline
 @Serializable
-value class Elf64Half(val value: UShort) : Primitive
+value class Elf64Half(val value: UShort) : Primitive, Comparable<Elf64Half> {
+    override fun compareTo(other: Elf64Half): Int = value.compareTo(other.value)
+}
 
 /**
  * Represents a 32-bit unsigned integer in ELF format.
@@ -22,7 +24,9 @@ value class Elf64Half(val value: UShort) : Primitive
  */
 @JvmInline
 @Serializable
-value class Elf64Word(val value: UInt) : Primitive
+value class Elf64Word(val value: UInt) : Primitive, Comparable<Elf64Word> {
+    override fun compareTo(other: Elf64Word): Int = value.compareTo(other.value)
+}
 
 /**
  * Represents a 64-bit unsigned integer in ELF format.
@@ -30,7 +34,9 @@ value class Elf64Word(val value: UInt) : Primitive
  */
 @JvmInline
 @Serializable
-value class Elf64Xword(val value: ULong) : Primitive
+value class Elf64Xword(val value: ULong) : Primitive, Comparable<Elf64Xword> {
+    override fun compareTo(other: Elf64Xword): Int = value.compareTo(other.value)
+}
 
 /**
  * Represents a 64-bit signed integer in ELF format.
@@ -38,7 +44,9 @@ value class Elf64Xword(val value: ULong) : Primitive
  */
 @JvmInline
 @Serializable
-value class Elf64Sxword(val value: Long) : Primitive
+value class Elf64Sxword(val value: Long) : Primitive, Comparable<Elf64Sxword> {
+    override fun compareTo(other: Elf64Sxword): Int = value.compareTo(other.value)
+}
 
 /**
  * Represents an unsigned program address in 64-bit ELF format.
@@ -46,7 +54,7 @@ value class Elf64Sxword(val value: Long) : Primitive
  */
 @JvmInline
 @Serializable(Elf64Addr.Serializer::class)
-value class Elf64Addr(val value: ULong) : Primitive {
+value class Elf64Addr(val value: ULong) : Primitive, Comparable<Elf64Addr> {
     object Serializer : KSerializer<Elf64Addr> {
         override val descriptor: SerialDescriptor
             get() = serialDescriptor<String>()
@@ -61,6 +69,8 @@ value class Elf64Addr(val value: ULong) : Primitive {
         }
     }
 
+    override fun compareTo(other: Elf64Addr): Int = value.compareTo(other.value)
+
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
         return "0x${value.toHexString()}"
@@ -73,5 +83,7 @@ value class Elf64Addr(val value: ULong) : Primitive {
  */
 @JvmInline
 @Serializable
-value class Elf64Off(val value: ULong) : Primitive
+value class Elf64Off(val value: ULong) : Primitive, Comparable<Elf64Off> {
+    override fun compareTo(other: Elf64Off): Int = value.compareTo(other.value)
+}
 
