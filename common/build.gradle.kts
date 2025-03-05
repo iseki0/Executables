@@ -7,7 +7,6 @@ jigsaw {
 }
 
 dependencies {
-    commonMainCompileOnly(libs.kotlinx.serialization.core)
 }
 
 kotlin {

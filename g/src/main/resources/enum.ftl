@@ -16,6 +16,12 @@ import kotlinx.serialization.descriptors.serialDescriptor
 import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.long
+import kotlinx.serialization.json.longOrNull
+
 
 fun ${typename}(value: U${rawType}) = ${typename}(value.to${rawType}())
 
@@ -101,7 +107,14 @@ get() = serialDescriptor<String>()
 
     override fun deserialize(decoder: Decoder): ${typename} {
     try{
-    return ${typename}.valueOf(decoder.decodeString())
+    if (decoder is JsonDecoder){
+    val e = decoder.decodeJsonElement().jsonPrimitive
+    if(!e.isString){
+    e.longOrNull?.let {return ${typename}(it.toU${rawType}()) }
+    }
+    return valueOf(e.content)
+    }
+    return valueOf(decoder.decodeString())
     }catch(e: Exception){
     if(e !is IllegalArgumentException && e !is NumberFormatException) throw e
     throw SerializationException("Invalid ${typename} value: "+e.message, e)

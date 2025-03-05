@@ -14,6 +14,10 @@ plugins {
 val Project.libs get() = the<org.gradle.accessors.dm.LibrariesForLibs>()
 
 dependencies {
+    commonMainImplementation(libs.kotlinx.datetime)
+    commonMainImplementation(libs.kotlinx.serialization.core)
+    commonMainCompileOnly(libs.kotlinx.serialization.json)
+    commonTestImplementation(libs.kotlinx.serialization.json)
     commonTestImplementation(kotlin("test"))
 }
 

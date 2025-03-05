@@ -7,8 +7,6 @@ dependencies {
     commonMainApi(project(":common"))
     commonMainImplementation(project(":share"))
     commonMainImplementation(libs.kotlinx.datetime)
-    commonMainImplementation(libs.kotlinx.serialization.core)
-    commonTestImplementation(libs.kotlinx.serialization.json)
     jvmTestImplementation(platform("org.junit:junit-bom:5.10.0"))
     jvmTestImplementation("org.junit.jupiter:junit-jupiter")
 }

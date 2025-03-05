@@ -16,6 +16,13 @@ import kotlinx.serialization.descriptors.serialDescriptor
 import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.long
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.longOrNull
+
 
 fun ${typename}(value: U${rawType}) = ${typename}(value.to${rawType}())
 
@@ -147,20 +154,42 @@ get() = serialDescriptor<List<String>>()
 
     override fun deserialize(decoder: Decoder): ${typename} {
     var acc: ${typename} = ${typename}.ZERO
+    try {
+    if (decoder is JsonDecoder) {
+    val e = decoder.decodeJsonElement()
+    if (e is JsonArray) {
+    for (it in e) {
+    val p = it.jsonPrimitive
+    acc += if (p.isString) {
+    valueOf(p.content)
+    } else {
+    ${typename}(p.long.toU${rawType}())
+    }
+    }
+    return acc
+    }
+    val p = e.jsonPrimitive
+    return if (p.isString) {
+    valueOf(p.content)
+    } else {
+    ${typename}(p.long.toU${rawType}())
+    }
+    }
     val dec = decoder.beginStructure(descriptor)
-    while (true){
+    while (true) {
     val i = dec.decodeElementIndex(descriptor)
     if (i == CompositeDecoder.DECODE_DONE) break
     val s = dec.decodeStringElement(descriptor, i)
-    try{
-    acc += ${typename}.valueOf(s)
-    }catch(e: Exception){
-    if(e !is IllegalArgumentException && e !is NumberFormatException) throw e
-    throw SerializationException("Invalid ${typename} value: "+e.message, e)
-    }
+    acc += valueOf(s)
     }
     dec.endStructure(descriptor)
     return acc
+    } catch (e: Exception) {
+    when (e) {
+    is IllegalArgumentException, is NumberFormatException -> throw SerializationException("Deserialize JSON value failed: " + e.message)
+    else -> throw e
+    }
+    }
     }
 
     override fun serialize(encoder: Encoder, value: ${typename}) {
