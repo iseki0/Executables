@@ -9,6 +9,8 @@ import kotlinx.serialization.encoding.Encoder
 import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
+fun Address64(value: ULong) = Address64(value.toLong())
+
 /**
  * Represents a 64-bit address in a PE file.
  *

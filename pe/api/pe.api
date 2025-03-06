@@ -95,6 +95,10 @@ public final class space/iseki/executables/pe/Address64$Serializer : kotlinx/ser
 	public fun serialize-eXs1uxU (Lkotlinx/serialization/encoding/Encoder;J)V
 }
 
+public final class space/iseki/executables/pe/Address64Kt {
+	public static final fun Address64-VKZWuLQ (J)J
+}
+
 public final class space/iseki/executables/pe/Characteristics : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final field Companion Lspace/iseki/executables/pe/Characteristics$Companion;
 	public synthetic fun add (Ljava/lang/Object;)Z
