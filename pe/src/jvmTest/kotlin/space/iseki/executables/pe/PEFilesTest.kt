@@ -39,7 +39,7 @@ private val jsonRef = """
         },
         "windowsHeader": {
             "magic": "PE32+",
-            "imageBase": "0x0000000040000000",
+            "imageBase": "0x0000000140000000",
             "sectionAlignment": 4096,
             "fileAlignment": 512,
             "majorOperatingSystemVersion": 6,
