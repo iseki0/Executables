@@ -34,7 +34,8 @@ data class SectionTableItem(
             val numberOfRelocations = bytes.u2l(offset + 32)
             val numberOfLinenumbers = bytes.u2l(offset + 34)
             val characteristics = SectionFlags(bytes.u4l(offset + 36).toInt())
-            return SectionTableItem(
+
+            val section = SectionTableItem(
                 name = name,
                 virtualSize = virtualSize,
                 virtualAddress = virtualAddress,
@@ -46,6 +47,54 @@ data class SectionTableItem(
                 numberOfLinenumbers = numberOfLinenumbers,
                 characteristics = characteristics,
             )
+
+            // 基本验证
+            section.validate()
+
+            return section
+        }
+    }
+
+    /**
+     * 验证节表项的有效性
+     *
+     * @throws PEFileException 如果节表项无效
+     */
+    internal fun validate() {
+        // 检查节名称是否有效
+        if (name.isEmpty()) {
+            throw PEFileException("Invalid section name: empty name")
+        }
+
+        // 检查节的特性标志
+        if (characteristics.value == 0) {
+            throw PEFileException("Invalid section characteristics: no flags set for section $name")
+        }
+
+        // 检查节的虚拟大小和原始数据大小
+        if (virtualSize == 0u && sizeOfRawData > 0u) {
+            throw PEFileException("Invalid section $name: virtual size is 0 but raw data size is $sizeOfRawData")
+        }
+
+        // 如果节有原始数据，检查指针是否有效
+        if (sizeOfRawData > 0u) {
+            if (pointerToRawData.value == 0u) {
+                throw PEFileException("Invalid section $name: has raw data but pointer to raw data is 0")
+            }
+
+            // 检查原始数据指针是否对齐到文件对齐边界（通常是512字节）
+            if (pointerToRawData.value % 512u != 0u) {
+                throw PEFileException("Invalid section $name: pointer to raw data is not aligned to file alignment boundary")
+            }
+        }
+
+        // 检查重定位和行号信息的一致性
+        if (numberOfRelocations > 0u && pointerToRelocations.value == 0u) {
+            throw PEFileException("Invalid section $name: has relocations but pointer to relocations is 0")
+        }
+
+        if (numberOfLinenumbers > 0u && pointerToLinenumbers.value == 0u) {
+            throw PEFileException("Invalid section $name: has line numbers but pointer to line numbers is 0")
         }
     }
 

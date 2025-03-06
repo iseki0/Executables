@@ -72,6 +72,43 @@ data class StandardHeader(
         return if (magic == PE32Magic.PE32) 28 else 24
     }
 
+    /**
+     * 验证标准头部的有效性
+     *
+     * @throws PEFileException 如果头部无效
+     */
+    internal fun validate() {
+        // 检查魔数是否有效
+        if (magic != PE32Magic.PE32 && magic != PE32Magic.PE32Plus) {
+            throw PEFileException("Invalid standard header: unsupported PE magic: $magic")
+        }
+
+//        // 检查代码段大小
+//        if (sizeOfCode == 0u && magic != PE32Magic.PE32Plus) {
+//            throw PEFileException("Invalid standard header: size of code is 0")
+//        }
+//
+//        // 检查入口点地址
+//        // 注意：DLL可以没有入口点，所以这里不做强制检查
+//
+//        // 检查代码基址
+//        if (baseOfCode.value != 0u && sizeOfCode == 0u) {
+//            throw PEFileException("Invalid standard header: base of code is not 0 but size of code is 0")
+//        }
+
+        // 检查数据基址（仅PE32）
+        if (magic == PE32Magic.PE32) {
+            if (baseOfData.value != 0u && sizeOfInitializedData == 0u && sizeOfUninitializedData == 0u) {
+                throw PEFileException("Invalid standard header: base of data is not 0 but no data sections exist")
+            }
+        } else {
+            // PE32+
+            if (baseOfData.value != 0u) {
+                throw PEFileException("Invalid standard header: base of data must be 0 for PE32+")
+            }
+        }
+    }
+
     companion object {
         const val MAX_LENGTH = 28
 
@@ -86,7 +123,8 @@ data class StandardHeader(
             val addressOfEntryPoint = Address32(bytes.u4l(offset + 16))
             val baseOfCode = Address32(bytes.u4l(offset + 20))
             val baseOfData = if (magic == PE32Magic.PE32) Address32(bytes.u4l(offset + 24)) else Address32(0u)
-            return StandardHeader(
+
+            val header = StandardHeader(
                 magic,
                 majorLinkerVersion,
                 minorLinkerVersion,
@@ -97,6 +135,11 @@ data class StandardHeader(
                 baseOfCode,
                 baseOfData,
             )
+
+            // 验证头部
+            header.validate()
+
+            return header
         }
     }
 }

@@ -166,47 +166,82 @@ data class WindowsSpecifiedHeader(
     companion object {
         @JvmStatic
         fun parse(bytes: ByteArray, offset: Int, magic: PE32Magic): WindowsSpecifiedHeader {
-            val isPlus = magic == PE32Magic.PE32Plus
-            val off = offset - if (isPlus) 24 else 28
-            val imageBase =
-                Address64(if (isPlus) bytes.u4l(off + 24).toLong() else bytes.u8l(off + 28).toLong())
-            val sectionAlignment = bytes.u4l(off + 32)
-            val fileAlignment = bytes.u4l(off + 36)
-            val majorOperatingSystemVersion = bytes.u2l(off + 40)
-            val minorOperatingSystemVersion = bytes.u2l(off + 42)
-            val majorImageVersion = bytes.u2l(off + 44)
-            val minorImageVersion = bytes.u2l(off + 46)
-            val majorSubsystemVersion = bytes.u2l(off + 48)
-            val minorSubsystemVersion = bytes.u2l(off + 50)
-            val win32VersionValue = bytes.u4l(off + 52)
-            val sizeOfImage = bytes.u4l(off + 56)
-            val sizeOfHeaders = bytes.u4l(off + 60)
-            val checkSum = bytes.u4l(off + 64)
-            val subsystem = bytes.u2l(off + 68)
-            val dllCharacteristics = bytes.u2l(off + 70)
-            val sizeOfStackReserve = if (isPlus) bytes.u8l(off + 72) else bytes.u4l(off + 72).toULong()
-            val sizeOfStackCommit = if (isPlus) bytes.u8l(off + 80) else bytes.u4l(off + 76).toULong()
-            val sizeOfHeapReserve = if (isPlus) bytes.u8l(off + 88) else bytes.u4l(off + 80).toULong()
-            val sizeOfHeapCommit = if (isPlus) bytes.u8l(off + 96) else bytes.u4l(off + 84).toULong()
-            val loaderFlags = bytes.u4l(off + (if (isPlus) 104 else 88))
-            val numberOfRvaAndSizes = bytes.u4l(off + (if (isPlus) 108 else 92)).toInt()
-            val ddiOffset = if (isPlus) 112 else 96
-            val exportTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 1)
-            val importTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 2)
-            val resourceTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 3)
-            val exceptionTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 4)
-            val certificateTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 5)
-            val baseRelocationTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 6)
-            val debug = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 7)
-            val architecture = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 8)
-            val globalPtr = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 9)
-            val tlsTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 10)
-            val loadConfigTable = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 11)
-            val boundImport = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 12)
-            val iat = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 13)
-            val delayImportDescriptor = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 14)
-            val clrRuntimeHeader = parseDdi(bytes, ddiOffset, numberOfRvaAndSizes, 15)
-            return WindowsSpecifiedHeader(
+            val isPE32Plus = magic == PE32Magic.PE32Plus
+            val imageBase: Address64
+            var pos = offset
+            if (isPE32Plus) {
+                imageBase = Address64(bytes.u8l(pos))
+                pos += 8
+            } else {
+                imageBase = Address64(bytes.u4l(pos).toULong())
+                pos += 4
+            }
+            val sectionAlignment = bytes.u4l(pos)
+            pos += 4
+            val fileAlignment = bytes.u4l(pos)
+            pos += 4
+            val majorOperatingSystemVersion = bytes.u2l(pos)
+            pos += 2
+            val minorOperatingSystemVersion = bytes.u2l(pos)
+            pos += 2
+            val majorImageVersion = bytes.u2l(pos)
+            pos += 2
+            val minorImageVersion = bytes.u2l(pos)
+            pos += 2
+            val majorSubsystemVersion = bytes.u2l(pos)
+            pos += 2
+            val minorSubsystemVersion = bytes.u2l(pos)
+            pos += 2
+            val win32VersionValue = bytes.u4l(pos)
+            pos += 4
+            val sizeOfImage = bytes.u4l(pos)
+            pos += 4
+            val sizeOfHeaders = bytes.u4l(pos)
+            pos += 4
+            val checkSum = bytes.u4l(pos)
+            pos += 4
+            val subsystem = WindowsSubsystems(bytes.u2l(pos).toShort())
+            pos += 2
+            val dllCharacteristics = DllCharacteristics(bytes.u2l(pos))
+            pos += 2
+            val sizeOfStackReserve: ULong
+            val sizeOfStackCommit: ULong
+            val sizeOfHeapReserve: ULong
+            val sizeOfHeapCommit: ULong
+            if (isPE32Plus) {
+                sizeOfStackReserve = bytes.u8l(pos)
+                pos += 8
+                sizeOfStackCommit = bytes.u8l(pos)
+                pos += 8
+                sizeOfHeapReserve = bytes.u8l(pos)
+                pos += 8
+                sizeOfHeapCommit = bytes.u8l(pos)
+                pos += 8
+            } else {
+                sizeOfStackReserve = bytes.u4l(pos).toULong()
+                pos += 4
+                sizeOfStackCommit = bytes.u4l(pos).toULong()
+                pos += 4
+                sizeOfHeapReserve = bytes.u4l(pos).toULong()
+                pos += 4
+                sizeOfHeapCommit = bytes.u4l(pos).toULong()
+                pos += 4
+            }
+            val loaderFlags = bytes.u4l(pos)
+            pos += 4
+            val numberOfRvaAndSizes = bytes.u4l(pos).toInt()
+            pos += 4
+            val dataDirectories = Array(16) {
+                if (it < numberOfRvaAndSizes && pos + 8 <= bytes.size) {
+                    val virtualAddress = Address32(bytes.u4l(pos))
+                    val size = bytes.u4l(pos + 4)
+                    pos += 8
+                    DataDirectoryItem(virtualAddress.value, size)
+                } else {
+                    DataDirectoryItem.ZERO
+                }
+            }
+            val header = WindowsSpecifiedHeader(
                 magic = magic,
                 imageBase = imageBase,
                 sectionAlignment = sectionAlignment,
@@ -221,35 +256,96 @@ data class WindowsSpecifiedHeader(
                 sizeOfImage = sizeOfImage,
                 sizeOfHeaders = sizeOfHeaders,
                 checkSum = checkSum,
-                subsystem = WindowsSubsystems(subsystem.toShort()),
-                dllCharacteristics = DllCharacteristics(dllCharacteristics),
+                subsystem = subsystem,
+                dllCharacteristics = dllCharacteristics,
                 sizeOfStackReserve = sizeOfStackReserve,
                 sizeOfStackCommit = sizeOfStackCommit,
                 sizeOfHeapReserve = sizeOfHeapReserve,
                 sizeOfHeapCommit = sizeOfHeapCommit,
                 loaderFlags = loaderFlags,
                 numbersOfRvaAndSizes = numberOfRvaAndSizes,
-                exportTable = exportTable,
-                importTable = importTable,
-                resourceTable = resourceTable,
-                exceptionTable = exceptionTable,
-                certificateTable = certificateTable,
-                baseRelocationTable = baseRelocationTable,
-                debug = debug,
-                architecture = architecture,
-                globalPtr = globalPtr,
-                tlsTable = tlsTable,
-                loadConfigTable = loadConfigTable,
-                boundImport = boundImport,
-                iat = iat,
-                delayImportDescriptor = delayImportDescriptor,
-                clrRuntimeHeader = clrRuntimeHeader,
+                exportTable = dataDirectories[0],
+                importTable = dataDirectories[1],
+                resourceTable = dataDirectories[2],
+                exceptionTable = dataDirectories[3],
+                certificateTable = dataDirectories[4],
+                baseRelocationTable = dataDirectories[5],
+                debug = dataDirectories[6],
+                architecture = dataDirectories[7],
+                globalPtr = dataDirectories[8],
+                tlsTable = dataDirectories[9],
+                loadConfigTable = dataDirectories[10],
+                boundImport = dataDirectories[11],
+                iat = dataDirectories[12],
+                delayImportDescriptor = dataDirectories[13],
+                clrRuntimeHeader = dataDirectories[14],
             )
+
+            // 验证头部
+            header.validate()
+
+            return header
+        }
+    }
+
+    /**
+     * 验证Windows特定头部的有效性
+     *
+     * @throws PEFileException 如果头部无效
+     */
+    internal fun validate() {
+        // 检查节对齐和文件对齐
+        if (sectionAlignment < fileAlignment) {
+            throw PEFileException("Invalid Windows header: section alignment ($sectionAlignment) is less than file alignment ($fileAlignment)")
         }
 
-        private fun parseDdi(bytes: ByteArray, offset: Int, numbersOfRvaAndSizes: Int, index: Int): DataDirectoryItem {
-            if (numbersOfRvaAndSizes < index) return DataDirectoryItem.ZERO
-            return DataDirectoryItem.parse(bytes, offset + (index - 1) * 8)
+        // 检查文件对齐是否是2的幂次方
+        if (fileAlignment == 0u || (fileAlignment and (fileAlignment - 1u)) != 0u) {
+            throw PEFileException("Invalid Windows header: file alignment ($fileAlignment) is not a power of 2")
+        }
+
+        // 检查文件对齐是否在有效范围内（通常是512到64K）
+        if (fileAlignment < 512u || fileAlignment > 65536u) {
+            throw PEFileException("Invalid Windows header: file alignment ($fileAlignment) is out of range (512-65536)")
+        }
+
+        // 检查节对齐是否是2的幂次方
+        if (sectionAlignment == 0u || (sectionAlignment and (sectionAlignment - 1u)) != 0u) {
+            throw PEFileException("Invalid Windows header: section alignment ($sectionAlignment) is not a power of 2")
+        }
+
+        // 检查镜像基址是否对齐到64K边界
+        if (imageBase.value % 65536 != 0L) {
+            throw PEFileException("Invalid Windows header: image base (${imageBase.value}) is not aligned to 64K boundary")
+        }
+
+        // 检查镜像大小是否对齐到节对齐边界
+        if (sizeOfImage % sectionAlignment != 0u) {
+            throw PEFileException("Invalid Windows header: size of image ($sizeOfImage) is not aligned to section alignment ($sectionAlignment)")
+        }
+
+        // 检查头部大小是否对齐到文件对齐边界
+        if (sizeOfHeaders % fileAlignment != 0u) {
+            throw PEFileException("Invalid Windows header: size of headers ($sizeOfHeaders) is not aligned to file alignment ($fileAlignment)")
+        }
+
+        // 检查子系统版本
+        if (majorSubsystemVersion == 0.toUShort() && minorSubsystemVersion == 0.toUShort()) {
+            throw PEFileException("Invalid Windows header: subsystem version is 0.0")
+        }
+
+        // 检查数据目录数量
+        if (numbersOfRvaAndSizes < 0 || numbersOfRvaAndSizes > 16) {
+            throw PEFileException("Invalid Windows header: number of RVA and sizes ($numbersOfRvaAndSizes) is out of range (0-16)")
+        }
+
+        // 检查保留字段
+        if (win32VersionValue != 0u) {
+            throw PEFileException("Invalid Windows header: win32VersionValue ($win32VersionValue) is not zero")
+        }
+
+        if (loaderFlags != 0u) {
+            throw PEFileException("Invalid Windows header: loaderFlags ($loaderFlags) is not zero")
         }
     }
 }
