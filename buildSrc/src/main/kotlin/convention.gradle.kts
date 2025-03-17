@@ -48,7 +48,6 @@ kotlin {
         wasmJs {
             browser()
             nodejs()
-            d8()
         }
 
         // Tier 1
