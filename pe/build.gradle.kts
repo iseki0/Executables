@@ -11,20 +11,6 @@ dependencies {
     jvmTestImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-kotlin {
-    sourceSets {
-        val commonMain by getting
-        val jsMain by getting
-        val nonJvmMain by creating {
-            dependsOn(commonMain)
-            jsMain.dependsOn(this)
-            dependencies {
-                implementation(libs.kotlinx.serialization.json)
-            }
-        }
-    }
-}
-
 tasks.named("jvmTest") {
     this as Test
     useJUnitPlatform()

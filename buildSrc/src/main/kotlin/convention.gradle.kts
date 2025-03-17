@@ -45,6 +45,17 @@ kotlin {
             browser()
         }
     }
+    sourceSets {
+        val commonMain by getting
+        val jsMain by getting
+        val nonJvmMain by creating {
+            dependsOn(commonMain)
+            jsMain.dependsOn(this)
+            dependencies {
+                implementation(libs.kotlinx.serialization.json)
+            }
+        }
+    }
 }
 
 interface Jigsaw {
