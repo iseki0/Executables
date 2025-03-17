@@ -27,10 +27,7 @@ Currently, this library can:
 
 ## Kotlin targets
 
-- Kotlin/JVM: Java 8 or later (Jigsaw since Java 9 is supported by multi-release jar)
-- Kotlin/JavaScript
-
-> If you need more targets, feel free to open an issue or pull request directly.
+All targets supported.
 
 ## Getting Started
 
