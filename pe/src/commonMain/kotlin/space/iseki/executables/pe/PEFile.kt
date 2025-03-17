@@ -80,7 +80,7 @@ class PEFile private constructor(
                 if (pos <= 0 || pos > 0x1000) {
                     throw PEFileException("Invalid PE file, PE signature offset out of range: 0x${pos.toString(16)}")
                 }
-                
+
                 accessor.readFully(pos, signatureBuffer)
                 val readSignature = signatureBuffer.u4l(0)
                 if (readSignature != PE_SIGNATURE_LE.toUInt()) {
@@ -109,7 +109,7 @@ class PEFile private constructor(
             if (coffHeader.sizeOfOptionalHeader < 28.toUShort()) {
                 throw PEFileException("Invalid PE file, optional header size too small: " + coffHeader.sizeOfOptionalHeader)
             }
-            
+
             val standardHeader: StandardHeader
             val optionalHeader: WindowsSpecifiedHeader
             try {
@@ -121,7 +121,7 @@ class PEFile private constructor(
                 if (standardHeader.magic != PE32Magic.PE32 && standardHeader.magic != PE32Magic.PE32Plus) {
                     throw PEFileException("Invalid PE file, unsupported PE magic: ${standardHeader.magic}")
                 }
-                
+
                 optionalHeader =
                     WindowsSpecifiedHeader.parse(optionalHeaderBuffer, standardHeader.length(), standardHeader.magic)
 
@@ -163,7 +163,7 @@ class PEFile private constructor(
                     throw PEFileException("Invalid PE file, section ${section.name} has raw data but no pointer to raw data")
                 }
             }
-            
+
             return PEFile(
                 coffHeader = coffHeader,
                 standardHeader = standardHeader,
