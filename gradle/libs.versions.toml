@@ -18,7 +18,7 @@ idea-ext = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.ide
 
 # Common Libraries
 freemarker = "org.freemarker:freemarker:2.3.32"
-kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.1"
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.2"
 kaml = "com.charleskorn.kaml:kaml:0.67.0"
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization-libs" }
