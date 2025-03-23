@@ -37,7 +37,7 @@ class PEFile private constructor(
      * @property sectionTable the list of section table items
      */
     @Serializable
-    class Summary(
+    class Summary internal constructor(
         val coffHeader: CoffHeader,
         val standardHeader: StandardHeader,
         val windowsHeader: WindowsSpecifiedHeader,

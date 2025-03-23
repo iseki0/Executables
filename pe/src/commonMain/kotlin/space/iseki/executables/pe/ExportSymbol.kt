@@ -11,7 +11,7 @@ import space.iseki.executables.common.ExportSymbol
  * @property isForwarder Whether this symbol is a forwarder to another DLL
  * @property forwarderString The forwarder string if this symbol is a forwarder
  */
-data class PEExportSymbol(
+data class PEExportSymbol internal constructor(
     override val name: String,
     val ordinal: UShort,
     val address: Address32,

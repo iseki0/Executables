@@ -25,7 +25,7 @@ import kotlin.jvm.JvmStatic
  *                      This field is only present in PE32 format, and is absent in PE32+.
  */
 @Serializable
-data class StandardHeader(
+data class StandardHeader internal constructor(
     val magic: PE32Magic,
     val majorLinkerVersion: Byte,
     val minorLinkerVersion: Byte,

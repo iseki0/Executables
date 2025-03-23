@@ -7,7 +7,7 @@ import space.iseki.executables.share.u4l
 import kotlin.jvm.JvmStatic
 
 @Serializable
-data class SectionTableItem(
+data class SectionTableItem internal constructor(
     val name: String,
     val virtualSize: UInt,
     val virtualAddress: Address32,

@@ -10,7 +10,7 @@ import space.iseki.executables.share.u8l
 
 @Serializable
 @SerialName("Elf64Phdr")
-data class Elf64Phdr(
+data class Elf64Phdr internal constructor(
     /**
      * This member indicates what kind of segment this array element describes
      * or how to interpret the array element's information.

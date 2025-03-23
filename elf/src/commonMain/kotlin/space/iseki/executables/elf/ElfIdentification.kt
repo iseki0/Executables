@@ -17,7 +17,7 @@ import space.iseki.executables.common.ReadableStructure
  * @property eiAbiVersion The ABI version.
  */
 @Serializable
-data class ElfIdentification(
+data class ElfIdentification internal constructor(
     val eiClass: ElfClass,
     val eiData: ElfData,
     val eiVersion: UByte,

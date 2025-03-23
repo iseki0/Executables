@@ -18,7 +18,7 @@ import kotlin.jvm.JvmStatic
  * @property characteristics The flags that indicate the attributes of the file. For specific flag values, see [Characteristics].
  */
 @Serializable
-data class CoffHeader(
+data class CoffHeader internal constructor(
     val machine: MachineType,
     val numbersOfSections: UShort,
     val timeDateStamp: TimeDateStamp32,

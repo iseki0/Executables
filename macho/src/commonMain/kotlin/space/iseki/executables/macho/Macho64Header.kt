@@ -8,7 +8,6 @@ import space.iseki.executables.share.u4l
  * Represents a 64-bit Mach-O header.
  */
 @Serializable
-@ConsistentCopyVisibility
 data class Macho64Header internal constructor(
     override val magic: UInt,
     override val cputype: UInt,

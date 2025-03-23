@@ -24,7 +24,7 @@ import space.iseki.executables.share.u8l
  */
 @Serializable
 @SerialName("Elf64Ehdr")
-data class Elf64Ehdr(
+data class Elf64Ehdr internal constructor(
     /**
      * This member identifies the object file type.
      */

@@ -5,7 +5,7 @@ import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.share.u4l
 
 @Serializable
-data class FixedFileInfo(
+data class FixedFileInfo internal constructor(
     val structVersion: UInt, // 通常是 0x00000100
     val fileVersionMS: UInt,
     val fileVersionLS: UInt,
@@ -76,7 +76,7 @@ data class FixedFileInfo(
     }
 
     @Serializable
-    data class Version(
+    data class Version internal constructor(
         val major: UShort,
         val minor: UShort,
         val build: UShort,

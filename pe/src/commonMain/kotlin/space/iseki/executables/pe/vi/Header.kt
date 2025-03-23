@@ -6,7 +6,7 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-internal data class StructureHeader(
+internal data class StructureHeader internal constructor(
     val wLength: UShort,
     val wValueLength: UShort,
     val wType: UShort,

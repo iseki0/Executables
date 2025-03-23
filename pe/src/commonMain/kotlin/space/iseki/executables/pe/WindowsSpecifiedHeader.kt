@@ -64,7 +64,7 @@ import kotlin.jvm.JvmStatic
  * @property clrRuntimeHeader The CLR runtime header address and size. For more information, see The .cormeta Section (Object Only).
  */
 @Serializable
-data class WindowsSpecifiedHeader(
+data class WindowsSpecifiedHeader internal constructor(
     val magic: PE32Magic,
     val imageBase: Address64,
     val sectionAlignment: UInt,

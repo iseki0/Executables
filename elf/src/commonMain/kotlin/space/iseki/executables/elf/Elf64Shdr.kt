@@ -16,7 +16,7 @@ import space.iseki.executables.share.u8l
  */
 @Serializable
 @SerialName("Elf64Shdr")
-data class Elf64Shdr(
+data class Elf64Shdr internal constructor(
     /**
      * Section name, index in string table.
      */

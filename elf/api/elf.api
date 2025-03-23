@@ -79,7 +79,6 @@ public final class space/iseki/executables/elf/Elf32Addr$Serializer : kotlinx/se
 
 public final class space/iseki/executables/elf/Elf32Ehdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfEhdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf32Ehdr$Companion;
-	public synthetic fun <init> (SSIIIIISSSSSSLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-PfRsyB4 ()S
 	public final fun component10--AGyQ7A ()S
 	public final fun component11--AGyQ7A ()S
@@ -93,8 +92,6 @@ public final class space/iseki/executables/elf/Elf32Ehdr : space/iseki/executabl
 	public final fun component7-nFKMrNA ()I
 	public final fun component8--AGyQ7A ()S
 	public final fun component9--AGyQ7A ()S
-	public final fun copy-P1t__WM (SSIIIIISSSSSS)Lspace/iseki/executables/elf/Elf32Ehdr;
-	public static synthetic fun copy-P1t__WM$default (Lspace/iseki/executables/elf/Elf32Ehdr;SSIIIIISSSSSSILjava/lang/Object;)Lspace/iseki/executables/elf/Elf32Ehdr;
 	public fun equals (Ljava/lang/Object;)Z
 	public synthetic fun getEEhsize ()Lspace/iseki/executables/elf/Primitive;
 	public fun getEEhsize--AGyQ7A ()S
@@ -205,7 +202,6 @@ public final class space/iseki/executables/elf/Elf32Off$Companion {
 
 public final class space/iseki/executables/elf/Elf32Phdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfPhdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf32Phdr$Companion;
-	public synthetic fun <init> (IIIIIIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-pKGY4mk ()I
 	public final fun component2-UGsYpoU ()I
 	public final fun component3-Kk3U2zw ()I
@@ -214,8 +210,6 @@ public final class space/iseki/executables/elf/Elf32Phdr : space/iseki/executabl
 	public final fun component6-nFKMrNA ()I
 	public final fun component7-gwN4zg0 ()I
 	public final fun component8-nFKMrNA ()I
-	public final fun copy-MY_5D74 (IIIIIIII)Lspace/iseki/executables/elf/Elf32Phdr;
-	public static synthetic fun copy-MY_5D74$default (Lspace/iseki/executables/elf/Elf32Phdr;IIIIIIIIILjava/lang/Object;)Lspace/iseki/executables/elf/Elf32Phdr;
 	public fun equals (Ljava/lang/Object;)Z
 	public synthetic fun getPAlign ()Lspace/iseki/executables/elf/Primitive;
 	public fun getPAlign-nFKMrNA ()I
@@ -253,7 +247,6 @@ public final class space/iseki/executables/elf/Elf32Phdr$Companion {
 public final class space/iseki/executables/elf/Elf32Shdr : space/iseki/executables/elf/ElfShdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf32Shdr$Companion;
 	public synthetic fun <init> (IIJIIIIIIILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (IIJIIIIIIILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-nFKMrNA ()I
 	public final fun component10-nFKMrNA ()I
 	public final fun component11 ()Ljava/lang/String;
@@ -265,8 +258,6 @@ public final class space/iseki/executables/elf/Elf32Shdr : space/iseki/executabl
 	public final fun component7-nFKMrNA ()I
 	public final fun component8-nFKMrNA ()I
 	public final fun component9-nFKMrNA ()I
-	public final fun copy-H7T3Fmo (IIJIIIIIIILjava/lang/String;)Lspace/iseki/executables/elf/Elf32Shdr;
-	public static synthetic fun copy-H7T3Fmo$default (Lspace/iseki/executables/elf/Elf32Shdr;IIJIIIIIIILjava/lang/String;ILjava/lang/Object;)Lspace/iseki/executables/elf/Elf32Shdr;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getName ()Ljava/lang/String;
 	public synthetic fun getShAddr ()Lspace/iseki/executables/elf/Primitive;
@@ -403,7 +394,6 @@ public final class space/iseki/executables/elf/Elf64Addr$Serializer : kotlinx/se
 
 public final class space/iseki/executables/elf/Elf64Ehdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfEhdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf64Ehdr$Companion;
-	public synthetic fun <init> (SSIJJJISSSSSSLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-PfRsyB4 ()S
 	public final fun component10-AOHzrO0 ()S
 	public final fun component11-AOHzrO0 ()S
@@ -417,8 +407,6 @@ public final class space/iseki/executables/elf/Elf64Ehdr : space/iseki/executabl
 	public final fun component7-4mhg-h8 ()I
 	public final fun component8-AOHzrO0 ()S
 	public final fun component9-AOHzrO0 ()S
-	public final fun copy-5xcjtpk (SSIJJJISSSSSS)Lspace/iseki/executables/elf/Elf64Ehdr;
-	public static synthetic fun copy-5xcjtpk$default (Lspace/iseki/executables/elf/Elf64Ehdr;SSIJJJISSSSSSILjava/lang/Object;)Lspace/iseki/executables/elf/Elf64Ehdr;
 	public fun equals (Ljava/lang/Object;)Z
 	public synthetic fun getEEhsize ()Lspace/iseki/executables/elf/Primitive;
 	public fun getEEhsize-AOHzrO0 ()S
@@ -529,7 +517,6 @@ public final class space/iseki/executables/elf/Elf64Off$Companion {
 
 public final class space/iseki/executables/elf/Elf64Phdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfPhdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf64Phdr$Companion;
-	public synthetic fun <init> (IIJJJJJJLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-pKGY4mk ()I
 	public final fun component2-gwN4zg0 ()I
 	public final fun component3-lLVqvh4 ()J
@@ -538,8 +525,6 @@ public final class space/iseki/executables/elf/Elf64Phdr : space/iseki/executabl
 	public final fun component6--oD2zvU ()J
 	public final fun component7--oD2zvU ()J
 	public final fun component8--oD2zvU ()J
-	public final fun copy-gRBi5cE (IIJJJJJJ)Lspace/iseki/executables/elf/Elf64Phdr;
-	public static synthetic fun copy-gRBi5cE$default (Lspace/iseki/executables/elf/Elf64Phdr;IIJJJJJJILjava/lang/Object;)Lspace/iseki/executables/elf/Elf64Phdr;
 	public fun equals (Ljava/lang/Object;)Z
 	public synthetic fun getPAlign ()Lspace/iseki/executables/elf/Primitive;
 	public fun getPAlign--oD2zvU ()J
@@ -577,7 +562,6 @@ public final class space/iseki/executables/elf/Elf64Phdr$Companion {
 public final class space/iseki/executables/elf/Elf64Shdr : space/iseki/executables/elf/ElfShdr {
 	public static final field Companion Lspace/iseki/executables/elf/Elf64Shdr$Companion;
 	public synthetic fun <init> (IIJJJJIIJJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (IIJJJJIIJJLjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-4mhg-h8 ()I
 	public final fun component10--oD2zvU ()J
 	public final fun component11 ()Ljava/lang/String;
@@ -589,8 +573,6 @@ public final class space/iseki/executables/elf/Elf64Shdr : space/iseki/executabl
 	public final fun component7-4mhg-h8 ()I
 	public final fun component8-4mhg-h8 ()I
 	public final fun component9--oD2zvU ()J
-	public final fun copy-Wn25qo0 (IIJJJJIIJJLjava/lang/String;)Lspace/iseki/executables/elf/Elf64Shdr;
-	public static synthetic fun copy-Wn25qo0$default (Lspace/iseki/executables/elf/Elf64Shdr;IIJJJJIIJJLjava/lang/String;ILjava/lang/Object;)Lspace/iseki/executables/elf/Elf64Shdr;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun getName ()Ljava/lang/String;
 	public synthetic fun getShAddr ()Lspace/iseki/executables/elf/Primitive;
@@ -822,15 +804,12 @@ public final class space/iseki/executables/elf/ElfEhdr$DefaultImpls {
 
 public final class space/iseki/executables/elf/ElfExportSymbol : space/iseki/executables/common/ExportSymbol {
 	public static final field Companion Lspace/iseki/executables/elf/ElfExportSymbol$Companion;
-	public synthetic fun <init> (Ljava/lang/String;JJBBBLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2-s-VKNKU ()J
 	public final fun component3-s-VKNKU ()J
 	public final fun component4-jkOwOrQ ()B
 	public final fun component5-PHbKgxg ()B
 	public final fun component6-m9uDlqo ()B
-	public final fun copy-O51aftw (Ljava/lang/String;JJBBB)Lspace/iseki/executables/elf/ElfExportSymbol;
-	public static synthetic fun copy-O51aftw$default (Lspace/iseki/executables/elf/ElfExportSymbol;Ljava/lang/String;JJBBBILjava/lang/Object;)Lspace/iseki/executables/elf/ElfExportSymbol;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getBinding-jkOwOrQ ()B
 	public fun getFields ()Ljava/util/Map;
@@ -936,14 +915,11 @@ public class space/iseki/executables/elf/ElfFileException : space/iseki/executab
 
 public final class space/iseki/executables/elf/ElfIdentification : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/elf/ElfIdentification$Companion;
-	public synthetic fun <init> (BBBBBLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-c3FtmGA ()B
 	public final fun component2-wf8XVRY ()B
 	public final fun component3-w2LRezQ ()B
 	public final fun component4-qSg-ays ()B
 	public final fun component5-w2LRezQ ()B
-	public final fun copy-Asih7LE (BBBBB)Lspace/iseki/executables/elf/ElfIdentification;
-	public static synthetic fun copy-Asih7LE$default (Lspace/iseki/executables/elf/ElfIdentification;BBBBBILjava/lang/Object;)Lspace/iseki/executables/elf/ElfIdentification;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getEiAbiVersion-w2LRezQ ()B
 	public final fun getEiClass-c3FtmGA ()B

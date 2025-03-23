@@ -10,7 +10,7 @@ import space.iseki.executables.common.ImportSymbol
  * @property ordinal The ordinal number of the import symbol (if imported by ordinal)
  * @property isOrdinal Whether this symbol is imported by ordinal
  */
-data class PEImportSymbol(
+data class PEImportSymbol internal constructor(
     override val name: String,
     override val file: String,
     val ordinal: UShort? = null,

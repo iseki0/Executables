@@ -14,7 +14,7 @@ import space.iseki.executables.share.u4l
  */
 @Serializable
 @SerialName("Elf32Shdr")
-data class Elf32Shdr(
+data class Elf32Shdr internal constructor(
     /**
      * Section name, index in string table.
      */

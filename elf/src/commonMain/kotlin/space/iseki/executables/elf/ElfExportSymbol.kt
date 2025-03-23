@@ -14,7 +14,7 @@ import space.iseki.executables.common.ExportSymbol
  * @property visibility Symbol visibility (DEFAULT, HIDDEN, PROTECTED)
  */
 @Serializable
-data class ElfExportSymbol(
+data class ElfExportSymbol internal constructor(
     override val name: String,
     val value: ULong,
     val size: ULong,
