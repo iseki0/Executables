@@ -1,0 +1,40 @@
+typename: MachoFileType
+package: space.iseki.executables.macho
+dataLength: 4
+list:
+  - name: MH_OBJECT
+    value: 0x1
+    docs: relocatable object file
+  - name: MH_EXECUTE
+    value: 0x2
+    docs: demand paged executable file
+  - name: MH_FVMLIB
+    value: 0x3
+    docs: fixed VM shared library file
+  - name: MH_CORE
+    value: 0x4
+    docs: core file
+  - name: MH_PRELOAD
+    value: 0x5
+    docs: preloaded executable file
+  - name: MH_DYLIB
+    value: 0x6
+    docs: dynamically bound shared library
+  - name: MH_DYLINKER
+    value: 0x7
+    docs: dynamic link editor
+  - name: MH_BUNDLE
+    value: 0x8
+    docs: dynamically bound bundle file
+  - name: MH_DYLIB_STUB
+    value: 0x9
+    docs: shared library stub for static linking only, no section contents
+  - name: MH_DSYM
+    value: 0xa
+    docs: companion file with only debug sections
+  - name: MH_KEXT_BUNDLE
+    value: 0xb
+    docs: x86_64 kexts
+  - name: MH_FILESET
+    value: 0xc
+    docs: set of mach-o's 

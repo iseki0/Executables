@@ -1,0 +1,31 @@
+typename: MachoSectionType
+package: space.iseki.executables.macho
+dataLength: 4
+list:
+  - name: S_REGULAR
+    value: 0x0
+    docs: regular section
+  - name: S_ZEROFILL
+    value: 0x1
+    docs: zero fill on demand section
+  - name: S_CSTRING_LITERALS
+    value: 0x2
+    docs: section with only literal C strings
+  - name: S_4BYTE_LITERALS
+    value: 0x3
+    docs: section with only 4 byte literals
+  - name: S_8BYTE_LITERALS
+    value: 0x4
+    docs: section with only 8 byte literals
+  - name: S_LITERAL_POINTERS
+    value: 0x5
+    docs: section with only pointers to literals
+  - name: S_NON_LAZY_SYMBOL_POINTERS
+    value: 0x6
+    docs: section with only non-lazy symbol pointers
+  - name: S_LAZY_SYMBOL_POINTERS
+    value: 0x7
+    docs: section with only lazy symbol pointers
+  - name: S_SYMBOL_STUBS
+    value: 0x8
+    docs: section with only symbol stubs, byte size of stub in the reserved2 field 

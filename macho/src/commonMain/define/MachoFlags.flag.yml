@@ -1,0 +1,91 @@
+typename: MachoFlags
+package: space.iseki.executables.macho
+dataLength: 4
+list:
+  - name: MH_NOUNDEFS
+    value: 0x1
+    docs: the object file has no undefined references
+  - name: MH_INCRLINK
+    value: 0x2
+    docs: the object file is the output of an incremental link against a base file and can't be link edited again
+  - name: MH_DYLDLINK
+    value: 0x4
+    docs: the object file is input for the dynamic linker and can't be staticly link edited again
+  - name: MH_BINDATLOAD
+    value: 0x8
+    docs: the object file's undefined references are bound by the dynamic linker when loaded
+  - name: MH_PREBOUND
+    value: 0x10
+    docs: the file has its dynamic undefined references prebound
+  - name: MH_SPLIT_SEGS
+    value: 0x20
+    docs: the file has its read-only and read-write segments split
+  - name: MH_LAZY_INIT
+    value: 0x40
+    docs: the shared library init routine is to be run lazily via catching memory faults to its writeable segments (obsolete)
+  - name: MH_TWOLEVEL
+    value: 0x80
+    docs: the image is using two-level name space bindings
+  - name: MH_FORCE_FLAT
+    value: 0x100
+    docs: the executable is forcing all images to use flat name space bindings
+  - name: MH_NOMULTIDEFS
+    value: 0x200
+    docs: this umbrella guarantees no multiple defintions of symbols in its sub-images so the two-level namespace hints can always be used
+  - name: MH_NOFIXPREBINDING
+    value: 0x400
+    docs: do not have dyld notify the prebinding agent about this executable
+  - name: MH_PREBINDABLE
+    value: 0x800
+    docs: the binary is not prebound but can have its prebinding redone. only used when MH_PREBOUND is not set
+  - name: MH_ALLMODSBOUND
+    value: 0x1000
+    docs: indicates that this binary binds to all two-level namespace modules of its dependent libraries. only used when MH_PREBINDABLE and MH_TWOLEVEL are both set
+  - name: MH_SUBSECTIONS_VIA_SYMBOLS
+    value: 0x2000
+    docs: safe to divide up the sections into sub-sections via symbols for dead code stripping
+  - name: MH_CANONICAL
+    value: 0x4000
+    docs: the binary has been canonicalized via the unprebind operation
+  - name: MH_WEAK_DEFINES
+    value: 0x8000
+    docs: the final linked image contains external weak symbols
+  - name: MH_BINDS_TO_WEAK
+    value: 0x10000
+    docs: the final linked image uses weak symbols
+  - name: MH_ALLOW_STACK_EXECUTION
+    value: 0x20000
+    docs: When this bit is set, all stacks in the task will be given stack execution privilege. Only used in MH_EXECUTE filetypes
+  - name: MH_ROOT_SAFE
+    value: 0x40000
+    docs: When this bit is set, the binary declares it is safe for use in processes with uid zero
+  - name: MH_SETUID_SAFE
+    value: 0x80000
+    docs: When this bit is set, the binary declares it is safe for use in processes when issetugid() is true
+  - name: MH_NO_REEXPORTED_DYLIBS
+    value: 0x100000
+    docs: When this bit is set on a dylib, the static linker does not need to examine dependent dylibs to see if any are re-exported
+  - name: MH_PIE
+    value: 0x200000
+    docs: When this bit is set, the OS will load the main executable at a random address. Only used in MH_EXECUTE filetypes
+  - name: MH_DEAD_STRIPPABLE_DYLIB
+    value: 0x400000
+    docs: Only for use on dylibs. When linking against a dylib that has this bit set, the static linker will automatically not create a LC_LOAD_DYLIB load command to the dylib if no symbols are being referenced from the dylib
+  - name: MH_HAS_TLV_DESCRIPTORS
+    value: 0x800000
+    docs: Contains a section of type S_THREAD_LOCAL_VARIABLES
+  - name: MH_NO_HEAP_EXECUTION
+    value: 0x1000000
+    docs: When this bit is set, the OS will run the main executable with a non-executable heap even on platforms (e.g. i386) that don't require it. Only used in MH_EXECUTE filetypes
+  - name: MH_APP_EXTENSION_SAFE
+    value: 0x02000000
+    docs: The code was linked for use in an application extension
+  - name: MH_NLIST_OUTOFSYNC_WITH_DYLDINFO
+    value: 0x04000000
+    docs: The external symbols listed in the nlist symbol table do not include all the symbols listed in the dyld info
+  - name: MH_SIM_SUPPORT
+    value: 0x08000000
+    docs: Allow LC_MIN_VERSION_MACOS and LC_BUILD_VERSION load commands with the platforms macOS, iOSMac, iOSSimulator, tvOSSimulator and watchOSSimulator
+  - name: MH_DYLIB_IN_CACHE
+    value: 0x80000000
+    docs: Only for use on dylibs. When this bit is set, the dylib is part of the dyld shared cache, rather than loose in the filesystem 

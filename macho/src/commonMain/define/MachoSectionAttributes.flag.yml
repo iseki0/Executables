@@ -1,0 +1,31 @@
+typename: MachoSectionAttributes
+package: space.iseki.executables.macho
+dataLength: 4
+list:
+  - name: S_ATTR_PURE_INSTRUCTIONS
+    value: 0x80000000
+    docs: section contains only true machine instructions
+  - name: S_ATTR_NO_TOC
+    value: 0x40000000
+    docs: section contains coalesced symbols that are not to be in a ranlib table of contents
+  - name: S_ATTR_STRIP_STATIC_SYMS
+    value: 0x20000000
+    docs: ok to strip static symbols in this section in files with the MH_DYLDLINK flag
+  - name: S_ATTR_NO_DEAD_STRIP
+    value: 0x10000000
+    docs: no dead stripping
+  - name: S_ATTR_LIVE_SUPPORT
+    value: 0x08000000
+    docs: blocks are live if they reference live blocks
+  - name: S_ATTR_SELF_MODIFYING_CODE
+    value: 0x04000000
+    docs: Used with i386 code stubs written on by dyld
+  - name: S_ATTR_SOME_INSTRUCTIONS
+    value: 0x00000400
+    docs: section contains some machine instructions
+  - name: S_ATTR_EXT_RELOC
+    value: 0x00000200
+    docs: section has external relocation entries
+  - name: S_ATTR_LOC_RELOC
+    value: 0x00000100
+    docs: section has local relocation entries 

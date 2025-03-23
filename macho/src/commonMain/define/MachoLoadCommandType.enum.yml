@@ -1,0 +1,166 @@
+typename: MachoLoadCommandType
+package: space.iseki.executables.macho
+dataLength: 4
+list:
+  - name: LC_SEGMENT
+    value: 0x1
+    docs: segment of this file to be mapped
+  - name: LC_SYMTAB
+    value: 0x2
+    docs: link-edit stab symbol table info
+  - name: LC_SYMSEG
+    value: 0x3
+    docs: link-edit gdb symbol table info (obsolete)
+  - name: LC_THREAD
+    value: 0x4
+    docs: thread
+  - name: LC_UNIXTHREAD
+    value: 0x5
+    docs: unix thread (includes a stack)
+  - name: LC_LOADFVMLIB
+    value: 0x6
+    docs: load a specified fixed VM shared library
+  - name: LC_IDFVMLIB
+    value: 0x7
+    docs: fixed VM shared library identification
+  - name: LC_IDENT
+    value: 0x8
+    docs: object identification info (obsolete)
+  - name: LC_FVMFILE
+    value: 0x9
+    docs: fixed VM file inclusion (internal use)
+  - name: LC_PREPAGE
+    value: 0xa
+    docs: prepage command (internal use)
+  - name: LC_DYSYMTAB
+    value: 0xb
+    docs: dynamic link-edit symbol table info
+  - name: LC_LOAD_DYLIB
+    value: 0xc
+    docs: load a dynamically linked shared library
+  - name: LC_ID_DYLIB
+    value: 0xd
+    docs: dynamically linked shared lib ident
+  - name: LC_LOAD_DYLINKER
+    value: 0xe
+    docs: load a dynamic linker
+  - name: LC_ID_DYLINKER
+    value: 0xf
+    docs: dynamic linker identification
+  - name: LC_PREBOUND_DYLIB
+    value: 0x10
+    docs: modules prebound for a dynamically linked shared library
+  - name: LC_ROUTINES
+    value: 0x11
+    docs: image routines
+  - name: LC_SUB_FRAMEWORK
+    value: 0x12
+    docs: sub framework
+  - name: LC_SUB_UMBRELLA
+    value: 0x13
+    docs: sub umbrella
+  - name: LC_SUB_CLIENT
+    value: 0x14
+    docs: sub client
+  - name: LC_SUB_LIBRARY
+    value: 0x15
+    docs: sub library
+  - name: LC_TWOLEVEL_HINTS
+    value: 0x16
+    docs: two-level namespace lookup hints
+  - name: LC_PREBIND_CKSUM
+    value: 0x17
+    docs: prebind checksum
+  - name: LC_LOAD_WEAK_DYLIB
+    value: 0x18
+    docs: load a dynamically linked shared library that is allowed to be missing (all symbols are weak imported)
+  - name: LC_SEGMENT_64
+    value: 0x19
+    docs: 64-bit segment of this file to be mapped
+  - name: LC_ROUTINES_64
+    value: 0x1a
+    docs: 64-bit image routines
+  - name: LC_UUID
+    value: 0x1b
+    docs: the uuid
+  - name: LC_RPATH
+    value: 0x1c
+    docs: runpath additions
+  - name: LC_CODE_SIGNATURE
+    value: 0x1d
+    docs: local of code signature
+  - name: LC_SEGMENT_SPLIT_INFO
+    value: 0x1e
+    docs: local of info to split segments
+  - name: LC_REEXPORT_DYLIB
+    value: 0x1f
+    docs: load and re-export dylib
+  - name: LC_LAZY_LOAD_DYLIB
+    value: 0x20
+    docs: delay load of dylib until first use
+  - name: LC_ENCRYPTION_INFO
+    value: 0x21
+    docs: encrypted segment information
+  - name: LC_DYLD_INFO
+    value: 0x22
+    docs: compressed dyld information
+  - name: LC_DYLD_INFO_ONLY
+    value: 0x22
+    docs: compressed dyld information only
+  - name: LC_LOAD_UPWARD_DYLIB
+    value: 0x23
+    docs: load upward dylib
+  - name: LC_VERSION_MIN_MACOSX
+    value: 0x24
+    docs: build for MacOSX min OS version
+  - name: LC_VERSION_MIN_IPHONEOS
+    value: 0x25
+    docs: build for iPhoneOS min OS version
+  - name: LC_FUNCTION_STARTS
+    value: 0x26
+    docs: compressed table of function start addresses
+  - name: LC_DYLD_ENVIRONMENT
+    value: 0x27
+    docs: string for dyld to treat like environment variable
+  - name: LC_MAIN
+    value: 0x28
+    docs: replacement for LC_UNIXTHREAD
+  - name: LC_DATA_IN_CODE
+    value: 0x29
+    docs: table of non-instructions in __text
+  - name: LC_SOURCE_VERSION
+    value: 0x2A
+    docs: source version used to build binary
+  - name: LC_DYLIB_CODE_SIGN_DRS
+    value: 0x2B
+    docs: Code signing DRs copied from linked dylibs
+  - name: LC_ENCRYPTION_INFO_64
+    value: 0x2C
+    docs: 64-bit encrypted segment information
+  - name: LC_LINKER_OPTION
+    value: 0x2D
+    docs: linker options in MH_OBJECT files
+  - name: LC_LINKER_OPTIMIZATION_HINT
+    value: 0x2E
+    docs: optimization hints in MH_OBJECT files
+  - name: LC_VERSION_MIN_TVOS
+    value: 0x2F
+    docs: build for AppleTV min OS version
+  - name: LC_VERSION_MIN_WATCHOS
+    value: 0x30
+    docs: build for Watch min OS version
+  - name: LC_NOTE
+    value: 0x31
+    docs: arbitrary data included within a Mach-O file
+  - name: LC_BUILD_VERSION
+    value: 0x32
+    docs: build for platform min OS version
+  - name: LC_DYLD_EXPORTS_TRIE
+    value: 0x33
+    docs: used with linkedit_data_command, payload is trie
+  - name: LC_DYLD_CHAINED_FIXUPS
+    value: 0x34
+    docs: used with linkedit_data_command
+  - name: LC_FILESET_ENTRY
+    value: 0x35
+    docs: used with fileset_entry_command 

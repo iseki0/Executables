@@ -16,7 +16,7 @@ Currently, this library can:
 - [x] ELF: Read basic information (ELF Header, Section headers, Program headers)
 - [x] ELF: Read symbol tables
 - [x] ELF: Read section data
-- [ ] Macho: Read basic information
+- [x] Macho: Read basic information
 - [x] Chore: Jigsaw ready
 
 > This project is currently in the early stages of development. This means it is still evolving and may undergo frequent
@@ -38,6 +38,7 @@ This project contains several modules on Maven Central:
 - [space.iseki.executables:executables-common] contains the code shared by pe, elf, and macho
 - [space.iseki.executables:executables-pe] contains the code for parsing PE files
 - [space.iseki.executables:executables-elf] contains the code for parsing ELF files
+- [space.iseki.executables:executables-macho] contains the code for parsing Macho files
 - [space.iseki.executables:executables-all] (common + pe + elf)
 
 If the dependency size is not a concern, you can use executables-all directly.
@@ -170,6 +171,7 @@ fun main() {
 - PE Format: https://docs.microsoft.com/en-us/windows/win32/debug/pe-format
 - PE VS_VERSIONINFO: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
 - ELF Format: https://refspecs.linuxfoundation.org/elf/elf.pdf
+- Macho Format: https://github.com/apple/darwin-xnu/blob/main/EXTERNAL_HEADERS/mach-o/loader.h
 
 [VS_VERSIONINFO]: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
 
@@ -178,5 +180,7 @@ fun main() {
 [space.iseki.executables:executables-pe]: https://central.sonatype.com/artifact/space.iseki.executables/executables-pe
 
 [space.iseki.executables:executables-elf]: https://central.sonatype.com/artifact/space.iseki.executables/executables-elf
+
+[space.iseki.executables:executables-macho]: https://central.sonatype.com/artifact/space.iseki.executables/executables-macho
 
 [space.iseki.executables:executables-all]: https://central.sonatype.com/artifact/space.iseki.executables/executables-all
