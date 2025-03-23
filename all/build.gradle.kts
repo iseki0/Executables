@@ -1,5 +1,6 @@
 plugins {
     convention
+    `pub-convention`
 }
 
 dependencies {
