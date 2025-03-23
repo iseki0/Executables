@@ -23,4 +23,5 @@ dependencies {
     dokka(project(":common"))
     dokka(project(":pe"))
     dokka(project(":elf"))
+    dokka(project(":macho"))
 }
