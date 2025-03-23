@@ -80,7 +80,19 @@ value class ExecutableFileType(private val i: Byte) {
             return when {
                 buf[0] == 0x4d.toByte() && buf[1] == 0x5a.toByte() -> PE
                 buf[0] == 0x7f.toByte() && buf[1] == 0x45.toByte() && buf[2] == 0x4c.toByte() && buf[3] == 0x46.toByte() -> ELF
+
+                // 32-bit little endian
+                buf[0] == 0xfe.toByte() && buf[1] == 0xed.toByte() && buf[2] == 0xfa.toByte() && buf[3] == 0xce.toByte() -> MACHO
+                // 32-bit big endian
+                buf[0] == 0xce.toByte() && buf[1] == 0xfa.toByte() && buf[2] == 0xed.toByte() && buf[3] == 0xfe.toByte() -> MACHO
+                // 64-bit little endian
+                buf[0] == 0xfe.toByte() && buf[1] == 0xed.toByte() && buf[2] == 0xfa.toByte() && buf[3] == 0xcf.toByte() -> MACHO
+                // 64-bit big endian
                 buf[0] == 0xcf.toByte() && buf[1] == 0xfa.toByte() && buf[2] == 0xed.toByte() && buf[3] == 0xfe.toByte() -> MACHO
+                // Fat binary (universal)
+                buf[0] == 0xca.toByte() && buf[1] == 0xfe.toByte() && buf[2] == 0xba.toByte() && buf[3] == 0xbe.toByte() -> MACHO
+                // Fat binary (reverse endian)
+                buf[0] == 0xbe.toByte() && buf[1] == 0xba.toByte() && buf[2] == 0xfe.toByte() && buf[3] == 0xca.toByte() -> MACHO
                 else -> null
             }
         }
