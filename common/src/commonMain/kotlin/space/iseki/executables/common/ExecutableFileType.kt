@@ -14,7 +14,7 @@ import kotlin.jvm.JvmStatic
  * Represents the type of executable file.
  */
 @JvmInline
-@Serializable
+@Serializable(ExecutableFileType.Serializer::class)
 value class ExecutableFileType(private val i: Byte) {
     internal object Serializer : KSerializer<ExecutableFileType> {
         override val descriptor: SerialDescriptor

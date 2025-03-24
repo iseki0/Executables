@@ -50,16 +50,6 @@ public final class space/iseki/executables/common/ExecutableFileType {
 	public final synthetic fun unbox-impl ()B
 }
 
-public synthetic class space/iseki/executables/common/ExecutableFileType$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/common/ExecutableFileType$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize-hCAE3vg (Lkotlinx/serialization/encoding/Decoder;)B
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize-xvvWuOw (Lkotlinx/serialization/encoding/Encoder;B)V
-}
-
 public final class space/iseki/executables/common/ExecutableFileType$Companion {
 	public final fun detect-cHsH6GY (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFileType;
 	public final fun detect-cHsH6GY ([B)Lspace/iseki/executables/common/ExecutableFileType;
