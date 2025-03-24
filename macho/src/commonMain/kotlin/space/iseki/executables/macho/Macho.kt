@@ -4,6 +4,7 @@ import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.OpenedFile
+import space.iseki.executables.common.ReadableStructure
 
 /**
  * Represents a Mach-O file and provides access to its contents.
@@ -35,6 +36,9 @@ class MachoFile private constructor(
         }
 
     }
+
+    override val rootHeaders: Map<String, ReadableStructure>
+        get() = mapOf("mach" to header)
 
     override fun close() {
         dataAccessor.close()

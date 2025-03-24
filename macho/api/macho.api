@@ -105,6 +105,7 @@ public final class space/iseki/executables/macho/MachoFile : java/lang/AutoClose
 	public synthetic fun <init> (Lspace/iseki/executables/common/DataAccessor;Lspace/iseki/executables/macho/MachoHeader;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
 	public final fun getHeader ()Lspace/iseki/executables/macho/MachoHeader;
+	public fun getRootHeaders ()Ljava/util/Map;
 }
 
 public final class space/iseki/executables/macho/MachoFile$Companion : space/iseki/executables/common/FileFormat {
