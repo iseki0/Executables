@@ -55,19 +55,23 @@ kotlin {
         }
         mingwX64Main.get().dependsOn(nativeFileSupportedMingw64Main)
 
+        val nativeFileSupported2Main by creating {
+            dependsOn(commonMain.get())
+        }
+        watchosArm32Main.get().dependsOn(nativeFileSupported2Main)
+        watchosArm64Main.get().dependsOn(nativeFileSupported2Main)
+        watchosX64Main.get().dependsOn(nativeFileSupported2Main)
+        watchosSimulatorArm64Main.get().dependsOn(nativeFileSupported2Main)
+        tvosSimulatorArm64Main.get().dependsOn(nativeFileSupported2Main)
+        tvosX64Main.get().dependsOn(nativeFileSupported2Main)
+        tvosArm64Main.get().dependsOn(nativeFileSupported2Main)
+        androidNativeArm32Main.get().dependsOn(nativeFileSupported2Main)
+        androidNativeX86Main.get().dependsOn(nativeFileSupported2Main)
+        watchosDeviceArm64Main.get().dependsOn(nativeFileSupported2Main)
+
         val nativeFileUnsupported by creating {
             dependsOn(commonMain.get())
         }
-        watchosArm32Main.get().dependsOn(nativeFileUnsupported)
-        watchosArm64Main.get().dependsOn(nativeFileUnsupported)
-        watchosX64Main.get().dependsOn(nativeFileUnsupported)
-        watchosSimulatorArm64Main.get().dependsOn(nativeFileUnsupported)
-        tvosSimulatorArm64Main.get().dependsOn(nativeFileUnsupported)
-        tvosX64Main.get().dependsOn(nativeFileUnsupported)
-        tvosArm64Main.get().dependsOn(nativeFileUnsupported)
-        androidNativeArm32Main.get().dependsOn(nativeFileUnsupported)
-        androidNativeX86Main.get().dependsOn(nativeFileUnsupported)
-        watchosDeviceArm64Main.get().dependsOn(nativeFileUnsupported)
         jsMain.get().dependsOn(nativeFileUnsupported)
         wasmJsMain.get().dependsOn(nativeFileUnsupported)
         wasmWasiMain.get().dependsOn(nativeFileUnsupported)
