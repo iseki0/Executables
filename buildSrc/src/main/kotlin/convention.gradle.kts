@@ -31,7 +31,6 @@ kotlin {
         compilerOptions {
             freeCompilerArgs.add("-Xexpect-actual-classes")
             freeCompilerArgs.add("-Xconsistent-data-class-copy-visibility")
-            freeCompilerArgs.add("-opt-in=space.iseki.executables.common.ExeInternalApi")
         }
         jvm {
             compilerOptions {
