@@ -61,6 +61,7 @@ class PEFile private constructor(
     val summary: Summary = Summary(coffHeader, standardHeader, windowsHeader, sectionTable)
 
     companion object : FileFormat<PEFile> {
+        override fun toString(): String = "PE"
         private const val PE_SIGNATURE_LE = 0x00004550
 
         /**

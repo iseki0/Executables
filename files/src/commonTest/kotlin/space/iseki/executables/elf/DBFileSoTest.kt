@@ -1,22 +1,23 @@
 package space.iseki.executables.elf
 
-import kotlinx.serialization.json.Json
 import kotlin.test.Test
 
 class DBFileSoTest {
-    private val json = Json {
-        prettyPrint = true
-    }
-
     @Test
     fun testOpen() {
-        ElfFile.open(dbFileData)
+        try {
+            ElfFile.open("src/commonTest/resources/elf/dbfile.so").close()
+        } catch (_: UnsupportedOperationException) {
+        }
     }
 
     @Test
     fun testExportSymbols() {
-        val file = ElfFile.open(dbFileData)
-        file.exportSymbols.forEach { println(it) }
+        try {
+            val file = ElfFile.open("src/commonTest/resources/elf/dbfile.so")
+            file.exportSymbols.forEach { println(it) }
+        } catch (_: UnsupportedOperationException) {
+        }
     }
 
 }

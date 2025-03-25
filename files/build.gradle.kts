@@ -1,3 +1,4 @@
+
 plugins {
     convention
     id("tgenerator")
@@ -11,4 +12,65 @@ jigsaw {
 tasks.named("jvmTest") {
     this as Test
     useJUnitPlatform()
+}
+
+kotlin {
+    sourceSets {
+        val nonJvmMain by creating {
+            dependsOn(commonMain.get())
+        }
+        jsMain.get().dependsOn(nonJvmMain)
+        nativeMain.get().dependsOn(nonJvmMain)
+        wasmJsMain.get().dependsOn(nonJvmMain)
+        wasmWasiMain.get().dependsOn(nonJvmMain)
+
+        val nativeFileSupportedMain by creating {
+            dependsOn(commonMain.get())
+        }
+        macosX64Main.get().dependsOn(nativeFileSupportedMain)
+        macosArm64Main.get().dependsOn(nativeFileSupportedMain)
+        iosSimulatorArm64Main.get().dependsOn(nativeFileSupportedMain)
+        iosX64Main.get().dependsOn(nativeFileSupportedMain)
+        iosArm64Main.get().dependsOn(nativeFileSupportedMain)
+        linuxX64Main.get().dependsOn(nativeFileSupportedMain)
+        linuxArm64Main.get().dependsOn(nativeFileSupportedMain)
+        androidNativeArm64Main.get().dependsOn(nativeFileSupportedMain)
+        androidNativeX64Main.get().dependsOn(nativeFileSupportedMain)
+
+        val nativeFileSupportedTest by creating {
+            dependsOn(commonTest.get())
+        }
+        macosX64Test.get().dependsOn(nativeFileSupportedTest)
+        macosArm64Test.get().dependsOn(nativeFileSupportedTest)
+        iosSimulatorArm64Test.get().dependsOn(nativeFileSupportedTest)
+        iosX64Test.get().dependsOn(nativeFileSupportedTest)
+        iosArm64Test.get().dependsOn(nativeFileSupportedTest)
+        linuxX64Test.get().dependsOn(nativeFileSupportedTest)
+        linuxArm64Test.get().dependsOn(nativeFileSupportedTest)
+        androidNativeArm64Test.get().dependsOn(nativeFileSupportedTest)
+        androidNativeX64Test.get().dependsOn(nativeFileSupportedTest)
+
+        val nativeFileSupportedMingw64Main by creating {
+            dependsOn(commonMain.get())
+        }
+        mingwX64Main.get().dependsOn(nativeFileSupportedMingw64Main)
+
+        val nativeFileUnsupported by creating {
+            dependsOn(commonMain.get())
+        }
+        watchosArm32Main.get().dependsOn(nativeFileUnsupported)
+        watchosArm64Main.get().dependsOn(nativeFileUnsupported)
+        watchosX64Main.get().dependsOn(nativeFileUnsupported)
+        watchosSimulatorArm64Main.get().dependsOn(nativeFileUnsupported)
+        tvosSimulatorArm64Main.get().dependsOn(nativeFileUnsupported)
+        tvosX64Main.get().dependsOn(nativeFileUnsupported)
+        tvosArm64Main.get().dependsOn(nativeFileUnsupported)
+        androidNativeArm32Main.get().dependsOn(nativeFileUnsupported)
+        androidNativeX86Main.get().dependsOn(nativeFileUnsupported)
+        watchosDeviceArm64Main.get().dependsOn(nativeFileUnsupported)
+        jsMain.get().dependsOn(nativeFileUnsupported)
+        wasmJsMain.get().dependsOn(nativeFileUnsupported)
+        wasmWasiMain.get().dependsOn(nativeFileUnsupported)
+
+    }
 }

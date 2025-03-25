@@ -31,6 +31,7 @@ class ElfFile private constructor(
 ) : AutoCloseable, OpenedFile, ReadableSectionContainer, ExportSymbolContainer, ImportSymbolContainer {
 
     companion object : FileFormat<ElfFile> {
+        override fun toString(): String = "ELF"
         internal val ElfClass.ehdrSize: Int
             get() = when (this) {
                 ElfClass.ELFCLASS32 -> 52

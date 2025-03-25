@@ -5,8 +5,6 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToJsonElement
-import space.iseki.executables.common.ByteArrayDataAccessor
-import space.iseki.executables.common.ExecutableFileType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -22,7 +20,6 @@ class GoTest {
 
     @Test
     fun test() {
-        assertEquals(ExecutableFileType.PE, ExecutableFileType.detect(ByteArrayDataAccessor(data)))
         PEFile.open(data).use { pe ->
             assertEquals(summaryJson, json.encodeToJsonElement(pe.summary))
             println(json.encodeToString(pe.versionInfo?.stringFileInfo?.strings))

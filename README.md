@@ -18,6 +18,7 @@ Currently, this library can:
 - [x] ELF: Read section data
 - [x] Macho: Read basic information
 - [x] Chore: Jigsaw ready
+- [x] Kotlin/Native: File access
 
 > This project is currently in the early stages of development. This means it is still evolving and may undergo frequent
 > updates and changes.
@@ -33,21 +34,15 @@ All targets supported.
 
 ### Add dependency
 
-This project contains several modules on Maven Central:
+This project contains ~~several~~ modules on Maven Central:
 
-- [space.iseki.executables:executables-common] contains the code shared by pe, elf, and macho
-- [space.iseki.executables:executables-pe] contains the code for parsing PE files
-- [space.iseki.executables:executables-elf] contains the code for parsing ELF files
-- [space.iseki.executables:executables-macho] contains the code for parsing Macho files
-- [space.iseki.executables:executables-all] (common + pe + elf)
-
-If the dependency size is not a concern, you can use executables-all directly.
+- [space.iseki.executables:executables-files] contains the code shared by pe, elf, and macho
 
 #### Gradle
 
 ```kotlin
 dependencies {
-    implementation("space.iseki.executables:executables-all:0.0.18")
+    implementation("space.iseki.executables:executables-files:0.0.18")
 }
 ```
 
@@ -60,7 +55,7 @@ Since the project is in Kotlin Multiplatform, for Maven user you have to specify
 
 <dependency>
     <groupId>space.iseki.executables</groupId>
-    <artifactId>executables-all-jvm</artifactId>
+    <artifactId>executables-files-jvm</artifactId>
     <version>0.0.18</version>
 </dependency>
 ```
@@ -89,12 +84,11 @@ fun main() {
 
 ```kotlin
 import java.nio.file.Path
-import space.iseki.executables.common.ExecutableFile
-import space.iseki.executables.common.ExecutableFileType
+import space.iseki.executables.common.FileFormat
 
 fun main() {
     val file = Path.of("C:\\System32\\notepad.exe")
-    println(ExecutableFileType.detect(file))
+    println(FileFormat.detect(file))
 }
 ```
 
@@ -175,12 +169,4 @@ fun main() {
 
 [VS_VERSIONINFO]: https://learn.microsoft.com/en-us/windows/win32/menurc/vs-versioninfo
 
-[space.iseki.executables:executables-common]: https://central.sonatype.com/artifact/space.iseki.executables/executables-common
-
-[space.iseki.executables:executables-pe]: https://central.sonatype.com/artifact/space.iseki.executables/executables-pe
-
-[space.iseki.executables:executables-elf]: https://central.sonatype.com/artifact/space.iseki.executables/executables-elf
-
-[space.iseki.executables:executables-macho]: https://central.sonatype.com/artifact/space.iseki.executables/executables-macho
-
-[space.iseki.executables:executables-all]: https://central.sonatype.com/artifact/space.iseki.executables/executables-all
+[space.iseki.executables:executables-files]: https://central.sonatype.com/artifact/space.iseki.executables/executables-files

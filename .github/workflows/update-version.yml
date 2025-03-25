@@ -39,7 +39,7 @@ jobs:
           # 或者，如果不确定旧版本号，每次可以直接根据周边文字做精确匹配。
           
           # 替换 Gradle 示例中的版本号 executables-all:0.0.5
-          sed -i "s|\(executables-all:\)[0-9]\+\.[0-9]\+\.[0-9]\+|\1${{ steps.get_version.outputs.version }}|g" README.md
+          sed -i "s|\(executables-files:\)[0-9]\+\.[0-9]\+\.[0-9]\+|\1${{ steps.get_version.outputs.version }}|g" README.md
           
           # 替换 Maven 片段中的 <version>0.0.5</version>
           sed -i "s|\(<version>\)[0-9]\+\.[0-9]\+\.[0-9]\+\(</version>\)|\1${{ steps.get_version.outputs.version }}\2|g" README.md

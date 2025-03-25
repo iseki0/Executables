@@ -130,14 +130,6 @@ public final class space/iseki/executables/common/Address64Kt {
 	public static final fun Address64 (J)J
 }
 
-public final class space/iseki/executables/common/ByteArrayDataAccessor : space/iseki/executables/common/DataAccessor {
-	public fun <init> ([B)V
-	public fun close ()V
-	public fun getSize ()J
-	public fun readAtMost (J[BII)I
-	public fun toString ()Ljava/lang/String;
-}
-
 public class space/iseki/executables/common/CommonFileException : java/lang/RuntimeException {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;)V
@@ -159,42 +151,6 @@ public final class space/iseki/executables/common/DataAccessor$DefaultImpls {
 	public static fun readFully (Lspace/iseki/executables/common/DataAccessor;J[BII)V
 }
 
-public final class space/iseki/executables/common/ExecutableFileType {
-	public static final field Companion Lspace/iseki/executables/common/ExecutableFileType$Companion;
-	public static final synthetic fun box-impl (B)Lspace/iseki/executables/common/ExecutableFileType;
-	public static fun constructor-impl (B)B
-	public static final fun detect-cHsH6GY (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFileType;
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (BLjava/lang/Object;)Z
-	public static final fun equals-impl0 (BB)Z
-	public static final fun fromString-hCAE3vg (Ljava/lang/String;)B
-	public fun hashCode ()I
-	public static fun hashCode-impl (B)I
-	public static final fun isElf-impl (B)Z
-	public static final fun isMacho-impl (B)Z
-	public static final fun isPE-impl (B)Z
-	public fun toString ()Ljava/lang/String;
-	public static final fun toString (B)Ljava/lang/String;
-	public static fun toString-impl (B)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()B
-}
-
-public final class space/iseki/executables/common/ExecutableFileType$Companion {
-	public final fun detect-cHsH6GY (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/ExecutableFileType;
-	public final fun detect-cHsH6GY ([B)Lspace/iseki/executables/common/ExecutableFileType;
-	public final fun fromString-hCAE3vg (Ljava/lang/String;)B
-	public final fun getELF-3MNUFgw ()B
-	public final fun getMACHO-3MNUFgw ()B
-	public final fun getPE-3MNUFgw ()B
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun toString (B)Ljava/lang/String;
-}
-
-public final class space/iseki/executables/common/ExecutableFileTypeKt {
-	public static final fun detect (Lspace/iseki/executables/common/ExecutableFileType$Companion;Ljava/io/File;)Lspace/iseki/executables/common/ExecutableFileType;
-	public static final fun detect (Lspace/iseki/executables/common/ExecutableFileType$Companion;Ljava/nio/file/Path;)Lspace/iseki/executables/common/ExecutableFileType;
-}
-
 public abstract interface class space/iseki/executables/common/ExportSymbol : space/iseki/executables/common/ReadableStructure {
 	public abstract fun getName ()Ljava/lang/String;
 }
@@ -204,18 +160,37 @@ public abstract interface class space/iseki/executables/common/ExportSymbolConta
 }
 
 public abstract interface class space/iseki/executables/common/FileFormat {
+	public static final field Companion Lspace/iseki/executables/common/FileFormat$Companion;
 	public fun open (Ljava/io/File;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/lang/String;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/common/OpenedFile;
 	public abstract fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open ([B)Lspace/iseki/executables/common/OpenedFile;
 }
 
+public final class space/iseki/executables/common/FileFormat$Companion {
+}
+
 public final class space/iseki/executables/common/FileFormat$DefaultImpls {
 	public static fun open (Lspace/iseki/executables/common/FileFormat;Ljava/io/File;)Lspace/iseki/executables/common/OpenedFile;
+	public static fun open (Lspace/iseki/executables/common/FileFormat;Ljava/lang/String;)Lspace/iseki/executables/common/OpenedFile;
 	public static fun open (Lspace/iseki/executables/common/FileFormat;Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/common/OpenedFile;
 	public static fun open (Lspace/iseki/executables/common/FileFormat;Ljava/nio/file/Path;)Lspace/iseki/executables/common/OpenedFile;
 	public static fun open (Lspace/iseki/executables/common/FileFormat;[B)Lspace/iseki/executables/common/OpenedFile;
+}
+
+public final class space/iseki/executables/common/FileFormatKt {
+	public static final fun detect (Lspace/iseki/executables/common/FileFormat$Companion;Ljava/lang/String;)Lspace/iseki/executables/common/FileFormat;
+}
+
+public final class space/iseki/executables/common/FileFormat_commonKt {
+	public static final fun FileFormat (Ljava/lang/String;)Lspace/iseki/executables/common/FileFormat;
+	public static final fun detect (Lspace/iseki/executables/common/FileFormat$Companion;Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/FileFormat;
+	public static final fun detect (Lspace/iseki/executables/common/FileFormat$Companion;[B)Lspace/iseki/executables/common/FileFormat;
+	public static final fun isElf (Lspace/iseki/executables/common/FileFormat;)Z
+	public static final fun isMacho (Lspace/iseki/executables/common/FileFormat;)Z
+	public static final fun isPE (Lspace/iseki/executables/common/FileFormat;)Z
 }
 
 public abstract interface class space/iseki/executables/common/ImportSymbol : space/iseki/executables/common/ReadableStructure {
@@ -266,14 +241,6 @@ public final class space/iseki/executables/common/SectionInputStream : java/io/I
 
 public final class space/iseki/executables/common/SectionInputStreamKt {
 	public static final fun inputStream (Lspace/iseki/executables/common/ReadableSection;)Ljava/io/InputStream;
-}
-
-public class space/iseki/executables/common/SeekableByteChannelDataAccessor : space/iseki/executables/common/DataAccessor {
-	public fun <init> (Ljava/nio/channels/SeekableByteChannel;)V
-	public fun close ()V
-	public fun getSize ()J
-	public fun readAtMost (J[BII)I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class space/iseki/executables/elf/-ElfClass {
@@ -1132,6 +1099,7 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 public final class space/iseki/executables/elf/ElfFile$Companion : space/iseki/executables/common/FileFormat {
 	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/elf/ElfFile;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class space/iseki/executables/elf/ElfFile$ElfSymbolInfo {
@@ -2080,6 +2048,7 @@ public final class space/iseki/executables/macho/MachoFile : java/lang/AutoClose
 public final class space/iseki/executables/macho/MachoFile$Companion : space/iseki/executables/common/FileFormat {
 	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/macho/MachoFile;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class space/iseki/executables/macho/MachoFileException : java/io/IOException {
@@ -3040,6 +3009,7 @@ public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, 
 public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/executables/common/FileFormat {
 	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/pe/PEFile;
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class space/iseki/executables/pe/PEFile$Section : space/iseki/executables/common/ReadableSection {

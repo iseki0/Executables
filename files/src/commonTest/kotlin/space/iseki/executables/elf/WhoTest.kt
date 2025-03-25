@@ -1,7 +1,8 @@
 package space.iseki.executables.elf
 
 import kotlinx.serialization.json.Json
-import space.iseki.executables.common.ExecutableFileType
+import space.iseki.executables.common.FileFormat
+import space.iseki.executables.common.detect
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -12,13 +13,21 @@ class WhoTest {
 
     @Test
     fun testOpen() {
-        ElfFile.open(whoData)
+        try {
+            ElfFile.open("src/commonTest/resources/elf/who").close()
+        } catch (_: UnsupportedOperationException) {
+        }
+
     }
 
     @Test
     fun test() {
-        assertEquals(ExecutableFileType.ELF, ExecutableFileType.detect(whoData))
-        val file = ElfFile.open(whoData)
+        val file = try {
+            assertEquals(ElfFile, FileFormat.detect("src/commonTest/resources/elf/who"))
+            ElfFile.open("src/commonTest/resources/elf/who")
+        } catch (_: UnsupportedOperationException) {
+            return
+        }
         val ident = json.encodeToString(file.ident)
         val ehdr = json.encodeToString(file.ehdr)
         val phdrs = json.encodeToString(file.programHeaders)

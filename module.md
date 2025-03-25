@@ -1,18 +1,6 @@
-# Module pe
+# Module files
 
-This module provides support for PE files
-
-# Module common
-
-This module provides common functions for all modules
-
-# Module elf
-
-This module provides support for ELF files
-
-# Module macho
-
-This module provides support for Mach-O files
+This module provides support for file operations
 
 # Package space.iseki.executables.pe.vi
 

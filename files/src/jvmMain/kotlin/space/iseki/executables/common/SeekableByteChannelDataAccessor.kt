@@ -9,7 +9,7 @@ import java.nio.channels.SeekableByteChannel
  * @see ByteArrayDataAccessor
  *
  */
-open class SeekableByteChannelDataAccessor(private val channel: SeekableByteChannel) : DataAccessor {
+internal open class SeekableByteChannelDataAccessor(private val channel: SeekableByteChannel) : DataAccessor {
 
     /**
      * Close the data accessor, it will close the underlying channel.
