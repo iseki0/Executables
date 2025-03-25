@@ -3,8 +3,9 @@ package space.iseki.executables.common
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.cValue
-import kotlinx.cinterop.useContents
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.ptr
 import kotlinx.cinterop.usePinned
 import platform.posix.FILE
 import platform.posix.SEEK_SET
@@ -31,9 +32,11 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
             val e = errno
             throw IOException("Cannot open file $nativePath, errno = $e")
         }
-        val stat = cValue<stat>()
-        fstat(fileno(f), stat)
-        size = stat.useContents { st_size }
+        memScoped {
+            val stat = alloc<stat>()
+            fstat(fileno(f), stat.ptr)
+            size = stat.st_size
+        }
         file = f
     }
 

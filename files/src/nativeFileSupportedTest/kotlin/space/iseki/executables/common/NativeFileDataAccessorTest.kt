@@ -38,6 +38,6 @@ class NativeFileDataAccessorTest {
         val e = assertFailsWith<IOException> {
             NativeFileDataAccessor("a_file_shouldnot_exists")
         }
-        assertTrue(e.message) { "errno 2" in e.message.orEmpty() }
+        assertTrue(e.message) { "errno = 2" in e.message.orEmpty() }
     }
 }

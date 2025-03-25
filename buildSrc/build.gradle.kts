@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.kotlin.serialization)
     implementation(libs.kotlinx.binary.compatibility.validator)
     implementation(libs.kotlinx.kover)
+    implementation(libs.kotlinx.atomicfu)
     implementation(libs.dokka)
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 //    implementation(libs.kotlin.gradle.plugin)
