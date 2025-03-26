@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 plugins {
     convention
@@ -27,54 +28,62 @@ kotlin {
         val nativeFileSupportedMain by creating {
             dependsOn(commonMain.get())
         }
-        macosX64Main.get().dependsOn(nativeFileSupportedMain)
-        macosArm64Main.get().dependsOn(nativeFileSupportedMain)
-        iosSimulatorArm64Main.get().dependsOn(nativeFileSupportedMain)
-        iosX64Main.get().dependsOn(nativeFileSupportedMain)
-        iosArm64Main.get().dependsOn(nativeFileSupportedMain)
-        linuxX64Main.get().dependsOn(nativeFileSupportedMain)
-        linuxArm64Main.get().dependsOn(nativeFileSupportedMain)
-        androidNativeArm64Main.get().dependsOn(nativeFileSupportedMain)
-        androidNativeX64Main.get().dependsOn(nativeFileSupportedMain)
-
         val nativeFileSupportedTest by creating {
             dependsOn(commonTest.get())
         }
-        macosX64Test.get().dependsOn(nativeFileSupportedTest)
-        macosArm64Test.get().dependsOn(nativeFileSupportedTest)
-        iosSimulatorArm64Test.get().dependsOn(nativeFileSupportedTest)
-        iosX64Test.get().dependsOn(nativeFileSupportedTest)
-        iosArm64Test.get().dependsOn(nativeFileSupportedTest)
-        linuxX64Test.get().dependsOn(nativeFileSupportedTest)
-        linuxArm64Test.get().dependsOn(nativeFileSupportedTest)
-        androidNativeArm64Test.get().dependsOn(nativeFileSupportedTest)
-        androidNativeX64Test.get().dependsOn(nativeFileSupportedTest)
-
+        val nativeFileSupported2Main by creating {
+            dependsOn(commonMain.get())
+        }
         val nativeFileSupportedMingw64Main by creating {
             dependsOn(commonMain.get())
         }
         mingwX64Main.get().dependsOn(nativeFileSupportedMingw64Main)
-
-        val nativeFileSupported2Main by creating {
-            dependsOn(commonMain.get())
-        }
-        watchosArm32Main.get().dependsOn(nativeFileSupported2Main)
-        watchosArm64Main.get().dependsOn(nativeFileSupported2Main)
-        watchosX64Main.get().dependsOn(nativeFileSupported2Main)
-        watchosSimulatorArm64Main.get().dependsOn(nativeFileSupported2Main)
-        tvosSimulatorArm64Main.get().dependsOn(nativeFileSupported2Main)
-        tvosX64Main.get().dependsOn(nativeFileSupported2Main)
-        tvosArm64Main.get().dependsOn(nativeFileSupported2Main)
-        androidNativeArm32Main.get().dependsOn(nativeFileSupported2Main)
-        androidNativeX86Main.get().dependsOn(nativeFileSupported2Main)
-        watchosDeviceArm64Main.get().dependsOn(nativeFileSupported2Main)
-
         val nativeFileUnsupported by creating {
             dependsOn(commonMain.get())
         }
-        jsMain.get().dependsOn(nativeFileUnsupported)
-        wasmJsMain.get().dependsOn(nativeFileUnsupported)
-        wasmWasiMain.get().dependsOn(nativeFileUnsupported)
+
+        fun NamedDomainObjectProvider<KotlinSourceSet>.nf64() {
+            get().dependsOn(nativeFileSupportedMain)
+            getByName(get().name.removeSuffix("Main") + "Test").dependsOn(nativeFileSupportedTest)
+        }
+
+        fun NamedDomainObjectProvider<KotlinSourceSet>.nf32() {
+            get().dependsOn(nativeFileSupported2Main)
+        }
+
+        fun NamedDomainObjectProvider<KotlinSourceSet>.uf() {
+            get().dependsOn(nativeFileUnsupported)
+        }
+
+        jsMain.uf()
+        wasmJsMain.uf()
+        wasmWasiMain.uf()
+
+        // Tier 1
+        macosX64Main.nf64()
+        macosArm64Main.nf64()
+        iosSimulatorArm64Main.nf64()
+        iosX64Main.nf64()
+        iosArm64Main.nf64()
+
+        // Tier 2
+        linuxX64Main.nf64()
+        linuxArm64Main.nf64()
+        watchosArm32Main.nf32()
+        watchosArm64Main.nf32() // why ???
+        watchosX64Main.nf64()
+        watchosSimulatorArm64Main.nf64()
+        tvosSimulatorArm64Main.nf64()
+        tvosX64Main.nf64()
+        tvosArm64Main.nf64()
+
+        // Tier 3
+        androidNativeArm32Main.nf32()
+        androidNativeX86Main.nf32()
+        androidNativeArm64Main.nf64()
+        androidNativeX64Main.nf64()
+        watchosDeviceArm64Main.nf64()
+
 
     }
 }

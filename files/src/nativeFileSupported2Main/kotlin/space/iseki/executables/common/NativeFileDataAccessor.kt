@@ -2,7 +2,6 @@ package space.iseki.executables.common
 
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.UnsafeNumber
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
@@ -57,7 +56,6 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
         }
     }
 
-    @OptIn(UnsafeNumber::class)
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
         if (len == 0) return 0
         // check ranges
