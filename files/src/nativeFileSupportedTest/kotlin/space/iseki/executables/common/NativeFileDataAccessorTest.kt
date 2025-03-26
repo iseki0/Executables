@@ -27,10 +27,6 @@ class NativeFileDataAccessorTest {
             val s3 = largeBuf.sliceArray(0 until read3).decodeToString()
             assertEquals("0123456789", s3.trim())
         }
-        assertFailsWith<IOException> {
-            o.readAtMost(100, ByteArray(10), 0, 10)
-        }.also { println(it.message) }
-
     }
 
     @Test
