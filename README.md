@@ -1,7 +1,7 @@
 # Executables
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/iseki0/Executables/build.yml)
-[![Maven Central Version](https://img.shields.io/maven-central/v/space.iseki.executables/executables-all)](https://central.sonatype.com/artifact/space.iseki.executables/executables-files)
+[![Maven Central Version](https://img.shields.io/maven-central/v/space.iseki.executables/executables-files)](https://central.sonatype.com/artifact/space.iseki.executables/executables-files)
 ![License](https://img.shields.io/github/license/iseki0/Executables)
 [![codecov](https://codecov.io/gh/iseki0/Executables/graph/badge.svg?token=WYG654BF18)](https://codecov.io/gh/iseki0/Executables)
 
