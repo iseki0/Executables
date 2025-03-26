@@ -21,6 +21,7 @@ class MachoFile private constructor(
 
     companion object : FileFormat<MachoFile> {
         override fun toString(): String = "Mach-O"
+
         @Throws(IOException::class)
         override fun open(accessor: DataAccessor): MachoFile {
             val buf = ByteArray(32) // 足够大以容纳任何 Mach-O 头部
