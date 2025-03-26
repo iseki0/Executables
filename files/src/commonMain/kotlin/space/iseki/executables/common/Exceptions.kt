@@ -17,3 +17,13 @@ expect open class IOException(message: String?, cause: Throwable?) : Exception {
  * @param message the detail message, or null if no detail message is provided.
  */
 expect class EOFException(message: String?) : IOException
+
+expect class NoSuchFileException : IOException {
+    constructor(file: String?)
+    constructor(file: String?, other: String?, reason: String?)
+}
+
+expect class AccessDeniedException : IOException {
+    constructor(file: String?)
+    constructor(file: String?, other: String?, reason: String?)
+}

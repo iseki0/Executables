@@ -16,6 +16,9 @@ import kotlinx.cinterop.value
 import platform.windows.CloseHandle
 import platform.windows.CreateFileW
 import platform.windows.DWORD
+import platform.windows.ERROR_ACCESS_DENIED
+import platform.windows.ERROR_FILE_NOT_FOUND
+import platform.windows.ERROR_PATH_NOT_FOUND
 import platform.windows.FILE_ATTRIBUTE_NORMAL
 import platform.windows.FILE_BEGIN
 import platform.windows.FILE_FLAG_RANDOM_ACCESS
@@ -57,6 +60,21 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
         )
         if (file == INVALID_HANDLE_VALUE) {
             val errorCode = GetLastError()
+            val winReason = translateErrorCode(errorCode)
+            val reason = if (winReason.isNotEmpty()) {
+                "errno = $errorCode, reason: $winReason"
+            } else {
+                "errno = $errorCode"
+            }
+            when (errorCode.toInt()) {
+                ERROR_FILE_NOT_FOUND, ERROR_PATH_NOT_FOUND -> {
+                    throw NoSuchFileException(nativePath, null, reason)
+                }
+
+                ERROR_ACCESS_DENIED, 740 /* ERROR_ELEVATION_REQUIRED */ -> {
+                    throw AccessDeniedException(nativePath, null, reason)
+                }
+            }
             throw IOException("Cannot open file $nativePath, errno = $errorCode, message: ${translateErrorCode(errorCode)}")
         }
         handle = checkNotNull(file) { "CreateFileW returns null" }

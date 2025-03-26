@@ -7,6 +7,9 @@ import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.usePinned
+import platform.posix.EACCES
+import platform.posix.ENOENT
+import platform.posix.EPERM
 import platform.posix.FILE
 import platform.posix.SEEK_SET
 import platform.posix.clearerr
@@ -30,6 +33,11 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
         val f = fopen(nativePath, "rb")
         if (f == null) {
             val e = errno
+            val reason = "errno = $e"
+            when (e) {
+                ENOENT -> throw NoSuchFileException(nativePath, null, reason)
+                EACCES, EPERM -> throw AccessDeniedException(nativePath, null, reason)
+            }
             throw IOException("Cannot open file $nativePath, errno = $e")
         }
         memScoped {

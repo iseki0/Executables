@@ -35,7 +35,7 @@ class NativeFileDataAccessorTest {
 
     @Test
     fun testThrow() {
-        val e = assertFailsWith<IOException> {
+        val e = assertFailsWith<NoSuchFileException> {
             NativeFileDataAccessor("a_file_shouldnot_exists")
         }
         assertTrue(e.message) { "errno = 2" in e.message.orEmpty() }
