@@ -1,8 +1,4 @@
-@file:JvmName("IOException")
-
 package space.iseki.executables.common
-
-import kotlin.jvm.JvmName
 
 /**
  * Represents an I/O exception.
@@ -15,3 +11,9 @@ expect open class IOException(message: String?, cause: Throwable?) : Exception {
     constructor(cause: Throwable?)
 }
 
+/**
+ * Represents an end-of-file exception.
+ *
+ * @param message the detail message, or null if no detail message is provided.
+ */
+expect class EOFException(message: String?) : IOException
