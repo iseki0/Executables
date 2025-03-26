@@ -1,27 +1,29 @@
 package space.iseki.executables.common
 
-import kotlinx.cinterop.CPointed
-import kotlinx.cinterop.CPointer
+import kotlinx.atomicfu.atomic
+import kotlinx.atomicfu.getAndUpdate
+import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.UIntVar
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.plus
 import kotlinx.cinterop.ptr
-import kotlinx.cinterop.readValue
 import kotlinx.cinterop.reinterpret
 import kotlinx.cinterop.toKStringFromUtf16
 import kotlinx.cinterop.usePinned
 import kotlinx.cinterop.value
+import platform.posix.memcpy
 import platform.windows.CloseHandle
+import platform.windows.CreateFileMappingW
 import platform.windows.CreateFileW
 import platform.windows.DWORD
 import platform.windows.ERROR_ACCESS_DENIED
 import platform.windows.ERROR_FILE_NOT_FOUND
 import platform.windows.ERROR_PATH_NOT_FOUND
 import platform.windows.FILE_ATTRIBUTE_NORMAL
-import platform.windows.FILE_BEGIN
 import platform.windows.FILE_FLAG_RANDOM_ACCESS
+import platform.windows.FILE_MAP_READ
 import platform.windows.FILE_SHARE_DELETE
 import platform.windows.FILE_SHARE_READ
 import platform.windows.FILE_SHARE_WRITE
@@ -36,20 +38,56 @@ import platform.windows.HANDLE
 import platform.windows.INVALID_HANDLE_VALUE
 import platform.windows.LANG_NEUTRAL
 import platform.windows.LARGE_INTEGER
+import platform.windows.LPVOID
 import platform.windows.LPWSTRVar
 import platform.windows.LocalFree
+import platform.windows.MapViewOfFile
 import platform.windows.OPEN_EXISTING
-import platform.windows.ReadFile
+import platform.windows.PAGE_READONLY
 import platform.windows.SUBLANG_DEFAULT
-import platform.windows.SetFilePointerEx
+import platform.windows.UnmapViewOfFile
+
+internal value class CloseFlag private constructor(private val s: ULong) {
+    companion object {
+        private val LMASK = 0x7fffffffffffffffuL
+        private val HMASK = 0x8000000000000000uL
+    }
+
+    constructor() : this(0u)
+
+    val closed: Boolean
+        get() = s and HMASK != 0uL
+
+    val shouldDoClose: Boolean
+        get() = closed && s and LMASK == 0uL
+
+    fun acquire(): CloseFlag {
+        check(!closed)
+        check(s < LMASK)
+        return CloseFlag(s + 1u)
+    }
+
+    fun release(): CloseFlag {
+        check(s and LMASK > 0uL)
+        return CloseFlag(s - 1u)
+    }
+
+    fun close(): CloseFlag {
+        check(!closed)
+        return CloseFlag(s or HMASK)
+    }
+}
 
 @OptIn(ExperimentalForeignApi::class)
 internal class NativeFileDataAccessor(private val nativePath: String) : DataAccessor {
-    private val handle: HANDLE
+    private val flag = atomic(CloseFlag())
+    private val beginPtr: LPVOID?
     override val size: Long
 
     init {
-        val file: CPointer<out CPointed>? = CreateFileW(
+        var fileMappingHandle: HANDLE? = null
+        var beginPtr: LPVOID? = null
+        val fileHandle: HANDLE? = CreateFileW(
             lpFileName = nativePath,
             dwDesiredAccess = GENERIC_READ,
             dwShareMode = (FILE_SHARE_READ or FILE_SHARE_WRITE or FILE_SHARE_DELETE).toUInt(),
@@ -58,48 +96,85 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
             dwFlagsAndAttributes = (FILE_ATTRIBUTE_NORMAL or FILE_FLAG_RANDOM_ACCESS).toUInt(),
             hTemplateFile = null,
         )
-        if (file == INVALID_HANDLE_VALUE) {
-            val errorCode = GetLastError()
-            val winReason = translateErrorCode(errorCode)
-            val reason = if (winReason.isNotEmpty()) {
-                "errno = $errorCode, reason: $winReason"
-            } else {
-                "errno = $errorCode"
-            }
-            when (errorCode.toInt()) {
-                ERROR_FILE_NOT_FOUND, ERROR_PATH_NOT_FOUND -> {
-                    throw NoSuchFileException(nativePath, null, reason)
-                }
-
-                ERROR_ACCESS_DENIED, 740 /* ERROR_ELEVATION_REQUIRED */ -> {
-                    throw AccessDeniedException(nativePath, null, reason)
-                }
-            }
-            throw IOException("Cannot open file $nativePath, errno = $errorCode, message: ${translateErrorCode(errorCode)}")
+        if (fileHandle == INVALID_HANDLE_VALUE) {
+            throw translateErrorImmediately("CreateFileW")
         }
-        handle = checkNotNull(file) { "CreateFileW returns null" }
+        fileHandle!!
+        var th: Throwable? = null
+        var size: Long = 0
         try {
-            size = getFileSize(handle)
-        } catch (th: Throwable) {
-            runCatching { close() }.onFailure { th.addSuppressed(it) }
-            throw th
+            size = getFileSize(fileHandle)
+            if (size > 0L) {
+                fileMappingHandle = CreateFileMappingW(
+                    hFile = fileHandle,
+                    lpFileMappingAttributes = null,
+                    flProtect = PAGE_READONLY.toUInt(),
+                    dwMaximumSizeHigh = 0u,
+                    dwMaximumSizeLow = 0u,
+                    lpName = null,
+                )
+                if (fileMappingHandle == null) {
+                    throw translateErrorImmediately("CreateFileMappingW")
+                }
+                beginPtr = MapViewOfFile(
+                    hFileMappingObject = fileMappingHandle,
+                    dwDesiredAccess = FILE_MAP_READ.toUInt(),
+                    dwFileOffsetHigh = 0u,
+                    dwFileOffsetLow = 0u,
+                    dwNumberOfBytesToMap = 0u,
+                )
+                if (beginPtr == null) {
+                    throw translateErrorImmediately("MapViewOfFile")
+                }
+            }
+        } catch (th0: Throwable) {
+            th = th0
         }
+        if (fileMappingHandle != null) {
+            if (CloseHandle(fileMappingHandle) == 0) {
+                translateErrorImmediately("CloseHandle(fileMappingHandle)").also {
+                    th?.addSuppressed(it) ?: run { th = it }
+                }
+            }
+        }
+        if (CloseHandle(fileHandle) == 0) {
+            translateErrorImmediately("CloseHandle(fileHandle)").also {
+                th?.addSuppressed(it) ?: run { th = it }
+            }
+        }
+        th?.let { throw it }
+        this.beginPtr = beginPtr
+        this.size = size
     }
+
 
     private fun makeLangId(primary: Int, sub: Int) = (sub shl 10) or primary
     private fun getFileSize(handle: HANDLE): Long {
         memScoped {
             val size = alloc<LARGE_INTEGER>()
-            val success = GetFileSizeEx(handle, size.ptr)
-            if (success == 0) {
-                val err = GetLastError()
-                throw IOException("GetFileSizeEx failed: ${translateErrorCode(err)}")
+            if (GetFileSizeEx(handle, size.ptr) == 0) {
+                throw translateErrorImmediately("GetFileSizeEx")
             }
             return size.QuadPart
         }
     }
 
-    private fun translateErrorCode(errorCode: DWORD): String {
+    private fun translateErrorImmediately(nativeCall: String): IOException {
+        val errorCode = GetLastError()
+        val m = formatMessage(errorCode)
+        val b = listOfNotNull(
+            if (nativeCall.isNotEmpty()) "nativeCall: $nativeCall" else null,
+            "errno: $errorCode",
+            if (m.isNotEmpty()) "os_message: $m" else null,
+        ).joinToString(", ")
+        return when (errorCode.toInt()) {
+            ERROR_FILE_NOT_FOUND, ERROR_PATH_NOT_FOUND -> NoSuchFileException(nativePath, null, b)
+            ERROR_ACCESS_DENIED, 740 /* ERROR_ELEVATION_REQUIRED */ -> AccessDeniedException(nativePath, null, b)
+            else -> IOException("Cannot open file $nativePath, $b")
+        }
+    }
+
+    private fun formatMessage(errorCode: DWORD): String {
         memScoped {
             val buffer = alloc<LPWSTRVar>()
             val size = FormatMessageW(
@@ -119,50 +194,55 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
         }
     }
 
+    private fun unmap() {
+        if (UnmapViewOfFile(beginPtr) == 0) {
+            throw Error("native", translateErrorImmediately("UnmapViewOfFile"))
+        }
+    }
+
     override fun toString(): String = "NativeFileDataAccessor[MingW64](path=$nativePath)"
     override fun close() {
-        val r = CloseHandle(handle)
-        if (r == 0) {
-            val err = GetLastError()
-            throw IOException("Close failed: ${translateErrorCode(err)}")
+        flag.getAndUpdate {
+            if (it.closed) {
+                throw IOException("already closed")
+            }
+            it.close()
+        }.also {
+            if (it.shouldDoClose) {
+                unmap()
+            }
         }
     }
 
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
-        if (len == 0) return 0
-        // check ranges
-        if (off < 0 || len < 0 || len > buf.size - off) {
-            throw IndexOutOfBoundsException()
+        DataAccessor.checkReadBounds(pos, buf, off, len)
+
+        flag.getAndUpdate {
+            if (it.closed) {
+                throw IOException("already closed")
+            }
+            it.acquire()
         }
-        memScoped {
-            val newPos = alloc<LARGE_INTEGER>().apply { QuadPart = pos }
-            val actualPos = alloc<LARGE_INTEGER>()
-            val seekOk = newPos.usePinned {
-                SetFilePointerEx(handle, newPos.readValue(), actualPos.ptr, FILE_BEGIN.toUInt())
+
+        try {
+            if (beginPtr == null) {
+                return 0
             }
-            if (seekOk == 0) {
-                val err = GetLastError()
-                throw IOException("Seek failed: ${translateErrorCode(err)}")
+            val available = (size - pos).coerceAtLeast(0).coerceAtMost(len.toLong()).toInt()
+            if (available == 0) return 0
+
+            buf.usePinned { pinned ->
+                val src = beginPtr.reinterpret<ByteVar>().plus(pos)
+                val dst = pinned.addressOf(off)
+                memcpy(dst, src, available.toULong())
             }
-            var p = off
-            var continueRead = true
-            while (p - off < len && continueRead) {
-                buf.usePinned { pinned ->
-                    val ptr = pinned.addressOf(p)
-                    val count = len - (p - off)
-                    val read = alloc<UIntVar>()
-                    val readOk = ReadFile(handle, ptr, count.toUInt(), read.ptr, null)
-                    if (readOk == 0) {
-                        val err = GetLastError()
-                        throw IOException("Read failed: ${translateErrorCode(err)}")
-                    }
-                    p += read.value.toInt()
-                    if (read.value == 0u) {
-                        continueRead = false
-                    }
-                }
+
+            return available
+
+        } finally {
+            if (flag.getAndUpdate { it.release() }.shouldDoClose) {
+                unmap()
             }
-            return p - off
         }
     }
 

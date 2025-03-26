@@ -29,6 +29,7 @@ internal class RandomAccessFileDataAccessor : DataAccessor {
 
 
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+        DataAccessor.checkReadBounds(pos, buf, off, len)
         raf.seek(pos)
 
         var totalRead = 0

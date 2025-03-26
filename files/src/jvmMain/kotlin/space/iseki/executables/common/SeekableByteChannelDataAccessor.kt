@@ -30,12 +30,12 @@ internal open class SeekableByteChannelDataAccessor(private val channel: Seekabl
     }
 
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+        DataAccessor.checkReadBounds(pos, buf, off, len)
         val buffer = java.nio.ByteBuffer.wrap(buf, off, len)
         channel.position(pos)
         while (buffer.hasRemaining()) {
             val i = channel.read(buffer)
             if (i == -1) {
-                if (buffer.position() == 0) return -1
                 break
             }
         }

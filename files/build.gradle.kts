@@ -4,6 +4,7 @@ plugins {
     convention
     id("tgenerator")
     `pub-convention`
+    id("org.jetbrains.kotlinx.atomicfu")
 }
 
 jigsaw {

@@ -27,13 +27,15 @@ class NativeFileDataAccessorTest {
             val s3 = largeBuf.sliceArray(0 until read3).decodeToString()
             assertEquals("0123456789", s3.trim())
         }
+        // test read after close
+        assertFailsWith<IOException> { o.readAtMost(0, ByteArray(10), 0, 10) }.also { println(it) }
+        assertFailsWith<IOException> { o.close() }.also { println(it) }
     }
 
     @Test
     fun testThrow() {
-        val e = assertFailsWith<NoSuchFileException> {
+        assertFailsWith<NoSuchFileException> {
             NativeFileDataAccessor("a_file_shouldnot_exists")
-        }
-        assertTrue(e.message) { "errno = 2" in e.message.orEmpty() }
+        }.also { println(it) }
     }
 }

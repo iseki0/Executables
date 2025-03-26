@@ -7,11 +7,10 @@ package space.iseki.executables.common
  */
 internal class ByteArrayDataAccessor(private val data: ByteArray) : DataAccessor {
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
-        if (pos < 0 || pos >= data.size) {
-            return -1
-        }
-        val read = (data.size - pos).coerceAtMost(len.toLong()).toInt()
-        data.copyInto(buf, off, pos.toInt(), pos.toInt() + read)
+        DataAccessor.checkReadBounds(pos, buf, off, len)
+        val read = (data.size - pos).coerceAtLeast(0).coerceAtMost(len.toLong()).toInt()
+        if (read == 0) return 0
+        data.copyInto(buf, destinationOffset = off, startIndex = pos.toInt(), endIndex = pos.toInt() + read)
         return read
     }
 
