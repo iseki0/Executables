@@ -1,10 +1,9 @@
 package space.iseki.executables.pe.vi
 
-import space.iseki.executables.common.IOException
+import space.iseki.executables.common.NoSuchFileException
 import space.iseki.executables.pe.PEFile
 import kotlin.test.Test
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 class NotepadTest {
     @Test
@@ -17,8 +16,7 @@ class NotepadTest {
                 println(versionInfo)
             }
         } catch (e: UnsupportedOperationException) {
-        } catch (e: IOException) {
-            assertTrue(e.message) { "errno = 2" in e.message.orEmpty() }
+        } catch (e: NoSuchFileException) {
         }
     }
 
