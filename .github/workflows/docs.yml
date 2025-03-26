@@ -30,6 +30,7 @@ jobs:
           path: |
             ./g/build
             ./buildSrc/build
+            ~/.konan
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:

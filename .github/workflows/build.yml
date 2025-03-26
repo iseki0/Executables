@@ -32,6 +32,7 @@ jobs:
           path: |
             ./g/build
             ./buildSrc/build
+            ~/.konan
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
