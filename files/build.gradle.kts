@@ -16,6 +16,10 @@ tasks.named("jvmTest") {
     useJUnitPlatform()
 }
 
+dependencies {
+    commonTestImplementation(libs.kotlinx.serialization.json)
+}
+
 kotlin {
     sourceSets {
         val nonJvmMain by creating {
