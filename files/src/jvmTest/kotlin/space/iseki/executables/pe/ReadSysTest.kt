@@ -3,6 +3,7 @@ package space.iseki.executables.pe
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import java.nio.file.Files
@@ -12,6 +13,7 @@ import kotlin.io.path.pathString
 import kotlin.streams.asSequence
 import kotlin.test.Test
 
+@EnabledIfEnvironmentVariable(named = "CI", matches = "true")
 class ReadSysTest {
 
     @TestFactory

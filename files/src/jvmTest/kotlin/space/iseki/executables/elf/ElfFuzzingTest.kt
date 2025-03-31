@@ -3,6 +3,7 @@ package space.iseki.executables.elf
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import java.io.BufferedReader
@@ -25,6 +26,7 @@ import kotlin.test.Test
  * This test randomly selects ELF files from Linux system directories and attempts to parse them.
  * If running on Windows, it tries to access files through WSL.
  */
+@EnabledIfEnvironmentVariable(named = "CI", matches = "true")
 class ElfFuzzingTest {
 
     companion object {
