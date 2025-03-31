@@ -3,7 +3,6 @@ package space.iseki.executables.sbom
 import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
-import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.elf.ElfFile
 import space.iseki.executables.pe.PEFile
 import space.iseki.executables.pe.SectionFlags
@@ -14,19 +13,15 @@ import space.iseki.executables.share.u8l
 import kotlin.experimental.and
 
 /**
- * 用于从 Go 二进制中提取构建信息的类
+ * Class for extracting build information from Go binaries.
  */
 class GoSBom(
     private val version: String,
     private val moduleInfo: String,
-) : ReadableStructure {
-    override val fields: Map<String, Any>
-        get() = mapOf(
-            "version" to version, "moduleInfo" to moduleInfo
-        )
-
+    val buildInfo: GoBuildInfo? = null,
+) {
     companion object {
-        // Go buildinfo 魔数
+        // Go buildinfo magic number
         private val MAGIC = byteArrayOf(
             0xFF.toByte(),
             ' '.code.toByte(),
@@ -44,11 +39,11 @@ class GoSBom(
             ':'.code.toByte(),
         )
 
-        // header 大小常量
+        // Header size constants
         private const val HEADER_SIZE = 32
         private const val ALIGN = 16
 
-        // flag 掩码和偏移量常量
+        // Flag masks and offset constants
         private const val FLAG_OFFSET = 15
         private const val PTR_SIZE_OFFSET = 14
         private const val VERS_PTR_OFFSET = 16
@@ -62,68 +57,82 @@ class GoSBom(
         private const val SEARCH_CHUNK_SIZE = 1 * 1024 * 1024 // 1MB
 
         /**
-         * 从文件中读取 Go 构建信息
+         * Reads Go build information from a file.
          *
-         * @param file 已打开的文件
-         * @return Go 构建信息对象，如果未找到则返回 null
+         * @param file The opened file
+         * @return Go build information object, or null if not found
          */
         fun open(file: OpenedFile): GoSBom? {
             try {
                 if (file !is ReadableSectionContainer) return null
 
-                // 查找包含构建信息的节
+                // Find section containing build information
                 val dataSection = when (file) {
                     is PEFile -> findPeDataSection(file)
                     is ElfFile -> findElfDataSection(file)
                     else -> return null
                 } ?: return null
 
-                // 搜索魔数
+                // Search for magic number
                 val magicAddr = searchMagic(dataSection) ?: return null
 
-                // 读取头部
+                // Read the header
                 val header = ByteArray(HEADER_SIZE)
                 dataSection.readBytes(magicAddr, header, 0, HEADER_SIZE)
 
-                // 解析标志
+                // Parse flags
                 val flags = header[FLAG_OFFSET]
 
-                var version = ""
-                var moduleInfo = ""
+                val version: String
+                var moduleInfo: String
 
                 if ((flags and FLAGS_VERSION_MASK.toByte()) == FLAGS_VERSION_INL.toByte()) {
-                    // 1.18+ 版本使用内联字符串
+                    // Go 1.18+ uses inline strings
                     val result = decodeInlineStrings(dataSection, magicAddr + HEADER_SIZE)
                     version = result?.first ?: return null
                     moduleInfo = result.second
                 } else {
-                    // 旧版本使用指针
+                    // Older versions use pointers
                     val ptrSize = header[PTR_SIZE_OFFSET].toInt()
                     val isBigEndian = (flags and FLAGS_ENDIAN_MASK.toByte()) == FLAGS_ENDIAN_BIG.toByte()
 
-                    // 读取版本和模块信息的指针
+                    // Read version and module info pointers
                     val verPtr = readPtr(header, VERS_PTR_OFFSET, ptrSize, isBigEndian)
                     val modPtr = readPtr(header, VERS_PTR_OFFSET + ptrSize, ptrSize, isBigEndian)
 
-                    // 读取字符串
+                    // Read the strings
                     version = readGoString(dataSection, verPtr, ptrSize, isBigEndian) ?: return null
                     moduleInfo = readGoString(dataSection, modPtr, ptrSize, isBigEndian) ?: ""
                 }
 
-                // 处理模块信息：去除分隔符
-                if (moduleInfo.length >= 33 && moduleInfo[moduleInfo.length - 17] == '\n') {
-                    moduleInfo = moduleInfo.substring(16, moduleInfo.length - 16)
-                } else {
-                    moduleInfo = ""
+                // Parse module info
+                var parsedBuildInfo: GoBuildInfo? = null
+
+                if (moduleInfo.isNotEmpty()) {
+                    // Process module info: remove delimiters
+                    if (moduleInfo.length >= 33 && moduleInfo[moduleInfo.length - 17] == '\n') {
+                        moduleInfo = moduleInfo.substring(16, moduleInfo.length - 16)
+                        // Try to parse build info
+                        try {
+                            parsedBuildInfo = GoBuildInfo.parseBuildInfo(moduleInfo)
+                            // Add version information as it's not in the build info
+                            parsedBuildInfo = parsedBuildInfo.copy(goVersion = version)
+                        } catch (e: Exception) {
+                            // Parsing failed, ignore error
+                        }
+                    } else {
+                        moduleInfo = ""
+                    }
                 }
 
-                return GoSBom(version, moduleInfo)
+                return GoSBom(version, moduleInfo, parsedBuildInfo)
             } catch (e: Exception) {
-                // 捕获所有异常
+                // Catch all exceptions
                 return null
             }
         }
 
+        // Find data section in PE file
         private fun findPeDataSection(file: PEFile): ReadableSection? {
             return file.sections.asSequence()
                 .filter { it.virtualAddress.value != 0u }
@@ -132,17 +141,17 @@ class GoSBom(
                 .firstOrNull()
         }
 
-        // 在 ELF 文件中寻找数据段
+        // Find data section in ELF file
         private fun findElfDataSection(file: ElfFile): ReadableSection? {
             return file.sections.firstOrNull { section -> section.name == ".go.buildinfo" }
         }
 
-        // 搜索 Go buildinfo 魔数
+        // Search for Go buildinfo magic number
         private fun searchMagic(section: ReadableSection): Long? {
             val size = section.size
             if (size <= 0) return null
 
-            // 计算对齐后的起始位置
+            // Calculate aligned start position
             var currentStart = ((ALIGN - 1) / ALIGN) * ALIGN.toLong()
 
             val buffer = ByteArray(SEARCH_CHUNK_SIZE)
@@ -156,22 +165,22 @@ class GoSBom(
                 var index = 0
 
                 while (index < data.size) {
-                    // 查找魔数
+                    // Search for magic number
                     val magicIndex = findByteSequence(data, MAGIC, index)
                     if (magicIndex < 0) break
 
-                    // 检查是否有足够空间容纳完整头部
+                    // Check if there's enough space for the complete header
                     if (currentStart + magicIndex + HEADER_SIZE > size) {
                         return null
                     }
 
-                    // 检查对齐
+                    // Check alignment
                     if (magicIndex % ALIGN == 0) {
-                        // 找到了!
+                        // Found it!
                         return currentStart + magicIndex
                     }
 
-                    // 继续搜索，移动到下一个对齐位置
+                    // Continue searching, move to next aligned position
                     index = ((magicIndex + ALIGN) / ALIGN) * ALIGN
                     if (index >= data.size) break
                 }
@@ -182,7 +191,7 @@ class GoSBom(
             return null
         }
 
-        // 查找字节序列
+        // Find byte sequence
         private fun findByteSequence(data: ByteArray, sequence: ByteArray, startIndex: Int): Int {
             if (startIndex + sequence.size > data.size) return -1
 
@@ -197,15 +206,15 @@ class GoSBom(
             return -1
         }
 
-        // 解码内联字符串 (Go 1.18+)
+        // Decode inline strings (Go 1.18+)
         private fun decodeInlineStrings(section: ReadableSection, addr: Long): Pair<String, String>? {
             try {
-                // 首先读取版本字符串
+                // First read the version string
                 val versionResult = decodeVarLenString(section, addr) ?: return null
                 val version = versionResult.first
                 val nextAddr = versionResult.second
 
-                // 然后读取模块信息字符串
+                // Then read the module info string
                 val moduleResult = decodeVarLenString(section, nextAddr) ?: return version to ""
 
                 return version to moduleResult.first
@@ -214,13 +223,13 @@ class GoSBom(
             }
         }
 
-        // 解码可变长度字符串
+        // Decode variable length string
         private fun decodeVarLenString(section: ReadableSection, addr: Long): Pair<String, Long>? {
             try {
-                val varintBuf = ByteArray(10) // 足够存储 64 位 varint
+                val varintBuf = ByteArray(10) // Large enough for 64-bit varint
                 section.readBytes(addr, varintBuf, 0, varintBuf.size)
 
-                // 解析 varint 长度
+                // Parse varint length
                 var length = 0L
                 var shift = 0
                 var index = 0
@@ -233,12 +242,12 @@ class GoSBom(
                     if (b and 0x80 == 0) break
 
                     shift += 7
-                    if (shift > 63) return null // 溢出
+                    if (shift > 63) return null // Overflow
                 }
 
                 if (length == 0L) return "" to addr + index
 
-                // 读取字符串内容
+                // Read string content
                 val stringBuf = ByteArray(length.toInt())
                 section.readBytes(addr + index, stringBuf, 0, stringBuf.size)
 
@@ -248,7 +257,7 @@ class GoSBom(
             }
         }
 
-        // 读取指针值
+        // Read pointer value
         private fun readPtr(buffer: ByteArray, offset: Int, ptrSize: Int, bigEndian: Boolean): Long {
             return when (ptrSize) {
                 4 -> if (bigEndian) buffer.u4b(offset).toLong() else buffer.u4l(offset).toLong()
@@ -257,21 +266,21 @@ class GoSBom(
             }
         }
 
-        // 读取 Go 字符串（旧版本格式）
+        // Read Go string (older format)
         private fun readGoString(section: ReadableSection, addr: Long, ptrSize: Int, bigEndian: Boolean): String? {
             try {
-                // 读取字符串头部（数据指针和长度）
+                // Read string header (data pointer and length)
                 val hdrSize = 2 * ptrSize
                 val hdr = ByteArray(hdrSize)
                 section.readBytes(addr, hdr, 0, hdrSize)
 
-                // 解析数据指针和长度
+                // Parse data pointer and length
                 val dataAddr = readPtr(hdr, 0, ptrSize, bigEndian)
                 val dataLen = readPtr(hdr, ptrSize, ptrSize, bigEndian)
 
                 if (dataLen == 0L) return ""
 
-                // 读取字符串数据
+                // Read string data
                 val data = ByteArray(dataLen.toInt())
                 section.readBytes(dataAddr, data, 0, data.size)
 
