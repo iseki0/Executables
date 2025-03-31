@@ -6,6 +6,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.detect
 import space.iseki.executables.common.openNativeFileDataAccessor
+import space.iseki.executables.sbom.GoSBom
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -59,5 +60,11 @@ class GoTest {
             val expect = Json.decodeFromString<JsonElement>(buf.decodeToString())
             assertEquals(expect, actual)
         }
+    }
+
+    @Test
+    fun testSBom() {
+        val goSBom = PEFile.open(PATH).use { pe -> GoSBom.open(pe) }
+        println(goSBom?.fields.orEmpty())
     }
 }
