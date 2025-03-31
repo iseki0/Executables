@@ -42,7 +42,7 @@ This project contains ~~several~~ modules on Maven Central:
 
 ```kotlin
 dependencies {
-    implementation("space.iseki.executables:executables-files:0.0.19")
+    implementation("space.iseki.executables:executables-files:0.0.20")
 }
 ```
 
@@ -56,7 +56,7 @@ Since the project is in Kotlin Multiplatform, for Maven user you have to specify
 <dependency>
     <groupId>space.iseki.executables</groupId>
     <artifactId>executables-files-jvm</artifactId>
-    <version>0.0.19</version>
+    <version>0.0.20</version>
 </dependency>
 ```
 
