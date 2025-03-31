@@ -430,6 +430,8 @@ class ElfFile private constructor(
             }
         }
 
+        override fun toString(): String =
+            "Section(name=$name, size=$size, type=${sectionHeader.shType}, flags=${sectionHeader.shFlags})"
     }
 
     /**
@@ -438,12 +440,12 @@ class ElfFile private constructor(
      * @return A list of sections, unmodifiable
      */
     override val sections: List<Section> = object : AbstractList<Section>() {
-            override val size: Int
-                get() = sectionHeaders.size
+        override val size: Int
+            get() = sectionHeaders.size
 
-            override fun get(index: Int): Section = Section(sectionHeaders[index])
+        override fun get(index: Int): Section = Section(sectionHeaders[index])
 
-        }
+    }
 
     /**
      * Represents a symbol in the ELF file
