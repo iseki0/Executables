@@ -403,14 +403,13 @@ class PEFile private constructor(
      *
      * @return a list of sections, unmodifiable
      */
-    override val sections: List<Section>
-        get() = object : AbstractList<Section>() {
-            override val size: Int
-                get() = sectionTable.size
+    override val sections: List<Section> = object : AbstractList<Section>() {
+        override val size: Int
+            get() = sectionTable.size
 
-            override fun get(index: Int): Section = Section(sectionTable[index])
+        override fun get(index: Int): Section = Section(sectionTable[index])
 
-        }
+    }
 
     override fun toString(): String {
         return "PEFile(dataAccessor=$dataAccessor)"
@@ -422,8 +421,6 @@ class PEFile private constructor(
     inner class Section internal constructor(
         val tableItem: SectionTableItem,
     ) : ReadableSection {
-        private val peFile: PEFile
-            get() = this@PEFile
         override val name: String get() = tableItem.name
         val virtualSize: UInt get() = tableItem.virtualSize
         val virtualAddress: Address32 get() = tableItem.virtualAddress
