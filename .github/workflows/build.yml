@@ -27,6 +27,7 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
       - uses: actions/cache@v4
+        name: Cache Konan
         with:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
           path: |
@@ -42,6 +43,9 @@ jobs:
           gradle-version: wrapper
       - name: Run build
         run: ./gradlew check
+      - name: Run build - CrossCompilation
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: ./gradlew check -Pkotlin.native.enableKlibsCrossCompilation=true
 
   publish:
     needs: check
@@ -57,6 +61,7 @@ jobs:
           server-id: github
           settings-path: ${{ github.workspace }}
       - uses: actions/cache@v4
+        name: Cache Konan
         with:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**') }}
           path: |
@@ -79,7 +84,7 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
           VERSION=${{ github.ref_name }}
-          ./gradlew publish -Psigning.gnupg.keyName=pub@iseki.space -Pversion=${VERSION:1}
+          ./gradlew publish -Psigning.gnupg.keyName=pub@iseki.space -Pversion=${VERSION:1} -Pkotlin.native.enableKlibsCrossCompilation=true
       - name: Publish to Maven Central(Untagged)
         if: ${{ !startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master' }}
         env:
@@ -87,4 +92,4 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
           VERSION=${{ github.ref_name }}
-          ./gradlew publish -Psigning.gnupg.keyName=pub@iseki.space
+          ./gradlew publish -Psigning.gnupg.keyName=pub@iseki.space -Pkotlin.native.enableKlibsCrossCompilation=true
