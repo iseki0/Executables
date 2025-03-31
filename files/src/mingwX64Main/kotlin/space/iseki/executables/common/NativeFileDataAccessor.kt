@@ -1,7 +1,5 @@
 package space.iseki.executables.common
 
-import kotlinx.atomicfu.atomic
-import kotlinx.atomicfu.getAndUpdate
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
@@ -46,41 +44,10 @@ import platform.windows.OPEN_EXISTING
 import platform.windows.PAGE_READONLY
 import platform.windows.SUBLANG_DEFAULT
 import platform.windows.UnmapViewOfFile
-
-internal value class CloseFlag private constructor(private val s: ULong) {
-    companion object {
-        private val LMASK = 0x7fffffffffffffffuL
-        private val HMASK = 0x8000000000000000uL
-    }
-
-    constructor() : this(0u)
-
-    val closed: Boolean
-        get() = s and HMASK != 0uL
-
-    val shouldDoClose: Boolean
-        get() = closed && s and LMASK == 0uL
-
-    fun acquire(): CloseFlag {
-        check(!closed)
-        check(s < LMASK)
-        return CloseFlag(s + 1u)
-    }
-
-    fun release(): CloseFlag {
-        check(s and LMASK > 0uL)
-        return CloseFlag(s - 1u)
-    }
-
-    fun close(): CloseFlag {
-        check(!closed)
-        return CloseFlag(s or HMASK)
-    }
-}
+import space.iseki.executables.share.ClosableDataAccessor
 
 @OptIn(ExperimentalForeignApi::class)
-internal class NativeFileDataAccessor(private val nativePath: String) : DataAccessor {
-    private val flag = atomic(CloseFlag())
+internal class NativeFileDataAccessor(private val nativePath: String) : ClosableDataAccessor() {
     private val beginPtr: LPVOID?
     override val size: Long
 
@@ -194,37 +161,19 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
         }
     }
 
-    private fun unmap() {
+    override fun doClose() {
+        if (beginPtr == null) return
         if (UnmapViewOfFile(beginPtr) == 0) {
             throw Error("native", translateErrorImmediately("UnmapViewOfFile"))
         }
     }
 
     override fun toString(): String = "NativeFileDataAccessor[MingW64](path=$nativePath)"
-    override fun close() {
-        flag.getAndUpdate {
-            if (it.closed) {
-                throw IOException("already closed")
-            }
-            it.close()
-        }.also {
-            if (it.shouldDoClose) {
-                unmap()
-            }
-        }
-    }
 
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
         DataAccessor.checkReadBounds(pos, buf, off, len)
 
-        flag.getAndUpdate {
-            if (it.closed) {
-                throw IOException("already closed")
-            }
-            it.acquire()
-        }
-
-        try {
+        wrapRead {
             if (beginPtr == null) {
                 return 0
             }
@@ -238,11 +187,6 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
             }
 
             return available
-
-        } finally {
-            if (flag.getAndUpdate { it.release() }.shouldDoClose) {
-                unmap()
-            }
         }
     }
 

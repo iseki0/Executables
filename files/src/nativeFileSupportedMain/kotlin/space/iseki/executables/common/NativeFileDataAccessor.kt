@@ -1,7 +1,5 @@
 package space.iseki.executables.common
 
-import kotlinx.atomicfu.atomic
-import kotlinx.atomicfu.getAndUpdate
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.CPointer
@@ -31,44 +29,14 @@ import platform.posix.mmap
 import platform.posix.munmap
 import platform.posix.stat
 import platform.posix.strerror
-
-internal value class CloseFlag private constructor(private val s: ULong) {
-    companion object {
-        private val LMASK = 0x7fffffffffffffffuL
-        private val HMASK = 0x8000000000000000uL
-    }
-
-    constructor() : this(0u)
-
-    val closed: Boolean
-        get() = s and HMASK != 0uL
-
-    val shouldDoClose: Boolean
-        get() = closed && s and LMASK == 0uL
-
-    fun acquire(): CloseFlag {
-        check(!closed)
-        check(s < LMASK)
-        return CloseFlag(s + 1u)
-    }
-
-    fun release(): CloseFlag {
-        check(s and LMASK > 0uL)
-        return CloseFlag(s - 1u)
-    }
-
-    fun close(): CloseFlag {
-        check(!closed)
-        return CloseFlag(s or HMASK)
-    }
-}
+import space.iseki.executables.share.ClosableDataAccessor
 
 @OptIn(ExperimentalForeignApi::class)
-internal class NativeFileDataAccessor(private val nativePath: String) : DataAccessor {
+internal class NativeFileDataAccessor(private val nativePath: String) : ClosableDataAccessor() {
     private val file: CPointer<FILE>
-    private val beginPtr: COpaquePointer
+    private val beginPtr: COpaquePointer?
     override val size: Long
-    private val flag = atomic(CloseFlag())
+
     init {
         val f = fopen(nativePath, "rb") ?: throw translateErrorImmediately("fopen")
         try {
@@ -82,11 +50,15 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
                     throw translateErrorImmediately("fstat")
                 }
                 size = stat.st_size
-                val pointer = mmap(null, stat.st_size.toULong(), PROT_READ, MAP_SHARED, fileno(f), 0)
-                if (pointer == MAP_FAILED) {
-                    throw translateErrorImmediately("mmap")
+                if (size > 0L) {
+                    val pointer = mmap(null, stat.st_size.toULong(), PROT_READ, MAP_SHARED, fileno(f), 0)
+                    if (pointer == MAP_FAILED) {
+                        throw translateErrorImmediately("mmap")
+                    }
+                    beginPtr = pointer ?: throw Error("mmap() == NULL")
+                } else {
+                    beginPtr = null
                 }
-                beginPtr = pointer ?: throw Error("mmap() == NULL")
             }
         } catch (th: Throwable) {
             if (fclose(f) != 0) {
@@ -97,28 +69,10 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
         file = f
     }
 
-    override fun close() {
-        flag.getAndUpdate {
-            if (it.closed) {
-                throw IOException("already closed")
-            }
-            it.close()
-        }.also {
-            if (it.shouldDoClose) {
-                unmap()
-            }
-        }
-    }
-
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
         DataAccessor.checkReadBounds(pos, buf, off, len)
-        flag.getAndUpdate {
-            if (it.closed) {
-                throw IOException("already closed")
-            }
-            it.acquire()
-        }
-        try {
+        wrapRead {
+            val beginPtr = beginPtr ?: return 0
             val available = (size - pos).coerceAtLeast(0).coerceAtMost(len.toLong()).toInt()
             if (available == 0) return 0
 
@@ -127,13 +81,7 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
                 val dst = pinned.addressOf(off)
                 memcpy(dst, src, available.toULong())
             }
-
             return available
-
-        } finally {
-            if (flag.getAndUpdate { it.release() }.shouldDoClose) {
-                unmap()
-            }
         }
     }
 
@@ -152,12 +100,22 @@ internal class NativeFileDataAccessor(private val nativePath: String) : DataAcce
         }
     }
 
-    private fun unmap() {
-        if (munmap(beginPtr, size.toULong()) == -1) {
-            throw translateErrorImmediately("munmap")
-        }
-    }
-
     override fun toString(): String = "NativeFileDataAccessor(path=$nativePath)"
+    override fun doClose() {
+        var th: Throwable? = null
+        if (beginPtr != null) {
+            if (munmap(beginPtr, size.toULong()) == -1) {
+                translateErrorImmediately("munmap").also {
+                    th?.addSuppressed(it) ?: run { th = it }
+                }
+            }
+        }
+        if (fclose(file) != 0) {
+            translateErrorImmediately("fclose").also {
+                th?.addSuppressed(it) ?: run { th = it }
+            }
+        }
+        th?.let { throw it }
+    }
 }
 

@@ -20,6 +20,11 @@ dependencies {
     commonTestImplementation(libs.kotlinx.serialization.json)
 }
 
+atomicfu {
+    transformJvm = true // set to false to turn off JVM transformation
+    jvmVariant = "BOTH" // JVM transformation variant: FU,VH, or BOTH
+}
+
 kotlin {
     sourceSets {
         val nonJvmMain by creating {
