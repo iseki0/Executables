@@ -510,25 +510,6 @@ class PEFile private constructor(
             return "Section[$name, VirtualSize=$virtualSize, VirtualAddress=$virtualAddress, RawSize=$sizeOfRawData, RawOffset=$pointerToRawData, Flags=$flagsStr]"
         }
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (other == null || this::class != other::class) return false
-
-            other as Section
-
-            if (tableItem != other.tableItem) return false
-            if (peFile != other.peFile) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = tableItem.hashCode()
-            result = 31 * result + peFile.hashCode()
-            return result
-        }
-
-
     }
 
     /**
