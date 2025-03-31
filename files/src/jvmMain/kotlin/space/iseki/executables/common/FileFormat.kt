@@ -118,10 +118,36 @@ actual interface FileFormat<out T : OpenedFile> {
  * @return the detected [FileFormat], or `null` if the type could not be detected
  */
 actual fun FileFormat.Companion.detect(path: String): FileFormat<OpenedFile>? {
-    val da = PathDataAccessor(Path.of(path))
+    return detect(Path.of(path))
+}
+
+/**
+ * Detects the type of the executable file from the given path.
+ *
+ * @param path The path to the file
+ * @return the detected [FileFormat], or `null` if the type could not be detected
+ */
+fun FileFormat.Companion.detect(path: Path): FileFormat<OpenedFile>? {
+    val da = PathDataAccessor(path)
     try {
         return detect(da)
     } finally {
         da.close()
     }
 }
+
+/**
+ * Detects the type of the executable file from the given file.
+ *
+ * @param file The file
+ * @return the detected [FileFormat], or `null` if the type could not be detected
+ */
+fun FileFormat.Companion.detect(file: File): FileFormat<OpenedFile>? {
+    val da = RandomAccessFileDataAccessor(file)
+    try {
+        return detect(da)
+    } finally {
+        da.close()
+    }
+}
+

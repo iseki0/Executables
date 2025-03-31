@@ -186,7 +186,9 @@ public final class space/iseki/executables/common/FileFormat$DefaultImpls {
 }
 
 public final class space/iseki/executables/common/FileFormatKt {
+	public static final fun detect (Lspace/iseki/executables/common/FileFormat$Companion;Ljava/io/File;)Lspace/iseki/executables/common/FileFormat;
 	public static final fun detect (Lspace/iseki/executables/common/FileFormat$Companion;Ljava/lang/String;)Lspace/iseki/executables/common/FileFormat;
+	public static final fun detect (Lspace/iseki/executables/common/FileFormat$Companion;Ljava/nio/file/Path;)Lspace/iseki/executables/common/FileFormat;
 }
 
 public final class space/iseki/executables/common/FileFormat_commonKt {
