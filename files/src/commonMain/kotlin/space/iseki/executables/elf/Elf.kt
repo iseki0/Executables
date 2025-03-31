@@ -415,14 +415,10 @@ class ElfFile private constructor(
 
             // Check if the section data extends beyond the file
             if (fileOffset + minOf(size.toLong(), availableBytes) > dataAccessor.size) {
-                throw ElfFileException(
-                    "Section data extends beyond file end: offset=$fileOffset, size=${
-                        minOf(
-                            size.toLong(),
-                            availableBytes
-                        )
-                    }, file size=${dataAccessor.size}"
-                )
+                val sectionSize = minOf(size.toLong(), availableBytes)
+                val errorMessage =
+                    "Section data extends beyond file end: offset=$fileOffset, size=$sectionSize, file size=${dataAccessor.size}"
+                throw ElfFileException(errorMessage)
             }
 
             // Read the actual bytes
