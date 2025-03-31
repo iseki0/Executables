@@ -60,10 +60,3 @@ jobs:
         run: |
           VERSION=${{ github.ref_name }}
           ./gradlew publish -Psigning.gnupg.keyName=pub@iseki.space
-      - name: Generate code coverage report
-        run: ./gradlew koverXmlReport
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          files: 'build/reports/kover/report.xml'
-          token: ${{ secrets.CODECOV_TOKEN }}
