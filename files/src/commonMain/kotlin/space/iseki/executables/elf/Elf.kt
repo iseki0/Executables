@@ -441,8 +441,7 @@ class ElfFile private constructor(
      *
      * @return A list of sections, unmodifiable
      */
-    override val sections: List<Section>
-        get() = object : AbstractList<Section>() {
+    override val sections: List<Section> = object : AbstractList<Section>() {
             override val size: Int
                 get() = sectionHeaders.size
 
