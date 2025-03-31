@@ -1150,13 +1150,17 @@ public final class space/iseki/executables/elf/ElfFile$ElfSymbolInfo$Companion {
 }
 
 public final class space/iseki/executables/elf/ElfFile$Section : space/iseki/executables/common/ReadableSection {
-	public fun equals (Ljava/lang/Object;)Z
 	public fun getHeader ()Lspace/iseki/executables/common/ReadableStructure;
 	public fun getName ()Ljava/lang/String;
 	public final fun getSectionHeader ()Lspace/iseki/executables/elf/ElfShdr;
 	public fun getSize ()J
-	public fun hashCode ()I
 	public fun readBytes (J[BII)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/elf/ElfFile$Segment {
+	public final fun getHeader ()Lspace/iseki/executables/elf/ElfPhdr;
+	public final fun readBytes (J[BII)V
 }
 
 public class space/iseki/executables/elf/ElfFileException : space/iseki/executables/common/CommonFileException {
@@ -3020,7 +3024,6 @@ public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/exe
 }
 
 public final class space/iseki/executables/pe/PEFile$Section : space/iseki/executables/common/ReadableSection {
-	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCharacteristics-CVJ1pB8 ()I
 	public fun getHeader ()Lspace/iseki/executables/common/ReadableStructure;
 	public fun getName ()Ljava/lang/String;
@@ -3034,7 +3037,6 @@ public final class space/iseki/executables/pe/PEFile$Section : space/iseki/execu
 	public final fun getTableItem ()Lspace/iseki/executables/pe/SectionTableItem;
 	public final fun getVirtualAddress-7OlPWkI ()I
 	public final fun getVirtualSize-pVg5ArA ()I
-	public fun hashCode ()I
 	public fun readBytes (J[BII)V
 	public fun toString ()Ljava/lang/String;
 }
