@@ -46,6 +46,13 @@ jobs:
       - name: Run build - CrossCompilation
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: ./gradlew check -Pkotlin.native.enableKlibsCrossCompilation=true
+      - name: Upload build reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-reports-${{ matrix.os }}
+          path: files/build/reports
+          if-no-files-found: warn
 
   publish:
     needs: check
