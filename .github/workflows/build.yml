@@ -12,12 +12,12 @@ on:
     pull_request:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  check:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Store GPG key
-        if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
-        run: echo "${{ secrets.GPG_PK }}" | base64 --decode | gzip -d | gpg --import
       - uses: actions/checkout@v3
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -28,10 +28,8 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
       - uses: actions/cache@v4
         with:
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
           path: |
-            ./g/build
-            ./buildSrc/build
             ~/.konan
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -43,7 +41,37 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
           gradle-version: wrapper
       - name: Run build
-        run: ./gradlew build check
+        run: ./gradlew check
+
+  publish:
+    needs: check
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version-file: '.java-version'
+          distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
+      - uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**') }}
+          path: |
+            ~/.konan
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GradleEncryptionKey }}
+          validate-wrappers: true
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-use-agree: "yes"
+          gradle-version: wrapper
+      - name: Store GPG key
+        run: echo "${{ secrets.GPG_PK }}" | base64 --decode | gzip -d | gpg --import
       - name: Publish to Maven Central(Tagged)
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         env:
