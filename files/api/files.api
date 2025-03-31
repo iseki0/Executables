@@ -1158,11 +1158,6 @@ public final class space/iseki/executables/elf/ElfFile$Section : space/iseki/exe
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class space/iseki/executables/elf/ElfFile$Segment {
-	public final fun getHeader ()Lspace/iseki/executables/elf/ElfPhdr;
-	public final fun readBytes (J[BII)V
-}
-
 public class space/iseki/executables/elf/ElfFileException : space/iseki/executables/common/CommonFileException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
