@@ -7,36 +7,32 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class WhoTest {
+    companion object {
+        const val PATH = "src/fileAccessTest/resources/elf/who"
+    }
+
     private val json = Json {
         prettyPrint = true
     }
 
     @Test
     fun testOpen() {
-        try {
-            ElfFile.open("src/commonTest/resources/elf/who").close()
-        } catch (_: UnsupportedOperationException) {
-        }
-
+        ElfFile.open(PATH).close()
     }
 
     @Test
     fun test() {
-        val file = try {
-            assertEquals(ElfFile, FileFormat.detect("src/commonTest/resources/elf/who"))
-            ElfFile.open("src/commonTest/resources/elf/who")
-        } catch (_: UnsupportedOperationException) {
-            return
-        }
-        val ident = json.encodeToString(file.ident)
-        val ehdr = json.encodeToString(file.ehdr)
-        val phdrs = json.encodeToString(file.programHeaders)
-        val shdrs = json.encodeToString(file.sectionHeaders)
-        println(ident)
-        println(ehdr)
-        println(phdrs)
-        println(shdrs)
-        """
+        assertEquals(ElfFile, FileFormat.detect(PATH))
+        ElfFile.open(PATH).use { file ->
+            val ident = json.encodeToString(file.ident)
+            val ehdr = json.encodeToString(file.ehdr)
+            val phdrs = json.encodeToString(file.programHeaders)
+            val shdrs = json.encodeToString(file.sectionHeaders)
+            println(ident)
+            println(ehdr)
+            println(phdrs)
+            println(shdrs)
+            """
             {
                 "eiClass": "ELFCLASS64",
                 "eiData": "ELFDATA2LSB",
@@ -45,7 +41,7 @@ class WhoTest {
                 "eiAbiVersion": 0
             }
         """.trimIndent().let { Json.decodeFromString<ElfIdentification>(it) }.also { assertEquals(it, file.ident) }
-        """
+            """
             {
                 "type": "Elf64Ehdr",
                 "eType": "ET_DYN",
@@ -64,7 +60,7 @@ class WhoTest {
             }
         """.trimIndent().let { Json.decodeFromString<ElfEhdr>(it) }.also { assertEquals(it, file.ehdr) }
 
-        """
+            """
             [
                 {
                     "type": "Elf64Phdr",
@@ -244,7 +240,7 @@ class WhoTest {
         """.trimIndent().let { Json.decodeFromString<List<ElfPhdr>>(it) }.also { assertEquals(it, file.programHeaders) }
 
 
-        """
+            """
             [
                 {
                     "type": "Elf64Shdr",
@@ -750,5 +746,7 @@ class WhoTest {
                 }
             ]
         """.trimIndent().let { Json.decodeFromString<List<ElfShdr>>(it) }.also { assertEquals(it, file.sectionHeaders) }
+
+        }
     }
 }

@@ -1,5 +1,8 @@
-package space.iseki.executables.common
+package space.iseki.executables
 
+import space.iseki.executables.common.IOException
+import space.iseki.executables.common.NoSuchFileException
+import space.iseki.executables.common.openNativeFileDataAccessor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -9,7 +12,7 @@ class NativeFileDataAccessorTest {
 
     @Test
     fun testRead() {
-        val o = NativeFileDataAccessor("src/mingwX64Test/resources/test_read")
+        val o = openNativeFileDataAccessor("src/fileAccessTest/resources/test_read")
         o.use {
             val buf = ByteArray(10)
             val read = it.readAtMost(0, buf, 0, 10)
@@ -29,13 +32,17 @@ class NativeFileDataAccessorTest {
         }
         // test read after close
         assertFailsWith<IOException> { o.readAtMost(0, ByteArray(10), 0, 10) }.also { println(it) }
-        assertFailsWith<IOException> { o.close() }.also { println(it) }
+        if ("PathDataAccessor" in o.toString()) {
+            o.close()
+        } else {
+            assertFailsWith<IOException> { o.close() }.also { println(it) }
+        }
     }
 
     @Test
     fun testThrow() {
         assertFailsWith<NoSuchFileException> {
-            NativeFileDataAccessor("a_file_shouldnot_exists")
+            openNativeFileDataAccessor("a_file_shouldnot_exists")
         }.also { println(it) }
     }
 }

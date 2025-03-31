@@ -35,6 +35,7 @@ kotlin {
         wasmJsMain.get().dependsOn(nonJvmMain)
         wasmWasiMain.get().dependsOn(nonJvmMain)
 
+
         val nativeFileSupportedMain by creating {
             dependsOn(commonMain.get())
         }
@@ -47,21 +48,28 @@ kotlin {
         val nativeFileSupportedMingw64Main by creating {
             dependsOn(commonMain.get())
         }
-        mingwX64Main.get().dependsOn(nativeFileSupportedMingw64Main)
         val nativeFileUnsupported by creating {
             dependsOn(commonMain.get())
         }
 
-        fun NamedDomainObjectProvider<KotlinSourceSet>.nf64() {
+        val fileAccessTest by creating {
+            dependsOn(commonTest.get())
+        }
+
+        fun NamedDomainObjectProvider<KotlinSourceSet>.nfTest() = apply {
+            getByName(get().name.removeSuffix("Main") + "Test").dependsOn(fileAccessTest)
+        }
+
+        fun NamedDomainObjectProvider<KotlinSourceSet>.nf64() = apply {
             get().dependsOn(nativeFileSupportedMain)
             getByName(get().name.removeSuffix("Main") + "Test").dependsOn(nativeFileSupportedTest)
         }
 
-        fun NamedDomainObjectProvider<KotlinSourceSet>.nf32() {
+        fun NamedDomainObjectProvider<KotlinSourceSet>.nf32() = apply {
             get().dependsOn(nativeFileSupported2Main)
         }
 
-        fun NamedDomainObjectProvider<KotlinSourceSet>.uf() {
+        fun NamedDomainObjectProvider<KotlinSourceSet>.uf() = apply {
             get().dependsOn(nativeFileUnsupported)
         }
 
@@ -70,15 +78,15 @@ kotlin {
         wasmWasiMain.uf()
 
         // Tier 1
-        macosX64Main.nf64()
-        macosArm64Main.nf64()
+        macosX64Main.nf64().nfTest()
+        macosArm64Main.nf64().nfTest()
         iosSimulatorArm64Main.nf64()
         iosX64Main.nf64()
         iosArm64Main.nf64()
 
         // Tier 2
-        linuxX64Main.nf64()
-        linuxArm64Main.nf64()
+        linuxX64Main.nf64().nfTest()
+        linuxArm64Main.nf64().nfTest()
         watchosArm32Main.nf32()
         watchosArm64Main.nf32() // why ???
         watchosX64Main.nf64()
@@ -93,7 +101,8 @@ kotlin {
         androidNativeArm64Main.nf64()
         androidNativeX64Main.nf64()
         watchosDeviceArm64Main.nf64()
+        mingwX64Main.apply { get().dependsOn(nativeFileSupportedMingw64Main) }.nfTest()
 
-
+        jvmMain.nfTest()
     }
 }

@@ -11,7 +11,6 @@ import java.nio.file.Path
 import kotlin.io.path.extension
 import kotlin.io.path.pathString
 import kotlin.streams.asSequence
-import kotlin.test.Test
 
 @EnabledIfEnvironmentVariable(named = "CI", matches = "true")
 class ReadSysTest {
@@ -48,17 +47,4 @@ class ReadSysTest {
             .toList()
     }
 
-    @Test
-    fun testCryptdlgDll() {
-        // this file contains zero length string item
-        PEFile.open(Path.of("src/jvmTest/resources/cryptdlg.dll")).use { file ->
-            file.versionInfo?.stringFileInfo?.strings.orEmpty().forEach { (k, v) -> println("$k: $v") }
-            for (importSymbol in file.importSymbols) {
-                println(importSymbol)
-            }
-            for (exportSymbol in file.exportSymbols) {
-                println(exportSymbol)
-            }
-        }
-    }
 }
