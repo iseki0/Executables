@@ -39,7 +39,7 @@ internal open class SeekableByteChannelDataAccessor(private val channel: Seekabl
                 break
             }
         }
-        return buffer.position()
+        return buffer.position() - off
     }
 
     override val size: Long = channel.size()
