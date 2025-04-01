@@ -1,6 +1,7 @@
 package space.iseki.executables.pe
 
 import space.iseki.executables.common.Address32
+import space.iseki.executables.common.openNativeFileDataAccessor
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -142,5 +143,21 @@ class CryptdlgDllTest {
             assertContentEquals(imports, file.importSymbols)
         }
 
+    }
+
+    @Test
+    fun testReadVM() {
+        PEFile.open("src/fileAccessTest/resources/pe/cryptdlg.dll").use { file ->
+            val relocSection = file.sections.find { it.name == ".reloc" }!!
+            println(relocSection.tableItem)
+            val relocSectionData = ByteArray(relocSection.size.toInt())
+            openNativeFileDataAccessor("src/fileAccessTest/resources/pe/cryptdlg.dll.sections/${relocSection.name}").use {
+                assertEquals(relocSection.virtualSize.toInt(), it.readAtMost(0, relocSectionData))
+            }
+            val actualData = ByteArray(relocSection.size.toInt())
+            relocSection.readBytes(0, actualData, 0, actualData.size)
+            assertEquals(relocSectionData.size, actualData.size, "Reloc section size mismatch")
+            assertContentEquals(relocSectionData, actualData, "Reloc section data mismatch")
+        }
     }
 }

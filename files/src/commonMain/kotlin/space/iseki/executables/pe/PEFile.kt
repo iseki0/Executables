@@ -868,4 +868,47 @@ class PEFile private constructor(
 
         return result
     }
+
+    /**
+     * Returns a DataAccessor that can be used to read from the PE file's virtual memory.
+     *
+     * This function provides access to the PE file's memory as it would be laid out when loaded by the OS.
+     * It allows reading from both the header and all sections at their virtual addresses.
+     *
+     * Note: This implementation does not consider whether sections would actually be loaded in memory
+     * during PE loading. Some sections may not be loaded due to their characteristics (e.g.,
+     * IMAGE_SCN_MEM_DISCARDABLE), but this function returns data from all sections as if they were loaded.
+     *
+     * @return a DataAccessor implementation backed by this PE file's virtual memory
+     */
+    fun virtualMemory(): DataAccessor {
+        return object : DataAccessor {
+            override val size: Long get() = windowsHeader.sizeOfImage.toLong()
+
+            override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+                DataAccessor.checkReadBounds(pos, buf, off, len)
+
+                if (len <= 0) return 0
+                if (pos >= size) return 0
+
+                // Calculate the actual number of bytes to read (don't go beyond the virtual image size)
+                val actualLen = minOf(len.toLong(), size - pos).toInt()
+                if (actualLen <= 0) return 0
+
+                val tempBuffer = ByteArray(actualLen)
+                readVirtualMemory(Address32(pos.toUInt()), tempBuffer, 0, actualLen)
+
+                tempBuffer.copyInto(buf, off, 0, actualLen)
+                return actualLen
+            }
+
+            override fun close() {
+                // No need to close anything as we're just a wrapper
+            }
+
+            override fun toString(): String {
+                return "VirtualMemoryDataAccessor(file=${this@PEFile})"
+            }
+        }
+    }
 }

@@ -3010,6 +3010,7 @@ public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, 
 	public final fun getVersionInfo ()Lspace/iseki/executables/pe/vi/PEVersionInfo;
 	public final fun getWindowsHeader ()Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 	public fun toString ()Ljava/lang/String;
+	public final fun virtualMemory ()Lspace/iseki/executables/common/DataAccessor;
 }
 
 public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/executables/common/FileFormat {
