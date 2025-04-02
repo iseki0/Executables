@@ -10,7 +10,7 @@ on:
       - 'feat/*'
       - 'fix/*'
     pull_request:
-
+    workflow_dispatch:
 jobs:
   check:
     strategy:
@@ -100,3 +100,51 @@ jobs:
         run: |
           VERSION=${{ github.ref_name }}
           ./gradlew publish --stacktrace -Psigning.gnupg.keyName=pub@iseki.space -Pkotlin.native.enableKlibsCrossCompilation=true
+  dokka:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: "pages"
+      cancel-in-progress: true
+    needs: check
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v4
+        name: Cache Konan
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
+          path: |
+            ~/.konan
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version-file: '.java-version'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GradleEncryptionKey }} # openssl rand -base64 16
+          validate-wrappers: true
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-use-agree: "yes"
+          gradle-version: wrapper
+      - name: Generate docs
+        run: ./gradlew dokkaGenerate --stacktrace
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: 'build/dokka/html'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
