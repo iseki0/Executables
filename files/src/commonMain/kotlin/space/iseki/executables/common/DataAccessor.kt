@@ -1,3 +1,4 @@
+@file:Suppress("NOTHING_TO_INLINE")
 package space.iseki.executables.common
 
 /**
@@ -92,4 +93,130 @@ interface DataAccessor : AutoCloseable {
      * The total size (in bytes) of the data accessible through this accessor.
      */
     val size: Long
+}
+
+/**
+ * Reads at most [len] bytes from the data source starting at the given [pos] into the [buf] array,
+ * starting at offset [off].
+ *
+ * @param pos The starting 32-bit address in the data source
+ * @param buf The destination byte array
+ * @param off The starting offset in the buffer (must be in [0, buf.size))
+ * @param len The maximum number of bytes to read (must be in [0, buf.size - off])
+ *
+ * @return The number of bytes actually read, or 0 if the end of data is reached
+ *
+ * @throws IndexOutOfBoundsException If [off]/[len] are invalid for [buf]
+ * @throws IOException If an I/O error occurs
+ */
+@Throws(IOException::class)
+inline fun DataAccessor.readAtMost(pos: Address32, buf: ByteArray, off: Int, len: Int): Int =
+    this.readAtMost(pos.value.toLong(), buf, off, len)
+
+/**
+ * Reads at most [buf.size] bytes from the data source starting at the 32-bit [pos] into the given [buf].
+ *
+ * @param pos The starting 32-bit address in the data source
+ * @param buf The destination byte array
+ *
+ * @return The number of bytes actually read, or 0 if the end of data is reached
+ *
+ * @throws IOException If an I/O error occurs
+ */
+@Throws(IOException::class)
+inline fun DataAccessor.readAtMost(pos: Address32, buf: ByteArray): Int =
+    this.readAtMost(pos.value.toLong(), buf)
+
+/**
+ * Reads at most [len] bytes from the data source starting at the given [pos] into the [buf] array,
+ * starting at offset [off].
+ *
+ * @param pos The starting 64-bit address in the data source
+ * @param buf The destination byte array
+ * @param off The starting offset in the buffer (must be in [0, buf.size))
+ * @param len The maximum number of bytes to read (must be in [0, buf.size - off])
+ *
+ * @return The number of bytes actually read, or 0 if the end of data is reached
+ *
+ * @throws IndexOutOfBoundsException If [off]/[len] are invalid for [buf]
+ * @throws IOException If an I/O error occurs
+ */
+@Throws(IOException::class)
+inline fun DataAccessor.readAtMost(pos: Address64, buf: ByteArray, off: Int, len: Int): Int =
+    this.readAtMost(pos.value.toLong(), buf, off, len)
+
+/**
+ * Reads at most [buf.size] bytes from the data source starting at the 64-bit [pos] into the given [buf].
+ *
+ * @param pos The starting 64-bit address in the data source
+ * @param buf The destination byte array
+ *
+ * @return The number of bytes actually read, or 0 if the end of data is reached
+ *
+ * @throws IOException If an I/O error occurs
+ */
+@Throws(IOException::class)
+inline fun DataAccessor.readAtMost(pos: Address64, buf: ByteArray): Int =
+    this.readAtMost(pos.value.toLong(), buf)
+
+/**
+ * Reads exactly [len] bytes starting at the 32-bit [pos] into [buf], beginning at offset [off].
+ *
+ * @param pos The starting 32-bit address in the data source
+ * @param buf The destination byte array
+ * @param off The starting offset in the buffer (must be in [0, buf.size))
+ * @param len The maximum number of bytes to read (must be in [0, buf.size - off])
+ *
+ * @throws EOFException If the end of data is reached before reading all bytes
+ * @throws IndexOutOfBoundsException If any of [off] or [len] are invalid
+ * @throws IOException If an I/O error occurs
+ */
+@Throws(IOException::class, EOFException::class)
+inline fun DataAccessor.readFully(pos: Address32, buf: ByteArray, off: Int, len: Int) {
+    this.readFully(pos.value.toLong(), buf, off, len)
+}
+
+/**
+ * Reads exactly [buf.size] bytes starting at the 32-bit [pos] into the buffer.
+ *
+ * @param pos The starting 32-bit address in the data source
+ * @param buf The destination byte array
+ *
+ * @throws EOFException If the end of data is reached before reading all bytes
+ * @throws IOException If an I/O error occurs
+ */
+@Throws(IOException::class, EOFException::class)
+inline fun DataAccessor.readFully(pos: Address32, buf: ByteArray) {
+    this.readFully(pos.value.toLong(), buf)
+}
+
+/**
+ * Reads exactly [len] bytes starting at the 64-bit [pos] into [buf], beginning at offset [off].
+ *
+ * @param pos The starting 64-bit address in the data source
+ * @param buf The destination byte array
+ * @param off The starting offset in the buffer (must be in [0, buf.size))
+ * @param len The maximum number of bytes to read (must be in [0, buf.size - off])
+ *
+ * @throws EOFException If the end of data is reached before reading all bytes
+ * @throws IndexOutOfBoundsException If any of [off] or [len] are invalid
+ * @throws IOException If an I/O error occurs
+ */
+@Throws(IOException::class, EOFException::class)
+inline fun DataAccessor.readFully(pos: Address64, buf: ByteArray, off: Int, len: Int) {
+    this.readFully(pos.value.toLong(), buf, off, len)
+}
+
+/**
+ * Reads exactly [buf.size] bytes starting at the 64-bit [pos] into the buffer.
+ *
+ * @param pos The starting 64-bit address in the data source
+ * @param buf The destination byte array
+ *
+ * @throws EOFException If the end of data is reached before reading all bytes
+ * @throws IOException If an I/O error occurs
+ */
+@Throws(IOException::class, EOFException::class)
+inline fun DataAccessor.readFully(pos: Address64, buf: ByteArray) {
+    this.readFully(pos.value.toLong(), buf)
 }
