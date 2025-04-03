@@ -2068,7 +2068,7 @@ public final class space/iseki/executables/macho/MachoFile$Companion : space/ise
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class space/iseki/executables/macho/MachoFileException : java/io/IOException {
+public final class space/iseki/executables/macho/MachoFileException : space/iseki/executables/common/CommonFileException {
 	public fun <init> (Ljava/lang/String;)V
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 }
