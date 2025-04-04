@@ -12,6 +12,7 @@ import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
+import space.iseki.executables.common.VirtualMemoryReadable
 
 /**
  * Represents an ELF file and provides access to its contents.
@@ -28,7 +29,8 @@ class ElfFile private constructor(
     val ehdr: ElfEhdr,
     val programHeaders: List<ElfPhdr>,
     val sectionHeaders: List<ElfShdr>,
-) : AutoCloseable, OpenedFile, ReadableSectionContainer, ExportSymbolContainer, ImportSymbolContainer {
+) : AutoCloseable, OpenedFile, ReadableSectionContainer, ExportSymbolContainer, ImportSymbolContainer,
+    VirtualMemoryReadable {
 
     companion object : FileFormat<ElfFile> {
         override fun toString(): String = "ELF"
@@ -706,7 +708,7 @@ class ElfFile private constructor(
      * @return a DataAccessor implementation backed by this ELF file's virtual memory
      */
     @Suppress("DuplicatedCode")
-    fun virtualMemory(): DataAccessor {
+    override fun virtualMemory(): DataAccessor {
         // Calculate the highest end address of all loadable segments to determine virtual memory size
         var maxEndAddress = 0UL
         for (phdr in programHeaders) {

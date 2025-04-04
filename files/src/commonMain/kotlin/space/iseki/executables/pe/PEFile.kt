@@ -14,6 +14,7 @@ import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
+import space.iseki.executables.common.VirtualMemoryReadable
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
@@ -28,7 +29,8 @@ class PEFile private constructor(
     val windowsHeader: WindowsSpecifiedHeader,
     val sectionTable: List<SectionTableItem>,
     private val dataAccessor: DataAccessor,
-) : AutoCloseable, OpenedFile, ReadableSectionContainer, ImportSymbolContainer, ExportSymbolContainer {
+) : AutoCloseable, OpenedFile, ReadableSectionContainer, ImportSymbolContainer, ExportSymbolContainer,
+    VirtualMemoryReadable {
 
     /**
      * Represents a summary of the pe file headers.
@@ -882,7 +884,7 @@ class PEFile private constructor(
      * @return a DataAccessor implementation backed by this PE file's virtual memory
      */
     @Suppress("DuplicatedCode")
-    fun virtualMemory(): DataAccessor {
+    override fun virtualMemory(): DataAccessor {
         return object : DataAccessor {
             override val size: Long get() = windowsHeader.sizeOfImage.toLong()
 
