@@ -106,3 +106,16 @@ kotlin {
         jvmMain.nfTest()
     }
 }
+
+dokka {
+    dokkaSourceSets.configureEach {
+        sourceRoots.map { root ->
+            sourceLink {
+                val relPath = root.relativeTo(project.layout.projectDirectory.asFile)
+                localDirectory = relPath
+                val relPathSlash = relPath.toString().replace('\\', '/')
+                remoteUrl("https://github.com/iseki0/Executables/tree/master/files/$relPathSlash")
+            }
+        }
+    }
+}

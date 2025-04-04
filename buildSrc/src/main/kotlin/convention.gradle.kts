@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.net.URI
 
 plugins {
     kotlin("multiplatform")
@@ -171,20 +170,8 @@ tasks.withType<Jar> {
 
 
 dokka {
-    dokkaSourceSets.configureEach {
-        includes.from(rootProject.layout.projectDirectory.file("module.md"))
-        sourceLink {
-            localDirectory = project.layout.projectDirectory.dir("src").asFile
-            val p =
-                project.layout.projectDirectory.dir("src").asFile.relativeTo(rootProject.layout.projectDirectory.asFile)
-                    .toString()
-                    .replace('\\', '/')
-            remoteUrl = URI.create("https://github.com/iseki0/Executables/tree/master/$p")
-            remoteLineSuffix = "#L"
-        }
-        externalDocumentationLinks.create("") {
-            url = URI.create("https://kotlinlang.org/api/kotlinx.serialization/")
-        }
+    dokkaPublications.configureEach {
+        offlineMode = System.getenv("CI") != "true"
     }
 }
 
