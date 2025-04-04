@@ -1112,6 +1112,7 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 	public final fun getSectionHeaders ()Ljava/util/List;
 	public fun getSections ()Ljava/util/List;
 	public final fun getSymbols ()Ljava/util/List;
+	public final fun virtualMemory ()Lspace/iseki/executables/common/DataAccessor;
 }
 
 public final class space/iseki/executables/elf/ElfFile$Companion : space/iseki/executables/common/FileFormat {
