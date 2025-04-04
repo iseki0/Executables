@@ -914,4 +914,12 @@ class PEFile private constructor(
             }
         }
     }
+
+    private operator fun Address32.plus(relAddress: Address32): Address32 {
+        val sum = this.value + relAddress.value
+        if (sum < this.value) {
+            throw ArithmeticException("Address32 overflow: $this + $relAddress wraps around")
+        }
+        return Address32(sum)
+    }
 }

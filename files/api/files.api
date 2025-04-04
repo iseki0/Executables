@@ -1,5 +1,7 @@
 public final class space/iseki/executables/common/Address32 : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/common/Address32$Companion;
+	public static final fun alignDown-usHr3SA (II)I
+	public static final fun alignUp-usHr3SA (II)I
 	public static final fun and-63KzX0g (II)I
 	public static final fun and-iciOaY8 (II)I
 	public static final fun and-usHr3SA (II)I
@@ -8,9 +10,6 @@ public final class space/iseki/executables/common/Address32 : java/lang/Comparab
 	public fun compareTo-kXoK3Y8 (I)I
 	public static fun compareTo-kXoK3Y8 (II)I
 	public static fun constructor-impl (I)I
-	public static final fun div-63KzX0g (II)I
-	public static final fun div-iciOaY8 (II)I
-	public static final fun div-usHr3SA (II)I
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
@@ -18,23 +17,18 @@ public final class space/iseki/executables/common/Address32 : java/lang/Comparab
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
 	public static final fun inv-7OlPWkI (I)I
+	public static final fun isAlignedTo-WZ4Q5Ns (II)Z
 	public static final fun minus-63KzX0g (II)I
-	public static final fun minus-iciOaY8 (II)I
 	public static final fun minus-usHr3SA (II)I
 	public static final fun or-63KzX0g (II)I
 	public static final fun or-iciOaY8 (II)I
 	public static final fun or-usHr3SA (II)I
 	public static final fun plus-63KzX0g (II)I
-	public static final fun plus-iciOaY8 (II)I
 	public static final fun plus-usHr3SA (II)I
 	public static final fun rem-63KzX0g (II)I
-	public static final fun rem-iciOaY8 (II)I
 	public static final fun rem-usHr3SA (II)I
 	public static final fun shl-63KzX0g (II)I
 	public static final fun shr-63KzX0g (II)I
-	public static final fun times-63KzX0g (II)I
-	public static final fun times-iciOaY8 (II)I
-	public static final fun times-usHr3SA (II)I
 	public static final fun toInt-impl (I)I
 	public fun toString ()Ljava/lang/String;
 	public static final fun toString (I)Ljava/lang/String;
@@ -66,6 +60,8 @@ public final class space/iseki/executables/common/Address32Kt {
 
 public final class space/iseki/executables/common/Address64 : java/lang/Comparable {
 	public static final field Companion Lspace/iseki/executables/common/Address64$Companion;
+	public static final fun alignDown-UOD491U (JJ)J
+	public static final fun alignUp-UOD491U (JJ)J
 	public static final fun and-UOD491U (JJ)J
 	public static final fun and-aarc36w (JJ)J
 	public static final fun and-t8Ug2B4 (JJ)J
@@ -74,9 +70,6 @@ public final class space/iseki/executables/common/Address64 : java/lang/Comparab
 	public fun compareTo-Mq8ezV8 (J)I
 	public static fun compareTo-Mq8ezV8 (JJ)I
 	public static fun constructor-impl (J)J
-	public static final fun div-UOD491U (JJ)J
-	public static final fun div-aarc36w (JJ)J
-	public static final fun div-t8Ug2B4 (JJ)J
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (JLjava/lang/Object;)Z
 	public static final fun equals-impl0 (JJ)Z
@@ -84,23 +77,24 @@ public final class space/iseki/executables/common/Address64 : java/lang/Comparab
 	public fun hashCode ()I
 	public static fun hashCode-impl (J)I
 	public static final fun inv-mVaMEX8 (J)J
+	public static final fun isAlignedTo-VKZWuLQ (JJ)Z
 	public static final fun minus-UOD491U (JJ)J
-	public static final fun minus-aarc36w (JJ)J
+	public static final fun minus-t8Ug2B4 (JI)J
 	public static final fun minus-t8Ug2B4 (JJ)J
+	public static final fun minus-zDebmEU (JI)J
 	public static final fun or-UOD491U (JJ)J
 	public static final fun or-aarc36w (JJ)J
 	public static final fun or-t8Ug2B4 (JJ)J
 	public static final fun plus-UOD491U (JJ)J
-	public static final fun plus-aarc36w (JJ)J
+	public static final fun plus-t8Ug2B4 (JI)J
 	public static final fun plus-t8Ug2B4 (JJ)J
+	public static final fun plus-zDebmEU (JI)J
 	public static final fun rem-UOD491U (JJ)J
-	public static final fun rem-aarc36w (JJ)J
+	public static final fun rem-t8Ug2B4 (JI)J
 	public static final fun rem-t8Ug2B4 (JJ)J
+	public static final fun rem-zDebmEU (JI)J
 	public static final fun shl-t8Ug2B4 (JI)J
 	public static final fun shr-t8Ug2B4 (JI)J
-	public static final fun times-UOD491U (JJ)J
-	public static final fun times-aarc36w (JJ)J
-	public static final fun times-t8Ug2B4 (JJ)J
 	public static final fun toLong-impl (J)J
 	public fun toString ()Ljava/lang/String;
 	public static final fun toString (J)Ljava/lang/String;
@@ -127,7 +121,9 @@ public final class space/iseki/executables/common/Address64$Serializer : kotlinx
 }
 
 public final class space/iseki/executables/common/Address64Kt {
+	public static final fun Address64 (I)J
 	public static final fun Address64 (J)J
+	public static final fun Address64-WZ4Q5Ns (I)J
 }
 
 public class space/iseki/executables/common/CommonFileException : java/lang/RuntimeException {

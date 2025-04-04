@@ -81,50 +81,30 @@ value class Address32(val value: UInt) : Comparable<Address32> {
     }
     // --- Arithmetic Operators ---
 
-    /** Adds another [Address32] to this one. */
-    inline operator fun plus(other: Address32): Address32 = Address32(this.value + other.value)
+    // region Plus
+    inline operator fun plus(other: Int): Address32 = Address32(value + other.toUInt())
+    inline operator fun plus(other: UInt): Address32 = Address32(value + other)
+    // endregion
 
-    /** Adds an [Int] to this address. */
-    inline operator fun plus(other: Int): Address32 = this + Address32(other.toUInt())
+    // region Minus
+    inline operator fun minus(other: Int): Address32 = Address32(value - other.toUInt())
+    inline operator fun minus(other: UInt): Address32 = Address32(value - other)
+    // endregion
 
-    /** Adds a [UInt] to this address. */
-    inline operator fun plus(other: UInt): Address32 = this + Address32(other)
+    // region Modulo
+    inline operator fun rem(other: Int): Address32 = Address32(value % other.toUInt())
+    inline operator fun rem(other: UInt): Address32 = Address32(value % other)
+    // endregion
 
-    /** Subtracts another [Address32] from this one. */
-    inline operator fun minus(other: Address32): Address32 = Address32(this.value - other.value)
+    // region Utilities
+    inline fun isAlignedTo(align: UInt): Boolean = value % align == 0U
 
-    /** Subtracts an [Int] from this address. */
-    inline operator fun minus(other: Int): Address32 = this - Address32(other.toUInt())
+    inline fun alignUp(align: UInt): Address32 =
+        if (isAlignedTo(align)) this else Address32((value + align - 1U) / align * align)
 
-    /** Subtracts a [UInt] from this address. */
-    inline operator fun minus(other: UInt): Address32 = this - Address32(other)
+    inline fun alignDown(align: UInt): Address32 = Address32(value / align * align)
 
-    /** Multiplies this address with another [Address32]. */
-    inline operator fun times(other: Address32): Address32 = Address32(this.value * other.value)
-
-    /** Multiplies this address with an [Int]. */
-    inline operator fun times(other: Int): Address32 = this * Address32(other.toUInt())
-
-    /** Multiplies this address with a [UInt]. */
-    inline operator fun times(other: UInt): Address32 = this * Address32(other)
-
-    /** Divides this address by another [Address32]. */
-    inline operator fun div(other: Address32): Address32 = Address32(this.value / other.value)
-
-    /** Divides this address by an [Int]. */
-    inline operator fun div(other: Int): Address32 = this / Address32(other.toUInt())
-
-    /** Divides this address by a [UInt]. */
-    inline operator fun div(other: UInt): Address32 = this / Address32(other)
-
-    /** Computes the remainder of division with another [Address32]. */
-    inline operator fun rem(other: Address32): Address32 = Address32(this.value % other.value)
-
-    /** Computes the remainder of division with an [Int]. */
-    inline operator fun rem(other: Int): Address32 = this % Address32(other.toUInt())
-
-    /** Computes the remainder of division with a [UInt]. */
-    inline operator fun rem(other: UInt): Address32 = this % Address32(other)
+    // endregion
 
     // --- Bitwise Operations ---
 

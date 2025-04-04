@@ -13,6 +13,8 @@ import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmStatic
 
 inline fun Address64(value: Long) = Address64(value.toULong())
+inline fun Address64(value: Int) = Address64(value.toULong())
+inline fun Address64(value: UInt) = Address64(value.toULong())
 
 /**
  * Represents a 64-bit address in a PE file.
@@ -69,53 +71,35 @@ value class Address64(val value: ULong) : Comparable<Address64> {
         }
     }
 
-// Arithmetic Operators
+    // Arithmetic Operators
+    // region Plus
+    inline operator fun plus(other: Int): Address64 = Address64(value + other.toULong())
+    inline operator fun plus(other: Long): Address64 = Address64(value + other.toULong())
+    inline operator fun plus(other: UInt): Address64 = Address64(value + other.toULong())
+    inline operator fun plus(other: ULong): Address64 = Address64(value + other)
+    // endregion
 
-    /** Adds another [Address64] to this one. */
-    inline operator fun plus(other: Address64): Address64 = Address64(this.value + other.value)
+    // region Minus
+    inline operator fun minus(other: Int): Address64 = Address64(value - other.toULong())
+    inline operator fun minus(other: Long): Address64 = Address64(value - other.toULong())
+    inline operator fun minus(other: UInt): Address64 = Address64(value - other.toULong())
+    inline operator fun minus(other: ULong): Address64 = Address64(value - other)
+    // endregion
 
-    /** Adds a [Long] to this address. */
-    inline operator fun plus(other: Long): Address64 = this + Address64(other)
+    // region Modulo
+    inline operator fun rem(other: Int): Address64 = Address64(value % other.toULong())
+    inline operator fun rem(other: Long): Address64 = Address64(value % other.toULong())
+    inline operator fun rem(other: UInt): Address64 = Address64(value % other.toULong())
+    inline operator fun rem(other: ULong): Address64 = Address64(value % other)
+    // endregion
 
-    /** Adds a [ULong] to this address. */
-    inline operator fun plus(other: ULong): Address64 = this + Address64(other)
+    // region Utilities
+    inline fun isAlignedTo(align: ULong): Boolean = value % align == 0UL
 
-    /** Subtracts another [Address64] from this one. */
-    inline operator fun minus(other: Address64): Address64 = Address64(this.value - other.value)
+    inline fun alignUp(align: ULong): Address64 =
+        if (isAlignedTo(align)) this else Address64((value + align - 1UL) / align * align)
 
-    /** Subtracts a [Long] from this address. */
-    inline operator fun minus(other: Long): Address64 = this - Address64(other)
-
-    /** Subtracts a [ULong] from this address. */
-    inline operator fun minus(other: ULong): Address64 = this - Address64(other)
-
-    /** Multiplies this address with another [Address64]. */
-    inline operator fun times(other: Address64): Address64 = Address64(this.value * other.value)
-
-    /** Multiplies this address with a [Long]. */
-    inline operator fun times(other: Long): Address64 = this * Address64(other)
-
-    /** Multiplies this address with a [ULong]. */
-    inline operator fun times(other: ULong): Address64 = this * Address64(other)
-
-    /** Divides this address by another [Address64]. */
-    inline operator fun div(other: Address64): Address64 = Address64(this.value / other.value)
-
-    /** Divides this address by a [Long]. */
-    inline operator fun div(other: Long): Address64 = this / Address64(other)
-
-    /** Divides this address by a [ULong]. */
-    inline operator fun div(other: ULong): Address64 = this / Address64(other)
-
-    /** Computes the remainder of division with another [Address64]. */
-    inline operator fun rem(other: Address64): Address64 = Address64(this.value % other.value)
-
-    /** Computes the remainder of division with a [Long]. */
-    inline operator fun rem(other: Long): Address64 = this % Address64(other)
-
-    /** Computes the remainder of division with a [ULong]. */
-    inline operator fun rem(other: ULong): Address64 = this % Address64(other)
-
+    inline fun alignDown(align: ULong): Address64 = Address64(value / align * align)
 
 // Bitwise Operations
 
