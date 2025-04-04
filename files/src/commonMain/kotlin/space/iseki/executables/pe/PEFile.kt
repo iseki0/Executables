@@ -881,6 +881,7 @@ class PEFile private constructor(
      *
      * @return a DataAccessor implementation backed by this PE file's virtual memory
      */
+    @Suppress("DuplicatedCode")
     fun virtualMemory(): DataAccessor {
         return object : DataAccessor {
             override val size: Long get() = windowsHeader.sizeOfImage.toLong()

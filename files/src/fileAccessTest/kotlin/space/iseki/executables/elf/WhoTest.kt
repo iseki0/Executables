@@ -3,7 +3,9 @@ package space.iseki.executables.elf
 import kotlinx.serialization.json.Json
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.detect
+import space.iseki.executables.common.openNativeFileDataAccessor
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class WhoTest {
@@ -747,6 +749,59 @@ class WhoTest {
             ]
         """.trimIndent().let { Json.decodeFromString<List<ElfShdr>>(it) }.also { assertEquals(it, file.sectionHeaders) }
 
+        }
+    }
+
+    @Test
+    fun testReadVM() {
+        ElfFile.open(PATH).use { file ->
+            // 找到.text段，这通常是包含代码的段
+            val textSection = file.sections.find { it.name == ".text" }!!
+            println(textSection.sectionHeader)
+
+            // 从文件系统读取原始的节区数据作为参考
+            val textSectionData = ByteArray(textSection.size.toInt())
+            openNativeFileDataAccessor("$PATH.sections/${textSection.name}").use {
+                assertEquals(textSection.size.toInt(), it.readAtMost(0, textSectionData))
+            }
+
+            // 通过Section.readBytes读取数据
+            val actualData = ByteArray(textSection.size.toInt())
+            textSection.readBytes(0, actualData, 0, actualData.size)
+            assertEquals(textSectionData.size, actualData.size, "Text section size mismatch")
+            assertContentEquals(textSectionData, actualData, "Text section data mismatch")
+
+            // 通过virtualMemory读取数据
+            // 注意：section虚拟地址可能不同于文件偏移
+            val vmData = ByteArray(textSection.size.toInt())
+            val virtAddr = textSection.sectionHeader.shAddr.castToULong()
+            file.virtualMemory().readFully(virtAddr.toLong(), vmData)
+
+            assertEquals(textSection.size.toInt(), vmData.size, "Text section virtual size mismatch")
+            assertContentEquals(
+                expected = textSectionData,
+                actual = vmData,
+                message = "Text section virtual memory data mismatch",
+            )
+
+            // 测试读取程序头表(Program Header)所指向的可加载段
+            val firstLoadSegment = file.programHeaders.first { it.pType == ElfPType.PT_LOAD }
+            val segmentData = ByteArray(firstLoadSegment.pFilesz.castToInt())
+            // 从文件中读取
+            openNativeFileDataAccessor(PATH).use {
+                it.readFully(firstLoadSegment.pOffset.castToLong(), segmentData)
+            }
+
+            // 从虚拟内存中读取
+            val vmSegmentData = ByteArray(firstLoadSegment.pFilesz.castToInt())
+            file.virtualMemory().readFully(firstLoadSegment.pVaddr.castToULong().toLong(), vmSegmentData)
+
+            assertEquals(segmentData.size, vmSegmentData.size, "Load segment size mismatch")
+            assertContentEquals(
+                expected = segmentData,
+                actual = vmSegmentData,
+                message = "Load segment virtual memory data mismatch",
+            )
         }
     }
 }
