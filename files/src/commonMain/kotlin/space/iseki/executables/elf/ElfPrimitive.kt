@@ -1,5 +1,8 @@
 package space.iseki.executables.elf
 
+import space.iseki.executables.common.Address32
+import space.iseki.executables.common.Address64
+
 sealed interface ElfPrimitive {
     fun castToUByte(): UByte = castToULong().toUByte()
     fun castToUShort(): UShort = castToULong().toUShort()
@@ -22,4 +25,6 @@ sealed interface ElfPrimitive {
     fun castToShort(): Short = castToULong().toShort()
     fun castToInt(): Int = castToULong().toInt()
     fun castToLong(): Long = castToULong().toLong()
+    fun castToAddress64(): Address64 = Address64(castToULong())
+    fun castToAddress32(): Address32 = Address32(castToUInt())
 }
