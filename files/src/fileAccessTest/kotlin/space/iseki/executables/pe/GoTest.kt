@@ -60,4 +60,5 @@ class GoTest {
             assertEquals(expect, actual)
         }
     }
+
 }

@@ -3818,3 +3818,114 @@ public final class space/iseki/executables/pe/vi/StringTable$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
+public final class space/iseki/executables/sbom/GoBuildInfo {
+	public static final field Companion Lspace/iseki/executables/sbom/GoBuildInfo$Companion;
+	public fun <init> ()V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lspace/iseki/executables/sbom/GoModule;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDeps ()Ljava/util/List;
+	public final fun getGoVersion ()Ljava/lang/String;
+	public final fun getMain ()Lspace/iseki/executables/sbom/GoModule;
+	public final fun getPath ()Ljava/lang/String;
+	public final fun getSettings ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/sbom/GoBuildInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/sbom/GoBuildInfo$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/sbom/GoBuildInfo;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/sbom/GoBuildInfo;)V
+}
+
+public final class space/iseki/executables/sbom/GoBuildInfo$Companion {
+	public final fun parse (Ljava/lang/String;)Lspace/iseki/executables/sbom/GoBuildInfo;
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/sbom/GoBuildSetting {
+	public static final field Companion Lspace/iseki/executables/sbom/GoBuildSetting$Companion;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getKey ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/sbom/GoBuildSetting$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/sbom/GoBuildSetting$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/sbom/GoBuildSetting;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/sbom/GoBuildSetting;)V
+}
+
+public final class space/iseki/executables/sbom/GoBuildSetting$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/sbom/GoModule {
+	public static final field Companion Lspace/iseki/executables/sbom/GoModule$Companion;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lspace/iseki/executables/sbom/GoModule;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPath ()Ljava/lang/String;
+	public final fun getReplace ()Lspace/iseki/executables/sbom/GoModule;
+	public final fun getSum ()Ljava/lang/String;
+	public final fun getVersion ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/sbom/GoModule$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/sbom/GoModule$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/sbom/GoModule;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/sbom/GoModule;)V
+}
+
+public final class space/iseki/executables/sbom/GoModule$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/sbom/GoSBom {
+	public static final field Companion Lspace/iseki/executables/sbom/GoSBom$Companion;
+	public final fun getBuildInfo ()Lspace/iseki/executables/sbom/GoBuildInfo;
+}
+
+public final class space/iseki/executables/sbom/GoSBom$Companion {
+	public final fun readFrom (Lspace/iseki/executables/common/OpenedFile;)Lspace/iseki/executables/sbom/GoSBom;
+	public final fun readFromOrNull (Lspace/iseki/executables/common/OpenedFile;)Lspace/iseki/executables/sbom/GoSBom;
+}
+
+public final class space/iseki/executables/sbom/GoSBomReadingException : space/iseki/executables/sbom/SBomReadingException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class space/iseki/executables/sbom/SBomNotFoundException : space/iseki/executables/sbom/SBomReadingException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public class space/iseki/executables/sbom/SBomReadingException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
