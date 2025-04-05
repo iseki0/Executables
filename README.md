@@ -18,6 +18,8 @@ Currently, this library can:
 - [x] Macho: Read basic information
 - [x] Chore: Jigsaw ready
 - [x] Kotlin/Native: File access
+- [x] SBOM: Go
+- [ ] SBOM: GraalVM Native Image
 
 > This project is currently in the early stages of development. This means it is still evolving and may undergo frequent
 > updates and changes.
