@@ -35,6 +35,19 @@ class MachoFile private constructor(
             val header = MachoHeader.parse(buf, 0)
             // 验证头部
             header.validate(accessor.size)
+
+            val loadCommandBuf = ByteArray(header.sizeofcmds.toInt())
+            try {
+                accessor.readFully(if (header.magic.is64Bit()) 32 else 28, loadCommandBuf)
+            } catch (e: EOFException) {
+                throw MachoFileException("Failed to read Mach-O load commands", e)
+            }
+
+            // 解析 load commands
+            val commandList = ArrayList<Unit>(header.ncmds.toInt())
+
+
+
             return MachoFile(accessor, header)
         }
 
@@ -51,5 +64,5 @@ class MachoFile private constructor(
 
 fun MachoMagic.isLittleEndian() = this == MachoMagic.MH_CIGAM || this == MachoMagic.MH_CIGAM_64
 fun MachoMagic.is64Bit() = this == MachoMagic.MH_MAGIC_64 || this == MachoMagic.MH_CIGAM_64
-fun MachoMagic.isValid() = this == MachoMagic.MH_MAGIC || this == MachoMagic.MH_CIGAM ||
-        this == MachoMagic.MH_MAGIC_64 || this == MachoMagic.MH_CIGAM_64
+fun MachoMagic.isValid() =
+    this == MachoMagic.MH_MAGIC || this == MachoMagic.MH_CIGAM || this == MachoMagic.MH_MAGIC_64 || this == MachoMagic.MH_CIGAM_64

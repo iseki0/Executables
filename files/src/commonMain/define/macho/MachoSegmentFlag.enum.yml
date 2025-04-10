@@ -1,0 +1,23 @@
+typename: MachoSegmentFlag
+package: space.iseki.executables.macho
+dataLength: 4
+list:
+  - name: SG_HIGHVM
+    value: 0x00000001
+    docs: Segment is in the high part of the VM space; low part is zero-filled (used for stacks in core files)
+
+  - name: SG_FVMLIB
+    value: 0x00000002
+    docs: Segment is from a fixed VM library; used for overlap checking in the link editor
+
+  - name: SG_NORELOC
+    value: 0x00000004
+    docs: Segment contains no relocated data and nothing relocated to it; safe to replace without relocation
+
+  - name: SG_PROTECTED_VERSION_1
+    value: 0x00000008
+    docs: All pages are protected except first page if segment starts at file offset 0
+
+  - name: SG_READ_ONLY
+    value: 0x00000010
+    docs: Segment becomes read-only after fixups

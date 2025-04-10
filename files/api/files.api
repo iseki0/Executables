@@ -1981,8 +1981,12 @@ public final class space/iseki/executables/macho/-MachoSectionType {
 	public static final fun MachoSectionType-WZ4Q5Ns (I)I
 }
 
-public final class space/iseki/executables/macho/-MachoSegmentFlags {
-	public static final fun MachoSegmentFlags-WZ4Q5Ns (I)I
+public final class space/iseki/executables/macho/-MachoSegmentFlag {
+	public static final fun MachoSegmentFlag-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/macho/-MachoVMProt {
+	public static final fun MachoVMProt-WZ4Q5Ns (I)I
 }
 
 public final class space/iseki/executables/macho/MachoFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile {
@@ -2211,6 +2215,54 @@ public final class space/iseki/executables/macho/MachoKt {
 	public static final fun is64Bit-xmW2-6Q (I)Z
 	public static final fun isLittleEndian-xmW2-6Q (I)Z
 	public static final fun isValid-xmW2-6Q (I)Z
+}
+
+public abstract interface class space/iseki/executables/macho/MachoLoadCommand {
+	public abstract fun getSize-pVg5ArA ()I
+	public abstract fun getType-X2TB-DE ()I
+}
+
+public final class space/iseki/executables/macho/MachoLoadCommand$Segment : space/iseki/executables/macho/MachoLoadCommand {
+	public static final field Companion Lspace/iseki/executables/macho/MachoLoadCommand$Segment$Companion;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2-7OlPWkI ()I
+	public final fun component3-pVg5ArA ()I
+	public final fun component4-pVg5ArA ()I
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-V7pbsVg ()I
+	public final fun component7-V7pbsVg ()I
+	public final fun component8-pVg5ArA ()I
+	public final fun component9-vt3xTI4 ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFileOff-pVg5ArA ()I
+	public final fun getFileSize-pVg5ArA ()I
+	public final fun getFlags-vt3xTI4 ()I
+	public final fun getInitProt-V7pbsVg ()I
+	public final fun getMaxProt-V7pbsVg ()I
+	public final fun getNsects-pVg5ArA ()I
+	public final fun getSegName ()Ljava/lang/String;
+	public fun getSize-pVg5ArA ()I
+	public fun getType-X2TB-DE ()I
+	public final fun getVmAddr-7OlPWkI ()I
+	public final fun getVmSize-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/MachoLoadCommand$Segment$Companion {
+}
+
+public final class space/iseki/executables/macho/MachoLoadCommand$Uuid : space/iseki/executables/macho/MachoLoadCommand {
+	public static final field Companion Lspace/iseki/executables/macho/MachoLoadCommand$Uuid$Companion;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getSize-pVg5ArA ()I
+	public fun getType-X2TB-DE ()I
+	public fun hashCode ()I
+	public final fun kotlinUuid ()Lkotlin/uuid/Uuid;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/MachoLoadCommand$Uuid$Companion {
 }
 
 public final class space/iseki/executables/macho/MachoLoadCommandType : java/lang/Comparable {
@@ -2500,65 +2552,96 @@ public final class space/iseki/executables/macho/MachoSectionType$Constants {
 	public static final field S_ZEROFILL I
 }
 
-public final class space/iseki/executables/macho/MachoSegmentFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
-	public static final field Companion Lspace/iseki/executables/macho/MachoSegmentFlags$Companion;
-	public synthetic fun add (Ljava/lang/Object;)Z
-	public fun add-vlqlces (I)Z
-	public fun addAll (Ljava/util/Collection;)Z
-	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MachoSegmentFlags;
-	public fun clear ()V
+public final class space/iseki/executables/macho/MachoSegmentFlag : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/macho/MachoSegmentFlag$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MachoSegmentFlag;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-GlWZjcg (I)I
+	public static fun compareTo-GlWZjcg (II)I
 	public static fun constructor-impl (I)I
-	public final fun contains (Ljava/lang/Object;)Z
-	public fun contains-vlqlces (I)Z
-	public static fun contains-vlqlces (II)Z
-	public fun containsAll (Ljava/util/Collection;)Z
-	public static fun containsAll-impl (ILjava/util/Collection;)Z
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (ILjava/lang/Object;)Z
 	public static final fun equals-impl0 (II)Z
-	public fun getSize ()I
-	public static fun getSize-impl (I)I
 	public final fun getValue ()I
 	public fun hashCode ()I
 	public static fun hashCode-impl (I)I
-	public fun isEmpty ()Z
-	public static fun isEmpty-impl (I)Z
-	public fun iterator ()Ljava/util/Iterator;
-	public static fun iterator-impl (I)Ljava/util/Iterator;
-	public static final fun or-xlfjuxA (II)I
-	public static final fun plus-xlfjuxA (II)I
-	public fun remove (Ljava/lang/Object;)Z
-	public fun removeAll (Ljava/util/Collection;)Z
-	public fun retainAll (Ljava/util/Collection;)Z
-	public synthetic fun size ()I
-	public fun toArray ()[Ljava/lang/Object;
-	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (I)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()I
-	public static final fun valueOf-xFtvs-s (Ljava/lang/String;)I
-	public static final fun valueOfOrNull-1BJV1uk (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSegmentFlags;
 }
 
-public final class space/iseki/executables/macho/MachoSegmentFlags$Companion {
-	public final fun getSG_FVMLIB-KRtI_Hw ()I
-	public final fun getSG_HIGHVM-KRtI_Hw ()I
-	public final fun getSG_NORELOC-KRtI_Hw ()I
-	public final fun getSG_PROTECTED_VERSION_1-KRtI_Hw ()I
-	public final fun getSG_READ_ONLY-KRtI_Hw ()I
-	public final fun getZERO-KRtI_Hw ()I
+public final class space/iseki/executables/macho/MachoSegmentFlag$Companion {
+	public final fun getSG_FVMLIB-vt3xTI4 ()I
+	public final fun getSG_HIGHVM-vt3xTI4 ()I
+	public final fun getSG_NORELOC-vt3xTI4 ()I
+	public final fun getSG_PROTECTED_VERSION_1-vt3xTI4 ()I
+	public final fun getSG_READ_ONLY-vt3xTI4 ()I
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun valueOf-xFtvs-s (Ljava/lang/String;)I
-	public final fun valueOfOrNull-1BJV1uk (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSegmentFlags;
+	public final fun valueOf-UeKxTjM (Ljava/lang/String;)I
+	public final fun valueOfOrNull-j22Zvz0 (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSegmentFlag;
 }
 
-public final class space/iseki/executables/macho/MachoSegmentFlags$Constants {
-	public static final field INSTANCE Lspace/iseki/executables/macho/MachoSegmentFlags$Constants;
+public final class space/iseki/executables/macho/MachoSegmentFlag$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/macho/MachoSegmentFlag$Constants;
 	public static final field SG_FVMLIB I
 	public static final field SG_HIGHVM I
 	public static final field SG_NORELOC I
 	public static final field SG_PROTECTED_VERSION_1 I
 	public static final field SG_READ_ONLY I
+}
+
+public final class space/iseki/executables/macho/MachoVMProt : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/macho/MachoVMProt$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MachoVMProt;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-7CKlL8A (I)I
+	public static fun compareTo-7CKlL8A (II)I
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/MachoVMProt$Companion {
+	public final fun getVM_PROT_ALL-V7pbsVg ()I
+	public final fun getVM_PROT_COPY-V7pbsVg ()I
+	public final fun getVM_PROT_DEFAULT-V7pbsVg ()I
+	public final fun getVM_PROT_EXECUTE-V7pbsVg ()I
+	public final fun getVM_PROT_EXECUTE_ONLY-V7pbsVg ()I
+	public final fun getVM_PROT_IS_MASK-V7pbsVg ()I
+	public final fun getVM_PROT_NONE-V7pbsVg ()I
+	public final fun getVM_PROT_NO_CHANGE-V7pbsVg ()I
+	public final fun getVM_PROT_READ-V7pbsVg ()I
+	public final fun getVM_PROT_STRIP_READ-V7pbsVg ()I
+	public final fun getVM_PROT_TRUSTED-V7pbsVg ()I
+	public final fun getVM_PROT_WANTS_COPY-V7pbsVg ()I
+	public final fun getVM_PROT_WRITE-V7pbsVg ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-05KNG2M (Ljava/lang/String;)I
+	public final fun valueOfOrNull--uzhTwk (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoVMProt;
+}
+
+public final class space/iseki/executables/macho/MachoVMProt$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/macho/MachoVMProt$Constants;
+	public static final field VM_PROT_ALL I
+	public static final field VM_PROT_COPY I
+	public static final field VM_PROT_DEFAULT I
+	public static final field VM_PROT_EXECUTE I
+	public static final field VM_PROT_EXECUTE_ONLY I
+	public static final field VM_PROT_IS_MASK I
+	public static final field VM_PROT_NONE I
+	public static final field VM_PROT_NO_CHANGE I
+	public static final field VM_PROT_READ I
+	public static final field VM_PROT_STRIP_READ I
+	public static final field VM_PROT_TRUSTED I
+	public static final field VM_PROT_WANTS_COPY I
+	public static final field VM_PROT_WRITE I
 }
 
 public final class space/iseki/executables/pe/-Characteristics {
