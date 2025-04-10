@@ -2,8 +2,8 @@ package space.iseki.executables.macho
 
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
+import space.iseki.executables.share.u4
 import space.iseki.executables.share.u4b
-import space.iseki.executables.share.u4l
 
 /**
  * Represents the Mach-O file header.
@@ -49,22 +49,18 @@ data class MachoHeader internal constructor(
             val magic = MachoMagic(bytes.u4b(offset))
             if (!magic.isValid()) throw MachoFileException("Invalid magic number: $magic")
 
-            val readUInt = if (magic.isLittleEndian()) {
-                { pos: Int -> bytes.u4l(pos) }
-            } else {
-                { pos: Int -> bytes.u4b(pos) }
-            }
+            val le = magic.isLittleEndian()
 
             return MachoHeader(
                 magic = magic,
-                cputype = readUInt(offset + 4),
-                cpusubtype = readUInt(offset + 8),
-                filetype = MachoFileType(readUInt(offset + 12)),
-                ncmds = readUInt(offset + 16),
-                sizeofcmds = readUInt(offset + 20),
-                flags = MachoFlags(readUInt(offset + 24)),
-                reserved = if (magic.is64Bit()) readUInt(offset + 28) else 0u,
-                isLittleEndian = magic.isLittleEndian()
+                cputype = bytes.u4(offset + 4, le),
+                cpusubtype = bytes.u4(offset + 8, le),
+                filetype = MachoFileType(bytes.u4(offset + 12, le)),
+                ncmds = bytes.u4(offset + 16, le),
+                sizeofcmds = bytes.u4(offset + 20, le),
+                flags = MachoFlags(bytes.u4(offset + 24, le)),
+                reserved = if (magic.is64Bit()) bytes.u4(offset + 28, le) else 0u,
+                isLittleEndian = le
             )
         }
     }
