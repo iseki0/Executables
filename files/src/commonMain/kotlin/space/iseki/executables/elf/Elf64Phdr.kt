@@ -3,10 +3,8 @@ package space.iseki.executables.elf
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
-import space.iseki.executables.share.u4b
-import space.iseki.executables.share.u4l
-import space.iseki.executables.share.u8b
-import space.iseki.executables.share.u8l
+import space.iseki.executables.share.u4
+import space.iseki.executables.share.u8
 
 @Serializable
 @SerialName("Elf64Phdr")
@@ -60,14 +58,14 @@ data class Elf64Phdr internal constructor(
         fun parse(bytes: ByteArray, off: Int, ident: ElfIdentification): Elf64Phdr {
             val le = ident.eiData == ElfData.ELFDATA2LSB
             return Elf64Phdr(
-                pType = ElfPType(if (le) bytes.u4l(off) else bytes.u4b(off)),
-                pFlags = ElfPFlags(if (le) bytes.u4l(off + 4) else bytes.u4b(off + 4)),
-                pOffset = Elf64Off(if (le) bytes.u8l(off + 8) else bytes.u8b(off + 8)),
-                pVaddr = Elf64Addr(if (le) bytes.u8l(off + 16) else bytes.u8b(off + 16)),
-                pPaddr = Elf64Addr(if (le) bytes.u8l(off + 24) else bytes.u8b(off + 24)),
-                pFilesz = Elf64Xword(if (le) bytes.u8l(off + 32) else bytes.u8b(off + 32)),
-                pMemsz = Elf64Xword(if (le) bytes.u8l(off + 40) else bytes.u8b(off + 40)),
-                pAlign = Elf64Xword(if (le) bytes.u8l(off + 48) else bytes.u8b(off + 48))
+                pType = ElfPType(bytes.u4(off + 0, le)),
+                pFlags = ElfPFlags(bytes.u4(off + 4, le)),
+                pOffset = Elf64Off(bytes.u8(off + 8, le)),
+                pVaddr = Elf64Addr(bytes.u8(off + 16, le)),
+                pPaddr = Elf64Addr(bytes.u8(off + 24, le)),
+                pFilesz = Elf64Xword(bytes.u8(off + 32, le)),
+                pMemsz = Elf64Xword(bytes.u8(off + 40, le)),
+                pAlign = Elf64Xword(bytes.u8(off + 48, le))
             )
         }
     }

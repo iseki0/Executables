@@ -3,12 +3,9 @@ package space.iseki.executables.elf
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
-import space.iseki.executables.share.u2b
-import space.iseki.executables.share.u2l
-import space.iseki.executables.share.u4b
-import space.iseki.executables.share.u4l
-import space.iseki.executables.share.u8b
-import space.iseki.executables.share.u8l
+import space.iseki.executables.share.u2
+import space.iseki.executables.share.u4
+import space.iseki.executables.share.u8
 
 /**
  * Represents the ELF 64-bit file header structure.
@@ -117,19 +114,19 @@ data class Elf64Ehdr internal constructor(
         fun parse(bytes: ByteArray, off: Int, ident: ElfIdentification): Elf64Ehdr {
             val le = ident.eiData == ElfData.ELFDATA2LSB
             return Elf64Ehdr(
-                eType = ElfType(if (le) bytes.u2l(off + 16) else bytes.u2b(off + 16)),
-                eMachine = ElfMachine(if (le) bytes.u2l(off + 18) else bytes.u2b(off + 18)),
-                eVersion = Elf64Word(if (le) bytes.u4l(off + 20) else bytes.u4b(off + 20)),
-                eEntry = Elf64Addr(if (le) bytes.u8l(off + 24) else bytes.u8b(off + 24)),
-                ePhoff = Elf64Off(if (le) bytes.u8l(off + 32) else bytes.u8b(off + 32)),
-                eShoff = Elf64Off(if (le) bytes.u8l(off + 40) else bytes.u8b(off + 40)),
-                eFlags = Elf64Word(if (le) bytes.u4l(off + 48) else bytes.u4b(off + 48)),
-                eEhsize = Elf64Half(if (le) bytes.u2l(off + 52) else bytes.u2b(off + 52)),
-                ePhentsize = Elf64Half(if (le) bytes.u2l(off + 54) else bytes.u2b(off + 54)),
-                ePhnum = Elf64Half(if (le) bytes.u2l(off + 56) else bytes.u2b(off + 56)),
-                eShentsize = Elf64Half(if (le) bytes.u2l(off + 58) else bytes.u2b(off + 58)),
-                eShnum = Elf64Half(if (le) bytes.u2l(off + 60) else bytes.u2b(off + 60)),
-                eShstrndx = Elf64Half(if (le) bytes.u2l(off + 62) else bytes.u2b(off + 62))
+                eType = ElfType(bytes.u2(off + 16, le)),
+                eMachine = ElfMachine(bytes.u2(off + 18, le)),
+                eVersion = Elf64Word(bytes.u4(off + 20, le)),
+                eEntry = Elf64Addr(bytes.u8(off + 24, le)),
+                ePhoff = Elf64Off(bytes.u8(off + 32, le)),
+                eShoff = Elf64Off(bytes.u8(off + 40, le)),
+                eFlags = Elf64Word(bytes.u4(off + 48, le)),
+                eEhsize = Elf64Half(bytes.u2(off + 52, le)),
+                ePhentsize = Elf64Half(bytes.u2(off + 54, le)),
+                ePhnum = Elf64Half(bytes.u2(off + 56, le)),
+                eShentsize = Elf64Half(bytes.u2(off + 58, le)),
+                eShnum = Elf64Half(bytes.u2(off + 60, le)),
+                eShstrndx = Elf64Half(bytes.u2(off + 62, le))
             )
         }
     }

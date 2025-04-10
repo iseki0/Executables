@@ -1,12 +1,9 @@
 package space.iseki.executables.elf
 
 import space.iseki.executables.share.u1
-import space.iseki.executables.share.u2b
-import space.iseki.executables.share.u2l
-import space.iseki.executables.share.u4b
-import space.iseki.executables.share.u4l
-import space.iseki.executables.share.u8b
-import space.iseki.executables.share.u8l
+import space.iseki.executables.share.u2
+import space.iseki.executables.share.u4
+import space.iseki.executables.share.u8
 
 /**
  * Base interface for ELF symbol table entries
@@ -123,12 +120,12 @@ internal data class Elf32Sym(
         const val SIZE = 16
 
         fun parse(bytes: ByteArray, offset: Int, le: Boolean): Elf32Sym {
-            val stName = if (le) bytes.u4l(offset) else bytes.u4b(offset)
-            val stValue = if (le) bytes.u4l(offset + 4) else bytes.u4b(offset + 4)
-            val stSize = if (le) bytes.u4l(offset + 8) else bytes.u4b(offset + 8)
+            val stName = bytes.u4(offset + 0, le)
+            val stValue = bytes.u4(offset + 4, le)
+            val stSize = bytes.u4(offset + 8, le)
             val stInfo = bytes.u1(offset + 12)
             val stOther = bytes.u1(offset + 13)
-            val stShndx = if (le) bytes.u2l(offset + 14) else bytes.u2b(offset + 14)
+            val stShndx = bytes.u2(offset + 14, le)
 
             return Elf32Sym(
                 stName = stName,
@@ -157,12 +154,12 @@ internal data class Elf64Sym(
         const val SIZE = 24
 
         fun parse(bytes: ByteArray, offset: Int, le: Boolean): Elf64Sym {
-            val stName = if (le) bytes.u4l(offset) else bytes.u4b(offset)
+            val stName = bytes.u4(offset + 0, le)
             val stInfo = bytes.u1(offset + 4)
             val stOther = bytes.u1(offset + 5)
-            val stShndx = if (le) bytes.u2l(offset + 6) else bytes.u2b(offset + 6)
-            val stValue = if (le) bytes.u8l(offset + 8) else bytes.u8b(offset + 8)
-            val stSize = if (le) bytes.u8l(offset + 16) else bytes.u8b(offset + 16)
+            val stShndx = bytes.u2(offset + 6, le)
+            val stValue = bytes.u8(offset + 8, le)
+            val stSize = bytes.u8(offset + 16, le)
 
             return Elf64Sym(
                 stName = stName,

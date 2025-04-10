@@ -3,8 +3,7 @@ package space.iseki.executables.elf
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
-import space.iseki.executables.share.u4b
-import space.iseki.executables.share.u4l
+import space.iseki.executables.share.u4
 
 @Serializable
 @SerialName("Elf32Phdr")
@@ -57,14 +56,14 @@ data class Elf32Phdr internal constructor(
         fun parse(bytes: ByteArray, off: Int, ident: ElfIdentification): Elf32Phdr {
             val le = ident.eiData == ElfData.ELFDATA2LSB
             return Elf32Phdr(
-                pType = ElfPType(if (le) bytes.u4l(off) else bytes.u4b(off)),
-                pOffset = Elf32Off(if (le) bytes.u4l(off + 4) else bytes.u4b(off + 4)),
-                pVaddr = Elf32Addr(if (le) bytes.u4l(off + 8) else bytes.u4b(off + 8)),
-                pPaddr = Elf32Addr(if (le) bytes.u4l(off + 12) else bytes.u4b(off + 12)),
-                pFilesz = Elf32Word(if (le) bytes.u4l(off + 16) else bytes.u4b(off + 16)),
-                pMemsz = Elf32Word(if (le) bytes.u4l(off + 20) else bytes.u4b(off + 20)),
-                pFlags = ElfPFlags(if (le) bytes.u4l(off + 24) else bytes.u4b(off + 24)),
-                pAlign = Elf32Word(if (le) bytes.u4l(off + 28) else bytes.u4b(off + 28))
+                pType = ElfPType(bytes.u4(off + 0, le)),
+                pOffset = Elf32Off(bytes.u4(off + 4, le)),
+                pVaddr = Elf32Addr(bytes.u4(off + 8, le)),
+                pPaddr = Elf32Addr(bytes.u4(off + 12, le)),
+                pFilesz = Elf32Word(bytes.u4(off + 16, le)),
+                pMemsz = Elf32Word(bytes.u4(off + 20, le)),
+                pFlags = ElfPFlags(bytes.u4(off + 24, le)),
+                pAlign = Elf32Word(bytes.u4(off + 28, le))
             )
         }
     }
