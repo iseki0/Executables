@@ -93,7 +93,7 @@ jobs:
           VERSION=${{ github.ref_name }}
           ./gradlew publish --stacktrace -Psigning.gnupg.keyName=pub@iseki.space -Pversion=${VERSION:1} -Pkotlin.native.enableKlibsCrossCompilation=true
       - name: Publish to Maven Central(Untagged)
-        if: ${{ !startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master' }}
+        if: ${{ false && !startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master' }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
