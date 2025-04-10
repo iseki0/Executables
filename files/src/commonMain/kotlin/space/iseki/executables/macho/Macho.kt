@@ -26,8 +26,8 @@ class MachoFile private constructor(
         override fun open(accessor: DataAccessor): MachoFile {
             val buf = ByteArray(32) // 足够大以容纳任何 Mach-O 头部
             try {
-                accessor.readFully(0, buf)
-            } catch (e: IOException) {
+                accessor.readAtMost(0, buf)
+            } catch (e: EOFException) {
                 throw MachoFileException("Failed to read Mach-O header", e)
             }
 
