@@ -1969,6 +1969,10 @@ public final class space/iseki/executables/macho/-MachoLoadCommandType {
 	public static final fun MachoLoadCommandType-WZ4Q5Ns (I)I
 }
 
+public final class space/iseki/executables/macho/-MachoMagic {
+	public static final fun MachoMagic-WZ4Q5Ns (I)I
+}
+
 public final class space/iseki/executables/macho/-MachoSectionAttributes {
 	public static final fun MachoSectionAttributes-WZ4Q5Ns (I)I
 }
@@ -1979,84 +1983,6 @@ public final class space/iseki/executables/macho/-MachoSectionType {
 
 public final class space/iseki/executables/macho/-MachoSegmentFlags {
 	public static final fun MachoSegmentFlags-WZ4Q5Ns (I)I
-}
-
-public final class space/iseki/executables/macho/Macho32Header : space/iseki/executables/macho/MachoHeader {
-	public static final field Companion Lspace/iseki/executables/macho/Macho32Header$Companion;
-	public final fun component1-pVg5ArA ()I
-	public final fun component2-pVg5ArA ()I
-	public final fun component3-pVg5ArA ()I
-	public final fun component4-73TKL6U ()I
-	public final fun component5-pVg5ArA ()I
-	public final fun component6-pVg5ArA ()I
-	public final fun component7-ss0um-M ()I
-	public final fun component8 ()Z
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getCpusubtype-pVg5ArA ()I
-	public fun getCputype-pVg5ArA ()I
-	public fun getFiletype-73TKL6U ()I
-	public fun getFlags-ss0um-M ()I
-	public fun getMagic-pVg5ArA ()I
-	public fun getNcmds-pVg5ArA ()I
-	public fun getSizeofcmds-pVg5ArA ()I
-	public fun hashCode ()I
-	public fun isLittleEndian ()Z
-	public fun toString ()Ljava/lang/String;
-}
-
-public synthetic class space/iseki/executables/macho/Macho32Header$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/macho/Macho32Header$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/macho/Macho32Header;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/macho/Macho32Header;)V
-}
-
-public final class space/iseki/executables/macho/Macho32Header$Companion {
-	public final fun parse ([BIZ)Lspace/iseki/executables/macho/Macho32Header;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/macho/Macho64Header : space/iseki/executables/macho/MachoHeader {
-	public static final field Companion Lspace/iseki/executables/macho/Macho64Header$Companion;
-	public final fun component1-pVg5ArA ()I
-	public final fun component2-pVg5ArA ()I
-	public final fun component3-pVg5ArA ()I
-	public final fun component4-73TKL6U ()I
-	public final fun component5-pVg5ArA ()I
-	public final fun component6-pVg5ArA ()I
-	public final fun component7-ss0um-M ()I
-	public final fun component8-pVg5ArA ()I
-	public final fun component9 ()Z
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getCpusubtype-pVg5ArA ()I
-	public fun getCputype-pVg5ArA ()I
-	public fun getFiletype-73TKL6U ()I
-	public fun getFlags-ss0um-M ()I
-	public fun getMagic-pVg5ArA ()I
-	public fun getNcmds-pVg5ArA ()I
-	public final fun getReserved-pVg5ArA ()I
-	public fun getSizeofcmds-pVg5ArA ()I
-	public fun hashCode ()I
-	public fun isLittleEndian ()Z
-	public fun toString ()Ljava/lang/String;
-}
-
-public synthetic class space/iseki/executables/macho/Macho64Header$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/macho/Macho64Header$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/macho/Macho64Header;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/macho/Macho64Header;)V
-}
-
-public final class space/iseki/executables/macho/Macho64Header$Companion {
-	public final fun parse ([BIZ)Lspace/iseki/executables/macho/Macho64Header;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/macho/MachoFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile {
@@ -2239,34 +2165,52 @@ public final class space/iseki/executables/macho/MachoFlags$Constants {
 	public static final field MH_WEAK_DEFINES I
 }
 
-public abstract interface class space/iseki/executables/macho/MachoHeader : space/iseki/executables/common/ReadableStructure {
+public final class space/iseki/executables/macho/MachoHeader : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/macho/MachoHeader$Companion;
-	public static final field MH_CIGAM I
-	public static final field MH_CIGAM_64 I
-	public static final field MH_MAGIC I
-	public static final field MH_MAGIC_64 I
-	public abstract fun getCpusubtype-pVg5ArA ()I
-	public abstract fun getCputype-pVg5ArA ()I
+	public synthetic fun <init> (IIIIIIIIZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-UokyxH0 ()I
+	public final fun component2-pVg5ArA ()I
+	public final fun component3-pVg5ArA ()I
+	public final fun component4-73TKL6U ()I
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-pVg5ArA ()I
+	public final fun component7-ss0um-M ()I
+	public final fun component8-pVg5ArA ()I
+	public final fun component9 ()Z
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCpusubtype-pVg5ArA ()I
+	public final fun getCputype-pVg5ArA ()I
 	public fun getFields ()Ljava/util/Map;
-	public abstract fun getFiletype-73TKL6U ()I
-	public abstract fun getFlags-ss0um-M ()I
-	public abstract fun getMagic-pVg5ArA ()I
-	public abstract fun getNcmds-pVg5ArA ()I
-	public abstract fun getSizeofcmds-pVg5ArA ()I
-	public abstract fun isLittleEndian ()Z
+	public final fun getFiletype-73TKL6U ()I
+	public final fun getFlags-ss0um-M ()I
+	public final fun getMagic-UokyxH0 ()I
+	public final fun getNcmds-pVg5ArA ()I
+	public final fun getReserved-pVg5ArA ()I
+	public final fun getSizeofcmds-pVg5ArA ()I
+	public fun hashCode ()I
+	public final fun isLittleEndian ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/macho/MachoHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/macho/MachoHeader$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/macho/MachoHeader;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/macho/MachoHeader;)V
 }
 
 public final class space/iseki/executables/macho/MachoHeader$Companion {
-	public static final field MH_CIGAM I
-	public static final field MH_CIGAM_64 I
-	public static final field MH_MAGIC I
-	public static final field MH_MAGIC_64 I
 	public final fun parse ([BI)Lspace/iseki/executables/macho/MachoHeader;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/macho/MachoHeader$DefaultImpls {
-	public static fun getFields (Lspace/iseki/executables/macho/MachoHeader;)Ljava/util/Map;
+public final class space/iseki/executables/macho/MachoKt {
+	public static final fun is64Bit-xmW2-6Q (I)Z
+	public static final fun isLittleEndian-xmW2-6Q (I)Z
+	public static final fun isValid-xmW2-6Q (I)Z
 }
 
 public final class space/iseki/executables/macho/MachoLoadCommandType : java/lang/Comparable {
@@ -2403,6 +2347,42 @@ public final class space/iseki/executables/macho/MachoLoadCommandType$Constants 
 	public static final field LC_VERSION_MIN_MACOSX I
 	public static final field LC_VERSION_MIN_TVOS I
 	public static final field LC_VERSION_MIN_WATCHOS I
+}
+
+public final class space/iseki/executables/macho/MachoMagic : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/macho/MachoMagic$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MachoMagic;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-xmW2-6Q (I)I
+	public static fun compareTo-xmW2-6Q (II)I
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/MachoMagic$Companion {
+	public final fun getMH_CIGAM-UokyxH0 ()I
+	public final fun getMH_CIGAM_64-UokyxH0 ()I
+	public final fun getMH_MAGIC-UokyxH0 ()I
+	public final fun getMH_MAGIC_64-UokyxH0 ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-8jbLSjM (Ljava/lang/String;)I
+	public final fun valueOfOrNull-v0MoXE4 (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoMagic;
+}
+
+public final class space/iseki/executables/macho/MachoMagic$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/macho/MachoMagic$Constants;
+	public static final field MH_CIGAM I
+	public static final field MH_CIGAM_64 I
+	public static final field MH_MAGIC I
+	public static final field MH_MAGIC_64 I
 }
 
 public final class space/iseki/executables/macho/MachoSectionAttributes : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
