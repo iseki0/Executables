@@ -1,0 +1,37 @@
+typename: MachoSymbolDescFlags
+package: space.iseki.executables.macho
+dataLength: 2
+list:
+  - name: REFERENCE_FLAG_UNDEFINED_NON_LAZY
+    value: 0x0
+    docs: This symbol is a reference to an external non-lazy (data) symbol.
+  - name: REFERENCE_FLAG_UNDEFINED_LAZY
+    value: 0x1
+    docs: This symbol is a reference to an external lazy symbol—that is, to a function call.
+  - name: REFERENCE_FLAG_DEFINED
+    value: 0x2
+    docs: This symbol is defined in this module.
+  - name: REFERENCE_FLAG_PRIVATE_DEFINED
+    value: 0x3
+    docs: This symbol is defined in this module and is visible only to modules within this shared library.
+  - name: REFERENCE_FLAG_PRIVATE_UNDEFINED_NON_LAZY
+    value: 0x4
+    docs: This symbol is defined in another module in this file, is a non-lazy (data) symbol, and is visible only to modules within this shared library.
+  - name: REFERENCE_FLAG_PRIVATE_UNDEFINED_LAZY
+    value: 0x5
+    docs: This symbol is defined in another module in this file, is a lazy (function) symbol, and is visible only to modules within this shared library.
+  - name: REFERENCED_DYNAMICALLY
+    value: 0x10
+    docs: Must be set for any defined symbol that is referenced by dynamic-loader APIs (e.g., dlsym). Prevents strip tool from removing the symbol.
+  - name: N_DESC_DISCARDED
+    value: 0x20
+    docs: Sometimes used by the dynamic linker at runtime in a fully linked image. Do not set this bit in a fully linked image.
+  - name: N_NO_DEAD_STRIP
+    value: 0x20
+    docs: In a relocatable object file (MH_OBJECT), indicates the static linker should never dead-strip the symbol. (Shares bit with N_DESC_DISCARDED.)
+  - name: N_WEAK_REF
+    value: 0x40
+    docs: Indicates that this undefined symbol is a weak reference. If unresolved, address is set to 0.
+  - name: N_WEAK_DEF
+    value: 0x80
+    docs: Indicates a weak definition. Ignored if a strong definition is found. Only for symbols in coalesced sections.

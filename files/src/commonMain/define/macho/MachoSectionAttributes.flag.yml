@@ -20,6 +20,12 @@ list:
   - name: S_ATTR_SELF_MODIFYING_CODE
     value: 0x04000000
     docs: Used with i386 code stubs written on by dyld
+  - name: S_ATTR_DEBUG
+    value: 0x02000000
+    docs: a debug section
+  - name: SECTION_ATTRIBUTES_SYS
+    value: 0x00ffff00
+    docs: system setable attributes
   - name: S_ATTR_SOME_INSTRUCTIONS
     value: 0x00000400
     docs: section contains some machine instructions
@@ -28,4 +34,4 @@ list:
     docs: section has external relocation entries
   - name: S_ATTR_LOC_RELOC
     value: 0x00000100
-    docs: section has local relocation entries 
+    docs: section has local relocation entries

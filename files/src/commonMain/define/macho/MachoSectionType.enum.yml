@@ -28,4 +28,46 @@ list:
     docs: section with only lazy symbol pointers
   - name: S_SYMBOL_STUBS
     value: 0x8
-    docs: section with only symbol stubs, byte size of stub in the reserved2 field 
+    docs: section with only symbol stubs, byte size of stub in the reserved2 field
+  - name: S_MOD_INIT_FUNC_POINTERS
+    value: 0x9
+    docs: section with only function pointers for initialization
+  - name: S_MOD_TERM_FUNC_POINTERS
+    value: 0xa
+    docs: section with only function pointers for termination
+  - name: S_COALESCED
+    value: 0xb
+    docs: section contains symbols that are to be coalesced
+  - name: S_GB_ZEROFILL
+    value: 0xc
+    docs: zero fill on demand section (that can be larger than 4 gigabytes)
+  - name: S_INTERPOSING
+    value: 0xd
+    docs: section with only pairs of function pointers for interposing
+  - name: S_16BYTE_LITERALS
+    value: 0xe
+    docs: section with only 16 byte literals
+  - name: S_DTRACE_DOF
+    value: 0xf
+    docs: section contains DTrace Object Format
+  - name: S_LAZY_DYLIB_SYMBOL_POINTERS
+    value: 0x10
+    docs: section with only lazy symbol pointers to lazy loaded dylibs
+  - name: S_THREAD_LOCAL_REGULAR
+    value: 0x11
+    docs: template of initial values for TLVs
+  - name: S_THREAD_LOCAL_ZEROFILL
+    value: 0x12
+    docs: template of initial values for TLVs
+  - name: S_THREAD_LOCAL_VARIABLES
+    value: 0x13
+    docs: TLV descriptors
+  - name: S_THREAD_LOCAL_VARIABLE_POINTERS
+    value: 0x14
+    docs: pointers to TLV descriptors
+  - name: S_THREAD_LOCAL_INIT_FUNCTION_POINTERS
+    value: 0x15
+    docs: functions to call to initialize TLV values
+  - name: S_INIT_FUNC_OFFSETS
+    value: 0x16
+    docs: 32-bit offsets to initializers

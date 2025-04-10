@@ -1,0 +1,32 @@
+typename: MachoSymbolType
+package: space.iseki.executables.macho
+dataLength: 1
+list:
+  - name: N_STAB
+    value: 0xe0
+    docs: if any of these bits set, a symbolic debugging entry
+  - name: N_PEXT
+    value: 0x10
+    docs: private external symbol bit
+  - name: N_TYPE
+    value: 0x0e
+    docs: mask for the type bits
+  - name: N_EXT
+    value: 0x01
+    docs: external symbol bit, set for external symbols
+  - name: N_UNDF
+    value: 0x0
+    docs: undefined, n_sect == NO_SECT
+  - name: N_ABS
+    value: 0x2
+    docs: absolute, n_sect == NO_SECT
+  - name: N_SECT
+    value: 0xe
+    docs: defined in section number n_sect
+  - name: N_PBUD
+    value: 0xc
+    docs: prebound undefined (defined in a dylib)
+  - name: N_INDR
+    value: 0xa
+    docs: indirect
+
