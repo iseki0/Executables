@@ -46,4 +46,9 @@ class MachoFile private constructor(
         dataAccessor.close()
     }
 
-} 
+}
+
+fun MachoMagic.isLittleEndian() = this == MachoMagic.MH_CIGAM || this == MachoMagic.MH_CIGAM_64
+fun MachoMagic.is64Bit() = this == MachoMagic.MH_MAGIC_64 || this == MachoMagic.MH_CIGAM_64
+fun MachoMagic.isValid() = this == MachoMagic.MH_MAGIC || this == MachoMagic.MH_CIGAM ||
+        this == MachoMagic.MH_MAGIC_64 || this == MachoMagic.MH_CIGAM_64

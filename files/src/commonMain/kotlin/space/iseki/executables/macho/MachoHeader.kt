@@ -3,6 +3,7 @@ package space.iseki.executables.macho
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.share.u4b
+import space.iseki.executables.share.u4l
 
 /**
  * Represents the Mach-O file header.
@@ -11,46 +12,17 @@ import space.iseki.executables.share.u4b
  * file type, load command count, and flags.
  */
 @Serializable
-sealed interface MachoHeader : ReadableStructure {
-    /**
-     * Magic number identifying this as a Mach-O file.
-     */
-    val magic: UInt
-
-    /**
-     * CPU type for which this file was generated.
-     */
-    val cputype: UInt
-
-    /**
-     * CPU subtype for which this file was generated.
-     */
-    val cpusubtype: UInt
-
-    /**
-     * Type of file (executable, object, core, etc.)
-     */
-    val filetype: MachoFileType
-
-    /**
-     * Number of load commands following the header.
-     */
-    val ncmds: UInt
-
-    /**
-     * Total size of all load commands.
-     */
-    val sizeofcmds: UInt
-
-    /**
-     * Flags specific to the file type.
-     */
-    val flags: MachoFlags
-
-    /**
-     * Returns whether this header represents a little-endian file.
-     */
-    val isLittleEndian: Boolean
+data class MachoHeader internal constructor(
+    val magic: MachoMagic,
+    val cputype: UInt,
+    val cpusubtype: UInt,
+    val filetype: MachoFileType,
+    val ncmds: UInt,
+    val sizeofcmds: UInt,
+    val flags: MachoFlags,
+    val reserved: UInt = 0u,
+    val isLittleEndian: Boolean,
+) : ReadableStructure {
 
     override val fields: Map<String, Any>
         get() = mapOf(
@@ -60,15 +32,10 @@ sealed interface MachoHeader : ReadableStructure {
             "filetype" to filetype,
             "ncmds" to ncmds,
             "sizeofcmds" to sizeofcmds,
-            "flags" to flags
+            "flags" to flags,
         )
 
     companion object {
-        // Magic constants for Mach-O files
-        const val MH_MAGIC: UInt = 0xFEEDFACEu    // 32-bit big endian
-        const val MH_CIGAM: UInt = 0xCEFAEDFEu    // 32-bit little endian
-        const val MH_MAGIC_64: UInt = 0xFEEDFACFu // 64-bit big endian
-        const val MH_CIGAM_64: UInt = 0xCFFAEDFEu // 64-bit little endian
 
         /**
          * Parses a Mach-O header from a byte array.
@@ -79,31 +46,26 @@ sealed interface MachoHeader : ReadableStructure {
          * @throws MachoFileException if the magic number is not recognized
          */
         fun parse(bytes: ByteArray, offset: Int): MachoHeader {
-            return when (val magic = bytes.u4b(offset)) {
-                MH_MAGIC -> {
-                    // 32-bit big endian
-                    Macho32Header.parse(bytes, offset, false)
-                }
+            val magic = MachoMagic(bytes.u4b(offset))
+            if (!magic.isValid()) throw MachoFileException("Invalid magic number: $magic")
 
-                MH_CIGAM -> {
-                    // 32-bit little endian
-                    Macho32Header.parse(bytes, offset, true)
-                }
-
-                MH_MAGIC_64 -> {
-                    // 64-bit big endian
-                    Macho64Header.parse(bytes, offset, false)
-                }
-
-                MH_CIGAM_64 -> {
-                    // 64-bit little endian
-                    Macho64Header.parse(bytes, offset, true)
-                }
-
-                else -> {
-                    throw MachoFileException("Not a Mach-O file: invalid magic number: 0x${magic.toString(16)}")
-                }
+            val readUInt = if (magic.isLittleEndian()) {
+                { pos: Int -> bytes.u4l(pos) }
+            } else {
+                { pos: Int -> bytes.u4b(pos) }
             }
+
+            return MachoHeader(
+                magic = magic,
+                cputype = readUInt(offset + 4),
+                cpusubtype = readUInt(offset + 8),
+                filetype = MachoFileType(readUInt(offset + 12)),
+                ncmds = readUInt(offset + 16),
+                sizeofcmds = readUInt(offset + 20),
+                flags = MachoFlags(readUInt(offset + 24)),
+                reserved = if (magic.is64Bit()) readUInt(offset + 28) else 0u,
+                isLittleEndian = magic.isLittleEndian()
+            )
         }
     }
 }
@@ -114,12 +76,11 @@ sealed interface MachoHeader : ReadableStructure {
  * @param fileSize The size of the file in bytes
  * @throws MachoFileException if the header is invalid
  */
+@OptIn(ExperimentalStdlibApi::class)
 internal fun MachoHeader.validate(fileSize: Long) {
+
     // 验证文件大小是否至少能容纳头部
-    val headerSize = when (this) {
-        is Macho32Header -> 28
-        is Macho64Header -> 32
-    }
+    val headerSize = if (magic.is64Bit()) 32 else 28
 
     if (fileSize < headerSize) {
         throw MachoFileException("File too small to contain Mach-O header: $fileSize < $headerSize")
@@ -135,4 +96,17 @@ internal fun MachoHeader.validate(fileSize: Long) {
     if (cmdCount <= 0 || cmdCount > 10000) { // 设置一个合理的上限
         throw MachoFileException("Invalid number of load commands: $cmdCount")
     }
-} 
+
+    // 验证 reserved 字段
+    if (magic.is64Bit()) {
+        // 64位版本必须有 reserved 字段
+        if (reserved != 0u || !magic.isValid()) {
+            throw MachoFileException("Invalid reserved field in 64-bit header: 0x${reserved.toHexString()}")
+        }
+    } else {
+        // 32位版本不应该有 reserved 字段
+        if (reserved != 0u || !magic.isValid()) {
+            throw MachoFileException("Reserved field should be 0 in 32-bit header: 0x${reserved.toHexString()}")
+        }
+    }
+}

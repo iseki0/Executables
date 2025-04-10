@@ -1,0 +1,16 @@
+typename: MachoMagic
+package: space.iseki.executables.macho
+dataLength: 4
+list:
+  - name: MH_MAGIC
+    value: 0xfeedface
+    docs: The Mach-O magic number for 32-bit architectures.
+  - name: MH_CIGAM
+    value: 0xcefaedfe
+    docs: The Mach-O magic number for 32-bit architectures, in reverse byte order.
+  - name: MH_MAGIC_64
+    value: 0xfeedfacf
+    docs: The Mach-O magic number for 64-bit architectures.
+  - name: MH_CIGAM_64
+    value: 0xcffaedfe
+    docs: The Mach-O magic number for 64-bit architectures, in reverse byte order.
