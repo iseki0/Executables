@@ -1,6 +1,7 @@
 package space.iseki.executables.macho
 
 import space.iseki.executables.common.DataAccessor
+import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.OpenedFile
