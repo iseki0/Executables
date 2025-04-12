@@ -56,6 +56,8 @@ public final class space/iseki/executables/common/Address32$Serializer : kotlinx
 
 public final class space/iseki/executables/common/Address32Kt {
 	public static final fun Address32 (I)I
+	public static final fun toAddr (I)I
+	public static final fun toAddr-WZ4Q5Ns (I)I
 }
 
 public final class space/iseki/executables/common/Address64 : java/lang/Comparable {
@@ -124,6 +126,8 @@ public final class space/iseki/executables/common/Address64Kt {
 	public static final fun Address64 (I)J
 	public static final fun Address64 (J)J
 	public static final fun Address64-WZ4Q5Ns (I)J
+	public static final fun toAddr (J)J
+	public static final fun toAddr-VKZWuLQ (J)J
 }
 
 public class space/iseki/executables/common/CommonFileException : java/lang/RuntimeException {
@@ -255,6 +259,39 @@ public final class space/iseki/executables/common/SectionInputStream : java/io/I
 
 public final class space/iseki/executables/common/SectionInputStreamKt {
 	public static final fun inputStream (Lspace/iseki/executables/common/ReadableSection;)Ljava/io/InputStream;
+}
+
+public final class space/iseki/executables/common/TimeDateStamp32 : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/common/TimeDateStamp32$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/common/TimeDateStamp32;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-6s7hFO8 (I)I
+	public static fun compareTo-6s7hFO8 (II)I
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public final fun getValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static final fun toString (I)Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/common/TimeDateStamp32$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun toString (I)Ljava/lang/String;
+}
+
+public final class space/iseki/executables/common/TimeDateStamp32$Serializer : kotlinx/serialization/KSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/common/TimeDateStamp32$Serializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun deserialize-SZTvybM (Lkotlinx/serialization/encoding/Decoder;)I
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun serialize-sU7VYA0 (Lkotlinx/serialization/encoding/Encoder;I)V
 }
 
 public abstract interface class space/iseki/executables/common/VirtualMemoryReadable {
@@ -1981,8 +2018,20 @@ public final class space/iseki/executables/macho/-MachoSectionType {
 	public static final fun MachoSectionType-WZ4Q5Ns (I)I
 }
 
-public final class space/iseki/executables/macho/-MachoSegmentFlags {
-	public static final fun MachoSegmentFlags-WZ4Q5Ns (I)I
+public final class space/iseki/executables/macho/-MachoSegmentFlag {
+	public static final fun MachoSegmentFlag-WZ4Q5Ns (I)I
+}
+
+public final class space/iseki/executables/macho/-MachoSymbolDescFlags {
+	public static final fun MachoSymbolDescFlags-xj2QHRw (S)S
+}
+
+public final class space/iseki/executables/macho/-MachoSymbolType {
+	public static final fun MachoSymbolType-7apg3OU (B)B
+}
+
+public final class space/iseki/executables/macho/-MachoVMProt {
+	public static final fun MachoVMProt-WZ4Q5Ns (I)I
 }
 
 public final class space/iseki/executables/macho/MachoFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile {
@@ -1990,6 +2039,7 @@ public final class space/iseki/executables/macho/MachoFile : java/lang/AutoClose
 	public synthetic fun <init> (Lspace/iseki/executables/common/DataAccessor;Lspace/iseki/executables/macho/MachoHeader;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
 	public final fun getHeader ()Lspace/iseki/executables/macho/MachoHeader;
+	public final fun getLoaderCommands ()Lspace/iseki/executables/macho/MachoFile$LoaderCommands;
 	public fun getRootHeaders ()Ljava/util/Map;
 }
 
@@ -1997,6 +2047,19 @@ public final class space/iseki/executables/macho/MachoFile$Companion : space/ise
 	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/macho/MachoFile;
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/MachoFile$LoaderCommands : kotlin/collections/AbstractList {
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun contains (Lspace/iseki/executables/macho/lc/MachoLoadCommand;)Z
+	public synthetic fun get (I)Ljava/lang/Object;
+	public fun get (I)Lspace/iseki/executables/macho/lc/MachoLoadCommand;
+	public final fun getBytes ()[B
+	public fun getSize ()I
+	public final fun indexOf (Ljava/lang/Object;)I
+	public fun indexOf (Lspace/iseki/executables/macho/lc/MachoLoadCommand;)I
+	public final fun lastIndexOf (Ljava/lang/Object;)I
+	public fun lastIndexOf (Lspace/iseki/executables/macho/lc/MachoLoadCommand;)I
 }
 
 public final class space/iseki/executables/macho/MachoFileException : space/iseki/executables/common/CommonFileException {
@@ -2426,6 +2489,8 @@ public final class space/iseki/executables/macho/MachoSectionAttributes : java/u
 }
 
 public final class space/iseki/executables/macho/MachoSectionAttributes$Companion {
+	public final fun getSECTION_ATTRIBUTES_SYS-7JDDaps ()I
+	public final fun getS_ATTR_DEBUG-7JDDaps ()I
 	public final fun getS_ATTR_EXT_RELOC-7JDDaps ()I
 	public final fun getS_ATTR_LIVE_SUPPORT-7JDDaps ()I
 	public final fun getS_ATTR_LOC_RELOC-7JDDaps ()I
@@ -2443,6 +2508,8 @@ public final class space/iseki/executables/macho/MachoSectionAttributes$Companio
 
 public final class space/iseki/executables/macho/MachoSectionAttributes$Constants {
 	public static final field INSTANCE Lspace/iseki/executables/macho/MachoSectionAttributes$Constants;
+	public static final field SECTION_ATTRIBUTES_SYS I
+	public static final field S_ATTR_DEBUG I
 	public static final field S_ATTR_EXT_RELOC I
 	public static final field S_ATTR_LIVE_SUPPORT I
 	public static final field S_ATTR_LOC_RELOC I
@@ -2473,14 +2540,28 @@ public final class space/iseki/executables/macho/MachoSectionType : java/lang/Co
 }
 
 public final class space/iseki/executables/macho/MachoSectionType$Companion {
+	public final fun getS_16BYTE_LITERALS-iuOHc5g ()I
 	public final fun getS_4BYTE_LITERALS-iuOHc5g ()I
 	public final fun getS_8BYTE_LITERALS-iuOHc5g ()I
+	public final fun getS_COALESCED-iuOHc5g ()I
 	public final fun getS_CSTRING_LITERALS-iuOHc5g ()I
+	public final fun getS_DTRACE_DOF-iuOHc5g ()I
+	public final fun getS_GB_ZEROFILL-iuOHc5g ()I
+	public final fun getS_INIT_FUNC_OFFSETS-iuOHc5g ()I
+	public final fun getS_INTERPOSING-iuOHc5g ()I
+	public final fun getS_LAZY_DYLIB_SYMBOL_POINTERS-iuOHc5g ()I
 	public final fun getS_LAZY_SYMBOL_POINTERS-iuOHc5g ()I
 	public final fun getS_LITERAL_POINTERS-iuOHc5g ()I
+	public final fun getS_MOD_INIT_FUNC_POINTERS-iuOHc5g ()I
+	public final fun getS_MOD_TERM_FUNC_POINTERS-iuOHc5g ()I
 	public final fun getS_NON_LAZY_SYMBOL_POINTERS-iuOHc5g ()I
 	public final fun getS_REGULAR-iuOHc5g ()I
 	public final fun getS_SYMBOL_STUBS-iuOHc5g ()I
+	public final fun getS_THREAD_LOCAL_INIT_FUNCTION_POINTERS-iuOHc5g ()I
+	public final fun getS_THREAD_LOCAL_REGULAR-iuOHc5g ()I
+	public final fun getS_THREAD_LOCAL_VARIABLES-iuOHc5g ()I
+	public final fun getS_THREAD_LOCAL_VARIABLE_POINTERS-iuOHc5g ()I
+	public final fun getS_THREAD_LOCAL_ZEROFILL-iuOHc5g ()I
 	public final fun getS_ZEROFILL-iuOHc5g ()I
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 	public final fun valueOf-Ngpqruw (Ljava/lang/String;)I
@@ -2489,28 +2570,42 @@ public final class space/iseki/executables/macho/MachoSectionType$Companion {
 
 public final class space/iseki/executables/macho/MachoSectionType$Constants {
 	public static final field INSTANCE Lspace/iseki/executables/macho/MachoSectionType$Constants;
+	public static final field S_16BYTE_LITERALS I
 	public static final field S_4BYTE_LITERALS I
 	public static final field S_8BYTE_LITERALS I
+	public static final field S_COALESCED I
 	public static final field S_CSTRING_LITERALS I
+	public static final field S_DTRACE_DOF I
+	public static final field S_GB_ZEROFILL I
+	public static final field S_INIT_FUNC_OFFSETS I
+	public static final field S_INTERPOSING I
+	public static final field S_LAZY_DYLIB_SYMBOL_POINTERS I
 	public static final field S_LAZY_SYMBOL_POINTERS I
 	public static final field S_LITERAL_POINTERS I
+	public static final field S_MOD_INIT_FUNC_POINTERS I
+	public static final field S_MOD_TERM_FUNC_POINTERS I
 	public static final field S_NON_LAZY_SYMBOL_POINTERS I
 	public static final field S_REGULAR I
 	public static final field S_SYMBOL_STUBS I
+	public static final field S_THREAD_LOCAL_INIT_FUNCTION_POINTERS I
+	public static final field S_THREAD_LOCAL_REGULAR I
+	public static final field S_THREAD_LOCAL_VARIABLES I
+	public static final field S_THREAD_LOCAL_VARIABLE_POINTERS I
+	public static final field S_THREAD_LOCAL_ZEROFILL I
 	public static final field S_ZEROFILL I
 }
 
-public final class space/iseki/executables/macho/MachoSegmentFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
-	public static final field Companion Lspace/iseki/executables/macho/MachoSegmentFlags$Companion;
+public final class space/iseki/executables/macho/MachoSegmentFlag : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lspace/iseki/executables/macho/MachoSegmentFlag$Companion;
 	public synthetic fun add (Ljava/lang/Object;)Z
-	public fun add-vlqlces (I)Z
+	public fun add-GlWZjcg (I)Z
 	public fun addAll (Ljava/util/Collection;)Z
-	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MachoSegmentFlags;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MachoSegmentFlag;
 	public fun clear ()V
 	public static fun constructor-impl (I)I
 	public final fun contains (Ljava/lang/Object;)Z
-	public fun contains-vlqlces (I)Z
-	public static fun contains-vlqlces (II)Z
+	public fun contains-GlWZjcg (I)Z
+	public static fun contains-GlWZjcg (II)Z
 	public fun containsAll (Ljava/util/Collection;)Z
 	public static fun containsAll-impl (ILjava/util/Collection;)Z
 	public fun equals (Ljava/lang/Object;)Z
@@ -2525,8 +2620,8 @@ public final class space/iseki/executables/macho/MachoSegmentFlags : java/util/S
 	public static fun isEmpty-impl (I)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl (I)Ljava/util/Iterator;
-	public static final fun or-xlfjuxA (II)I
-	public static final fun plus-xlfjuxA (II)I
+	public static final fun or-VtUjGEE (II)I
+	public static final fun plus-VtUjGEE (II)I
 	public fun remove (Ljava/lang/Object;)Z
 	public fun removeAll (Ljava/util/Collection;)Z
 	public fun retainAll (Ljava/util/Collection;)Z
@@ -2536,29 +2631,506 @@ public final class space/iseki/executables/macho/MachoSegmentFlags : java/util/S
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl (I)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()I
-	public static final fun valueOf-xFtvs-s (Ljava/lang/String;)I
-	public static final fun valueOfOrNull-1BJV1uk (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSegmentFlags;
+	public static final fun valueOf-UeKxTjM (Ljava/lang/String;)I
+	public static final fun valueOfOrNull-j22Zvz0 (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSegmentFlag;
 }
 
-public final class space/iseki/executables/macho/MachoSegmentFlags$Companion {
-	public final fun getSG_FVMLIB-KRtI_Hw ()I
-	public final fun getSG_HIGHVM-KRtI_Hw ()I
-	public final fun getSG_NORELOC-KRtI_Hw ()I
-	public final fun getSG_PROTECTED_VERSION_1-KRtI_Hw ()I
-	public final fun getSG_READ_ONLY-KRtI_Hw ()I
-	public final fun getZERO-KRtI_Hw ()I
+public final class space/iseki/executables/macho/MachoSegmentFlag$Companion {
+	public final fun getSG_FVMLIB-vt3xTI4 ()I
+	public final fun getSG_HIGHVM-vt3xTI4 ()I
+	public final fun getSG_NORELOC-vt3xTI4 ()I
+	public final fun getSG_PROTECTED_VERSION_1-vt3xTI4 ()I
+	public final fun getSG_READ_ONLY-vt3xTI4 ()I
+	public final fun getZERO-vt3xTI4 ()I
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun valueOf-xFtvs-s (Ljava/lang/String;)I
-	public final fun valueOfOrNull-1BJV1uk (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSegmentFlags;
+	public final fun valueOf-UeKxTjM (Ljava/lang/String;)I
+	public final fun valueOfOrNull-j22Zvz0 (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSegmentFlag;
 }
 
-public final class space/iseki/executables/macho/MachoSegmentFlags$Constants {
-	public static final field INSTANCE Lspace/iseki/executables/macho/MachoSegmentFlags$Constants;
+public final class space/iseki/executables/macho/MachoSegmentFlag$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/macho/MachoSegmentFlag$Constants;
 	public static final field SG_FVMLIB I
 	public static final field SG_HIGHVM I
 	public static final field SG_NORELOC I
 	public static final field SG_PROTECTED_VERSION_1 I
 	public static final field SG_READ_ONLY I
+}
+
+public final class space/iseki/executables/macho/MachoSymbolDescFlags : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lspace/iseki/executables/macho/MachoSymbolDescFlags$Companion;
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun add-6Z_JU9I (S)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public static final synthetic fun box-impl (S)Lspace/iseki/executables/macho/MachoSymbolDescFlags;
+	public fun clear ()V
+	public static fun constructor-impl (S)S
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun contains-6Z_JU9I (S)Z
+	public static fun contains-6Z_JU9I (SS)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public static fun containsAll-impl (SLjava/util/Collection;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (SLjava/lang/Object;)Z
+	public static final fun equals-impl0 (SS)Z
+	public fun getSize ()I
+	public static fun getSize-impl (S)I
+	public final fun getValue ()S
+	public fun hashCode ()I
+	public static fun hashCode-impl (S)I
+	public fun isEmpty ()Z
+	public static fun isEmpty-impl (S)Z
+	public fun iterator ()Ljava/util/Iterator;
+	public static fun iterator-impl (S)Ljava/util/Iterator;
+	public static final fun or--V3BEaI (SS)S
+	public static final fun plus--V3BEaI (SS)S
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun retainAll (Ljava/util/Collection;)Z
+	public synthetic fun size ()I
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (S)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()S
+	public static final fun valueOf-YwCLa-g (Ljava/lang/String;)S
+	public static final fun valueOfOrNull-7rhGWm4 (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSymbolDescFlags;
+}
+
+public final class space/iseki/executables/macho/MachoSymbolDescFlags$Companion {
+	public final fun getN_DESC_DISCARDED-J6xddf4 ()S
+	public final fun getN_NO_DEAD_STRIP-J6xddf4 ()S
+	public final fun getN_WEAK_DEF-J6xddf4 ()S
+	public final fun getN_WEAK_REF-J6xddf4 ()S
+	public final fun getREFERENCED_DYNAMICALLY-J6xddf4 ()S
+	public final fun getREFERENCE_FLAG_DEFINED-J6xddf4 ()S
+	public final fun getREFERENCE_FLAG_PRIVATE_DEFINED-J6xddf4 ()S
+	public final fun getREFERENCE_FLAG_PRIVATE_UNDEFINED_LAZY-J6xddf4 ()S
+	public final fun getREFERENCE_FLAG_PRIVATE_UNDEFINED_NON_LAZY-J6xddf4 ()S
+	public final fun getREFERENCE_FLAG_UNDEFINED_LAZY-J6xddf4 ()S
+	public final fun getREFERENCE_FLAG_UNDEFINED_NON_LAZY-J6xddf4 ()S
+	public final fun getZERO-J6xddf4 ()S
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-YwCLa-g (Ljava/lang/String;)S
+	public final fun valueOfOrNull-7rhGWm4 (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSymbolDescFlags;
+}
+
+public final class space/iseki/executables/macho/MachoSymbolDescFlags$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/macho/MachoSymbolDescFlags$Constants;
+	public static final field N_DESC_DISCARDED S
+	public static final field N_NO_DEAD_STRIP S
+	public static final field N_WEAK_DEF S
+	public static final field N_WEAK_REF S
+	public static final field REFERENCED_DYNAMICALLY S
+	public static final field REFERENCE_FLAG_DEFINED S
+	public static final field REFERENCE_FLAG_PRIVATE_DEFINED S
+	public static final field REFERENCE_FLAG_PRIVATE_UNDEFINED_LAZY S
+	public static final field REFERENCE_FLAG_PRIVATE_UNDEFINED_NON_LAZY S
+	public static final field REFERENCE_FLAG_UNDEFINED_LAZY S
+	public static final field REFERENCE_FLAG_UNDEFINED_NON_LAZY S
+}
+
+public final class space/iseki/executables/macho/MachoSymbolType : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lspace/iseki/executables/macho/MachoSymbolType$Companion;
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun add-oHGHC18 (B)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public static final synthetic fun box-impl (B)Lspace/iseki/executables/macho/MachoSymbolType;
+	public fun clear ()V
+	public static fun constructor-impl (B)B
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun contains-oHGHC18 (B)Z
+	public static fun contains-oHGHC18 (BB)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public static fun containsAll-impl (BLjava/util/Collection;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (BLjava/lang/Object;)Z
+	public static final fun equals-impl0 (BB)Z
+	public fun getSize ()I
+	public static fun getSize-impl (B)I
+	public final fun getValue ()B
+	public fun hashCode ()I
+	public static fun hashCode-impl (B)I
+	public fun isEmpty ()Z
+	public static fun isEmpty-impl (B)Z
+	public fun iterator ()Ljava/util/Iterator;
+	public static fun iterator-impl (B)Ljava/util/Iterator;
+	public static final fun or-SCgzSbw (BB)B
+	public static final fun plus-SCgzSbw (BB)B
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun retainAll (Ljava/util/Collection;)Z
+	public synthetic fun size ()I
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (B)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()B
+	public static final fun valueOf-hbBAK5M (Ljava/lang/String;)B
+	public static final fun valueOfOrNull-LZtdZ7g (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSymbolType;
+}
+
+public final class space/iseki/executables/macho/MachoSymbolType$Companion {
+	public final fun getN_ABS-n4rFwX4 ()B
+	public final fun getN_EXT-n4rFwX4 ()B
+	public final fun getN_INDR-n4rFwX4 ()B
+	public final fun getN_PBUD-n4rFwX4 ()B
+	public final fun getN_PEXT-n4rFwX4 ()B
+	public final fun getN_SECT-n4rFwX4 ()B
+	public final fun getN_STAB-n4rFwX4 ()B
+	public final fun getN_TYPE-n4rFwX4 ()B
+	public final fun getN_UNDF-n4rFwX4 ()B
+	public final fun getZERO-n4rFwX4 ()B
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-hbBAK5M (Ljava/lang/String;)B
+	public final fun valueOfOrNull-LZtdZ7g (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoSymbolType;
+}
+
+public final class space/iseki/executables/macho/MachoSymbolType$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/macho/MachoSymbolType$Constants;
+	public static final field N_ABS B
+	public static final field N_EXT B
+	public static final field N_INDR B
+	public static final field N_PBUD B
+	public static final field N_PEXT B
+	public static final field N_SECT B
+	public static final field N_STAB B
+	public static final field N_TYPE B
+	public static final field N_UNDF B
+}
+
+public final class space/iseki/executables/macho/MachoVMProt : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
+	public static final field Companion Lspace/iseki/executables/macho/MachoVMProt$Companion;
+	public synthetic fun add (Ljava/lang/Object;)Z
+	public fun add-7CKlL8A (I)Z
+	public fun addAll (Ljava/util/Collection;)Z
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/MachoVMProt;
+	public fun clear ()V
+	public static fun constructor-impl (I)I
+	public final fun contains (Ljava/lang/Object;)Z
+	public fun contains-7CKlL8A (I)Z
+	public static fun contains-7CKlL8A (II)Z
+	public fun containsAll (Ljava/util/Collection;)Z
+	public static fun containsAll-impl (ILjava/util/Collection;)Z
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public fun getSize ()I
+	public static fun getSize-impl (I)I
+	public final fun getValue ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun isEmpty ()Z
+	public static fun isEmpty-impl (I)Z
+	public fun iterator ()Ljava/util/Iterator;
+	public static fun iterator-impl (I)Ljava/util/Iterator;
+	public static final fun or-R28GUAc (II)I
+	public static final fun plus-R28GUAc (II)I
+	public fun remove (Ljava/lang/Object;)Z
+	public fun removeAll (Ljava/util/Collection;)Z
+	public fun retainAll (Ljava/util/Collection;)Z
+	public synthetic fun size ()I
+	public fun toArray ()[Ljava/lang/Object;
+	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+	public static final fun valueOf-05KNG2M (Ljava/lang/String;)I
+	public static final fun valueOfOrNull--uzhTwk (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoVMProt;
+}
+
+public final class space/iseki/executables/macho/MachoVMProt$Companion {
+	public final fun getVM_PROT_ALL-V7pbsVg ()I
+	public final fun getVM_PROT_COPY-V7pbsVg ()I
+	public final fun getVM_PROT_DEFAULT-V7pbsVg ()I
+	public final fun getVM_PROT_EXECUTE-V7pbsVg ()I
+	public final fun getVM_PROT_EXECUTE_ONLY-V7pbsVg ()I
+	public final fun getVM_PROT_IS_MASK-V7pbsVg ()I
+	public final fun getVM_PROT_NONE-V7pbsVg ()I
+	public final fun getVM_PROT_NO_CHANGE-V7pbsVg ()I
+	public final fun getVM_PROT_READ-V7pbsVg ()I
+	public final fun getVM_PROT_STRIP_READ-V7pbsVg ()I
+	public final fun getVM_PROT_TRUSTED-V7pbsVg ()I
+	public final fun getVM_PROT_WANTS_COPY-V7pbsVg ()I
+	public final fun getVM_PROT_WRITE-V7pbsVg ()I
+	public final fun getZERO-V7pbsVg ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public final fun valueOf-05KNG2M (Ljava/lang/String;)I
+	public final fun valueOfOrNull--uzhTwk (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoVMProt;
+}
+
+public final class space/iseki/executables/macho/MachoVMProt$Constants {
+	public static final field INSTANCE Lspace/iseki/executables/macho/MachoVMProt$Constants;
+	public static final field VM_PROT_ALL I
+	public static final field VM_PROT_COPY I
+	public static final field VM_PROT_DEFAULT I
+	public static final field VM_PROT_EXECUTE I
+	public static final field VM_PROT_EXECUTE_ONLY I
+	public static final field VM_PROT_IS_MASK I
+	public static final field VM_PROT_NONE I
+	public static final field VM_PROT_NO_CHANGE I
+	public static final field VM_PROT_READ I
+	public static final field VM_PROT_STRIP_READ I
+	public static final field VM_PROT_TRUSTED I
+	public static final field VM_PROT_WANTS_COPY I
+	public static final field VM_PROT_WRITE I
+}
+
+public final class space/iseki/executables/macho/PackedVersion : java/lang/Comparable {
+	public static final field Companion Lspace/iseki/executables/macho/PackedVersion$Companion;
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/PackedVersion;
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public fun compareTo-01ph02A (I)I
+	public static fun compareTo-01ph02A (II)I
+	public static fun constructor-impl (I)I
+	public static fun constructor-impl (III)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public static final fun getMajor-pVg5ArA (I)I
+	public static final fun getMinor-pVg5ArA (I)I
+	public static final fun getSubminor-pVg5ArA (I)I
+	public final fun getValue-pVg5ArA ()I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/PackedVersion$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class space/iseki/executables/macho/PackedVersion$Serializer : kotlinx/serialization/KSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/macho/PackedVersion$Serializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public fun deserialize-XMLbViI (Lkotlinx/serialization/encoding/Decoder;)I
+	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun serialize-HQ44fbs (Lkotlinx/serialization/encoding/Encoder;I)V
+}
+
+public final class space/iseki/executables/macho/lc/DylibCommand : space/iseki/executables/macho/lc/MachoLoadCommand {
+	public static final field Companion Lspace/iseki/executables/macho/lc/DylibCommand$Companion;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2-Dg924yg ()I
+	public final fun component3-fB9amMc ()I
+	public final fun component4-fB9amMc ()I
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-X2TB-DE ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCompatibilityVersion-fB9amMc ()I
+	public final fun getCurrentVersion-fB9amMc ()I
+	public final fun getName ()Ljava/lang/String;
+	public fun getSize-pVg5ArA ()I
+	public final fun getTimestamp-Dg924yg ()I
+	public fun getType-X2TB-DE ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/lc/DylibCommand$Companion {
+}
+
+public final class space/iseki/executables/macho/lc/DylinkerCommand : space/iseki/executables/macho/lc/MachoLoadCommand {
+	public static final field Companion Lspace/iseki/executables/macho/lc/DylinkerCommand$Companion;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2-pVg5ArA ()I
+	public final fun component3-X2TB-DE ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public fun getSize-pVg5ArA ()I
+	public fun getType-X2TB-DE ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/lc/DylinkerCommand$Companion {
+}
+
+public final class space/iseki/executables/macho/lc/InvalidLoaderCommandException : java/lang/Exception {
+	public synthetic fun <init> (ILjava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getCmd-X2TB-DE ()I
+}
+
+public abstract interface class space/iseki/executables/macho/lc/MachoLoadCommand {
+	public abstract fun getSize-pVg5ArA ()I
+	public abstract fun getType-X2TB-DE ()I
+}
+
+public final class space/iseki/executables/macho/lc/MachoSectionFlag {
+	public static final synthetic fun box-impl (I)Lspace/iseki/executables/macho/lc/MachoSectionFlag;
+	public static fun constructor-impl (I)I
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (ILjava/lang/Object;)Z
+	public static final fun equals-impl0 (II)Z
+	public static final fun getAttributes-7JDDaps (I)I
+	public final fun getRawValue-pVg5ArA ()I
+	public static final fun getType-iuOHc5g (I)I
+	public fun hashCode ()I
+	public static fun hashCode-impl (I)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (I)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()I
+}
+
+public final class space/iseki/executables/macho/lc/Section {
+	public static final field Companion Lspace/iseki/executables/macho/lc/Section$Companion;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10-pVg5ArA ()I
+	public final fun component11-pVg5ArA ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3-7OlPWkI ()I
+	public final fun component4-pVg5ArA ()I
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-pVg5ArA ()I
+	public final fun component7-pVg5ArA ()I
+	public final fun component8-pVg5ArA ()I
+	public final fun component9-DgF11p4 ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddr-7OlPWkI ()I
+	public final fun getAlign-pVg5ArA ()I
+	public final fun getFlags-DgF11p4 ()I
+	public final fun getNreloc-pVg5ArA ()I
+	public final fun getOffset-pVg5ArA ()I
+	public final fun getReloff-pVg5ArA ()I
+	public final fun getReserved1-pVg5ArA ()I
+	public final fun getReserved2-pVg5ArA ()I
+	public final fun getSectName ()Ljava/lang/String;
+	public final fun getSegName ()Ljava/lang/String;
+	public final fun getSize-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/lc/Section$Companion {
+}
+
+public final class space/iseki/executables/macho/lc/Section64 {
+	public static final field Companion Lspace/iseki/executables/macho/lc/Section64$Companion;
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10-pVg5ArA ()I
+	public final fun component11-pVg5ArA ()I
+	public final fun component12-pVg5ArA ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3-mVaMEX8 ()J
+	public final fun component4-s-VKNKU ()J
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-pVg5ArA ()I
+	public final fun component7-pVg5ArA ()I
+	public final fun component8-pVg5ArA ()I
+	public final fun component9-DgF11p4 ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddr-mVaMEX8 ()J
+	public final fun getAlign-pVg5ArA ()I
+	public final fun getFlags-DgF11p4 ()I
+	public final fun getNreloc-pVg5ArA ()I
+	public final fun getOffset-pVg5ArA ()I
+	public final fun getReloff-pVg5ArA ()I
+	public final fun getReserved1-pVg5ArA ()I
+	public final fun getReserved2-pVg5ArA ()I
+	public final fun getReserved3-pVg5ArA ()I
+	public final fun getSectName ()Ljava/lang/String;
+	public final fun getSegName ()Ljava/lang/String;
+	public final fun getSize-s-VKNKU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/lc/Section64$Companion {
+}
+
+public final class space/iseki/executables/macho/lc/SegmentCommand : space/iseki/executables/macho/lc/MachoLoadCommand {
+	public static final field Companion Lspace/iseki/executables/macho/lc/SegmentCommand$Companion;
+	public synthetic fun <init> (Ljava/lang/String;IIIIIIIIIILjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10-pVg5ArA ()I
+	public final fun component11-X2TB-DE ()I
+	public final fun component12 ()Ljava/util/List;
+	public final fun component2-7OlPWkI ()I
+	public final fun component3-pVg5ArA ()I
+	public final fun component4-pVg5ArA ()I
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-V7pbsVg ()I
+	public final fun component7-V7pbsVg ()I
+	public final fun component8-pVg5ArA ()I
+	public final fun component9-vt3xTI4 ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFileOff-pVg5ArA ()I
+	public final fun getFileSize-pVg5ArA ()I
+	public final fun getFlags-vt3xTI4 ()I
+	public final fun getInitProt-V7pbsVg ()I
+	public final fun getMaxProt-V7pbsVg ()I
+	public final fun getNsects-pVg5ArA ()I
+	public final fun getSections ()Ljava/util/List;
+	public final fun getSegName ()Ljava/lang/String;
+	public fun getSize-pVg5ArA ()I
+	public fun getType-X2TB-DE ()I
+	public final fun getVmAddr-7OlPWkI ()I
+	public final fun getVmSize-pVg5ArA ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/lc/SegmentCommand$Companion {
+}
+
+public final class space/iseki/executables/macho/lc/SegmentCommand64 : space/iseki/executables/macho/lc/MachoLoadCommand {
+	public static final field Companion Lspace/iseki/executables/macho/lc/SegmentCommand64$Companion;
+	public synthetic fun <init> (Ljava/lang/String;JJJJIIIIIILjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10-pVg5ArA ()I
+	public final fun component11-X2TB-DE ()I
+	public final fun component12 ()Ljava/util/List;
+	public final fun component2-mVaMEX8 ()J
+	public final fun component3-s-VKNKU ()J
+	public final fun component4-s-VKNKU ()J
+	public final fun component5-s-VKNKU ()J
+	public final fun component6-V7pbsVg ()I
+	public final fun component7-V7pbsVg ()I
+	public final fun component8-pVg5ArA ()I
+	public final fun component9-vt3xTI4 ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFileOff-s-VKNKU ()J
+	public final fun getFileSize-s-VKNKU ()J
+	public final fun getFlags-vt3xTI4 ()I
+	public final fun getInitProt-V7pbsVg ()I
+	public final fun getMaxProt-V7pbsVg ()I
+	public final fun getNsects-pVg5ArA ()I
+	public final fun getSections ()Ljava/util/List;
+	public final fun getSegName ()Ljava/lang/String;
+	public fun getSize-pVg5ArA ()I
+	public fun getType-X2TB-DE ()I
+	public final fun getVmAddr-mVaMEX8 ()J
+	public final fun getVmSize-s-VKNKU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/lc/SegmentCommand64$Companion {
+}
+
+public final class space/iseki/executables/macho/lc/UnsupportedCommand : space/iseki/executables/macho/lc/MachoLoadCommand {
+	public final fun component1-pVg5ArA ()I
+	public final fun component2-X2TB-DE ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getSize-pVg5ArA ()I
+	public fun getType-X2TB-DE ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/lc/UuidCommand : space/iseki/executables/macho/lc/MachoLoadCommand {
+	public static final field Companion Lspace/iseki/executables/macho/lc/UuidCommand$Companion;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getSize-pVg5ArA ()I
+	public fun getType-X2TB-DE ()I
+	public fun hashCode ()I
+	public final fun kotlinUuid ()Lkotlin/uuid/Uuid;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class space/iseki/executables/macho/lc/UuidCommand$Companion {
 }
 
 public final class space/iseki/executables/pe/-Characteristics {
@@ -2686,7 +3258,7 @@ public final class space/iseki/executables/pe/CoffHeader : space/iseki/executabl
 	public synthetic fun <init> (SSISSLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-Q4oK7tQ ()S
 	public final fun component2-Mh2AYeg ()S
-	public final fun component3-n7FkWIM ()I
+	public final fun component3-Dg924yg ()I
 	public final fun component4-7OlPWkI ()I
 	public final fun component5-pVg5ArA ()I
 	public final fun component6-Mh2AYeg ()S
@@ -2699,7 +3271,7 @@ public final class space/iseki/executables/pe/CoffHeader : space/iseki/executabl
 	public final fun getNumbersOfSymbols-pVg5ArA ()I
 	public final fun getPointerToSymbolTable-7OlPWkI ()I
 	public final fun getSizeOfOptionalHeader-Mh2AYeg ()S
-	public final fun getTimeDateStamp-n7FkWIM ()I
+	public final fun getTimeDateStamp-Dg924yg ()I
 	public fun hashCode ()I
 	public static final fun parse ([BI)Lspace/iseki/executables/pe/CoffHeader;
 	public fun toString ()Ljava/lang/String;
@@ -3314,39 +3886,6 @@ public synthetic class space/iseki/executables/pe/StandardHeader$$serializer : k
 public final class space/iseki/executables/pe/StandardHeader$Companion {
 	public final fun parse ([BI)Lspace/iseki/executables/pe/StandardHeader;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/pe/TimeDateStamp32 : java/lang/Comparable {
-	public static final field Companion Lspace/iseki/executables/pe/TimeDateStamp32$Companion;
-	public static final synthetic fun box-impl (I)Lspace/iseki/executables/pe/TimeDateStamp32;
-	public synthetic fun compareTo (Ljava/lang/Object;)I
-	public fun compareTo-eUIBwo4 (I)I
-	public static fun compareTo-eUIBwo4 (II)I
-	public static fun constructor-impl (I)I
-	public fun equals (Ljava/lang/Object;)Z
-	public static fun equals-impl (ILjava/lang/Object;)Z
-	public static final fun equals-impl0 (II)Z
-	public final fun getValue-pVg5ArA ()I
-	public fun hashCode ()I
-	public static fun hashCode-impl (I)I
-	public fun toString ()Ljava/lang/String;
-	public static final fun toString (I)Ljava/lang/String;
-	public static fun toString-impl (I)Ljava/lang/String;
-	public final synthetic fun unbox-impl ()I
-}
-
-public final class space/iseki/executables/pe/TimeDateStamp32$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-	public final fun toString (I)Ljava/lang/String;
-}
-
-public final class space/iseki/executables/pe/TimeDateStamp32$Serializer : kotlinx/serialization/KSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/pe/TimeDateStamp32$Serializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public fun deserialize--tGDJAI (Lkotlinx/serialization/encoding/Decoder;)I
-	public fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public fun serialize--Lk6_5U (Lkotlinx/serialization/encoding/Encoder;I)V
 }
 
 public final class space/iseki/executables/pe/WindowsSpecifiedHeader : space/iseki/executables/common/ReadableStructure {

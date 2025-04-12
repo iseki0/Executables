@@ -156,3 +156,9 @@ value class Address64(val value: ULong) : Comparable<Address64> {
      */
     inline fun toULong(): ULong = value
 }
+
+@Suppress("NOTHING_TO_INLINE", "unused")
+fun ULong.toAddr(): Address64 = Address64(this)
+
+@Suppress("NOTHING_TO_INLINE", "unused")
+fun Long.toAddr(): Address64 = Address64(this)

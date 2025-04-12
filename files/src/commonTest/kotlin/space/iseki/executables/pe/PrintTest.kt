@@ -2,6 +2,7 @@ package space.iseki.executables.pe
 
 import space.iseki.executables.common.Address32
 import space.iseki.executables.common.Address64
+import space.iseki.executables.common.TimeDateStamp32
 import kotlin.test.Test
 
 class PrintTest {

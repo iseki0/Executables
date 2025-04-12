@@ -15,7 +15,7 @@ Currently, this library can:
 - [x] ELF: Read basic information (ELF Header, Section headers, Program headers)
 - [x] ELF: Read symbol tables
 - [x] ELF: Read section data
-- [x] Macho: Read basic information
+- [x] Macho: Read basic information (Macho header, linker commands(partially))
 - [x] Chore: Jigsaw ready
 - [x] Kotlin/Native: File access
 - [x] SBOM: Go

@@ -160,3 +160,9 @@ value class Address32(val value: UInt) : Comparable<Address32> {
      */
     inline fun toUInt(): UInt = value
 }
+
+@Suppress("NOTHING_TO_INLINE", "unused")
+inline fun UInt.toAddr() = Address32(this)
+
+@Suppress("NOTHING_TO_INLINE", "unused")
+inline fun Int.toAddr() = Address32(this)

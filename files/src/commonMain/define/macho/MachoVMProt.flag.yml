@@ -1,0 +1,55 @@
+typename: MachoVMProt
+package: space.iseki.executables.macho
+dataLength: 4
+list:
+  - name: VM_PROT_NONE
+    value: 0x00
+    docs: No access permission
+
+  - name: VM_PROT_READ
+    value: 0x01
+    docs: Read permission
+
+  - name: VM_PROT_WRITE
+    value: 0x02
+    docs: Write permission
+
+  - name: VM_PROT_EXECUTE
+    value: 0x04
+    docs: Execute permission
+
+  - name: VM_PROT_DEFAULT
+    value: 0x03  # READ | WRITE
+    docs: Default protection for newly-created virtual memory
+
+  - name: VM_PROT_ALL
+    value: 0x07  # READ | WRITE | EXECUTE
+    docs: Maximum privileges possible
+
+  - name: VM_PROT_NO_CHANGE
+    value: 0x08
+    docs: Indicates no change to page locks (used internally)
+
+  - name: VM_PROT_COPY
+    value: 0x10
+    docs: Adds write permission and marks entry as copy-on-write
+
+  - name: VM_PROT_WANTS_COPY
+    value: 0x10
+    docs: Used by memory_object_data_request in shadow chain resolution
+
+  - name: VM_PROT_TRUSTED
+    value: 0x20
+    docs: Treat region as having a valid code signature (PRIVATE flag)
+
+  - name: VM_PROT_IS_MASK
+    value: 0x40
+    docs: Indicates other protection bits should be applied as a mask
+
+  - name: VM_PROT_STRIP_READ
+    value: 0x80
+    docs: Prevents VM_PROT_READ from being automatically set with EXECUTE
+
+  - name: VM_PROT_EXECUTE_ONLY
+    value: 0x84  # EXECUTE | STRIP_READ
+    docs: Execute-only protection (not readable)

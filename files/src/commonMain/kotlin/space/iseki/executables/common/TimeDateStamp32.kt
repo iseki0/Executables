@@ -1,4 +1,4 @@
-package space.iseki.executables.pe
+package space.iseki.executables.common
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.KSerializer
