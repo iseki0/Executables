@@ -2034,13 +2034,14 @@ public final class space/iseki/executables/macho/-MachoVMProt {
 	public static final fun MachoVMProt-WZ4Q5Ns (I)I
 }
 
-public final class space/iseki/executables/macho/MachoFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile {
+public final class space/iseki/executables/macho/MachoFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile, space/iseki/executables/common/VirtualMemoryReadable {
 	public static final field Companion Lspace/iseki/executables/macho/MachoFile$Companion;
 	public synthetic fun <init> (Lspace/iseki/executables/common/DataAccessor;Lspace/iseki/executables/macho/MachoHeader;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
 	public final fun getHeader ()Lspace/iseki/executables/macho/MachoHeader;
 	public final fun getLoaderCommands ()Lspace/iseki/executables/macho/MachoFile$LoaderCommands;
 	public fun getRootHeaders ()Ljava/util/Map;
+	public fun virtualMemory ()Lspace/iseki/executables/common/DataAccessor;
 }
 
 public final class space/iseki/executables/macho/MachoFile$Companion : space/iseki/executables/common/FileFormat {

@@ -13,6 +13,7 @@ import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.VirtualMemoryReadable
+import space.iseki.executables.share.MemReader
 
 /**
  * Represents an ELF file and provides access to its contents.
@@ -371,6 +372,16 @@ class ElfFile private constructor(
 
     }
 
+    private val vm = MemReader(dataAccessor).apply {
+        programHeaders.filter { it.pType == ElfPType.PT_LOAD }.sortedBy { it.pVaddr.castToULong() }.forEach {
+            mapMemory(
+                vOff = it.pVaddr.castToULong(),
+                fOff = it.pOffset.castToULong(),
+                fSize = minOf(it.pFilesz.castToULong(), it.pMemsz.castToULong()),
+            )
+        }
+    }
+
     /**
      * Represents a symbol in the ELF file
      *
@@ -592,110 +603,6 @@ class ElfFile private constructor(
     }
 
     /**
-     * Reads data from virtual memory address space.
-     *
-     * This method maps virtual addresses to file offsets using program headers.
-     * It handles reading across segments and fills with zeros for regions not backed by the file.
-     *
-     * @param vaddr The virtual address to read from
-     * @param buffer The buffer to read into
-     * @param offset The offset in the buffer to start writing
-     * @param length The number of bytes to read
-     */
-    private fun readVirtualMemory(vaddr: ULong, buffer: ByteArray, offset: Int, length: Int) {
-        // If length is 0, return immediately
-        if (length <= 0) return
-
-        // Track the number of bytes read
-        var bytesRead = 0
-        var currentOffset = offset
-        var currentVaddr = vaddr
-
-        // Search for and read data from program headers (segments)
-        for (phdr in programHeaders) {
-            // Skip segments that are not loadable or have zero memory size
-            if (phdr.pType != ElfPType.PT_LOAD || phdr.pMemsz.castToLong() <= 0) {
-                continue
-            }
-
-            val segmentVaddr = phdr.pVaddr.castToULong()
-            val segmentEndVaddr = segmentVaddr + phdr.pMemsz.castToULong()
-
-            // Check if the current virtual address is within the segment's range
-            if (currentVaddr >= segmentVaddr && currentVaddr < segmentEndVaddr) {
-                // Calculate the offset within the segment
-                val segmentOffset = currentVaddr - segmentVaddr
-
-                // Calculate how many bytes can be read from the current segment
-                val bytesToRead = minOf(
-                    (segmentEndVaddr - currentVaddr).toLong(), (length - bytesRead).toLong()
-                ).toInt()
-
-                if (bytesToRead > 0) {
-                    // For PT_LOAD segments, determine whether this is in the file portion or zero-fill portion
-                    if (segmentOffset < phdr.pFilesz.castToULong()) {
-                        // This part of the segment is backed by file data
-                        val fileOffset = phdr.pOffset.castToLong() + segmentOffset.toLong()
-                        val fileBytes = minOf(
-                            bytesToRead.toLong(), (phdr.pFilesz.castToULong() - segmentOffset).toLong()
-                        ).toInt()
-
-                        try {
-                            // Read the data from the file
-                            dataAccessor.readFully(fileOffset, buffer, currentOffset, fileBytes)
-
-                            // Update counters
-                            bytesRead += fileBytes
-                            currentOffset += fileBytes
-                            currentVaddr += fileBytes.toULong()
-                        } catch (e: IOException) {
-                            // If reading fails, fill with zeros
-                            for (i in 0 until fileBytes) {
-                                buffer[currentOffset + i] = 0
-                            }
-                            bytesRead += fileBytes
-                            currentOffset += fileBytes
-                            currentVaddr += fileBytes.toULong()
-                        }
-
-                        // If there are remaining bytes in this segment (zero-filled part)
-                        val remainingBytes = bytesToRead - fileBytes
-                        if (remainingBytes > 0) {
-                            // Fill with zeros (for .bss-like regions)
-                            for (i in 0 until remainingBytes) {
-                                buffer[currentOffset + i] = 0
-                            }
-                            bytesRead += remainingBytes
-                            currentOffset += remainingBytes
-                            currentVaddr += remainingBytes.toULong()
-                        }
-                    } else {
-                        // This part of the segment is entirely zero-filled (.bss-like)
-                        for (i in 0 until bytesToRead) {
-                            buffer[currentOffset + i] = 0
-                        }
-                        bytesRead += bytesToRead
-                        currentOffset += bytesToRead
-                        currentVaddr += bytesToRead.toULong()
-                    }
-
-                    // If all requested bytes have been read, exit
-                    if (bytesRead >= length) {
-                        return
-                    }
-                }
-            }
-        }
-
-        // If there are still unread bytes, fill with zeros
-        if (bytesRead < length) {
-            for (i in currentOffset until offset + length) {
-                buffer[i] = 0
-            }
-        }
-    }
-
-    /**
      * Returns a DataAccessor that can be used to read from the ELF file's virtual memory.
      *
      * This function provides access to the ELF file's memory as it would be laid out when loaded by the OS.
@@ -709,37 +616,21 @@ class ElfFile private constructor(
      */
     @Suppress("DuplicatedCode")
     override fun virtualMemory(): DataAccessor {
-        // Calculate the highest end address of all loadable segments to determine virtual memory size
-        var maxEndAddress = 0UL
-        for (phdr in programHeaders) {
-            if (phdr.pType == ElfPType.PT_LOAD) {
-                val endAddress = phdr.pVaddr.castToULong() + phdr.pMemsz.castToULong()
-                if (endAddress > maxEndAddress) {
-                    maxEndAddress = endAddress
-                }
-            }
-        }
-
-        val memorySize = maxEndAddress
-
         return object : DataAccessor {
-            override val size: Long = memorySize.toLong()
+            override val size: Long get() = Long.MAX_VALUE
 
             override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
                 DataAccessor.checkReadBounds(pos, buf, off, len)
 
-                if (len <= 0) return 0
-                if (pos >= size) return 0
+                if (len <= 0) return len
 
-                // Calculate the actual number of bytes to read (don't go beyond the virtual memory size)
-                val actualLen = minOf(len.toLong(), size - pos).toInt()
-                if (actualLen <= 0) return 0
-
-                val tempBuffer = ByteArray(actualLen)
-                readVirtualMemory(pos.toULong(), tempBuffer, 0, actualLen)
-
-                tempBuffer.copyInto(buf, off, 0, actualLen)
-                return actualLen
+                vm.read(
+                    pos = pos.toULong(),
+                    buf = buf,
+                    off = off,
+                    len = len,
+                )
+                return len
             }
 
             override fun close() {

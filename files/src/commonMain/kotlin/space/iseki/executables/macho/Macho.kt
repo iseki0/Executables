@@ -6,6 +6,7 @@ import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.OpenedFile
 import space.iseki.executables.common.ReadableStructure
+import space.iseki.executables.common.VirtualMemoryReadable
 import space.iseki.executables.macho.lc.DylibCommand
 import space.iseki.executables.macho.lc.DylinkerCommand
 import space.iseki.executables.macho.lc.MachoLoadCommand
@@ -13,6 +14,7 @@ import space.iseki.executables.macho.lc.SegmentCommand
 import space.iseki.executables.macho.lc.SegmentCommand64
 import space.iseki.executables.macho.lc.UnsupportedCommand
 import space.iseki.executables.macho.lc.UuidCommand
+import space.iseki.executables.share.MemReader
 import space.iseki.executables.share.u4
 
 /**
@@ -26,7 +28,7 @@ import space.iseki.executables.share.u4
 class MachoFile private constructor(
     private val dataAccessor: DataAccessor,
     val header: MachoHeader,
-) : AutoCloseable, OpenedFile {
+) : AutoCloseable, OpenedFile, VirtualMemoryReadable {
 
     companion object : FileFormat<MachoFile> {
         override fun toString(): String = "Mach-O"
@@ -109,6 +111,66 @@ class MachoFile private constructor(
             }
         }
     }
+
+    private val vm by lazy {
+
+        data class Seg(
+            val fileOff: ULong,
+            val fileSize: ULong,
+            val vmOff: ULong,
+            val vmSize: ULong,
+        )
+
+        val segments = loaderCommands.mapNotNull {
+            when (it) {
+                is SegmentCommand -> {
+                    Seg(
+                        fileOff = it.fileOff.toULong(),
+                        fileSize = it.fileSize.toULong(),
+                        vmOff = it.vmAddr.value.toULong(),
+                        vmSize = it.vmSize.toULong(),
+                    )
+                }
+
+                is SegmentCommand64 -> {
+                    Seg(
+                        fileOff = it.fileOff,
+                        fileSize = it.fileSize,
+                        vmOff = it.vmAddr.value,
+                        vmSize = it.vmSize,
+                    )
+                }
+
+                else -> null
+            }
+        }.sortedBy { it.vmOff }
+
+        val mr = MemReader(dataAccessor).apply {
+            segments.sortedBy { it.vmOff }.forEach {
+                mapMemory(vOff = it.vmOff, fOff = it.fileOff, fSize = minOf(it.fileSize, it.vmSize))
+            }
+        }
+
+        object : DataAccessor {
+            override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+                DataAccessor.checkReadBounds(pos, buf, off, len)
+                mr.read(
+                    pos = pos.toULong(),
+                    buf = buf,
+                    off = off,
+                    len = len,
+                )
+                return len
+            }
+
+            override val size: Long
+                get() = Long.MAX_VALUE
+
+            override fun close() {}
+        }
+    }
+
+    override fun virtualMemory(): DataAccessor = vm
 }
 
 fun MachoMagic.isLittleEndian() = this == MachoMagic.MH_CIGAM || this == MachoMagic.MH_CIGAM_64

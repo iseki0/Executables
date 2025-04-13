@@ -18,10 +18,12 @@ import space.iseki.executables.common.VirtualMemoryReadable
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
+import space.iseki.executables.share.MemReader
 import space.iseki.executables.share.toUnmodifiableList
 import space.iseki.executables.share.u2l
 import space.iseki.executables.share.u4l
 import space.iseki.executables.share.u8l
+import kotlin.math.min
 
 class PEFile private constructor(
     val coffHeader: CoffHeader,
@@ -54,6 +56,16 @@ class PEFile private constructor(
             "standardHeader" to standardHeader,
             "windowsHeader" to windowsHeader,
         )
+
+    private val vm = MemReader(dataAccessor).apply {
+        sectionTable.sortedBy { it.virtualAddress }.forEach {
+            mapMemory(
+                vOff = it.virtualAddress.value.toULong(),
+                fOff = it.pointerToRawData.value.toULong(),
+                fSize = min(it.sizeOfRawData.toULong(), it.virtualSize.toULong()),
+            )
+        }
+    }
 
     /**
      * Returns a summary of the pe file headers.
@@ -682,41 +694,8 @@ class PEFile private constructor(
             }
         }
 
-        // Search for and read data from sections
-        for (section in sections) {
-            val sectionRva = section.virtualAddress.value
-            val sectionEndRva = sectionRva + section.virtualSize
-
-            // Check if the current RVA is within the current section's range
-            if (currentRva >= sectionRva && currentRva < sectionEndRva) {
-                // Calculate the offset within the section
-                val sectionOffset = currentRva - sectionRva
-
-                // Calculate how many bytes can be read from the current section
-                val bytesToRead = minOf((sectionEndRva - currentRva).toInt(), length - bytesRead)
-
-                if (bytesToRead > 0) {
-                    // Read the data
-                    section.readBytes(sectionOffset.toLong(), buffer, currentOffset, bytesToRead)
-
-                    // Update the number of bytes read and current offset
-                    bytesRead += bytesToRead
-                    currentOffset += bytesToRead
-                    currentRva += bytesToRead.toUInt()
-
-                    // If all requested bytes have been read, exit the loop
-                    if (bytesRead >= length) {
-                        return
-                    }
-                }
-            }
-        }
-
-        // If there are still unread bytes, fill with zeros
-        if (bytesRead < length) {
-            for (i in currentOffset until offset + length) {
-                buffer[i] = 0
-            }
+        if (length > bytesRead) {
+            vm.read(currentRva.toULong(), buffer, currentOffset, length - bytesRead)
         }
     }
 
@@ -886,23 +865,17 @@ class PEFile private constructor(
     @Suppress("DuplicatedCode")
     override fun virtualMemory(): DataAccessor {
         return object : DataAccessor {
-            override val size: Long get() = windowsHeader.sizeOfImage.toLong()
+            override val size: Long get() = Long.MAX_VALUE
+
 
             override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
                 DataAccessor.checkReadBounds(pos, buf, off, len)
 
-                if (len <= 0) return 0
-                if (pos >= size) return 0
-
-                // Calculate the actual number of bytes to read (don't go beyond the virtual image size)
-                val actualLen = minOf(len.toLong(), size - pos).toInt()
-                if (actualLen <= 0) return 0
-
-                val tempBuffer = ByteArray(actualLen)
-                readVirtualMemory(Address32(pos.toUInt()), tempBuffer, 0, actualLen)
-
-                tempBuffer.copyInto(buf, off, 0, actualLen)
-                return actualLen
+                if (len <= 0) return len
+                if (pos >= size) return len
+                if (pos > UInt.MAX_VALUE.toLong()) return len
+                readVirtualMemory(Address32(pos.toUInt()), buf, off, len)
+                return len
             }
 
             override fun close() {
