@@ -13,6 +13,8 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.serialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
@@ -149,8 +151,7 @@ infix fun or(bit: ${typename}): ${typename} = plus(bit)
     }
 
 internal object Serializer : KSerializer<${typename}> {
-override val descriptor: SerialDescriptor
-get() = serialDescriptor<List<String>>()
+override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("${package}.${typename}TGenerated", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): ${typename} {
     var acc: ${typename} = ${typename}.ZERO
