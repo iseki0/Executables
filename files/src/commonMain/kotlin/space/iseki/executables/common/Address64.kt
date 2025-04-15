@@ -4,8 +4,9 @@ package space.iseki.executables.common
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.serialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import space.iseki.executables.pe.decodeULongHex
@@ -31,8 +32,8 @@ value class Address64(val value: ULong) : Comparable<Address64> {
      * It serializes the address as a hex string, e.g. "0x123456789abcdef0".
      */
     object Serializer : KSerializer<Address64> {
-        override val descriptor: SerialDescriptor
-            get() = serialDescriptor<String>()
+        override val descriptor: SerialDescriptor =
+            PrimitiveSerialDescriptor("space.iseki.executables.common.Address64", PrimitiveKind.STRING)
 
         override fun deserialize(decoder: Decoder): Address64 {
             return Address64(decodeULongHex(decoder, "Address64").toLong())

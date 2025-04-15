@@ -5,8 +5,9 @@ package space.iseki.executables.common
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.serialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import space.iseki.executables.pe.decodeULongHex
@@ -36,8 +37,8 @@ value class Address32(val value: UInt) : Comparable<Address32> {
      * It serializes the address as a hex string, e.g. "0x12345678".
      */
     object Serializer : KSerializer<Address32> {
-        override val descriptor: SerialDescriptor
-            get() = serialDescriptor<String>()
+        override val descriptor: SerialDescriptor =
+            PrimitiveSerialDescriptor("space.iseki.executables.common.Address32", PrimitiveKind.STRING)
 
         override fun deserialize(decoder: Decoder): Address32 {
             val v = decodeULongHex(decoder, "Address32")

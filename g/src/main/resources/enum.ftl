@@ -13,6 +13,8 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.serialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.CompositeDecoder
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
@@ -102,10 +104,9 @@ override fun compareTo(other: ${typename}): Int = value.toU${rawType}().compareT
     }
 
 internal object Serializer: KSerializer<${typename}>{
-override val descriptor: SerialDescriptor
-get() = serialDescriptor<String>()
+override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("${package}.${typename}TGenerated", PrimitiveKind.STRING)
 
-    override fun deserialize(decoder: Decoder): ${typename} {
+override fun deserialize(decoder: Decoder): ${typename} {
     try{
     if (decoder is JsonDecoder){
     val e = decoder.decodeJsonElement().jsonPrimitive
