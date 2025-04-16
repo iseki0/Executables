@@ -48,7 +48,7 @@ kotlin {
         val nativeFileSupportedMingw64Main by creating {
             dependsOn(commonMain.get())
         }
-        val nativeFileUnsupported by creating {
+        val nativeFileUnsupportedMain by creating {
             dependsOn(commonMain.get())
         }
 
@@ -70,7 +70,7 @@ kotlin {
         }
 
         fun NamedDomainObjectProvider<KotlinSourceSet>.uf() = apply {
-            get().dependsOn(nativeFileUnsupported)
+            get().dependsOn(nativeFileUnsupportedMain)
         }
 
         jsMain.uf()
