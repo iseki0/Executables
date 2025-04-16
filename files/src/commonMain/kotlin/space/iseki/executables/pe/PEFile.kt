@@ -452,56 +452,14 @@ class PEFile private constructor(
         override val header: ReadableStructure
             get() = tableItem
 
-        /**
-         * Reads bytes from the section.
-         *
-         * @param sectionOffset the offset within the section to read from
-         * @param buf the buffer to read into
-         * @param bufOffset the offset within the buffer to read into
-         * @param size the number of bytes to read
-         * @throws IndexOutOfBoundsException if buffer offset or size is out of bounds
-         * @throws IllegalArgumentException if size or section offset is negative
-         * @throws IOException if reading from the file fails
-         */
-        override fun readBytes(
-            sectionOffset: Long,
-            buf: ByteArray,
-            bufOffset: Int,
-            size: Int,
-        ) {
-            // Check parameter validity
-            if (bufOffset < 0 || bufOffset + size > buf.size) {
-                throw IndexOutOfBoundsException("Buffer offset or size out of bounds: offset=$bufOffset, size=$size, buffer size=${buf.size}")
-            }
-            if (size < 0) {
-                throw IllegalArgumentException("Size cannot be negative: $size")
-            }
-            if (sectionOffset < 0) {
-                throw IllegalArgumentException("Section offset cannot be negative: $sectionOffset")
-            }
-
-            // Calculate actual readable bytes
-            val availableBytes = maxOf(0L, sizeOfRawData.toLong() - sectionOffset)
-            if (availableBytes <= 0) {
-                // No data available to read
-                return
-            }
-
-            // Calculate actual bytes to read
-            val bytesToRead = minOf(availableBytes, size.toLong()).toInt()
-            if (bytesToRead <= 0) {
-                return
-            }
-
-            // Calculate actual position in file
-            val filePosition = pointerToRawData.value.toLong() + sectionOffset
-
-            // Read data from file
-            try {
-                dataAccessor.readFully(filePosition, buf, bufOffset, bytesToRead)
-            } catch (e: IOException) {
-                throw IOException("Failed to read section '$name' at offset $filePosition", e)
-            }
+        override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+            DataAccessor.checkReadBounds(pos, buf, off, len)
+            return dataAccessor.readAtMost(
+                pos = pos + pointerToRawData.value.toLong(),
+                buf = buf,
+                off = off,
+                len = min(len, sizeOfRawData.toInt()),
+            )
         }
 
         /**

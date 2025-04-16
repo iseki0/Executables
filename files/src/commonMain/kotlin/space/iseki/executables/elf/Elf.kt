@@ -2,6 +2,7 @@ package space.iseki.executables.elf
 
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.DataAccessor
+import space.iseki.executables.common.DataAccessor.Companion.checkReadBounds
 import space.iseki.executables.common.ExportSymbol
 import space.iseki.executables.common.ExportSymbolContainer
 import space.iseki.executables.common.FileFormat
@@ -14,6 +15,7 @@ import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.VirtualMemoryReadable
 import space.iseki.executables.share.MemReader
+import kotlin.math.min
 
 /**
  * Represents an ELF file and provides access to its contents.
@@ -267,96 +269,26 @@ class ElfFile private constructor(
             get() = sectionHeader.name
 
         override val size: Long
-            get() = sectionHeader.shSize.castToLong()
+            get() = if (sectionHeader.shType == ElfSType.SHT_NOBITS) {
+                0
+            } else sectionHeader.shSize.castToLong()
 
         override val header: ReadableStructure
             get() = sectionHeader
 
-        /**
-         * Reads bytes from the section.
-         *
-         * @param sectionOffset the offset within the section to read from
-         * @param buf the buffer to read into
-         * @param bufOffset the offset within the buffer to read into
-         * @param size the number of bytes to read
-         * @throws IndexOutOfBoundsException if buffer offset or size is out of bounds
-         * @throws IllegalArgumentException if size or section offset is negative
-         * @throws IOException if reading from the file fails
-         */
-        override fun readBytes(
-            sectionOffset: Long,
-            buf: ByteArray,
-            bufOffset: Int,
-            size: Int,
-        ) {
-            // Check parameter validity
-            if (bufOffset < 0 || bufOffset + size > buf.size) {
-                throw IndexOutOfBoundsException("Buffer offset or size out of bounds: offset=$bufOffset, size=$size, buffer size=${buf.size}")
-            }
-            if (size < 0) {
-                throw IllegalArgumentException("Size cannot be negative: $size")
-            }
-            if (sectionOffset < 0) {
-                throw IllegalArgumentException("Section offset cannot be negative: $sectionOffset")
-            }
-
-            // Calculate actual readable bytes
-            val availableBytes = maxOf(0L, this.size - sectionOffset)
-            if (availableBytes <= 0) {
-                // No data available to read
-                return
-            }
-
-            // Calculate file offset
-            val fileOffset = when (val header = sectionHeader) {
-                is Elf32Shdr -> header.shOffset.value.toLong() + sectionOffset
-                is Elf64Shdr -> header.shOffset.value.toLong() + sectionOffset
-            }
-
-            // Validate section type
-            when (sectionHeader.shType) {
-                ElfSType.SHT_NOBITS -> {
-                    // SHT_NOBITS sections don't occupy file space, fill with zeros
-                    for (i in 0 until minOf(size, availableBytes.toInt())) {
-                        buf[bufOffset + i] = 0
-                    }
-                    return
-                }
-
-                ElfSType.SHT_NULL -> {
-                    throw IllegalStateException("Cannot read from NULL section type")
-                }
-
-                else -> {
-                    // Continue with normal reading for other section types
-                }
-            }
-
-            // Check if file offset is valid
-            val dataAccessor = elf.dataAccessor
-            if (fileOffset < 0 || fileOffset >= dataAccessor.size) {
-                throw ElfFileException("Section file offset out of bounds: $fileOffset, file size: ${dataAccessor.size}")
-            }
-
-            // Check if the section data extends beyond the file
-            if (fileOffset + minOf(size.toLong(), availableBytes) > dataAccessor.size) {
-                val sectionSize = minOf(size.toLong(), availableBytes)
-                val errorMessage =
-                    "Section data extends beyond file end: offset=$fileOffset, size=$sectionSize, file size=${dataAccessor.size}"
-                throw ElfFileException(errorMessage)
-            }
-
-            // Read the actual bytes
-            val bytesToRead = minOf(size, availableBytes.toInt())
-            try {
-                dataAccessor.readFully(fileOffset, buf, bufOffset, bytesToRead)
-            } catch (e: IOException) {
-                throw ElfFileException("Failed to read section data at offset $fileOffset with size $bytesToRead", e)
-            }
-        }
 
         override fun toString(): String =
             "Section(name=$name, size=$size, type=${sectionHeader.shType}, flags=${sectionHeader.shFlags})"
+
+        override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+            checkReadBounds(pos, buf, off, len)
+            return dataAccessor.readAtMost(
+                pos = pos + sectionHeader.shOffset.castToLong(),
+                buf = buf,
+                off = off,
+                len = min(len, size.toInt()),
+            )
+        }
     }
 
     /**
@@ -620,7 +552,7 @@ class ElfFile private constructor(
             override val size: Long get() = Long.MAX_VALUE
 
             override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
-                DataAccessor.checkReadBounds(pos, buf, off, len)
+                checkReadBounds(pos, buf, off, len)
 
                 if (len <= 0) return len
 

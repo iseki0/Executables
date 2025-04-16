@@ -28,6 +28,10 @@ class SectionInputStreamTest {
                 System.arraycopy(data, sectionOffset.toInt(), buf, bufOffset, bytesToCopy)
             }
         }
+
+        override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+            TODO("Not yet implemented")
+        }
     }
 
     private fun ReadableSection.createInputStream(): InputStream {

@@ -4,13 +4,13 @@ package space.iseki.executables.common
  * Represents a section of a file that can be read.
  *
  */
-interface ReadableSection {
+interface ReadableSection : DataAccessor {
     /**
      * The size of the section in bytes.
      *
      * -1 if the size is unknown.
      */
-    val size: Long
+    override val size: Long
         get() = -1
 
     /**
@@ -41,5 +41,23 @@ interface ReadableSection {
      * @throws IOException if an I/O error occurs
      * @throws IndexOutOfBoundsException if the [bufOffset] and the [size] is out of bounds
      */
-    fun readBytes(sectionOffset: Long, buf: ByteArray, bufOffset: Int, size: Int)
+    fun readBytes(sectionOffset: Long, buf: ByteArray, bufOffset: Int, size: Int) {
+        checkReadBytesBounds(sectionOffset, buf, bufOffset, size)
+        readFully(sectionOffset, buf, bufOffset, size)
+
+    }
+
+    companion object {
+        fun checkReadBytesBounds(sectionOffset: Long, buf: ByteArray, off: Int, len: Int) {
+            DataAccessor.checkReadBounds(sectionOffset, buf, off, len)
+            if (sectionOffset + buf.size < len) {
+                throw IndexOutOfBoundsException("Read exceeds section size: pos=$sectionOffset, buf.size=${buf.size}, len=$len")
+            }
+        }
+    }
+
+    /**
+     * No-op close method.
+     */
+    override fun close() {}
 }
