@@ -5,6 +5,8 @@ import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.IOException
 import space.iseki.executables.common.OpenedFile
+import space.iseki.executables.common.ReadableSection
+import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.VirtualMemoryReadable
 import space.iseki.executables.macho.lc.DylibCommand
@@ -15,7 +17,9 @@ import space.iseki.executables.macho.lc.SegmentCommand64
 import space.iseki.executables.macho.lc.UnsupportedCommand
 import space.iseki.executables.macho.lc.UuidCommand
 import space.iseki.executables.share.MemReader
+import space.iseki.executables.share.toUnmodifiableList
 import space.iseki.executables.share.u4
+import kotlin.math.min
 
 /**
  * Represents a Mach-O file and provides access to its contents.
@@ -28,7 +32,7 @@ import space.iseki.executables.share.u4
 class MachoFile private constructor(
     private val dataAccessor: DataAccessor,
     val header: MachoHeader,
-) : AutoCloseable, OpenedFile, VirtualMemoryReadable {
+) : AutoCloseable, OpenedFile, VirtualMemoryReadable, ReadableSectionContainer {
 
     companion object : FileFormat<MachoFile> {
         override fun toString(): String = "Mach-O"
@@ -75,6 +79,28 @@ class MachoFile private constructor(
         LoaderCommands(buf)
     }
 
+    inner class Section(override val name: String, override val header: MachoSection) : ReadableSection {
+        override val size: Long
+            get() = header.size.toLong()
+
+        override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
+            DataAccessor.checkReadBounds(pos, buf, off, len)
+            return dataAccessor.readAtMost(
+                pos = pos + header.offset.toLong(),
+                buf = buf,
+                off = off,
+                len = min(len, size.toInt()),
+            )
+        }
+    }
+
+    override val sections: List<Section> by lazy {
+        segments.flatMap { it.sections }.map { section ->
+            section.addr
+            Section(section.sectName, section)
+        }
+    }
+
     inner class LoaderCommands internal constructor(val bytes: ByteArray) : AbstractList<MachoLoadCommand>() {
         override val size get() = header.ncmds.toInt()
         override fun get(index: Int): MachoLoadCommand {
@@ -112,42 +138,24 @@ class MachoFile private constructor(
         }
     }
 
-    private val vm by lazy {
-
-        data class Seg(
-            val fileOff: ULong,
-            val fileSize: ULong,
-            val vmOff: ULong,
-            val vmSize: ULong,
-        )
-
-        val segments = loaderCommands.mapNotNull {
+    private val segments by lazy {
+        loaderCommands.mapNotNull {
             when (it) {
-                is SegmentCommand -> {
-                    Seg(
-                        fileOff = it.fileOff.toULong(),
-                        fileSize = it.fileSize.toULong(),
-                        vmOff = it.vmAddr.value.toULong(),
-                        vmSize = it.vmSize.toULong(),
-                    )
-                }
-
-                is SegmentCommand64 -> {
-                    Seg(
-                        fileOff = it.fileOff,
-                        fileSize = it.fileSize,
-                        vmOff = it.vmAddr.value,
-                        vmSize = it.vmSize,
-                    )
-                }
-
+                is SegmentCommand -> MachoSegment(it)
+                is SegmentCommand64 -> MachoSegment(it)
                 else -> null
             }
-        }.sortedBy { it.vmOff }
+        }.toUnmodifiableList()
+    }
 
+    private val vm by lazy {
         val mr = MemReader(dataAccessor).apply {
-            segments.sortedBy { it.vmOff }.forEach {
-                mapMemory(vOff = it.vmOff, fOff = it.fileOff, fSize = minOf(it.fileSize, it.vmSize))
+            segments.sortedBy { it.vmAddr }.forEach {
+                mapMemory(
+                    vOff = it.vmAddr.value,
+                    fOff = it.fileOff,
+                    fSize = minOf(it.fileSize, it.vmSize),
+                )
             }
         }
 
