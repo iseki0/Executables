@@ -228,17 +228,28 @@ public final class space/iseki/executables/common/OpenedFile$DefaultImpls {
 	public static fun getRootHeaders (Lspace/iseki/executables/common/OpenedFile;)Ljava/util/Map;
 }
 
-public abstract interface class space/iseki/executables/common/ReadableSection {
+public abstract interface class space/iseki/executables/common/ReadableSection : space/iseki/executables/common/DataAccessor {
+	public static final field Companion Lspace/iseki/executables/common/ReadableSection$Companion;
+	public fun close ()V
 	public fun getHeader ()Lspace/iseki/executables/common/ReadableStructure;
 	public fun getName ()Ljava/lang/String;
 	public fun getSize ()J
-	public abstract fun readBytes (J[BII)V
+	public fun readBytes (J[BII)V
+}
+
+public final class space/iseki/executables/common/ReadableSection$Companion {
+	public final fun checkReadBytesBounds (J[BII)V
 }
 
 public final class space/iseki/executables/common/ReadableSection$DefaultImpls {
+	public static fun close (Lspace/iseki/executables/common/ReadableSection;)V
 	public static fun getHeader (Lspace/iseki/executables/common/ReadableSection;)Lspace/iseki/executables/common/ReadableStructure;
 	public static fun getName (Lspace/iseki/executables/common/ReadableSection;)Ljava/lang/String;
 	public static fun getSize (Lspace/iseki/executables/common/ReadableSection;)J
+	public static fun readAtMost (Lspace/iseki/executables/common/ReadableSection;J[B)I
+	public static fun readBytes (Lspace/iseki/executables/common/ReadableSection;J[BII)V
+	public static fun readFully (Lspace/iseki/executables/common/ReadableSection;J[B)V
+	public static fun readFully (Lspace/iseki/executables/common/ReadableSection;J[BII)V
 }
 
 public abstract interface class space/iseki/executables/common/ReadableSectionContainer {
@@ -1203,7 +1214,7 @@ public final class space/iseki/executables/elf/ElfFile$Section : space/iseki/exe
 	public fun getName ()Ljava/lang/String;
 	public final fun getSectionHeader ()Lspace/iseki/executables/elf/ElfShdr;
 	public fun getSize ()J
-	public fun readBytes (J[BII)V
+	public fun readAtMost (J[BII)I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -2034,13 +2045,14 @@ public final class space/iseki/executables/macho/-MachoVMProt {
 	public static final fun MachoVMProt-WZ4Q5Ns (I)I
 }
 
-public final class space/iseki/executables/macho/MachoFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile, space/iseki/executables/common/VirtualMemoryReadable {
+public final class space/iseki/executables/macho/MachoFile : java/lang/AutoCloseable, space/iseki/executables/common/OpenedFile, space/iseki/executables/common/ReadableSectionContainer, space/iseki/executables/common/VirtualMemoryReadable {
 	public static final field Companion Lspace/iseki/executables/macho/MachoFile$Companion;
 	public synthetic fun <init> (Lspace/iseki/executables/common/DataAccessor;Lspace/iseki/executables/macho/MachoHeader;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun close ()V
 	public final fun getHeader ()Lspace/iseki/executables/macho/MachoHeader;
 	public final fun getLoaderCommands ()Lspace/iseki/executables/macho/MachoFile$LoaderCommands;
 	public fun getRootHeaders ()Ljava/util/Map;
+	public fun getSections ()Ljava/util/List;
 	public fun virtualMemory ()Lspace/iseki/executables/common/DataAccessor;
 }
 
@@ -2061,6 +2073,15 @@ public final class space/iseki/executables/macho/MachoFile$LoaderCommands : kotl
 	public fun indexOf (Lspace/iseki/executables/macho/lc/MachoLoadCommand;)I
 	public final fun lastIndexOf (Ljava/lang/Object;)I
 	public fun lastIndexOf (Lspace/iseki/executables/macho/lc/MachoLoadCommand;)I
+}
+
+public final class space/iseki/executables/macho/MachoFile$Section : space/iseki/executables/common/ReadableSection {
+	public fun <init> (Lspace/iseki/executables/macho/MachoFile;Ljava/lang/String;Lspace/iseki/executables/macho/MachoSection;)V
+	public synthetic fun getHeader ()Lspace/iseki/executables/common/ReadableStructure;
+	public fun getHeader ()Lspace/iseki/executables/macho/MachoSection;
+	public fun getName ()Ljava/lang/String;
+	public fun getSize ()J
+	public fun readAtMost (J[BII)I
 }
 
 public final class space/iseki/executables/macho/MachoFileException : space/iseki/executables/common/CommonFileException {
@@ -2449,6 +2470,31 @@ public final class space/iseki/executables/macho/MachoMagic$Constants {
 	public static final field MH_MAGIC_64 I
 }
 
+public final class space/iseki/executables/macho/MachoSection : space/iseki/executables/common/ReadableStructure {
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3-mVaMEX8 ()J
+	public final fun component4-s-VKNKU ()J
+	public final fun component5-pVg5ArA ()I
+	public final fun component6-pVg5ArA ()I
+	public final fun component7-pVg5ArA ()I
+	public final fun component8-pVg5ArA ()I
+	public final fun component9-DgF11p4 ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAddr-mVaMEX8 ()J
+	public final fun getAlign-pVg5ArA ()I
+	public fun getFields ()Ljava/util/Map;
+	public final fun getFlags-DgF11p4 ()I
+	public final fun getNreloc-pVg5ArA ()I
+	public final fun getOffset-pVg5ArA ()I
+	public final fun getReloff-pVg5ArA ()I
+	public final fun getSectName ()Ljava/lang/String;
+	public final fun getSegName ()Ljava/lang/String;
+	public final fun getSize-s-VKNKU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class space/iseki/executables/macho/MachoSectionAttributes : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final field Companion Lspace/iseki/executables/macho/MachoSectionAttributes$Companion;
 	public synthetic fun add (Ljava/lang/Object;)Z
@@ -2594,6 +2640,34 @@ public final class space/iseki/executables/macho/MachoSectionType$Constants {
 	public static final field S_THREAD_LOCAL_VARIABLE_POINTERS I
 	public static final field S_THREAD_LOCAL_ZEROFILL I
 	public static final field S_ZEROFILL I
+}
+
+public final class space/iseki/executables/macho/MachoSegment : space/iseki/executables/common/ReadableStructure {
+	public synthetic fun <init> (Ljava/lang/String;JJJJIIIILjava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Ljava/util/List;
+	public final fun component2-mVaMEX8 ()J
+	public final fun component3-s-VKNKU ()J
+	public final fun component4-s-VKNKU ()J
+	public final fun component5-s-VKNKU ()J
+	public final fun component6-V7pbsVg ()I
+	public final fun component7-V7pbsVg ()I
+	public final fun component8-pVg5ArA ()I
+	public final fun component9-vt3xTI4 ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getFields ()Ljava/util/Map;
+	public final fun getFileOff-s-VKNKU ()J
+	public final fun getFileSize-s-VKNKU ()J
+	public final fun getFlags-vt3xTI4 ()I
+	public final fun getInitProt-V7pbsVg ()I
+	public final fun getMaxProt-V7pbsVg ()I
+	public final fun getNsects-pVg5ArA ()I
+	public final fun getSections ()Ljava/util/List;
+	public final fun getSegName ()Ljava/lang/String;
+	public final fun getVmAddr-mVaMEX8 ()J
+	public final fun getVmSize-s-VKNKU ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class space/iseki/executables/macho/MachoSegmentFlag : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
@@ -3602,7 +3676,7 @@ public final class space/iseki/executables/pe/PEFile$Section : space/iseki/execu
 	public final fun getTableItem ()Lspace/iseki/executables/pe/SectionTableItem;
 	public final fun getVirtualAddress-7OlPWkI ()I
 	public final fun getVirtualSize-pVg5ArA ()I
-	public fun readBytes (J[BII)V
+	public fun readAtMost (J[BII)I
 	public fun toString ()Ljava/lang/String;
 }
 
