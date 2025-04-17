@@ -70,4 +70,29 @@ class MachoTest {
             }
         }
     }
+
+    @Test
+    fun testReadGoHello() {
+        val path = "src/fileAccessTest/resources/macho/go-hello"
+        MachoFile.open(path).use { file ->
+            for (section in file.sections) {
+                val dataFilename = "${section.header.segName}${section.name}"
+                val expected = openNativeFileDataAccessor("$path.sections/$dataFilename").use { r ->
+                    ByteArray(r.size.toInt()).also { r.readFully(0, it) }
+                }
+                val actual = ByteArray(section.size.toInt())
+                section.readBytes(0, actual, 0, actual.size)
+                assertEquals(
+                    expected = expected.size,
+                    actual = actual.size,
+                    message = "Section $dataFilename size mismatch: expected ${expected.size} bytes, but got ${actual.size} bytes.",
+                )
+                assertContentEquals(
+                    expected = expected,
+                    actual = actual,
+                    message = "Section $dataFilename mismatch: expected ${expected.size} bytes, but got ${actual.size} bytes.",
+                )
+            }
+        }
+    }
 }

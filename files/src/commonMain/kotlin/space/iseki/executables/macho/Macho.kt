@@ -80,11 +80,14 @@ class MachoFile private constructor(
     }
 
     inner class Section(override val name: String, override val header: MachoSection) : ReadableSection {
+        private val zero
+            get() = header.offset == 0u || header.flags.type == MachoSectionType.S_ZEROFILL || header.flags.type == MachoSectionType.S_GB_ZEROFILL
         override val size: Long
-            get() = header.size.toLong()
+            get() = if (zero) 0 else header.size.toLong()
 
         override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
             DataAccessor.checkReadBounds(pos, buf, off, len)
+            if (zero) return 0
             return dataAccessor.readAtMost(
                 pos = pos + header.offset.toLong(),
                 buf = buf,
@@ -96,7 +99,6 @@ class MachoFile private constructor(
 
     override val sections: List<Section> by lazy {
         segments.flatMap { it.sections }.map { section ->
-            section.addr
             Section(section.sectName, section)
         }
     }
