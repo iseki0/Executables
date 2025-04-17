@@ -2,6 +2,7 @@ package space.iseki.executables.sbom
 
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.detect
+import space.iseki.executables.macho.MachoFile
 import space.iseki.executables.pe.PEFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,6 +16,7 @@ class GoSBomTest {
         private const val GO117_PATH = "src/fileAccessTest/resources/sbom/go117"
         private const val NOTGO_PATH = "src/fileAccessTest/resources/sbom/notgo"
         private const val GO_EXE = "src/fileAccessTest/resources/pe/go.exe"
+        private const val GO_MACHO = "src/fileAccessTest/resources/macho/go-hello"
     }
 
     /**
@@ -146,6 +148,30 @@ class GoSBomTest {
             build	GOAMD64=v1
         """.trimIndent()
         assertEquals(expectedSettings, GoBuildInfo.parse(sample).settings)
+    }
+
+    @Test
+    fun testReadMacho() {
+        val sbom = MachoFile.open(GO_MACHO).use { file ->
+            GoSBom.readFrom(file)
+        }
+        val settings = listOf(
+            GoBuildSetting("-buildmode", "exe"),
+            GoBuildSetting("-compiler", "gc"),
+            GoBuildSetting("-trimpath", "true"),
+            GoBuildSetting("CGO_ENABLED", "0"),
+            GoBuildSetting("GOARCH", "amd64"),
+            GoBuildSetting("GOOS", "darwin"),
+            GoBuildSetting("GOAMD64", "v1"),
+        )
+        val expected = GoBuildInfo(
+            goVersion = "go1.24.0",
+            path = "command-line-arguments",
+            main = null,
+            settings = settings,
+            deps = emptyList(),
+        )
+        assertEquals(expected, sbom.buildInfo)
     }
 
 } 

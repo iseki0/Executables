@@ -9,6 +9,7 @@ import space.iseki.executables.common.readFully
 import space.iseki.executables.elf.ElfFile
 import space.iseki.executables.elf.ElfPFlags
 import space.iseki.executables.elf.ElfPType
+import space.iseki.executables.macho.MachoFile
 import space.iseki.executables.pe.PEFile
 import space.iseki.executables.pe.SectionFlags
 import space.iseki.executables.share.u4b
@@ -105,6 +106,15 @@ class GoSBom internal constructor(
                         memSize = section.virtualSize.toLong()
                     }
 
+                    is MachoFile -> {
+                        val se = file.sections.firstOrNull { it.name == "__go_buildinfo" }
+                        if (se != null) {
+                            vAddr = se.header.addr.toLong()
+                            memSize = se.size
+                        } else {
+                            throw SBomNotFoundException("Cannot find data section containing Go buildinfo")
+                        }
+                    }
                     else -> throw SBomNotFoundException("Unsupported file format")
                 }
 
