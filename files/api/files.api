@@ -4478,6 +4478,7 @@ public final class space/iseki/executables/sbom/GoModule {
 	public final fun component4 ()Lspace/iseki/executables/sbom/GoModule;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getPath ()Ljava/lang/String;
+	public final fun getPurl ()Ljava/lang/String;
 	public final fun getReplace ()Lspace/iseki/executables/sbom/GoModule;
 	public final fun getSum ()Ljava/lang/String;
 	public final fun getVersion ()Ljava/lang/String;

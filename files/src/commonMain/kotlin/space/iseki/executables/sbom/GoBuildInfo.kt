@@ -1,6 +1,7 @@
 package space.iseki.executables.sbom
 
 import kotlinx.serialization.Serializable
+import space.iseki.purl.PUrl
 
 /**
  * Represents a Go module with path, version and other information.
@@ -16,7 +17,21 @@ data class GoModule internal constructor(
     val version: String,
     val sum: String? = null,
     val replace: GoModule? = null,
-)
+) {
+    val purl by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        PUrl.Builder().apply {
+            type("golang")
+            val chunks = path.split('/')
+            if (chunks.size > 1) {
+                namespace(chunks.subList(0, chunks.size - 1))
+                name(chunks.last())
+            } else {
+                name(path)
+            }
+            version(version)
+        }.build().toString()
+    }
+}
 
 /**
  * Represents a Go build setting as key-value pair.
@@ -52,7 +67,7 @@ data class GoBuildInfo internal constructor(
             val lines = data.lines()
             var lineNum = 1
 
-            var path: String = ""
+            var path = ""
             var main: GoModule? = null
             val deps = mutableListOf<GoModule>()
             val settings = mutableListOf<GoBuildSetting>()

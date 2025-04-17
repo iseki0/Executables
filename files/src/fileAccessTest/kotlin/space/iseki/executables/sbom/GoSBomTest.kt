@@ -43,6 +43,7 @@ class GoSBomTest {
             assertNotNull(main)
             assertEquals("example.com/go117", main.path)
             assertEquals("(devel)", main.version)
+            assertEquals("pkg:golang/example.com/go117@(devel)", main.purl)
 
             // Verify we have dependencies
             val deps = sbom.buildInfo?.deps
