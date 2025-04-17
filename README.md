@@ -8,15 +8,14 @@ An executable file parsing library, written in Kotlin Multiplatform.
 
 Currently, this library can:
 
-- [x] PE: Read basic information (COFF header, optional header, sections)
-- [x] PE: Read version information (aka. [VS_VERSIONINFO] structure)
-- [x] PE: Read import/export symbol tables
-- [x] PE: Read resources and section data
-- [x] ELF: Read basic information (ELF Header, Section headers, Program headers)
-- [x] ELF: Read symbol tables
-- [x] ELF: Read section data
-- [x] Macho: Read basic information (Macho header, linker commands(partially))
-- [x] Chore: Jigsaw ready
+|                            | PE | ELF | Mach-O |
+|----------------------------|----|-----|--------|
+| Read headers               | ✅  | ✅   | ✅      |
+| Read import/export symbols | ✅  | ✅   | 🚧     |
+| Read sections              | ✅  | ✅   | ✅      |
+| Read resources             | ✅  | N/A | N/A    |
+| Reading in VA              | ✅  | ✅   | ✅      |
+
 - [x] Kotlin/Native: File access
 - [x] SBOM: Go
 - [ ] SBOM: GraalVM Native Image
