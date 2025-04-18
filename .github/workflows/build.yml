@@ -54,6 +54,51 @@ jobs:
           path: files/build/reports
           if-no-files-found: warn
 
+  tool-build:
+    needs: check
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version-file: '.java-version'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+      - uses: actions/cache@v4
+        name: Cache Konan
+        with:
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
+          path: |
+            ~/.konan
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GradleEncryptionKey }} # openssl rand -base64 16
+          validate-wrappers: true
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-use-agree: "yes"
+          gradle-version: wrapper
+      - name: Run build
+        run: ./gradlew :bin-tool:build --stacktrace
+      - name: Upload build reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bin-tool-build-reports-${{ matrix.os }}
+          path: bin-tool/build/reports
+          if-no-files-found: warn
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: bin-tool/build/bin/*/releaseExecutable
+
+
   publish:
     needs: check
     if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
