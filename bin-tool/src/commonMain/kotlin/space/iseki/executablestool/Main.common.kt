@@ -58,7 +58,7 @@ internal fun handleCommand(args: List<String>) {
                 }
             }
         }
-        val goSBom = GoSBom.readFromOrNull(file)
+        val goSBom = GoSBom.readFromOrNull(file)?.buildInfo?.let { json.encodeToString(it) }
         if (goSBom != null) {
             println("File go sbom:")
             println(goSBom)
