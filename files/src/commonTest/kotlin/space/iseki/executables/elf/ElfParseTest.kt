@@ -1,5 +1,6 @@
 package space.iseki.executables.elf
 
+import space.iseki.executables.common.toAddr
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -146,7 +147,7 @@ class ElfParseTest {
         assertEquals(ElfType.ET_EXEC, ehdr.eType)
         assertEquals(ElfMachine.I386, ehdr.eMachine)
         assertEquals(1u, ehdr.eVersion)
-        assertEquals(0x8048000UL, ehdr.eEntry)
+        assertEquals(0x8048000UL.toAddr(), ehdr.eEntry)
         assertEquals(52UL, ehdr.ePhoff)
         assertEquals(2104UL, ehdr.eShoff)
         assertEquals(0u, ehdr.eFlags)
@@ -261,7 +262,7 @@ class ElfParseTest {
         assertEquals(ElfType.ET_DYN, ehdr.eType)
         assertEquals(ElfMachine.X86_64, ehdr.eMachine)
         assertEquals(1u, ehdr.eVersion)
-        assertEquals(0x1040UL, ehdr.eEntry)
+        assertEquals(0x1040UL.toAddr(), ehdr.eEntry)
         assertEquals(64UL, ehdr.ePhoff)
         assertEquals(13624UL, ehdr.eShoff)
         assertEquals(0u, ehdr.eFlags)

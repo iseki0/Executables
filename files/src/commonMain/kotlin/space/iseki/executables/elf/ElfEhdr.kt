@@ -4,7 +4,10 @@ package space.iseki.executables.elf
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import space.iseki.executables.common.Address32
+import space.iseki.executables.common.Address64
 import space.iseki.executables.common.ReadableStructure
+import space.iseki.executables.common.toAddr
 import space.iseki.executables.share.u2
 import space.iseki.executables.share.u4
 import space.iseki.executables.share.u8
@@ -56,7 +59,7 @@ data class ElfEhdr internal constructor(
      * If the file has no associated entry point, this member holds zero.
      * For 32-bit ELF files, only the lower 32 bits are meaningful.
      */
-    val eEntry: ULong,
+    val eEntry: Address64,
 
     /**
      * This member holds the program header table's file offset in bytes.
@@ -128,34 +131,34 @@ data class ElfEhdr internal constructor(
                 "is64Bit" to is64Bit,
                 "eType" to eType,
                 "eMachine" to eMachine,
-                "eVersion" to Elf64Word(eVersion),
-                "eEntry" to Elf64Addr(eEntry),
-                "ePhoff" to Elf64Off(ePhoff),
-                "eShoff" to Elf64Off(eShoff),
-                "eFlags" to Elf64Word(eFlags),
-                "eEhsize" to Elf64Half(eEhsize),
-                "ePhentsize" to Elf64Half(ePhentsize),
-                "ePhnum" to Elf64Half(ePhnum),
-                "eShentsize" to Elf64Half(eShentsize),
-                "eShnum" to Elf64Half(eShnum),
-                "eShstrndx" to Elf64Half(eShstrndx),
+                "eVersion" to eVersion,
+                "eEntry" to eEntry,
+                "ePhoff" to ePhoff,
+                "eShoff" to eShoff,
+                "eFlags" to eFlags,
+                "eEhsize" to eEhsize,
+                "ePhentsize" to ePhentsize,
+                "ePhnum" to ePhnum,
+                "eShentsize" to eShentsize,
+                "eShnum" to eShnum,
+                "eShstrndx" to eShstrndx,
             )
         } else {
             mapOf(
                 "is64Bit" to is64Bit,
                 "eType" to eType,
                 "eMachine" to eMachine,
-                "eVersion" to Elf32Word(eVersion),
-                "eEntry" to Elf32Addr(eEntry.toUInt()),
-                "ePhoff" to Elf32Off(ePhoff.toUInt()),
-                "eShoff" to Elf32Off(eShoff.toUInt()),
-                "eFlags" to Elf32Word(eFlags),
-                "eEhsize" to Elf32Half(eEhsize),
-                "ePhentsize" to Elf32Half(ePhentsize),
-                "ePhnum" to Elf32Half(ePhnum),
-                "eShentsize" to Elf32Half(eShentsize),
-                "eShnum" to Elf32Half(eShnum),
-                "eShstrndx" to Elf32Half(eShstrndx),
+                "eVersion" to eVersion,
+                "eEntry" to Address32(eEntry.value.toUInt()),
+                "ePhoff" to ePhoff.toUInt(),
+                "eShoff" to eShoff.toUInt(),
+                "eFlags" to eFlags,
+                "eEhsize" to eEhsize,
+                "ePhentsize" to ePhentsize,
+                "ePhnum" to ePhnum,
+                "eShentsize" to eShentsize,
+                "eShnum" to eShnum,
+                "eShstrndx" to eShstrndx,
             )
         }
 
@@ -170,7 +173,7 @@ data class ElfEhdr internal constructor(
                 eType = ElfType(bytes.u2(off + 16, le)),
                 eMachine = ElfMachine(bytes.u2(off + 18, le)),
                 eVersion = bytes.u4(off + 20, le),
-                eEntry = bytes.u4(off + 24, le).toULong(),
+                eEntry = bytes.u4(off + 24, le).toULong().toAddr(),
                 ePhoff = bytes.u4(off + 28, le).toULong(),
                 eShoff = bytes.u4(off + 32, le).toULong(),
                 eFlags = bytes.u4(off + 36, le),
@@ -193,7 +196,7 @@ data class ElfEhdr internal constructor(
                 eType = ElfType(bytes.u2(off + 16, le)),
                 eMachine = ElfMachine(bytes.u2(off + 18, le)),
                 eVersion = bytes.u4(off + 20, le),
-                eEntry = bytes.u8(off + 24, le),
+                eEntry = bytes.u8(off + 24, le).toAddr(),
                 ePhoff = bytes.u8(off + 32, le),
                 eShoff = bytes.u8(off + 40, le),
                 eFlags = bytes.u4(off + 48, le),

@@ -1,6 +1,7 @@
 package space.iseki.executables.elf
 
 import kotlinx.serialization.json.Json
+import space.iseki.executables.common.toAddr
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -22,7 +23,7 @@ class ElfHeadersTest {
             eType = ElfType.ET_EXEC,
             eMachine = ElfMachine.I386,
             eVersion = 1u,
-            eEntry = 0x8048000UL,
+            eEntry = 0x8048000UL.toAddr(),
             ePhoff = 52UL,
             eShoff = 2104UL,
             eFlags = 0u,
@@ -49,7 +50,7 @@ class ElfHeadersTest {
         assertEquals(ElfType.ET_EXEC, deserialized.eType)
         assertEquals(ElfMachine.I386, deserialized.eMachine)
         assertEquals(1u, deserialized.eVersion)
-        assertEquals(0x8048000UL, deserialized.eEntry)
+        assertEquals(0x8048000UL.toAddr(), deserialized.eEntry)
         assertEquals(52UL, deserialized.ePhoff)
         assertEquals(2104UL, deserialized.eShoff)
         assertEquals(0u, deserialized.eFlags)
@@ -69,7 +70,7 @@ class ElfHeadersTest {
             eType = ElfType.ET_DYN,
             eMachine = ElfMachine.X86_64,
             eVersion = 1u,
-            eEntry = 0x1040UL,
+            eEntry = 0x1040UL.toAddr(),
             ePhoff = 64UL,
             eShoff = 13624UL,
             eFlags = 0u,
@@ -96,7 +97,7 @@ class ElfHeadersTest {
         assertEquals(ElfType.ET_DYN, deserialized.eType)
         assertEquals(ElfMachine.X86_64, deserialized.eMachine)
         assertEquals(1u, deserialized.eVersion)
-        assertEquals(0x1040UL, deserialized.eEntry)
+        assertEquals(0x1040UL.toAddr(), deserialized.eEntry)
         assertEquals(64UL, deserialized.ePhoff)
         assertEquals(13624UL, deserialized.eShoff)
         assertEquals(0u, deserialized.eFlags)
@@ -192,7 +193,7 @@ class ElfHeadersTest {
             eType = ElfType.ET_EXEC,
             eMachine = ElfMachine.I386,
             eVersion = 1u,
-            eEntry = 0x8048000UL,
+            eEntry = 0x8048000UL.toAddr(),
             ePhoff = 52UL,
             eShoff = 2104UL,
             eFlags = 0u,
@@ -209,7 +210,7 @@ class ElfHeadersTest {
             eType = ElfType.ET_DYN,
             eMachine = ElfMachine.X86_64,
             eVersion = 1u,
-            eEntry = 0x1040UL,
+            eEntry = 0x1040UL.toAddr(),
             ePhoff = 64UL,
             eShoff = 13624UL,
             eFlags = 0u,
@@ -227,17 +228,17 @@ class ElfHeadersTest {
         assertEquals(false, fields32["is64Bit"])
         assertEquals(ElfType.ET_EXEC, fields32["eType"])
         assertEquals(ElfMachine.I386, fields32["eMachine"])
-        assertEquals(Elf32Word(1u), fields32["eVersion"])
-        assertEquals(Elf32Addr(0x8048000u), fields32["eEntry"])
-        assertEquals(Elf32Off(52u), fields32["ePhoff"])
-        assertEquals(Elf32Off(2104u), fields32["eShoff"])
-        assertEquals(Elf32Word(0u), fields32["eFlags"])
-        assertEquals(Elf32Half(52u), fields32["eEhsize"])
-        assertEquals(Elf32Half(32u), fields32["ePhentsize"])
-        assertEquals(Elf32Half(8u), fields32["ePhnum"])
-        assertEquals(Elf32Half(40u), fields32["eShentsize"])
-        assertEquals(Elf32Half(25u), fields32["eShnum"])
-        assertEquals(Elf32Half(24u), fields32["eShstrndx"])
+        assertEquals(1u, fields32["eVersion"])
+        assertEquals(0x8048000u.toAddr(), fields32["eEntry"])
+        assertEquals(52u, fields32["ePhoff"])
+        assertEquals(2104u, fields32["eShoff"])
+        assertEquals(0u, fields32["eFlags"])
+        assertEquals(52u, fields32["eEhsize"])
+        assertEquals(32u, fields32["ePhentsize"])
+        assertEquals(8u, fields32["ePhnum"])
+        assertEquals(40u, fields32["eShentsize"])
+        assertEquals(25u, fields32["eShnum"])
+        assertEquals(24u, fields32["eShstrndx"])
 
         // 验证64位ElfEhdr的fields映射
         val fields64 = elf64Ehdr.fields
@@ -245,17 +246,17 @@ class ElfHeadersTest {
         assertEquals(true, fields64["is64Bit"])
         assertEquals(ElfType.ET_DYN, fields64["eType"])
         assertEquals(ElfMachine.X86_64, fields64["eMachine"])
-        assertEquals(Elf64Word(1u), fields64["eVersion"])
-        assertEquals(Elf64Addr(0x1040u), fields64["eEntry"])
-        assertEquals(Elf64Off(64u), fields64["ePhoff"])
-        assertEquals(Elf64Off(13624u), fields64["eShoff"])
-        assertEquals(Elf64Word(0u), fields64["eFlags"])
-        assertEquals(Elf64Half(64u), fields64["eEhsize"])
-        assertEquals(Elf64Half(56u), fields64["ePhentsize"])
-        assertEquals(Elf64Half(11u), fields64["ePhnum"])
-        assertEquals(Elf64Half(64u), fields64["eShentsize"])
-        assertEquals(Elf64Half(30u), fields64["eShnum"])
-        assertEquals(Elf64Half(29u), fields64["eShstrndx"])
+        assertEquals(1u, fields64["eVersion"])
+        assertEquals(0x1040uL.toAddr(), fields64["eEntry"])
+        assertEquals(64u, fields64["ePhoff"])
+        assertEquals(13624u, fields64["eShoff"])
+        assertEquals(0u, fields64["eFlags"])
+        assertEquals(64u, fields64["eEhsize"])
+        assertEquals(56u, fields64["ePhentsize"])
+        assertEquals(11u, fields64["ePhnum"])
+        assertEquals(64u, fields64["eShentsize"])
+        assertEquals(30u, fields64["eShnum"])
+        assertEquals(29u, fields64["eShstrndx"])
     }
 
     @Test
