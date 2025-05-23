@@ -1,4 +1,5 @@
 @file:JvmName("ByteArrayUtilsKt0")
+
 package space.iseki.executables.share
 
 import kotlin.jvm.JvmName
@@ -56,3 +57,14 @@ internal expect fun ByteArray.u8b(offset: Int): ULong
 internal fun ByteArray.u2(offset: Int, littleEndian: Boolean): UShort = if (littleEndian) u2l(offset) else u2b(offset)
 internal fun ByteArray.u4(offset: Int, littleEndian: Boolean): UInt = if (littleEndian) u4l(offset) else u4b(offset)
 internal fun ByteArray.u8(offset: Int, littleEndian: Boolean): ULong = if (littleEndian) u8l(offset) else u8b(offset)
+
+internal fun ByteArray.cstrUtf8(offset: Int): String {
+    var end = offset
+    while (end < size && this[end] != 0.toByte()) {
+        end++
+    }
+    if (end >= size) {
+        throw IllegalStateException("Null terminator not found for UTF-8 string starting at offset $offset")
+    }
+    return decodeToString(offset, end)
+}

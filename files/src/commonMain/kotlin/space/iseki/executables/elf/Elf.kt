@@ -15,6 +15,10 @@ import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.VirtualMemoryReadable
 import space.iseki.executables.share.MemReader
+import space.iseki.executables.share.cstrUtf8
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import kotlin.math.min
 
 /**
@@ -113,22 +117,9 @@ class ElfFile private constructor(
                     throw ElfFileException("Invalid section name index: $nameIndex, string table size: $stringTableSize")
                 }
 
-                // Read null-terminated string
-                val nameBytes = mutableListOf<Byte>()
-                var i = nameIndex
-                while (i < stringTableSize && stringTableData[i] != 0.toByte()) {
-                    nameBytes.add(stringTableData[i])
-                    i++
-                }
-
-                // Check if we found a null terminator
-                if (i == stringTableSize) {
-                    throw ElfFileException("Section name at index $nameIndex is not null-terminated")
-                }
-
                 val name = try {
-                    nameBytes.toByteArray().decodeToString()
-                } catch (e: Exception) {
+                    stringTableData.cstrUtf8(nameIndex)
+                } catch (e: IllegalStateException) {
                     throw ElfFileException("Failed to decode section name at index $nameIndex", e)
                 }
 
@@ -193,7 +184,7 @@ class ElfFile private constructor(
             } catch (e: IOException) {
                 throw ElfFileException("Failed to read program headers at offset $phOffset", e)
             }
-            val programHeaders = try {
+            val programHeaders = catchByteArrayParsing("program headers") {
                 List(phNum) { i ->
                     if (ehdr.is64Bit) {
                         ElfPhdr.parse64(phBuffer, i * phEntSize, ident)
@@ -201,8 +192,6 @@ class ElfFile private constructor(
                         ElfPhdr.parse32(phBuffer, i * phEntSize, ident)
                     }
                 }
-            } catch (e: Exception) {
-                throw ElfFileException("Failed to parse program headers, invalid format", e)
             }
 
             val le = ident.eiData == ElfData.ELFDATA2LSB
@@ -227,7 +216,7 @@ class ElfFile private constructor(
             } catch (e: IOException) {
                 throw ElfFileException("Failed to read section headers at offset $shOffset", e)
             }
-            val sectionHeaders = try {
+            val sectionHeaders = catchByteArrayParsing("section headers") {
                 List(shNum) { i ->
                     if (ehdr.is64Bit) {
                         ElfShdr.parse64(shBuffer, i * shEntSize, le)
@@ -235,16 +224,10 @@ class ElfFile private constructor(
                         ElfShdr.parse32(shBuffer, i * shEntSize, le)
                     }
                 }
-            } catch (e: Exception) {
-                throw ElfFileException("Failed to parse section headers, invalid format", e)
             }
 
             // Read section name string table and add names to section headers
-            val sectionHeadersWithNames = try {
-                readSectionNames(accessor, ehdr, sectionHeaders)
-            } catch (e: Exception) {
-                throw ElfFileException("Failed to read section names", e)
-            }
+            val sectionHeadersWithNames = readSectionNames(accessor, ehdr, sectionHeaders)
 
             return ElfFile(accessor, ident, ehdr, programHeaders, sectionHeadersWithNames)
         }
@@ -579,3 +562,18 @@ class ElfFile private constructor(
 
 }
 
+@OptIn(ExperimentalContracts::class)
+internal inline fun <R> catchByteArrayParsing(duringParsing: String, block: () -> R): R {
+    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+    return try {
+        block()
+    } catch (e: Exception) {
+        when (e) {
+            is IndexOutOfBoundsException, is IllegalArgumentException, is IllegalStateException -> {
+                throw ElfFileException("Failed to parse $duringParsing, invalid format", e)
+            }
+
+            else -> throw e
+        }
+    }
+}
