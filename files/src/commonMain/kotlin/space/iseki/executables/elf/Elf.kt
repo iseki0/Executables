@@ -3,6 +3,7 @@ package space.iseki.executables.elf
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.DataAccessor.Companion.checkReadBounds
+import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.ExportSymbol
 import space.iseki.executables.common.ExportSymbolContainer
 import space.iseki.executables.common.FileFormat
@@ -14,6 +15,7 @@ import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.VirtualMemoryReadable
+import space.iseki.executables.share.CStringReadingException
 import space.iseki.executables.share.MemReader
 import space.iseki.executables.share.cstrUtf8
 import kotlin.contracts.ExperimentalContracts
@@ -97,12 +99,8 @@ class ElfFile private constructor(
             }
 
             val stringTableData = ByteArray(stringTableSize)
-            try {
+            tryReading("string table", stringTableOffset, stringTableSize) {
                 accessor.readFully(stringTableOffset, stringTableData)
-            } catch (e: IOException) {
-                throw ElfFileException(
-                    "Failed to read string table at offset $stringTableOffset with size $stringTableSize", e
-                )
             }
 
             // Verify first byte is null as per ELF spec
@@ -117,10 +115,8 @@ class ElfFile private constructor(
                     throw ElfFileException("Invalid section name index: $nameIndex, string table size: $stringTableSize")
                 }
 
-                val name = try {
-                    stringTableData.cstrUtf8(nameIndex)
-                } catch (e: IllegalStateException) {
-                    throw ElfFileException("Failed to decode section name at index $nameIndex", e)
+                val name = runCatching { stringTableData.cstrUtf8(nameIndex) }.getOrElse {
+                    throw ElfFileException("Failed to decode section name at index $nameIndex", it)
                 }
 
                 // Create a new section header with name using the copy function
@@ -144,11 +140,11 @@ class ElfFile private constructor(
                 throw ElfFileException("Failed to read ELF identification bytes", e)
             }
 
-            val ident = ElfIdentification.parse(buf, 0)
+            val ident = tryByteArrayParsing("ELF Identification") { ElfIdentification.parse(buf, 0) }
             val buf2 = ByteArray(ident.eiClass.ehdrSize)
             try {
                 accessor.readFully(0, buf2)
-            } catch (e: IOException) {
+            } catch (e: EOFException) {
                 throw ElfFileException("Failed to read ELF header", e)
             }
 
@@ -184,7 +180,7 @@ class ElfFile private constructor(
             } catch (e: IOException) {
                 throw ElfFileException("Failed to read program headers at offset $phOffset", e)
             }
-            val programHeaders = catchByteArrayParsing("program headers") {
+            val programHeaders = tryByteArrayParsing("program headers") {
                 List(phNum) { i ->
                     if (ehdr.is64Bit) {
                         ElfPhdr.parse64(phBuffer, i * phEntSize, ident)
@@ -211,12 +207,10 @@ class ElfFile private constructor(
                 throw ElfFileException("Section header table extends beyond file end: offset=$shOffset, size=$shSize, file size=${accessor.size}")
             }
             val shBuffer = ByteArray(shSize)
-            try {
+            tryReading("section headers", shOffset, shSize) {
                 if (shSize > 0) accessor.readFully(shOffset, shBuffer)
-            } catch (e: IOException) {
-                throw ElfFileException("Failed to read section headers at offset $shOffset", e)
             }
-            val sectionHeaders = catchByteArrayParsing("section headers") {
+            val sectionHeaders = tryByteArrayParsing("section headers") {
                 List(shNum) { i ->
                     if (ehdr.is64Bit) {
                         ElfShdr.parse64(shBuffer, i * shEntSize, le)
@@ -419,7 +413,7 @@ class ElfFile private constructor(
             // Find the associated string table section
             val stringTableIndex = symSection.shLink.toInt()
             if (stringTableIndex < 0 || stringTableIndex >= sectionHeaders.size) {
-                continue // Invalid string table index
+                throw ElfFileException("Invalid string table index: $stringTableIndex(total sections: ${sectionHeaders.size})")
             }
 
             val stringTableSection = sectionHeaders[stringTableIndex]
@@ -428,20 +422,16 @@ class ElfFile private constructor(
             val stringTableSize = stringTableSection.shSize.toInt()
 
             val stringTableData = ByteArray(stringTableSize)
-            try {
+            tryReading("string table", stringTableSection.shOffset.toLong(), stringTableSize) {
                 dataAccessor.readFully(stringTableSection.shOffset.toLong(), stringTableData)
-            } catch (e: IOException) {
-                continue // Skip this section if we can't read the string table
             }
 
             // Read the symbol table
             val symbolTableSize = symSection.shSize.toInt()
 
             val symbolTableData = ByteArray(symbolTableSize)
-            try {
+            tryReading("symbol table", symSection.shOffset.toLong(), symbolTableSize) {
                 dataAccessor.readFully(symSection.shOffset.toLong(), symbolTableData)
-            } catch (e: IOException) {
-                continue // Skip this section if we can't read the symbol table
             }
 
             // Parse the symbol table entries
@@ -457,12 +447,14 @@ class ElfFile private constructor(
                 }
 
                 val sym = try {
-                    if (ident.eiClass == ElfClass.ELFCLASS32) {
-                        Elf32Sym.parse(symbolTableData, offset, isLittleEndian)
-                    } else {
-                        Elf64Sym.parse(symbolTableData, offset, isLittleEndian)
+                    tryByteArrayParsing("symbol table entry") {
+                        if (ident.eiClass == ElfClass.ELFCLASS32) {
+                            Elf32Sym.parse(symbolTableData, offset, isLittleEndian)
+                        } else {
+                            Elf64Sym.parse(symbolTableData, offset, isLittleEndian)
+                        }
                     }
-                } catch (e: Exception) {
+                } catch (e: ElfFileException) {
                     continue // Skip this symbol if parsing fails
                 }
 
@@ -475,13 +467,9 @@ class ElfFile private constructor(
                 val nameOffset = sym.stName.toInt()
 
                 // Allow name offset to be 0, but will get an empty string
-                val name = if (nameOffset < 0 || nameOffset >= stringTableData.size) {
-                    ""
-                } else if (nameOffset == 0) {
-                    ""
-                } else {
-                    readNullTerminatedString(stringTableData, nameOffset)
-                }
+                val name = if (nameOffset != 0) {
+                    stringTableData.tryCStrUtf8(nameOffset, "parsing symbol table")
+                } else ""
 
                 // Add all symbols to the result list, including symbols with empty names
                 result.add(
@@ -500,23 +488,6 @@ class ElfFile private constructor(
         }
 
         return result
-    }
-
-    /**
-     * Read a null-terminated string from a byte array
-     *
-     * @param data The byte array containing the string
-     * @param offset The offset in the byte array where the string starts
-     * @return The string
-     */
-    private fun readNullTerminatedString(data: ByteArray, offset: Int): String {
-        val bytes = mutableListOf<Byte>()
-        var i = offset
-        while (i < data.size && data[i] != 0.toByte()) {
-            bytes.add(data[i])
-            i++
-        }
-        return bytes.toByteArray().decodeToString()
     }
 
     /**
@@ -563,17 +534,55 @@ class ElfFile private constructor(
 }
 
 @OptIn(ExperimentalContracts::class)
-internal inline fun <R> catchByteArrayParsing(duringParsing: String, block: () -> R): R {
+private inline fun <R> tryByteArrayParsing(duringParsing: String, block: () -> R): R {
     contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
     return try {
         block()
     } catch (e: Exception) {
+        handleByteArrayParsingExceptions(e, duringParsing)
+    }
+}
+
+private fun handleByteArrayParsingExceptions(e: Exception, duringParsing: String): Nothing {
+    when (e) {
+        is IndexOutOfBoundsException,
+        is IllegalArgumentException,
+        is IllegalStateException,
+            -> throw ElfFileException("Failed to parse $duringParsing, invalid format", e)
+
+        else -> throw e
+    }
+}
+
+private fun ByteArray.tryCStrUtf8(offset: Int, during: String): String {
+    try {
+        return cstrUtf8(offset)
+    } catch (e: Exception) {
         when (e) {
-            is IndexOutOfBoundsException, is IllegalArgumentException, is IllegalStateException -> {
-                throw ElfFileException("Failed to parse $duringParsing, invalid format", e)
-            }
+            is IndexOutOfBoundsException,
+            is IllegalArgumentException,
+            is IllegalStateException,
+            is CStringReadingException,
+                -> throw ElfFileException("Failed to read string during $during", e)
 
             else -> throw e
         }
     }
+}
+
+@OptIn(ExperimentalContracts::class)
+private inline fun <R> tryReading(readingWhat: String, off: Long, size: Int, block: () -> R): R {
+    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+    return try {
+        block()
+    } catch (e: EOFException) {
+        handleEOF(readingWhat, off, size, e)
+    }
+}
+
+private fun handleEOF(readingWhat: String, off: Long, size: Int, e: EOFException): Nothing {
+    if (off == -1L) {
+        throw ElfFileException("Failed to read $readingWhat", e)
+    }
+    throw ElfFileException("Failed to read $readingWhat, offset: $off, size: $size", e)
 }

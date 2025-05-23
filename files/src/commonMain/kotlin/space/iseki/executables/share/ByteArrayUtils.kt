@@ -64,7 +64,12 @@ internal fun ByteArray.cstrUtf8(offset: Int): String {
         end++
     }
     if (end >= size) {
-        throw IllegalStateException("Null terminator not found for UTF-8 string starting at offset $offset")
+        throw CStringReadingException(offset)
     }
     return decodeToString(offset, end)
+}
+
+open class CStringReadingException(val offset: Int) : RuntimeException() {
+    override val message: String
+        get() = "Reading C string failed at offset $offset"
 }
