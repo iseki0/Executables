@@ -139,22 +139,23 @@ class ElfParseTest {
         headerBytes[51] = 0
 
         // 测试解析
-        val ehdr = Elf32Ehdr.parse(headerBytes, 0, ident)
+        val ehdr = ElfEhdr.parse32(headerBytes, 0, ident)
 
         // 验证解析结果
+        assertEquals(false, ehdr.is64Bit)
         assertEquals(ElfType.ET_EXEC, ehdr.eType)
         assertEquals(ElfMachine.I386, ehdr.eMachine)
-        assertEquals(Elf32Word(1u), ehdr.eVersion)
-        assertEquals(Elf32Addr(0x8048000u), ehdr.eEntry)
-        assertEquals(Elf32Off(52u), ehdr.ePhoff)
-        assertEquals(Elf32Off(2104u), ehdr.eShoff)
-        assertEquals(Elf32Word(0u), ehdr.eFlags)
-        assertEquals(Elf32Half(52u), ehdr.eEhsize)
-        assertEquals(Elf32Half(32u), ehdr.ePhentsize)
-        assertEquals(Elf32Half(8u), ehdr.ePhnum)
-        assertEquals(Elf32Half(40u), ehdr.eShentsize)
-        assertEquals(Elf32Half(25u), ehdr.eShnum)
-        assertEquals(Elf32Half(24u), ehdr.eShstrndx)
+        assertEquals(1u, ehdr.eVersion)
+        assertEquals(0x8048000UL, ehdr.eEntry)
+        assertEquals(52UL, ehdr.ePhoff)
+        assertEquals(2104UL, ehdr.eShoff)
+        assertEquals(0u, ehdr.eFlags)
+        assertEquals(52u.toUShort(), ehdr.eEhsize)
+        assertEquals(32u.toUShort(), ehdr.ePhentsize)
+        assertEquals(8u.toUShort(), ehdr.ePhnum)
+        assertEquals(40u.toUShort(), ehdr.eShentsize)
+        assertEquals(25u.toUShort(), ehdr.eShnum)
+        assertEquals(24u.toUShort(), ehdr.eShstrndx)
     }
 
     @Test
@@ -253,22 +254,23 @@ class ElfParseTest {
         headerBytes[63] = 29
 
         // 测试解析
-        val ehdr = Elf64Ehdr.parse(headerBytes, 0, ident)
+        val ehdr = ElfEhdr.parse64(headerBytes, 0, ident)
 
         // 验证解析结果
+        assertEquals(true, ehdr.is64Bit)
         assertEquals(ElfType.ET_DYN, ehdr.eType)
         assertEquals(ElfMachine.X86_64, ehdr.eMachine)
-        assertEquals(Elf64Word(1u), ehdr.eVersion)
-        assertEquals(Elf64Addr(0x1040u), ehdr.eEntry)
-        assertEquals(Elf64Off(64u), ehdr.ePhoff)
-        assertEquals(Elf64Off(13624u), ehdr.eShoff)
-        assertEquals(Elf64Word(0u), ehdr.eFlags)
-        assertEquals(Elf64Half(64u), ehdr.eEhsize)
-        assertEquals(Elf64Half(56u), ehdr.ePhentsize)
-        assertEquals(Elf64Half(11u), ehdr.ePhnum)
-        assertEquals(Elf64Half(64u), ehdr.eShentsize)
-        assertEquals(Elf64Half(30u), ehdr.eShnum)
-        assertEquals(Elf64Half(29u), ehdr.eShstrndx)
+        assertEquals(1u, ehdr.eVersion)
+        assertEquals(0x1040UL, ehdr.eEntry)
+        assertEquals(64UL, ehdr.ePhoff)
+        assertEquals(13624UL, ehdr.eShoff)
+        assertEquals(0u, ehdr.eFlags)
+        assertEquals(64u.toUShort(), ehdr.eEhsize)
+        assertEquals(56u.toUShort(), ehdr.ePhentsize)
+        assertEquals(11u.toUShort(), ehdr.ePhnum)
+        assertEquals(64u.toUShort(), ehdr.eShentsize)
+        assertEquals(30u.toUShort(), ehdr.eShnum)
+        assertEquals(29u.toUShort(), ehdr.eShstrndx)
     }
 
     @Test
