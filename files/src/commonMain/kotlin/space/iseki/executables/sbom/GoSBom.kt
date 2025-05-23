@@ -81,15 +81,15 @@ class GoSBom internal constructor(
                     is ElfFile -> {
                         val section = file.sections.firstOrNull { it.name == ".go.buildinfo" }
                         if (section != null) {
-                            vAddr = section.sectionHeader.shAddr.castToLong()
-                            memSize = section.sectionHeader.shSize.castToLong()
+                            vAddr = section.sectionHeader.shAddr.toLong()
+                            memSize = section.sectionHeader.shSize.toLong()
                         } else {
                             val progHeader = file.programHeaders.firstOrNull {
                                 it.pType == ElfPType.PT_LOAD && ElfPFlags.PF_W in it.pFlags && ElfPFlags.PF_X !in it.pFlags
                             }
                             if (progHeader != null) {
-                                vAddr = progHeader.pVaddr.castToLong()
-                                memSize = progHeader.pMemsz.castToLong()
+                                vAddr = progHeader.pVaddr.toLong()
+                                memSize = progHeader.pMemsz.toLong()
                             } else {
                                 throw SBomNotFoundException("Cannot find data section containing Go buildinfo")
                             }

@@ -1,5 +1,6 @@
 package space.iseki.executables.elf
 
+import space.iseki.executables.common.Address64
 import space.iseki.executables.common.toAddr
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -341,17 +342,18 @@ class ElfParseTest {
         phdrBytes[31] = 0
 
         // 测试解析
-        val phdr = Elf32Phdr.parse(phdrBytes, 0, ident)
+        val phdr = ElfPhdr.parse32(phdrBytes, 0, ident)
 
         // 验证解析结果
+        assertEquals(false, phdr.is64Bit)
         assertEquals(ElfPType.PT_LOAD, phdr.pType)
-        assertEquals(Elf32Off(0u), phdr.pOffset)
-        assertEquals(Elf32Addr(0x8048000u), phdr.pVaddr)
-        assertEquals(Elf32Addr(0x8048000u), phdr.pPaddr)
-        assertEquals(Elf32Word(0x1000u), phdr.pFilesz)
-        assertEquals(Elf32Word(0x1000u), phdr.pMemsz)
+        assertEquals(0uL, phdr.pOffset)
+        assertEquals(Address64(0x8048000uL), phdr.pVaddr)
+        assertEquals(Address64(0x8048000uL), phdr.pPaddr)
+        assertEquals(0x1000uL, phdr.pFilesz)
+        assertEquals(0x1000uL, phdr.pMemsz)
         assertEquals(ElfPFlags.PF_R or ElfPFlags.PF_X, phdr.pFlags)
-        assertEquals(Elf32Word(0x1000u), phdr.pAlign)
+        assertEquals(0x1000uL, phdr.pAlign)
     }
 
     @Test
@@ -445,17 +447,18 @@ class ElfParseTest {
         phdrBytes[55] = 0
 
         // 测试解析
-        val phdr = Elf64Phdr.parse(phdrBytes, 0, ident)
+        val phdr = ElfPhdr.parse64(phdrBytes, 0, ident)
 
         // 验证解析结果
+        assertEquals(true, phdr.is64Bit)
         assertEquals(ElfPType.PT_LOAD, phdr.pType)
         assertEquals(ElfPFlags.PF_R or ElfPFlags.PF_X, phdr.pFlags)
-        assertEquals(Elf64Off(0u), phdr.pOffset)
-        assertEquals(Elf64Addr(0x400000u), phdr.pVaddr)
-        assertEquals(Elf64Addr(0x400000u), phdr.pPaddr)
-        assertEquals(Elf64Xword(0x1000UL), phdr.pFilesz)
-        assertEquals(Elf64Xword(0x1000UL), phdr.pMemsz)
-        assertEquals(Elf64Xword(0x1000UL), phdr.pAlign)
+        assertEquals(0uL, phdr.pOffset)
+        assertEquals(Address64(0x400000uL), phdr.pVaddr)
+        assertEquals(Address64(0x400000uL), phdr.pPaddr)
+        assertEquals(0x1000uL, phdr.pFilesz)
+        assertEquals(0x1000uL, phdr.pMemsz)
+        assertEquals(0x1000uL, phdr.pAlign)
     }
 
     @Test
@@ -525,19 +528,20 @@ class ElfParseTest {
         shdrBytes[39] = 0
 
         // 测试解析
-        val shdr = Elf32Shdr.parse(shdrBytes, 0, true) // true表示小端序
+        val shdr = ElfShdr.parse32(shdrBytes, 0, true) // true表示小端序
 
         // 验证解析结果
-        assertEquals(Elf32Word(1u), shdr.shName)
+        assertEquals(false, shdr.is64Bit)
+        assertEquals(1u, shdr.shName)
         assertEquals(ElfSType.SHT_PROGBITS, shdr.shType)
         assertEquals(ElfSFlags.SHF_ALLOC or ElfSFlags.SHF_EXECINSTR, shdr.shFlags)
-        assertEquals(Elf32Addr(0x8048000u), shdr.shAddr)
-        assertEquals(Elf32Off(0x1000u), shdr.shOffset)
-        assertEquals(Elf32Word(0x2000u), shdr.shSize)
-        assertEquals(Elf32Word(0u), shdr.shLink)
-        assertEquals(Elf32Word(0u), shdr.shInfo)
-        assertEquals(Elf32Word(4u), shdr.shAddralign)
-        assertEquals(Elf32Word(0u), shdr.shEntsize)
+        assertEquals(Address64(0x8048000uL), shdr.shAddr)
+        assertEquals(0x1000uL, shdr.shOffset)
+        assertEquals(0x2000uL, shdr.shSize)
+        assertEquals(0u, shdr.shLink)
+        assertEquals(0u, shdr.shInfo)
+        assertEquals(4uL, shdr.shAddralign)
+        assertEquals(0uL, shdr.shEntsize)
     }
 
     @Test
@@ -631,18 +635,19 @@ class ElfParseTest {
         shdrBytes[63] = 0
 
         // 测试解析
-        val shdr = Elf64Shdr.parse(shdrBytes, 0, false) // false表示大端序
+        val shdr = ElfShdr.parse64(shdrBytes, 0, false) // false表示大端序
 
         // 验证解析结果
-        assertEquals(Elf64Word(1u), shdr.shName)
+        assertEquals(true, shdr.is64Bit)
+        assertEquals(1u, shdr.shName)
         assertEquals(ElfSType.SHT_PROGBITS, shdr.shType)
         assertEquals(ElfSFlags.SHF_ALLOC or ElfSFlags.SHF_EXECINSTR, shdr.shFlags)
-        assertEquals(Elf64Addr(0x400000u), shdr.shAddr)
-        assertEquals(Elf64Off(0x1000u), shdr.shOffset)
-        assertEquals(Elf64Xword(0x2000UL), shdr.shSize)
-        assertEquals(Elf64Word(0u), shdr.shLink)
-        assertEquals(Elf64Word(0u), shdr.shInfo)
-        assertEquals(Elf64Xword(8UL), shdr.shAddralign)
-        assertEquals(Elf64Xword(0UL), shdr.shEntsize)
+        assertEquals(Address64(0x400000uL), shdr.shAddr)
+        assertEquals(0x1000uL, shdr.shOffset)
+        assertEquals(0x2000uL, shdr.shSize)
+        assertEquals(0u, shdr.shLink)
+        assertEquals(0u, shdr.shInfo)
+        assertEquals(8uL, shdr.shAddralign)
+        assertEquals(0uL, shdr.shEntsize)
     }
 } 
