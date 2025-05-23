@@ -233,12 +233,12 @@ class ElfHeadersTest {
         assertEquals(52u, fields32["ePhoff"])
         assertEquals(2104u, fields32["eShoff"])
         assertEquals(0u, fields32["eFlags"])
-        assertEquals(52u, fields32["eEhsize"])
-        assertEquals(32u, fields32["ePhentsize"])
-        assertEquals(8u, fields32["ePhnum"])
-        assertEquals(40u, fields32["eShentsize"])
-        assertEquals(25u, fields32["eShnum"])
-        assertEquals(24u, fields32["eShstrndx"])
+        assertEquals(52u.toUShort(), fields32["eEhsize"])
+        assertEquals(32u.toUShort(), fields32["ePhentsize"])
+        assertEquals(8u.toUShort(), fields32["ePhnum"])
+        assertEquals(40u.toUShort(), fields32["eShentsize"])
+        assertEquals(25u.toUShort(), fields32["eShnum"])
+        assertEquals(24u.toUShort(), fields32["eShstrndx"])
 
         // 验证64位ElfEhdr的fields映射
         val fields64 = elf64Ehdr.fields
@@ -248,15 +248,15 @@ class ElfHeadersTest {
         assertEquals(ElfMachine.X86_64, fields64["eMachine"])
         assertEquals(1u, fields64["eVersion"])
         assertEquals(0x1040uL.toAddr(), fields64["eEntry"])
-        assertEquals(64u, fields64["ePhoff"])
-        assertEquals(13624u, fields64["eShoff"])
+        assertEquals(64uL, fields64["ePhoff"])
+        assertEquals(13624uL, fields64["eShoff"])
         assertEquals(0u, fields64["eFlags"])
-        assertEquals(64u, fields64["eEhsize"])
-        assertEquals(56u, fields64["ePhentsize"])
-        assertEquals(11u, fields64["ePhnum"])
-        assertEquals(64u, fields64["eShentsize"])
-        assertEquals(30u, fields64["eShnum"])
-        assertEquals(29u, fields64["eShstrndx"])
+        assertEquals(64u.toUShort(), fields64["eEhsize"])
+        assertEquals(56u.toUShort(), fields64["ePhentsize"])
+        assertEquals(11u.toUShort(), fields64["ePhnum"])
+        assertEquals(64u.toUShort(), fields64["eShentsize"])
+        assertEquals(30u.toUShort(), fields64["eShnum"])
+        assertEquals(29u.toUShort(), fields64["eShstrndx"])
     }
 
     @Test
