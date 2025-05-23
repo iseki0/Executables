@@ -72,6 +72,9 @@ class ElfFile private constructor(
                 throw ElfFileException("Section header string table (index $shstrndx) is not a string table (type: ${stringTableHeader.shType})")
             }
 
+            if (stringTableHeader.shSize > Int.MAX_VALUE.toULong()) {
+                throw ElfFileException("String table size exceeds maximum allowed: ${stringTableHeader.shSize}")
+            }
             val stringTableSize = stringTableHeader.shSize.toInt()
             if (stringTableSize <= 0) {
                 throw ElfFileException("Invalid string table size: $stringTableSize")
