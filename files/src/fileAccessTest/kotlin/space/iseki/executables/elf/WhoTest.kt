@@ -45,7 +45,7 @@ class WhoTest {
         """.trimIndent().let { Json.decodeFromString<ElfIdentification>(it) }.also { assertEquals(it, file.ident) }
             """
             {
-                "type": "Elf64Ehdr",
+                "is64Bit": true,
                 "eType": "ET_DYN",
                 "eMachine": "X86_64",
                 "eVersion": 1,

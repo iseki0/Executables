@@ -1,6 +1,7 @@
 package space.iseki.executables.elf
 
 import kotlinx.serialization.json.Json
+import space.iseki.executables.common.toAddr
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -16,21 +17,22 @@ class ElfHeadersTest {
 
     @Test
     fun testElf32EhdrSerialization() {
-        // 创建一个Elf32Ehdr实例
-        val original = Elf32Ehdr(
+        // 创建一个32位ElfEhdr实例
+        val original = ElfEhdr(
+            is64Bit = false,
             eType = ElfType.ET_EXEC,
             eMachine = ElfMachine.I386,
-            eVersion = Elf32Word(1u),
-            eEntry = Elf32Addr(0x8048000u),
-            ePhoff = Elf32Off(52u),
-            eShoff = Elf32Off(2104u),
-            eFlags = Elf32Word(0u),
-            eEhsize = Elf32Half(52u),
-            ePhentsize = Elf32Half(32u),
-            ePhnum = Elf32Half(8u),
-            eShentsize = Elf32Half(40u),
-            eShnum = Elf32Half(25u),
-            eShstrndx = Elf32Half(24u)
+            eVersion = 1u,
+            eEntry = 0x8048000UL.toAddr(),
+            ePhoff = 52UL,
+            eShoff = 2104UL,
+            eFlags = 0u,
+            eEhsize = 52u.toUShort(),
+            ePhentsize = 32u.toUShort(),
+            ePhnum = 8u.toUShort(),
+            eShentsize = 40u.toUShort(),
+            eShnum = 25u.toUShort(),
+            eShstrndx = 24u.toUShort()
         )
 
         // 序列化为JSON
@@ -40,45 +42,44 @@ class ElfHeadersTest {
         // 从JSON反序列化
         val deserialized = json.decodeFromString<ElfEhdr>(serialized)
 
-        // 验证反序列化的对象是Elf32Ehdr类型
-        assertIs<Elf32Ehdr>(deserialized)
-
         // 验证反序列化后的对象与原始对象相等
         assertEquals(original, deserialized)
 
         // 验证各个字段的值
+        assertEquals(false, deserialized.is64Bit)
         assertEquals(ElfType.ET_EXEC, deserialized.eType)
         assertEquals(ElfMachine.I386, deserialized.eMachine)
-        assertEquals(Elf32Word(1u), deserialized.eVersion)
-        assertEquals(Elf32Addr(0x8048000u), deserialized.eEntry)
-        assertEquals(Elf32Off(52u), deserialized.ePhoff)
-        assertEquals(Elf32Off(2104u), deserialized.eShoff)
-        assertEquals(Elf32Word(0u), deserialized.eFlags)
-        assertEquals(Elf32Half(52u), deserialized.eEhsize)
-        assertEquals(Elf32Half(32u), deserialized.ePhentsize)
-        assertEquals(Elf32Half(8u), deserialized.ePhnum)
-        assertEquals(Elf32Half(40u), deserialized.eShentsize)
-        assertEquals(Elf32Half(25u), deserialized.eShnum)
-        assertEquals(Elf32Half(24u), deserialized.eShstrndx)
+        assertEquals(1u, deserialized.eVersion)
+        assertEquals(0x8048000UL.toAddr(), deserialized.eEntry)
+        assertEquals(52UL, deserialized.ePhoff)
+        assertEquals(2104UL, deserialized.eShoff)
+        assertEquals(0u, deserialized.eFlags)
+        assertEquals(52u.toUShort(), deserialized.eEhsize)
+        assertEquals(32u.toUShort(), deserialized.ePhentsize)
+        assertEquals(8u.toUShort(), deserialized.ePhnum)
+        assertEquals(40u.toUShort(), deserialized.eShentsize)
+        assertEquals(25u.toUShort(), deserialized.eShnum)
+        assertEquals(24u.toUShort(), deserialized.eShstrndx)
     }
 
     @Test
     fun testElf64EhdrSerialization() {
-        // 创建一个Elf64Ehdr实例
-        val original = Elf64Ehdr(
+        // 创建一个64位ElfEhdr实例
+        val original = ElfEhdr(
+            is64Bit = true,
             eType = ElfType.ET_DYN,
             eMachine = ElfMachine.X86_64,
-            eVersion = Elf64Word(1u),
-            eEntry = Elf64Addr(0x1040u),
-            ePhoff = Elf64Off(64u),
-            eShoff = Elf64Off(13624u),
-            eFlags = Elf64Word(0u),
-            eEhsize = Elf64Half(64u),
-            ePhentsize = Elf64Half(56u),
-            ePhnum = Elf64Half(11u),
-            eShentsize = Elf64Half(64u),
-            eShnum = Elf64Half(30u),
-            eShstrndx = Elf64Half(29u)
+            eVersion = 1u,
+            eEntry = 0x1040UL.toAddr(),
+            ePhoff = 64UL,
+            eShoff = 13624UL,
+            eFlags = 0u,
+            eEhsize = 64u.toUShort(),
+            ePhentsize = 56u.toUShort(),
+            ePhnum = 11u.toUShort(),
+            eShentsize = 64u.toUShort(),
+            eShnum = 30u.toUShort(),
+            eShstrndx = 29u.toUShort()
         )
 
         // 序列化为JSON
@@ -86,29 +87,26 @@ class ElfHeadersTest {
         println("Elf64Ehdr序列化结果: $serialized")
 
         // 从JSON反序列化
-
         val deserialized = json.decodeFromString<ElfEhdr>(serialized)
-
-        // 验证反序列化的对象是Elf64Ehdr类型
-        assertIs<Elf64Ehdr>(deserialized)
 
         // 验证反序列化后的对象与原始对象相等
         assertEquals(original, deserialized)
 
         // 验证各个字段的值
+        assertEquals(true, deserialized.is64Bit)
         assertEquals(ElfType.ET_DYN, deserialized.eType)
         assertEquals(ElfMachine.X86_64, deserialized.eMachine)
-        assertEquals(Elf64Word(1u), deserialized.eVersion)
-        assertEquals(Elf64Addr(0x1040u), deserialized.eEntry)
-        assertEquals(Elf64Off(64u), deserialized.ePhoff)
-        assertEquals(Elf64Off(13624u), deserialized.eShoff)
-        assertEquals(Elf64Word(0u), deserialized.eFlags)
-        assertEquals(Elf64Half(64u), deserialized.eEhsize)
-        assertEquals(Elf64Half(56u), deserialized.ePhentsize)
-        assertEquals(Elf64Half(11u), deserialized.ePhnum)
-        assertEquals(Elf64Half(64u), deserialized.eShentsize)
-        assertEquals(Elf64Half(30u), deserialized.eShnum)
-        assertEquals(Elf64Half(29u), deserialized.eShstrndx)
+        assertEquals(1u, deserialized.eVersion)
+        assertEquals(0x1040UL.toAddr(), deserialized.eEntry)
+        assertEquals(64UL, deserialized.ePhoff)
+        assertEquals(13624UL, deserialized.eShoff)
+        assertEquals(0u, deserialized.eFlags)
+        assertEquals(64u.toUShort(), deserialized.eEhsize)
+        assertEquals(56u.toUShort(), deserialized.ePhentsize)
+        assertEquals(11u.toUShort(), deserialized.ePhnum)
+        assertEquals(64u.toUShort(), deserialized.eShentsize)
+        assertEquals(30u.toUShort(), deserialized.eShnum)
+        assertEquals(29u.toUShort(), deserialized.eShstrndx)
     }
 
     @Test
@@ -188,173 +186,77 @@ class ElfHeadersTest {
     }
 
     @Test
-    fun testElfEhdrPolymorphicSerialization() {
-        // 创建两个不同类型的ElfEhdr实例
-        val elf32Ehdr: ElfEhdr = Elf32Ehdr(
-            eType = ElfType.ET_EXEC,
-            eMachine = ElfMachine.I386,
-            eVersion = Elf32Word(1u),
-            eEntry = Elf32Addr(0x8048000u),
-            ePhoff = Elf32Off(52u),
-            eShoff = Elf32Off(2104u),
-            eFlags = Elf32Word(0u),
-            eEhsize = Elf32Half(52u),
-            ePhentsize = Elf32Half(32u),
-            ePhnum = Elf32Half(8u),
-            eShentsize = Elf32Half(40u),
-            eShnum = Elf32Half(25u),
-            eShstrndx = Elf32Half(24u)
-        )
-
-        val elf64Ehdr: ElfEhdr = Elf64Ehdr(
-            eType = ElfType.ET_DYN,
-            eMachine = ElfMachine.X86_64,
-            eVersion = Elf64Word(1u),
-            eEntry = Elf64Addr(0x1040u),
-            ePhoff = Elf64Off(64u),
-            eShoff = Elf64Off(13624u),
-            eFlags = Elf64Word(0u),
-            eEhsize = Elf64Half(64u),
-            ePhentsize = Elf64Half(56u),
-            ePhnum = Elf64Half(11u),
-            eShentsize = Elf64Half(64u),
-            eShnum = Elf64Half(30u),
-            eShstrndx = Elf64Half(29u)
-        )
-
-        // 序列化为JSON
-        val serialized32 = json.encodeToString<ElfEhdr>(elf32Ehdr)
-        val serialized64 = json.encodeToString<ElfEhdr>(elf64Ehdr)
-
-        println("Elf32Ehdr多态序列化结果: $serialized32")
-        println("Elf64Ehdr多态序列化结果: $serialized64")
-
-        // 从JSON反序列化
-        val deserialized32 = json.decodeFromString<ElfEhdr>(serialized32)
-        val deserialized64 = json.decodeFromString<ElfEhdr>(serialized64)
-
-        // 验证反序列化的对象类型
-        assertIs<Elf32Ehdr>(deserialized32)
-        assertIs<Elf64Ehdr>(deserialized64)
-
-        // 验证反序列化后的对象与原始对象相等
-        assertEquals(elf32Ehdr, deserialized32)
-        assertEquals(elf64Ehdr, deserialized64)
-    }
-
-    @Test
-    fun testElfPhdrPolymorphicSerialization() {
-        // 创建两个不同类型的ElfPhdr实例
-        val elf32Phdr: ElfPhdr = Elf32Phdr(
-            pType = ElfPType.PT_LOAD,
-            pOffset = Elf32Off(0u),
-            pVaddr = Elf32Addr(0x8048000u),
-            pPaddr = Elf32Addr(0x8048000u),
-            pFilesz = Elf32Word(0x1000u),
-            pMemsz = Elf32Word(0x1000u),
-            pFlags = ElfPFlags.PF_R or ElfPFlags.PF_X,
-            pAlign = Elf32Word(0x1000u)
-        )
-
-        val elf64Phdr: ElfPhdr = Elf64Phdr(
-            pType = ElfPType.PT_LOAD,
-            pFlags = ElfPFlags.PF_R or ElfPFlags.PF_X,
-            pOffset = Elf64Off(0u),
-            pVaddr = Elf64Addr(0x400000u),
-            pPaddr = Elf64Addr(0x400000u),
-            pFilesz = Elf64Xword(0x1000UL),
-            pMemsz = Elf64Xword(0x1000UL),
-            pAlign = Elf64Xword(0x1000UL)
-        )
-
-        // 序列化为JSON
-        val serialized32 = json.encodeToString<ElfPhdr>(elf32Phdr)
-        val serialized64 = json.encodeToString<ElfPhdr>(elf64Phdr)
-
-        println("Elf32Phdr多态序列化结果: $serialized32")
-        println("Elf64Phdr多态序列化结果: $serialized64")
-
-        // 从JSON反序列化
-        val deserialized32 = json.decodeFromString<ElfPhdr>(serialized32)
-        val deserialized64 = json.decodeFromString<ElfPhdr>(serialized64)
-
-        // 验证反序列化的对象类型
-        assertIs<Elf32Phdr>(deserialized32)
-        assertIs<Elf64Phdr>(deserialized64)
-
-        // 验证反序列化后的对象与原始对象相等
-        assertEquals(elf32Phdr, deserialized32)
-        assertEquals(elf64Phdr, deserialized64)
-    }
-
-    @Test
     fun testElfEhdrFields() {
-        // 创建Elf32Ehdr和Elf64Ehdr实例
-        val elf32Ehdr = Elf32Ehdr(
+        // 创建32位和64位ElfEhdr实例
+        val elf32Ehdr = ElfEhdr(
+            is64Bit = false,
             eType = ElfType.ET_EXEC,
             eMachine = ElfMachine.I386,
-            eVersion = Elf32Word(1u),
-            eEntry = Elf32Addr(0x8048000u),
-            ePhoff = Elf32Off(52u),
-            eShoff = Elf32Off(2104u),
-            eFlags = Elf32Word(0u),
-            eEhsize = Elf32Half(52u),
-            ePhentsize = Elf32Half(32u),
-            ePhnum = Elf32Half(8u),
-            eShentsize = Elf32Half(40u),
-            eShnum = Elf32Half(25u),
-            eShstrndx = Elf32Half(24u)
+            eVersion = 1u,
+            eEntry = 0x8048000UL.toAddr(),
+            ePhoff = 52UL,
+            eShoff = 2104UL,
+            eFlags = 0u,
+            eEhsize = 52u.toUShort(),
+            ePhentsize = 32u.toUShort(),
+            ePhnum = 8u.toUShort(),
+            eShentsize = 40u.toUShort(),
+            eShnum = 25u.toUShort(),
+            eShstrndx = 24u.toUShort()
         )
 
-        val elf64Ehdr = Elf64Ehdr(
+        val elf64Ehdr = ElfEhdr(
+            is64Bit = true,
             eType = ElfType.ET_DYN,
             eMachine = ElfMachine.X86_64,
-            eVersion = Elf64Word(1u),
-            eEntry = Elf64Addr(0x1040u),
-            ePhoff = Elf64Off(64u),
-            eShoff = Elf64Off(13624u),
-            eFlags = Elf64Word(0u),
-            eEhsize = Elf64Half(64u),
-            ePhentsize = Elf64Half(56u),
-            ePhnum = Elf64Half(11u),
-            eShentsize = Elf64Half(64u),
-            eShnum = Elf64Half(30u),
-            eShstrndx = Elf64Half(29u)
+            eVersion = 1u,
+            eEntry = 0x1040UL.toAddr(),
+            ePhoff = 64UL,
+            eShoff = 13624UL,
+            eFlags = 0u,
+            eEhsize = 64u.toUShort(),
+            ePhentsize = 56u.toUShort(),
+            ePhnum = 11u.toUShort(),
+            eShentsize = 64u.toUShort(),
+            eShnum = 30u.toUShort(),
+            eShstrndx = 29u.toUShort()
         )
 
-        // 验证Elf32Ehdr的fields映射
+        // 验证32位ElfEhdr的fields映射
         val fields32 = elf32Ehdr.fields
-        assertEquals(13, fields32.size)
+        assertEquals(14, fields32.size) // 包含 is64Bit 字段
+        assertEquals(false, fields32["is64Bit"])
         assertEquals(ElfType.ET_EXEC, fields32["eType"])
         assertEquals(ElfMachine.I386, fields32["eMachine"])
-        assertEquals(Elf32Word(1u), fields32["eVersion"])
-        assertEquals(Elf32Addr(0x8048000u), fields32["eEntry"])
-        assertEquals(Elf32Off(52u), fields32["ePhoff"])
-        assertEquals(Elf32Off(2104u), fields32["eShoff"])
-        assertEquals(Elf32Word(0u), fields32["eFlags"])
-        assertEquals(Elf32Half(52u), fields32["eEhsize"])
-        assertEquals(Elf32Half(32u), fields32["ePhentsize"])
-        assertEquals(Elf32Half(8u), fields32["ePhnum"])
-        assertEquals(Elf32Half(40u), fields32["eShentsize"])
-        assertEquals(Elf32Half(25u), fields32["eShnum"])
-        assertEquals(Elf32Half(24u), fields32["eShstrndx"])
+        assertEquals(1u, fields32["eVersion"])
+        assertEquals(0x8048000u.toAddr(), fields32["eEntry"])
+        assertEquals(52u, fields32["ePhoff"])
+        assertEquals(2104u, fields32["eShoff"])
+        assertEquals(0u, fields32["eFlags"])
+        assertEquals(52u.toUShort(), fields32["eEhsize"])
+        assertEquals(32u.toUShort(), fields32["ePhentsize"])
+        assertEquals(8u.toUShort(), fields32["ePhnum"])
+        assertEquals(40u.toUShort(), fields32["eShentsize"])
+        assertEquals(25u.toUShort(), fields32["eShnum"])
+        assertEquals(24u.toUShort(), fields32["eShstrndx"])
 
-        // 验证Elf64Ehdr的fields映射
+        // 验证64位ElfEhdr的fields映射
         val fields64 = elf64Ehdr.fields
-        assertEquals(13, fields64.size)
+        assertEquals(14, fields64.size) // 包含 is64Bit 字段
+        assertEquals(true, fields64["is64Bit"])
         assertEquals(ElfType.ET_DYN, fields64["eType"])
         assertEquals(ElfMachine.X86_64, fields64["eMachine"])
-        assertEquals(Elf64Word(1u), fields64["eVersion"])
-        assertEquals(Elf64Addr(0x1040u), fields64["eEntry"])
-        assertEquals(Elf64Off(64u), fields64["ePhoff"])
-        assertEquals(Elf64Off(13624u), fields64["eShoff"])
-        assertEquals(Elf64Word(0u), fields64["eFlags"])
-        assertEquals(Elf64Half(64u), fields64["eEhsize"])
-        assertEquals(Elf64Half(56u), fields64["ePhentsize"])
-        assertEquals(Elf64Half(11u), fields64["ePhnum"])
-        assertEquals(Elf64Half(64u), fields64["eShentsize"])
-        assertEquals(Elf64Half(30u), fields64["eShnum"])
-        assertEquals(Elf64Half(29u), fields64["eShstrndx"])
+        assertEquals(1u, fields64["eVersion"])
+        assertEquals(0x1040uL.toAddr(), fields64["eEntry"])
+        assertEquals(64uL, fields64["ePhoff"])
+        assertEquals(13624uL, fields64["eShoff"])
+        assertEquals(0u, fields64["eFlags"])
+        assertEquals(64u.toUShort(), fields64["eEhsize"])
+        assertEquals(56u.toUShort(), fields64["ePhentsize"])
+        assertEquals(11u.toUShort(), fields64["ePhnum"])
+        assertEquals(64u.toUShort(), fields64["eShentsize"])
+        assertEquals(30u.toUShort(), fields64["eShnum"])
+        assertEquals(29u.toUShort(), fields64["eShstrndx"])
     }
 
     @Test

@@ -60,7 +60,7 @@ class ElfFile private constructor(
         ): List<ElfShdr> {
             if (sectionHeaders.isEmpty()) return sectionHeaders
 
-            val shstrndx = ehdr.eShstrndx.castToInt()
+            val shstrndx = ehdr.eShstrndx.toInt()
             if (shstrndx < 0 || shstrndx >= sectionHeaders.size) {
                 throw ElfFileException("Invalid section header string table index: $shstrndx, section count: ${sectionHeaders.size}")
             }
@@ -162,9 +162,9 @@ class ElfFile private constructor(
             }
 
             val ehdr = if (ident.eiClass == ElfClass.ELFCLASS32) {
-                Elf32Ehdr.parse(buf2, 0, ident)
+                ElfEhdr.parse32(buf2, 0, ident)
             } else if (ident.eiClass == ElfClass.ELFCLASS64) {
-                Elf64Ehdr.parse(buf2, 0, ident)
+                ElfEhdr.parse64(buf2, 0, ident)
             } else {
                 throw ElfFileException("Invalid ElfClass: " + ident.eiClass)
             }
@@ -173,15 +173,15 @@ class ElfFile private constructor(
             ehdr.validate(accessor.size)
 
             // Read Program Header table
-            val phOffset: Long = ehdr.ePhoff.castToLong()
-            val phEntSize: Int = ehdr.ePhentsize.castToInt()
-            val phNum: Int = ehdr.ePhnum.castToInt()
-            when (ehdr) {
-                is Elf32Ehdr -> if (phEntSize < 32) // Minimum size for 32-bit program header
-                    throw ElfFileException("Invalid program header entry size: $phEntSize, must be at least 32 bytes")
-
-                is Elf64Ehdr -> if (phEntSize < 56) // Minimum size for 64-bit program header
+            val phOffset: Long = ehdr.ePhoff.toLong()
+            val phEntSize: Int = ehdr.ePhentsize.toInt()
+            val phNum: Int = ehdr.ePhnum.toInt()
+            if (ehdr.is64Bit) {
+                if (phEntSize < 56) // Minimum size for 64-bit program header
                     throw ElfFileException("Invalid program header entry size: $phEntSize, must be at least 56 bytes")
+            } else {
+                if (phEntSize < 32) // Minimum size for 32-bit program header
+                    throw ElfFileException("Invalid program header entry size: $phEntSize, must be at least 32 bytes")
             }
             val phSize = phEntSize * phNum
             if (phOffset + phSize > accessor.size) {
@@ -195,9 +195,10 @@ class ElfFile private constructor(
             }
             val programHeaders = try {
                 List(phNum) { i ->
-                    when (ehdr) {
-                        is Elf32Ehdr -> Elf32Phdr.parse(phBuffer, i * phEntSize, ident)
-                        is Elf64Ehdr -> Elf64Phdr.parse(phBuffer, i * phEntSize, ident)
+                    if (ehdr.is64Bit) {
+                        Elf64Phdr.parse(phBuffer, i * phEntSize, ident)
+                    } else {
+                        Elf32Phdr.parse(phBuffer, i * phEntSize, ident)
                     }
                 }
             } catch (e: Exception) {
@@ -206,15 +207,15 @@ class ElfFile private constructor(
 
             val le = ident.eiData == ElfData.ELFDATA2LSB
             // Read Section Header table
-            val shOffset = ehdr.eShoff.castToLong()
-            val shEntSize = ehdr.eShentsize.castToInt()
-            val shNum = ehdr.eShnum.castToInt()
-            when (ehdr) {
-                is Elf32Ehdr -> if (shEntSize < 40) // Minimum size for 32-bit section header
-                    throw ElfFileException("Invalid section header entry size: $shEntSize, must be at least 40 bytes")
-
-                is Elf64Ehdr -> if (shEntSize < 64) // Minimum size for 64-bit section header
+            val shOffset = ehdr.eShoff.toLong()
+            val shEntSize = ehdr.eShentsize.toInt()
+            val shNum = ehdr.eShnum.toInt()
+            if (ehdr.is64Bit) {
+                if (shEntSize < 64) // Minimum size for 64-bit section header
                     throw ElfFileException("Invalid section header entry size: $shEntSize, must be at least 64 bytes")
+            } else {
+                if (shEntSize < 40) // Minimum size for 32-bit section header
+                    throw ElfFileException("Invalid section header entry size: $shEntSize, must be at least 40 bytes")
             }
             val shSize = shEntSize * shNum
             if (shOffset + shSize > accessor.size) {
@@ -228,9 +229,10 @@ class ElfFile private constructor(
             }
             val sectionHeaders = try {
                 List(shNum) { i ->
-                    when (ehdr) {
-                        is Elf32Ehdr -> Elf32Shdr.parse(shBuffer, i * shEntSize, le)
-                        is Elf64Ehdr -> Elf64Shdr.parse(shBuffer, i * shEntSize, le)
+                    if (ehdr.is64Bit) {
+                        Elf64Shdr.parse(shBuffer, i * shEntSize, le)
+                    } else {
+                        Elf32Shdr.parse(shBuffer, i * shEntSize, le)
                     }
                 }
             } catch (e: Exception) {
