@@ -72,7 +72,10 @@ class ElfFile private constructor(
                 throw ElfFileException("Section header string table (index $shstrndx) is not a string table (type: ${stringTableHeader.shType})")
             }
 
-            val stringTableSize = stringTableHeader.shSize.castToInt()
+            if (stringTableHeader.shSize > Int.MAX_VALUE.toULong()) {
+                throw ElfFileException("String table size exceeds maximum allowed: ${stringTableHeader.shSize}")
+            }
+            val stringTableSize = stringTableHeader.shSize.toInt()
             if (stringTableSize <= 0) {
                 throw ElfFileException("Invalid string table size: $stringTableSize")
             }
@@ -82,7 +85,7 @@ class ElfFile private constructor(
                 throw ElfFileException("String table size too large: $stringTableSize")
             }
 
-            val stringTableOffset = stringTableHeader.shOffset.castToLong()
+            val stringTableOffset = stringTableHeader.shOffset.toLong()
 
             // Validate string table offset
             if (stringTableOffset < 0 || stringTableOffset + stringTableSize > accessor.size) {
@@ -105,7 +108,7 @@ class ElfFile private constructor(
 
             // Add name to each section header
             return sectionHeaders.map { shdr ->
-                val nameIndex = shdr.shName.castToInt()
+                val nameIndex = shdr.shName.toInt()
                 if (nameIndex < 0 || nameIndex >= stringTableSize) {
                     throw ElfFileException("Invalid section name index: $nameIndex, string table size: $stringTableSize")
                 }
@@ -129,11 +132,8 @@ class ElfFile private constructor(
                     throw ElfFileException("Failed to decode section name at index $nameIndex", e)
                 }
 
-                // Create a new section header with name using the auto-generated copy function
-                when (shdr) {
-                    is Elf32Shdr -> shdr.copy(name = name)
-                    is Elf64Shdr -> shdr.copy(name = name)
-                }
+                // Create a new section header with name using the copy function
+                shdr.copy(name = name)
             }
         }
 
@@ -196,9 +196,9 @@ class ElfFile private constructor(
             val programHeaders = try {
                 List(phNum) { i ->
                     if (ehdr.is64Bit) {
-                        Elf64Phdr.parse(phBuffer, i * phEntSize, ident)
+                        ElfPhdr.parse64(phBuffer, i * phEntSize, ident)
                     } else {
-                        Elf32Phdr.parse(phBuffer, i * phEntSize, ident)
+                        ElfPhdr.parse32(phBuffer, i * phEntSize, ident)
                     }
                 }
             } catch (e: Exception) {
@@ -230,9 +230,9 @@ class ElfFile private constructor(
             val sectionHeaders = try {
                 List(shNum) { i ->
                     if (ehdr.is64Bit) {
-                        Elf64Shdr.parse(shBuffer, i * shEntSize, le)
+                        ElfShdr.parse64(shBuffer, i * shEntSize, le)
                     } else {
-                        Elf32Shdr.parse(shBuffer, i * shEntSize, le)
+                        ElfShdr.parse32(shBuffer, i * shEntSize, le)
                     }
                 }
             } catch (e: Exception) {
@@ -273,7 +273,7 @@ class ElfFile private constructor(
         override val size: Long
             get() = if (sectionHeader.shType == ElfSType.SHT_NOBITS) {
                 0
-            } else sectionHeader.shSize.castToLong()
+            } else sectionHeader.shSize.toLong()
 
         override val header: ReadableStructure
             get() = sectionHeader
@@ -285,7 +285,7 @@ class ElfFile private constructor(
         override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
             checkReadBounds(pos, buf, off, len)
             return dataAccessor.readAtMost(
-                pos = pos + sectionHeader.shOffset.castToLong(),
+                pos = pos + sectionHeader.shOffset.toLong(),
                 buf = buf,
                 off = off,
                 len = min(len, size.toInt()),
@@ -307,11 +307,11 @@ class ElfFile private constructor(
     }
 
     private val vm = MemReader(dataAccessor).apply {
-        programHeaders.filter { it.pType == ElfPType.PT_LOAD }.sortedBy { it.pVaddr.castToULong() }.forEach {
+        programHeaders.filter { it.pType == ElfPType.PT_LOAD }.sortedBy { it.pVaddr.value }.forEach {
             mapMemory(
-                vOff = it.pVaddr.castToULong(),
-                fOff = it.pOffset.castToULong(),
-                fSize = minOf(it.pFilesz.castToULong(), it.pMemsz.castToULong()),
+                vOff = it.pVaddr.value,
+                fOff = it.pOffset,
+                fSize = minOf(it.pFilesz, it.pMemsz),
             )
         }
     }
@@ -434,7 +434,7 @@ class ElfFile private constructor(
 
         for (symSection in symbolTableSections) {
             // Find the associated string table section
-            val stringTableIndex = symSection.shLink.castToInt()
+            val stringTableIndex = symSection.shLink.toInt()
             if (stringTableIndex < 0 || stringTableIndex >= sectionHeaders.size) {
                 continue // Invalid string table index
             }
@@ -442,27 +442,27 @@ class ElfFile private constructor(
             val stringTableSection = sectionHeaders[stringTableIndex]
 
             // Read the string table
-            val stringTableSize = stringTableSection.shSize.castToInt()
+            val stringTableSize = stringTableSection.shSize.toInt()
 
             val stringTableData = ByteArray(stringTableSize)
             try {
-                dataAccessor.readFully(stringTableSection.shOffset.castToLong(), stringTableData)
+                dataAccessor.readFully(stringTableSection.shOffset.toLong(), stringTableData)
             } catch (e: IOException) {
                 continue // Skip this section if we can't read the string table
             }
 
             // Read the symbol table
-            val symbolTableSize = symSection.shSize.castToInt()
+            val symbolTableSize = symSection.shSize.toInt()
 
             val symbolTableData = ByteArray(symbolTableSize)
             try {
-                dataAccessor.readFully(symSection.shOffset.castToLong(), symbolTableData)
+                dataAccessor.readFully(symSection.shOffset.toLong(), symbolTableData)
             } catch (e: IOException) {
                 continue // Skip this section if we can't read the symbol table
             }
 
             // Parse the symbol table entries
-            val entrySize = symSection.shEntsize.castToInt()
+            val entrySize = symSection.shEntsize.toInt()
             val numEntries = if (entrySize > 0) symbolTableSize / entrySize else 0
 
             for (i in 0 until numEntries) {

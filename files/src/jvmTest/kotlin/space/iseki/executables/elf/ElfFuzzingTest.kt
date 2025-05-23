@@ -243,7 +243,7 @@ class ElfFuzzingTest {
                         // Print sections
                         println("Sections: ${elfFile.sectionHeaders.size}")
                         elfFile.sectionHeaders.take(5).forEach { section ->
-                            println("  ${section.name ?: "<unnamed>"}: Type=${section.shType}, Size=${section.shSize.castToLong()}")
+                            println("  ${section.name ?: "<unnamed>"}: Type=${section.shType}, Size=${section.shSize}")
                         }
 
                         // Print program headers
@@ -287,7 +287,7 @@ class ElfFuzzingTest {
             // Print sections
             println("Sections: ${elfFile.sectionHeaders.size}")
             elfFile.sectionHeaders.forEach { section ->
-                println("  ${section.name ?: "<unnamed>"}: Type=${section.shType}, Size=${section.shSize.castToLong()}")
+                println("  ${section.name ?: "<unnamed>"}: Type=${section.shType}, Size=${section.shSize}")
             }
 
             // Print symbols

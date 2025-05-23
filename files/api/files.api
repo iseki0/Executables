@@ -452,103 +452,6 @@ public final class space/iseki/executables/elf/Elf32Off$Companion {
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
-public final class space/iseki/executables/elf/Elf32Phdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfPhdr {
-	public static final field Companion Lspace/iseki/executables/elf/Elf32Phdr$Companion;
-	public final fun component1-pKGY4mk ()I
-	public final fun component2-UGsYpoU ()I
-	public final fun component3-Kk3U2zw ()I
-	public final fun component4-Kk3U2zw ()I
-	public final fun component5-nFKMrNA ()I
-	public final fun component6-nFKMrNA ()I
-	public final fun component7-gwN4zg0 ()I
-	public final fun component8-nFKMrNA ()I
-	public fun equals (Ljava/lang/Object;)Z
-	public synthetic fun getPAlign ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPAlign-nFKMrNA ()I
-	public synthetic fun getPFilesz ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPFilesz-nFKMrNA ()I
-	public fun getPFlags-gwN4zg0 ()I
-	public synthetic fun getPMemsz ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPMemsz-nFKMrNA ()I
-	public synthetic fun getPOffset ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPOffset-UGsYpoU ()I
-	public synthetic fun getPPaddr ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPPaddr-Kk3U2zw ()I
-	public fun getPType-pKGY4mk ()I
-	public synthetic fun getPVaddr ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPVaddr-Kk3U2zw ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public synthetic class space/iseki/executables/elf/Elf32Phdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/elf/Elf32Phdr$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/Elf32Phdr;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/Elf32Phdr;)V
-}
-
-public final class space/iseki/executables/elf/Elf32Phdr$Companion {
-	public final fun parse ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/Elf32Phdr;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/elf/Elf32Shdr : space/iseki/executables/elf/ElfShdr {
-	public static final field Companion Lspace/iseki/executables/elf/Elf32Shdr$Companion;
-	public synthetic fun <init> (IIJIIIIIIILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-nFKMrNA ()I
-	public final fun component10-nFKMrNA ()I
-	public final fun component11 ()Ljava/lang/String;
-	public final fun component2-pDuq0G4 ()I
-	public final fun component3-htE2vZE ()J
-	public final fun component4-Kk3U2zw ()I
-	public final fun component5-UGsYpoU ()I
-	public final fun component6-nFKMrNA ()I
-	public final fun component7-nFKMrNA ()I
-	public final fun component8-nFKMrNA ()I
-	public final fun component9-nFKMrNA ()I
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getName ()Ljava/lang/String;
-	public synthetic fun getShAddr ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShAddr-Kk3U2zw ()I
-	public synthetic fun getShAddralign ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShAddralign-nFKMrNA ()I
-	public synthetic fun getShEntsize ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShEntsize-nFKMrNA ()I
-	public fun getShFlags-htE2vZE ()J
-	public synthetic fun getShInfo ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShInfo-nFKMrNA ()I
-	public synthetic fun getShLink ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShLink-nFKMrNA ()I
-	public synthetic fun getShName ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShName-nFKMrNA ()I
-	public synthetic fun getShOffset ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShOffset-UGsYpoU ()I
-	public synthetic fun getShSize ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShSize-nFKMrNA ()I
-	public fun getShType-pDuq0G4 ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public synthetic class space/iseki/executables/elf/Elf32Shdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/elf/Elf32Shdr$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/Elf32Shdr;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/Elf32Shdr;)V
-}
-
-public final class space/iseki/executables/elf/Elf32Shdr$Companion {
-	public final fun parse ([BIZ)Lspace/iseki/executables/elf/Elf32Shdr;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
 public final class space/iseki/executables/elf/Elf32Sword : java/lang/Comparable, space/iseki/executables/elf/ElfPrimitive {
 	public static final field Companion Lspace/iseki/executables/elf/Elf32Sword$Companion;
 	public static final synthetic fun box-impl (I)Lspace/iseki/executables/elf/Elf32Sword;
@@ -705,103 +608,6 @@ public synthetic class space/iseki/executables/elf/Elf64Off$$serializer : kotlin
 }
 
 public final class space/iseki/executables/elf/Elf64Off$Companion {
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/elf/Elf64Phdr : space/iseki/executables/common/ReadableStructure, space/iseki/executables/elf/ElfPhdr {
-	public static final field Companion Lspace/iseki/executables/elf/Elf64Phdr$Companion;
-	public final fun component1-pKGY4mk ()I
-	public final fun component2-gwN4zg0 ()I
-	public final fun component3-lLVqvh4 ()J
-	public final fun component4-274mneU ()J
-	public final fun component5-274mneU ()J
-	public final fun component6--oD2zvU ()J
-	public final fun component7--oD2zvU ()J
-	public final fun component8--oD2zvU ()J
-	public fun equals (Ljava/lang/Object;)Z
-	public synthetic fun getPAlign ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPAlign--oD2zvU ()J
-	public synthetic fun getPFilesz ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPFilesz--oD2zvU ()J
-	public fun getPFlags-gwN4zg0 ()I
-	public synthetic fun getPMemsz ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPMemsz--oD2zvU ()J
-	public synthetic fun getPOffset ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPOffset-lLVqvh4 ()J
-	public synthetic fun getPPaddr ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPPaddr-274mneU ()J
-	public fun getPType-pKGY4mk ()I
-	public synthetic fun getPVaddr ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getPVaddr-274mneU ()J
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public synthetic class space/iseki/executables/elf/Elf64Phdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/elf/Elf64Phdr$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/Elf64Phdr;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/Elf64Phdr;)V
-}
-
-public final class space/iseki/executables/elf/Elf64Phdr$Companion {
-	public final fun parse ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/Elf64Phdr;
-	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/elf/Elf64Shdr : space/iseki/executables/elf/ElfShdr {
-	public static final field Companion Lspace/iseki/executables/elf/Elf64Shdr$Companion;
-	public synthetic fun <init> (IIJJJJIIJJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1-4mhg-h8 ()I
-	public final fun component10--oD2zvU ()J
-	public final fun component11 ()Ljava/lang/String;
-	public final fun component2-pDuq0G4 ()I
-	public final fun component3-htE2vZE ()J
-	public final fun component4-274mneU ()J
-	public final fun component5-lLVqvh4 ()J
-	public final fun component6--oD2zvU ()J
-	public final fun component7-4mhg-h8 ()I
-	public final fun component8-4mhg-h8 ()I
-	public final fun component9--oD2zvU ()J
-	public fun equals (Ljava/lang/Object;)Z
-	public fun getName ()Ljava/lang/String;
-	public synthetic fun getShAddr ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShAddr-274mneU ()J
-	public synthetic fun getShAddralign ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShAddralign--oD2zvU ()J
-	public synthetic fun getShEntsize ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShEntsize--oD2zvU ()J
-	public fun getShFlags-htE2vZE ()J
-	public synthetic fun getShInfo ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShInfo-4mhg-h8 ()I
-	public synthetic fun getShLink ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShLink-4mhg-h8 ()I
-	public synthetic fun getShName ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShName-4mhg-h8 ()I
-	public synthetic fun getShOffset ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShOffset-lLVqvh4 ()J
-	public synthetic fun getShSize ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public fun getShSize--oD2zvU ()J
-	public fun getShType-pDuq0G4 ()I
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public synthetic class space/iseki/executables/elf/Elf64Shdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
-	public static final field INSTANCE Lspace/iseki/executables/elf/Elf64Shdr$$serializer;
-	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
-	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
-	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/Elf64Shdr;
-	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
-	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
-	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/Elf64Shdr;)V
-}
-
-public final class space/iseki/executables/elf/Elf64Shdr$Companion {
-	public final fun parse ([BIZ)Lspace/iseki/executables/elf/Elf64Shdr;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
@@ -1547,25 +1353,46 @@ public final class space/iseki/executables/elf/ElfPType$Constants {
 	public static final field PT_SHLIB I
 }
 
-public abstract interface class space/iseki/executables/elf/ElfPhdr : space/iseki/executables/common/ReadableStructure {
+public final class space/iseki/executables/elf/ElfPhdr : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/elf/ElfPhdr$Companion;
+	public final fun component1 ()Z
+	public final fun component2-pKGY4mk ()I
+	public final fun component3-gwN4zg0 ()I
+	public final fun component4-s-VKNKU ()J
+	public final fun component5-mVaMEX8 ()J
+	public final fun component6-mVaMEX8 ()J
+	public final fun component7-s-VKNKU ()J
+	public final fun component8-s-VKNKU ()J
+	public final fun component9-s-VKNKU ()J
+	public fun equals (Ljava/lang/Object;)Z
 	public fun getFields ()Ljava/util/Map;
-	public abstract fun getPAlign ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getPFilesz ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getPFlags-gwN4zg0 ()I
-	public abstract fun getPMemsz ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getPOffset ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getPPaddr ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getPType-pKGY4mk ()I
-	public abstract fun getPVaddr ()Lspace/iseki/executables/elf/ElfPrimitive;
+	public final fun getPAlign-s-VKNKU ()J
+	public final fun getPFilesz-s-VKNKU ()J
+	public final fun getPFlags-gwN4zg0 ()I
+	public final fun getPMemsz-s-VKNKU ()J
+	public final fun getPOffset-s-VKNKU ()J
+	public final fun getPPaddr-mVaMEX8 ()J
+	public final fun getPType-pKGY4mk ()I
+	public final fun getPVaddr-mVaMEX8 ()J
+	public fun hashCode ()I
+	public final fun is64Bit ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/elf/ElfPhdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/ElfPhdr$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/ElfPhdr;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfPhdr;)V
 }
 
 public final class space/iseki/executables/elf/ElfPhdr$Companion {
+	public final fun parse32 ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/ElfPhdr;
+	public final fun parse64 ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/ElfPhdr;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/elf/ElfPhdr$DefaultImpls {
-	public static fun getFields (Lspace/iseki/executables/elf/ElfPhdr;)Ljava/util/Map;
 }
 
 public abstract interface class space/iseki/executables/elf/ElfPrimitive {
@@ -1717,28 +1544,53 @@ public final class space/iseki/executables/elf/ElfSType$Constants {
 	public static final field SHT_SYMTAB I
 }
 
-public abstract interface class space/iseki/executables/elf/ElfShdr : space/iseki/executables/common/ReadableStructure {
+public final class space/iseki/executables/elf/ElfShdr : space/iseki/executables/common/ReadableStructure {
 	public static final field Companion Lspace/iseki/executables/elf/ElfShdr$Companion;
+	public synthetic fun <init> (ZIIJJJJIIJJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component10-s-VKNKU ()J
+	public final fun component11-s-VKNKU ()J
+	public final fun component12 ()Ljava/lang/String;
+	public final fun component2-pVg5ArA ()I
+	public final fun component3-pDuq0G4 ()I
+	public final fun component4-htE2vZE ()J
+	public final fun component5-mVaMEX8 ()J
+	public final fun component6-s-VKNKU ()J
+	public final fun component7-s-VKNKU ()J
+	public final fun component8-pVg5ArA ()I
+	public final fun component9-pVg5ArA ()I
+	public fun equals (Ljava/lang/Object;)Z
 	public fun getFields ()Ljava/util/Map;
-	public abstract fun getName ()Ljava/lang/String;
-	public abstract fun getShAddr ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getShAddralign ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getShEntsize ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getShFlags-htE2vZE ()J
-	public abstract fun getShInfo ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getShLink ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getShName ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getShOffset ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getShSize ()Lspace/iseki/executables/elf/ElfPrimitive;
-	public abstract fun getShType-pDuq0G4 ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getShAddr-mVaMEX8 ()J
+	public final fun getShAddralign-s-VKNKU ()J
+	public final fun getShEntsize-s-VKNKU ()J
+	public final fun getShFlags-htE2vZE ()J
+	public final fun getShInfo-pVg5ArA ()I
+	public final fun getShLink-pVg5ArA ()I
+	public final fun getShName-pVg5ArA ()I
+	public final fun getShOffset-s-VKNKU ()J
+	public final fun getShSize-s-VKNKU ()J
+	public final fun getShType-pDuq0G4 ()I
+	public fun hashCode ()I
+	public final fun is64Bit ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public synthetic class space/iseki/executables/elf/ElfShdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lspace/iseki/executables/elf/ElfShdr$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lspace/iseki/executables/elf/ElfShdr;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfShdr;)V
 }
 
 public final class space/iseki/executables/elf/ElfShdr$Companion {
+	public final fun parse32 ([BIZ)Lspace/iseki/executables/elf/ElfShdr;
+	public final fun parse64 ([BIZ)Lspace/iseki/executables/elf/ElfShdr;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
-}
-
-public final class space/iseki/executables/elf/ElfShdr$DefaultImpls {
-	public static fun getFields (Lspace/iseki/executables/elf/ElfShdr;)Ljava/util/Map;
 }
 
 public final class space/iseki/executables/elf/ElfSymBinding : java/lang/Comparable {

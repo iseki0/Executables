@@ -1,10 +1,11 @@
 package space.iseki.executables.elf
 
 import kotlinx.serialization.json.Json
+import space.iseki.executables.common.Address32
+import space.iseki.executables.common.Address64
 import space.iseki.executables.common.toAddr
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 /**
  * 测试ElfEhdr、ElfPhdr及其子类的序列化和反序列化功能
@@ -111,78 +112,76 @@ class ElfHeadersTest {
 
     @Test
     fun testElf32PhdrSerialization() {
-        // 创建一个Elf32Phdr实例
-        val original = Elf32Phdr(
+        // 创建一个32位ElfPhdr实例
+        val original = ElfPhdr(
+            is64Bit = false,
             pType = ElfPType.PT_LOAD,
-            pOffset = Elf32Off(0u),
-            pVaddr = Elf32Addr(0x8048000u),
-            pPaddr = Elf32Addr(0x8048000u),
-            pFilesz = Elf32Word(0x1000u),
-            pMemsz = Elf32Word(0x1000u),
             pFlags = ElfPFlags.PF_R or ElfPFlags.PF_X,
-            pAlign = Elf32Word(0x1000u)
+            pOffset = 0uL,
+            pVaddr = Address64(0x8048000uL),
+            pPaddr = Address64(0x8048000uL),
+            pFilesz = 0x1000uL,
+            pMemsz = 0x1000uL,
+            pAlign = 0x1000uL
         )
 
         // 序列化为JSON
-        val serialized = json.encodeToString<ElfPhdr>(original)
+        val serialized = json.encodeToString(original)
         println("Elf32Phdr序列化结果: $serialized")
 
         // 从JSON反序列化
         val deserialized = json.decodeFromString<ElfPhdr>(serialized)
 
-        // 验证反序列化的对象是Elf32Phdr类型
-        assertIs<Elf32Phdr>(deserialized)
-
         // 验证反序列化后的对象与原始对象相等
         assertEquals(original, deserialized)
 
         // 验证各个字段的值
+        assertEquals(false, deserialized.is64Bit)
         assertEquals(ElfPType.PT_LOAD, deserialized.pType)
-        assertEquals(Elf32Off(0u), deserialized.pOffset)
-        assertEquals(Elf32Addr(0x8048000u), deserialized.pVaddr)
-        assertEquals(Elf32Addr(0x8048000u), deserialized.pPaddr)
-        assertEquals(Elf32Word(0x1000u), deserialized.pFilesz)
-        assertEquals(Elf32Word(0x1000u), deserialized.pMemsz)
+        assertEquals(0uL, deserialized.pOffset)
+        assertEquals(Address64(0x8048000uL), deserialized.pVaddr)
+        assertEquals(Address64(0x8048000uL), deserialized.pPaddr)
+        assertEquals(0x1000uL, deserialized.pFilesz)
+        assertEquals(0x1000uL, deserialized.pMemsz)
         assertEquals(ElfPFlags.PF_R or ElfPFlags.PF_X, deserialized.pFlags)
-        assertEquals(Elf32Word(0x1000u), deserialized.pAlign)
+        assertEquals(0x1000uL, deserialized.pAlign)
     }
 
     @Test
     fun testElf64PhdrSerialization() {
-        // 创建一个Elf64Phdr实例
-        val original = Elf64Phdr(
+        // 创建一个64位ElfPhdr实例
+        val original = ElfPhdr(
+            is64Bit = true,
             pType = ElfPType.PT_LOAD,
             pFlags = ElfPFlags.PF_R or ElfPFlags.PF_X,
-            pOffset = Elf64Off(0u),
-            pVaddr = Elf64Addr(0x400000u),
-            pPaddr = Elf64Addr(0x400000u),
-            pFilesz = Elf64Xword(0x1000UL),
-            pMemsz = Elf64Xword(0x1000UL),
-            pAlign = Elf64Xword(0x1000UL)
+            pOffset = 0uL,
+            pVaddr = Address64(0x400000uL),
+            pPaddr = Address64(0x400000uL),
+            pFilesz = 0x1000uL,
+            pMemsz = 0x1000uL,
+            pAlign = 0x1000uL
         )
 
         // 序列化为JSON
-        val serialized = json.encodeToString<ElfPhdr>(original)
+        val serialized = json.encodeToString(original)
         println("Elf64Phdr序列化结果: $serialized")
 
         // 从JSON反序列化
         val deserialized = json.decodeFromString<ElfPhdr>(serialized)
 
-        // 验证反序列化的对象是Elf64Phdr类型
-        assertIs<Elf64Phdr>(deserialized)
-
         // 验证反序列化后的对象与原始对象相等
         assertEquals(original, deserialized)
 
         // 验证各个字段的值
+        assertEquals(true, deserialized.is64Bit)
         assertEquals(ElfPType.PT_LOAD, deserialized.pType)
         assertEquals(ElfPFlags.PF_R or ElfPFlags.PF_X, deserialized.pFlags)
-        assertEquals(Elf64Off(0u), deserialized.pOffset)
-        assertEquals(Elf64Addr(0x400000u), deserialized.pVaddr)
-        assertEquals(Elf64Addr(0x400000u), deserialized.pPaddr)
-        assertEquals(Elf64Xword(0x1000UL), deserialized.pFilesz)
-        assertEquals(Elf64Xword(0x1000UL), deserialized.pMemsz)
-        assertEquals(Elf64Xword(0x1000UL), deserialized.pAlign)
+        assertEquals(0uL, deserialized.pOffset)
+        assertEquals(Address64(0x400000uL), deserialized.pVaddr)
+        assertEquals(Address64(0x400000uL), deserialized.pPaddr)
+        assertEquals(0x1000uL, deserialized.pFilesz)
+        assertEquals(0x1000uL, deserialized.pMemsz)
+        assertEquals(0x1000uL, deserialized.pAlign)
     }
 
     @Test
@@ -261,51 +260,55 @@ class ElfHeadersTest {
 
     @Test
     fun testElfPhdrFields() {
-        // 创建Elf32Phdr和Elf64Phdr实例
-        val elf32Phdr = Elf32Phdr(
-            pType = ElfPType.PT_LOAD,
-            pOffset = Elf32Off(0u),
-            pVaddr = Elf32Addr(0x8048000u),
-            pPaddr = Elf32Addr(0x8048000u),
-            pFilesz = Elf32Word(0x1000u),
-            pMemsz = Elf32Word(0x1000u),
-            pFlags = ElfPFlags.PF_R or ElfPFlags.PF_X,
-            pAlign = Elf32Word(0x1000u)
-        )
-
-        val elf64Phdr = Elf64Phdr(
+        // 创建32位和64位ElfPhdr实例
+        val elf32Phdr = ElfPhdr(
+            is64Bit = false,
             pType = ElfPType.PT_LOAD,
             pFlags = ElfPFlags.PF_R or ElfPFlags.PF_X,
-            pOffset = Elf64Off(0u),
-            pVaddr = Elf64Addr(0x400000u),
-            pPaddr = Elf64Addr(0x400000u),
-            pFilesz = Elf64Xword(0x1000UL),
-            pMemsz = Elf64Xword(0x1000UL),
-            pAlign = Elf64Xword(0x1000UL)
+            pOffset = 0uL,
+            pVaddr = Address64(0x8048000uL),
+            pPaddr = Address64(0x8048000uL),
+            pFilesz = 0x1000uL,
+            pMemsz = 0x1000uL,
+            pAlign = 0x1000uL
         )
 
-        // 验证Elf32Phdr的fields映射
+        val elf64Phdr = ElfPhdr(
+            is64Bit = true,
+            pType = ElfPType.PT_LOAD,
+            pFlags = ElfPFlags.PF_R or ElfPFlags.PF_X,
+            pOffset = 0uL,
+            pVaddr = Address64(0x400000uL),
+            pPaddr = Address64(0x400000uL),
+            pFilesz = 0x1000uL,
+            pMemsz = 0x1000uL,
+            pAlign = 0x1000uL
+        )
+
+        // 验证32位ElfPhdr的fields映射
         val fields32 = elf32Phdr.fields
-        assertEquals(8, fields32.size)
+        assertEquals(9, fields32.size)  // 包含is64Bit字段
+        assertEquals(false, fields32["is64Bit"])
         assertEquals(ElfPType.PT_LOAD, fields32["pType"])
-        assertEquals(Elf32Off(0u), fields32["pOffset"])
-        assertEquals(Elf32Addr(0x8048000u), fields32["pVaddr"])
-        assertEquals(Elf32Addr(0x8048000u), fields32["pPaddr"])
-        assertEquals(Elf32Word(0x1000u), fields32["pFilesz"])
-        assertEquals(Elf32Word(0x1000u), fields32["pMemsz"])
+        assertEquals(0u, fields32["pOffset"])
+        assertEquals(Address32(0x8048000u), fields32["pVaddr"])
+        assertEquals(Address32(0x8048000u), fields32["pPaddr"])
+        assertEquals(0x1000u, fields32["pFilesz"])
+        assertEquals(0x1000u, fields32["pMemsz"])
         assertEquals(ElfPFlags.PF_R or ElfPFlags.PF_X, fields32["pFlags"])
-        assertEquals(Elf32Word(0x1000u), fields32["pAlign"])
+        assertEquals(0x1000u, fields32["pAlign"])
 
-        // 验证Elf64Phdr的fields映射
+        // 验证64位ElfPhdr的fields映射
         val fields64 = elf64Phdr.fields
-        assertEquals(8, fields64.size)
+        assertEquals(9, fields64.size)  // 包含is64Bit字段
+        assertEquals(true, fields64["is64Bit"])
         assertEquals(ElfPType.PT_LOAD, fields64["pType"])
         assertEquals(ElfPFlags.PF_R or ElfPFlags.PF_X, fields64["pFlags"])
-        assertEquals(Elf64Off(0u), fields64["pOffset"])
-        assertEquals(Elf64Addr(0x400000u), fields64["pVaddr"])
-        assertEquals(Elf64Addr(0x400000u), fields64["pPaddr"])
-        assertEquals(Elf64Xword(0x1000UL), fields64["pFilesz"])
-        assertEquals(Elf64Xword(0x1000UL), fields64["pMemsz"])
-        assertEquals(Elf64Xword(0x1000UL), fields64["pAlign"])
+        assertEquals(0uL, fields64["pOffset"])
+        assertEquals(Address64(0x400000uL), fields64["pVaddr"])
+        assertEquals(Address64(0x400000uL), fields64["pPaddr"])
+        assertEquals(0x1000uL, fields64["pFilesz"])
+        assertEquals(0x1000uL, fields64["pMemsz"])
+        assertEquals(0x1000uL, fields64["pAlign"])
     }
 } 

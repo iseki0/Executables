@@ -65,7 +65,7 @@ class WhoTest {
             """
             [
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_PHDR",
                     "pFlags": [
                         "PF_R"
@@ -78,7 +78,7 @@ class WhoTest {
                     "pAlign": 8
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_INTERP",
                     "pFlags": [
                         "PF_R"
@@ -91,7 +91,7 @@ class WhoTest {
                     "pAlign": 1
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_LOAD",
                     "pFlags": [
                         "PF_R"
@@ -104,7 +104,7 @@ class WhoTest {
                     "pAlign": 4096
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_LOAD",
                     "pFlags": [
                         "PF_X",
@@ -118,7 +118,7 @@ class WhoTest {
                     "pAlign": 4096
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_LOAD",
                     "pFlags": [
                         "PF_R"
@@ -131,7 +131,7 @@ class WhoTest {
                     "pAlign": 4096
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_LOAD",
                     "pFlags": [
                         "PF_W",
@@ -145,7 +145,7 @@ class WhoTest {
                     "pAlign": 4096
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_DYNAMIC",
                     "pFlags": [
                         "PF_W",
@@ -159,7 +159,7 @@ class WhoTest {
                     "pAlign": 8
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_NOTE",
                     "pFlags": [
                         "PF_R"
@@ -172,7 +172,7 @@ class WhoTest {
                     "pAlign": 8
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_NOTE",
                     "pFlags": [
                         "PF_R"
@@ -185,7 +185,7 @@ class WhoTest {
                     "pAlign": 4
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "0x6474e553",
                     "pFlags": [
                         "PF_R"
@@ -198,7 +198,7 @@ class WhoTest {
                     "pAlign": 8
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "0x6474e550",
                     "pFlags": [
                         "PF_R"
@@ -211,7 +211,7 @@ class WhoTest {
                     "pAlign": 4
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "PT_GNU_STACK",
                     "pFlags": [
                         "PF_W",
@@ -225,7 +225,7 @@ class WhoTest {
                     "pAlign": 16
                 },
                 {
-                    "type": "Elf64Phdr",
+                    "is64Bit": true,
                     "pType": "0x6474e552",
                     "pFlags": [
                         "PF_R"
@@ -245,7 +245,7 @@ class WhoTest {
             """
             [
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 0,
                     "shType": "SHT_NULL",
                     "shFlags": [],
@@ -259,7 +259,7 @@ class WhoTest {
                     "name": ""
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 11,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -275,7 +275,7 @@ class WhoTest {
                     "name": ".interp"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 19,
                     "shType": "SHT_NOTE",
                     "shFlags": [
@@ -291,7 +291,7 @@ class WhoTest {
                     "name": ".note.gnu.property"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 38,
                     "shType": "SHT_NOTE",
                     "shFlags": [
@@ -307,7 +307,7 @@ class WhoTest {
                     "name": ".note.gnu.build-id"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 57,
                     "shType": "SHT_NOTE",
                     "shFlags": [
@@ -323,7 +323,7 @@ class WhoTest {
                     "name": ".note.ABI-tag"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 71,
                     "shType": "0x6ffffff6",
                     "shFlags": [
@@ -339,7 +339,7 @@ class WhoTest {
                     "name": ".gnu.hash"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 81,
                     "shType": "SHT_DYNSYM",
                     "shFlags": [
@@ -355,7 +355,7 @@ class WhoTest {
                     "name": ".dynsym"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 89,
                     "shType": "SHT_STRTAB",
                     "shFlags": [
@@ -371,7 +371,7 @@ class WhoTest {
                     "name": ".dynstr"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 97,
                     "shType": "0x6fffffff",
                     "shFlags": [
@@ -387,7 +387,7 @@ class WhoTest {
                     "name": ".gnu.version"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 110,
                     "shType": "0x6ffffffe",
                     "shFlags": [
@@ -403,7 +403,7 @@ class WhoTest {
                     "name": ".gnu.version_r"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 125,
                     "shType": "SHT_RELA",
                     "shFlags": [
@@ -419,7 +419,7 @@ class WhoTest {
                     "name": ".rela.dyn"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 135,
                     "shType": "SHT_RELA",
                     "shFlags": [
@@ -436,7 +436,7 @@ class WhoTest {
                     "name": ".rela.plt"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 145,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -453,7 +453,7 @@ class WhoTest {
                     "name": ".init"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 140,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -470,7 +470,7 @@ class WhoTest {
                     "name": ".plt"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 151,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -487,7 +487,7 @@ class WhoTest {
                     "name": ".plt.got"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 160,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -504,7 +504,7 @@ class WhoTest {
                     "name": ".plt.sec"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 169,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -521,7 +521,7 @@ class WhoTest {
                     "name": ".text"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 175,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -538,7 +538,7 @@ class WhoTest {
                     "name": ".fini"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 181,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -554,7 +554,7 @@ class WhoTest {
                     "name": ".rodata"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 189,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -570,7 +570,7 @@ class WhoTest {
                     "name": ".eh_frame_hdr"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 203,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -586,7 +586,7 @@ class WhoTest {
                     "name": ".eh_frame"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 213,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -603,7 +603,7 @@ class WhoTest {
                     "name": ".ctors"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 220,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -620,7 +620,7 @@ class WhoTest {
                     "name": ".dtors"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 227,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -637,7 +637,7 @@ class WhoTest {
                     "name": ".data.rel.ro"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 240,
                     "shType": "SHT_DYNAMIC",
                     "shFlags": [
@@ -654,7 +654,7 @@ class WhoTest {
                     "name": ".dynamic"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 155,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -671,7 +671,7 @@ class WhoTest {
                     "name": ".got"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 249,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [
@@ -688,7 +688,7 @@ class WhoTest {
                     "name": ".data"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 255,
                     "shType": "SHT_NOBITS",
                     "shFlags": [
@@ -705,7 +705,7 @@ class WhoTest {
                     "name": ".bss"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 260,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [],
@@ -719,7 +719,7 @@ class WhoTest {
                     "name": ".gnu_debugaltlink"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 278,
                     "shType": "SHT_PROGBITS",
                     "shFlags": [],
@@ -733,7 +733,7 @@ class WhoTest {
                     "name": ".gnu_debuglink"
                 },
                 {
-                    "type": "Elf64Shdr",
+                    "is64Bit": true,
                     "shName": 1,
                     "shType": "SHT_STRTAB",
                     "shFlags": [],
@@ -774,7 +774,7 @@ class WhoTest {
             // 通过virtualMemory读取数据
             // 注意：section虚拟地址可能不同于文件偏移
             val vmData = ByteArray(textSection.size.toInt())
-            val virtAddr = textSection.sectionHeader.shAddr.castToULong()
+            val virtAddr = textSection.sectionHeader.shAddr.toULong()
             file.virtualMemory().readFully(virtAddr.toLong(), vmData)
 
             assertEquals(textSection.size.toInt(), vmData.size, "Text section virtual size mismatch")
@@ -786,15 +786,15 @@ class WhoTest {
 
             // 测试读取程序头表(Program Header)所指向的可加载段
             val firstLoadSegment = file.programHeaders.first { it.pType == ElfPType.PT_LOAD }
-            val segmentData = ByteArray(firstLoadSegment.pFilesz.castToInt())
+            val segmentData = ByteArray(firstLoadSegment.pFilesz.toInt())
             // 从文件中读取
             openNativeFileDataAccessor(PATH).use {
-                it.readFully(firstLoadSegment.pOffset.castToLong(), segmentData)
+                it.readFully(firstLoadSegment.pOffset.toLong(), segmentData)
             }
 
             // 从虚拟内存中读取
-            val vmSegmentData = ByteArray(firstLoadSegment.pFilesz.castToInt())
-            file.virtualMemory().readFully(firstLoadSegment.pVaddr.castToULong().toLong(), vmSegmentData)
+            val vmSegmentData = ByteArray(firstLoadSegment.pFilesz.toInt())
+            file.virtualMemory().readFully(firstLoadSegment.pVaddr.toULong().toLong(), vmSegmentData)
 
             assertEquals(segmentData.size, vmSegmentData.size, "Load segment size mismatch")
             assertContentEquals(
