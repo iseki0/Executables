@@ -3,8 +3,8 @@
 package space.iseki.executables.pe.vi
 
 import kotlinx.serialization.Serializable
-import space.iseki.executables.pe.getWString
 import space.iseki.executables.share.toUnmodifiableList
+import space.iseki.executables.share.wstr
 import kotlin.jvm.JvmName
 
 fun parseVersionData(bytes: ByteArray, off: Int): PEVersionInfo {
@@ -59,7 +59,7 @@ internal fun parseStringTable(bytes: ByteArray, header: StructureHeader): String
             val value = if (stringHeader.wValueLength.toInt() == 0) {
                 ""
             } else {
-                bytes.getWString(pos, stringHeader.wValueLength.toInt() * 2 - 2)
+                bytes.wstr(pos, stringHeader.wValueLength.toInt() * 2 - 2)
             }
             pos += stringHeader.wValueLength.toInt() * 2
             add(stringHeader.szKey to value)

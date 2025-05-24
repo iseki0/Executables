@@ -69,3 +69,14 @@ internal fun ByteArray.cstrUtf8(offset: Int): String {
     }
     return decodeToString(offset, end)
 }
+
+internal expect fun ByteArray.wstr(offset: Int, length: Int): String
+
+internal fun ByteArray.cwstr(offset: Int): String {
+    var end = offset
+    while (this.u2l(end) != 0u.toUShort()) {
+        end += 2
+    }
+    return wstr(offset, end - offset)
+}
+

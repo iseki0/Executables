@@ -53,4 +53,12 @@ internal actual fun ByteArray.u4b(offset: Int): UInt =
  * Gets an unsigned long in big-endian order at the specified offset.
  */
 internal actual fun ByteArray.u8b(offset: Int): ULong =
-    (((this[offset].toULong() and 0xFFu) shl 56) or ((this[offset + 1].toULong() and 0xFFu) shl 48) or ((this[offset + 2].toULong() and 0xFFu) shl 40) or ((this[offset + 3].toULong() and 0xFFu) shl 32) or ((this[offset + 4].toULong() and 0xFFu) shl 24) or ((this[offset + 5].toULong() and 0xFFu) shl 16) or ((this[offset + 6].toULong() and 0xFFu) shl 8) or (this[offset + 7].toULong() and 0xFFu)) 
+    (((this[offset].toULong() and 0xFFu) shl 56) or ((this[offset + 1].toULong() and 0xFFu) shl 48) or ((this[offset + 2].toULong() and 0xFFu) shl 40) or ((this[offset + 3].toULong() and 0xFFu) shl 32) or ((this[offset + 4].toULong() and 0xFFu) shl 24) or ((this[offset + 5].toULong() and 0xFFu) shl 16) or ((this[offset + 6].toULong() and 0xFFu) shl 8) or (this[offset + 7].toULong() and 0xFFu))
+
+internal actual fun ByteArray.wstr(offset: Int, length: Int): String {
+    val chArray = CharArray(length / 2)
+    for (i in 0 until length step 2) {
+        chArray[i / 2] = (this[offset + i].toInt() and 0xff + (this[offset + i + 1].toInt() and 0xff shl 8)).toChar()
+    }
+    return chArray.concatToString()
+}

@@ -1,6 +1,6 @@
 package space.iseki.executables.pe.vi
 
-import space.iseki.executables.pe.getWString
+import space.iseki.executables.share.cwstr
 import space.iseki.executables.share.u2l
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
@@ -24,7 +24,7 @@ internal fun parseStructureHeader(bytes: ByteArray, off: Int): StructureHeader {
     pos += 2
     val wType = bytes.u2l(pos)
     pos += 2
-    val szKey = bytes.getWString(pos)
+    val szKey = bytes.cwstr(pos)
     pos += szKey.length * 2 + 2
     val padding = paddingAlignTo32Bit(pos)
     return StructureHeader(
