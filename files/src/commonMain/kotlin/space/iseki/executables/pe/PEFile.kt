@@ -95,16 +95,25 @@ class PEFile private constructor(
                 pos = signatureBuffer.u4l(0).toLong()
 
                 if (pos <= 0 || pos > 0x1000) {
-                    throw PEFileException("Invalid PE file, PE signature offset out of range: 0x${pos.toString(16)}")
+                    throw PEFileException(
+                        message = "PE signature offset out of range",
+                        arguments = listOf("offset" to "0x${pos.toString(16)}")
+                    )
                 }
 
                 accessor.readFully(pos, signatureBuffer)
                 val readSignature = signatureBuffer.u4l(0)
                 if (readSignature != PE_SIGNATURE_LE.toUInt()) {
-                    throw PEFileException("Not a PE file, bad magic: 0x${readSignature.toHexString()}")
+                    throw PEFileException(
+                        message = "Not a PE file, bad magic",
+                        arguments = listOf("magic" to "0x${readSignature.toHexString()}")
+                    )
                 }
             } catch (e: EOFException) {
-                throw PEFileException("Not a PE file, unexpected EOF during read PE magic", e)
+                throw PEFileException(
+                    message = "Not a PE file, unexpected EOF during read PE magic",
+                    cause = e
+                )
             }
             val coffHeader: CoffHeader
             try {
@@ -113,18 +122,30 @@ class PEFile private constructor(
                 accessor.readFully(pos, coffBuffer)
                 coffHeader = CoffHeader.parse(coffBuffer, 0)
             } catch (e: EOFException) {
-                throw PEFileException("Invalid PE file, unexpected EOF during read COFF header", e)
+                throw PEFileException(
+                    message = "Unexpected EOF during read COFF header",
+                    cause = e
+                )
             }
 
             if (coffHeader.numbersOfSections == 0.toUShort()) {
-                throw PEFileException("Invalid PE file, no sections found")
+                throw PEFileException(
+                    message = "No sections found",
+                    arguments = listOf("section_count" to coffHeader.numbersOfSections.toString())
+                )
             }
             if (coffHeader.numbersOfSections > 96.toUShort()) {
-                throw PEFileException("Invalid PE file, too many sections: " + coffHeader.numbersOfSections)
+                throw PEFileException(
+                    message = "Too many sections",
+                    arguments = listOf("section_count" to coffHeader.numbersOfSections.toString())
+                )
             }
 
             if (coffHeader.sizeOfOptionalHeader < 28.toUShort()) {
-                throw PEFileException("Invalid PE file, optional header size too small: " + coffHeader.sizeOfOptionalHeader)
+                throw PEFileException(
+                    message = "Optional header size too small",
+                    arguments = listOf("size" to coffHeader.sizeOfOptionalHeader.toString())
+                )
             }
 
             val standardHeader: StandardHeader
@@ -136,22 +157,35 @@ class PEFile private constructor(
                 standardHeader = StandardHeader.parse(optionalHeaderBuffer, 0)
 
                 if (standardHeader.magic != PE32Magic.PE32 && standardHeader.magic != PE32Magic.PE32Plus) {
-                    throw PEFileException("Invalid PE file, unsupported PE magic: ${standardHeader.magic}")
+                    throw PEFileException(
+                        message = "Unsupported PE magic",
+                        arguments = listOf("magic" to standardHeader.magic.toString())
+                    )
                 }
 
                 optionalHeader =
                     WindowsSpecifiedHeader.parse(optionalHeaderBuffer, standardHeader.length(), standardHeader.magic)
 
                 if (optionalHeader.numbersOfRvaAndSizes > 16) {
-                    throw PEFileException("Invalid PE file, too many data directories: ${optionalHeader.numbersOfRvaAndSizes}")
+                    throw PEFileException(
+                        message = "Too many data directories",
+                        arguments = listOf("count" to optionalHeader.numbersOfRvaAndSizes.toString())
+                    )
                 }
             } catch (e: IndexOutOfBoundsException) {
-                val s =
-                    "Invalid PE file, IOBE during reading optional header, maybe the sizeOfOptionalHeader in COFF header is too small, COFF header: $coffHeader"
-                throw PEFileException(s, e)
+                throw PEFileException(
+                    message = "IOBE during reading optional header, maybe the sizeOfOptionalHeader in COFF header is too small",
+                    arguments = listOf("coff_header" to coffHeader.toString()),
+                    cause = e
+                )
             } catch (e: EOFException) {
                 throw PEFileException(
-                    message = "Invalid PE file, unexpected EOF during read optional header [${Address32(pos.toUInt())} + ${coffHeader.sizeOfOptionalHeader}], COFF header: $coffHeader",
+                    message = "Unexpected EOF during read optional header",
+                    arguments = listOf(
+                        "position" to Address32(pos.toUInt()).toString(),
+                        "size" to coffHeader.sizeOfOptionalHeader.toString(),
+                        "coff_header" to coffHeader.toString()
+                    ),
                     cause = e
                 )
             }
@@ -160,7 +194,14 @@ class PEFile private constructor(
             try {
                 accessor.readFully(pos, sectionTableData)
             } catch (e: EOFException) {
-                throw PEFileException("Invalid PE file, unexpected EOF during read section table", e)
+                throw PEFileException(
+                    message = "Unexpected EOF during read section table",
+                    arguments = listOf(
+                        "position" to pos.toString(),
+                        "size" to sectionTableData.size.toString()
+                    ),
+                    cause = e
+                )
             }
             val sectionTableItemArray = Array(coffHeader.numbersOfSections.toInt()) {
                 val off = it * SectionTableItem.LENGTH
@@ -169,15 +210,27 @@ class PEFile private constructor(
 
             for (section in sectionTableItemArray) {
                 if (section.virtualSize == 0u) {
-                    throw PEFileException("Invalid PE file, section ${section.name} has zero virtual size")
+                    throw PEFileException(
+                        message = "Section has zero virtual size",
+                        arguments = listOf("section_name" to section.name)
+                    )
                 }
 
                 if (section.virtualAddress.value % 0x1000u != 0u) {
-                    throw PEFileException("Invalid PE file, section ${section.name} is not aligned to 4K boundary: ${section.virtualAddress}")
+                    throw PEFileException(
+                        message = "Section is not aligned to 4K boundary",
+                        arguments = listOf(
+                            "section_name" to section.name,
+                            "virtual_address" to section.virtualAddress.toString()
+                        )
+                    )
                 }
 
                 if (section.sizeOfRawData > 0u && section.pointerToRawData.value == 0u) {
-                    throw PEFileException("Invalid PE file, section ${section.name} has raw data but no pointer to raw data")
+                    throw PEFileException(
+                        message = "Section has raw data but no pointer to raw data",
+                        arguments = listOf("section_name" to section.name)
+                    )
                 }
             }
 
@@ -257,7 +310,10 @@ class PEFile private constructor(
         val buf = ByteArray(16)
         readVirtualMemory(dataRva + rsrcRva, buf, 0, buf.size)
         val characteristics = buf.u4l(0)
-        if (characteristics != 0u) throw PEFileException("Invalid resource directory node, characteristics is not 0, $dataRva")
+        if (characteristics != 0u) throw PEFileException(
+            message = "Invalid resource directory node, characteristics is not 0",
+            arguments = listOf("data_rva" to dataRva.toString())
+        )
 //        val timeDateStamp = TimeDataStamp32(buf.u4l(4))
 //        val majorVersion = buf.u2l(8)
 //        val minorVersion = buf.u2l(10)

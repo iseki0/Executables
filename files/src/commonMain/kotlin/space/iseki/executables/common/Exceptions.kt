@@ -39,14 +39,22 @@ internal class CStringReadingException(val offset: Long, val reason: Reason) : R
         get() = "Failed to read C string at offset $offset, reason: $reason"
 }
 
+/**
+ * Base exception for all file format processing errors.
+ *
+ * This exception provides structured error reporting by separating the static error message
+ * from contextual parameters. The message is a fixed string constant that describes the
+ * general type of error, while the arguments contain specific runtime values that
+ * caused the error.
+ *
+ * @param message A fixed string constant describing the type of error
+ * @param arguments A list of key-value pairs containing contextual information about the error.
+ *                  Each pair consists of a parameter name and its string representation.
+ * @param cause The underlying cause of this exception, if any
+ */
 open class CommonFileException internal constructor(
     message: String,
     val arguments: List<Pair<String, String>>,
     cause: Throwable? = null,
-) : RuntimeException(cause) {
-    override val message: String by lazy(LazyThreadSafetyMode.PUBLICATION) {
-        val args = if (arguments.isEmpty()) "" else arguments.joinToString(", ") { "${it.first}=${it.second}" }
-        if (args.isNotEmpty()) "$message ($args)" else message.ifEmpty { "An error occurred" }
-    }
-}
+) : RuntimeException(message, cause)
 

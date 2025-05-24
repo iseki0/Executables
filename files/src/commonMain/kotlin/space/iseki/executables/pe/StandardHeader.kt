@@ -81,7 +81,10 @@ data class StandardHeader internal constructor(
     internal fun validate() {
         // 检查魔数是否有效
         if (magic != PE32Magic.PE32 && magic != PE32Magic.PE32Plus) {
-            throw PEFileException("Invalid standard header: unsupported PE magic: $magic")
+            throw PEFileException(
+                message = "Unsupported PE magic",
+                arguments = listOf("magic" to magic.toString())
+            )
         }
 
 //        // 检查代码段大小
@@ -100,12 +103,22 @@ data class StandardHeader internal constructor(
         // 检查数据基址（仅PE32）
         if (magic == PE32Magic.PE32) {
             if (baseOfData.value != 0u && sizeOfInitializedData == 0u && sizeOfUninitializedData == 0u) {
-                throw PEFileException("Invalid standard header: base of data is not 0 but no data sections exist")
+                throw PEFileException(
+                    message = "Invalid standard header: base of data is not 0 but no data sections exist",
+                    arguments = listOf(
+                        "base_of_data" to baseOfData.toString(),
+                        "size_of_initialized_data" to sizeOfInitializedData.toString(),
+                        "size_of_uninitialized_data" to sizeOfUninitializedData.toString()
+                    )
+                )
             }
         } else {
             // PE32+
             if (baseOfData.value != 0u) {
-                throw PEFileException("Invalid standard header: base of data must be 0 for PE32+")
+                throw PEFileException(
+                    message = "Invalid standard header: base of data must be 0 for PE32+",
+                    arguments = listOf("base_of_data" to baseOfData.toString())
+                )
             }
         }
     }

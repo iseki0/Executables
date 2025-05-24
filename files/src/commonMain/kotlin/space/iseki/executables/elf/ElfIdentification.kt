@@ -29,7 +29,14 @@ data class ElfIdentification internal constructor(
         internal fun parse(bytes: ByteArray, off: Int): ElfIdentification {
             // check range and size
             if (off + 16 > bytes.size) {
-                throw ElfFileException("Invalid ELF identification size")
+                throw ElfFileException(
+                    message = "Invalid ELF identification size",
+                    arguments = listOf(
+                        "offset" to off.toString(),
+                        "required_size" to "16",
+                        "available_size" to (bytes.size - off).toString()
+                    )
+                )
             }
 
             // check magic numbers (EI_MAG0 through EI_MAG3)
@@ -38,25 +45,42 @@ data class ElfIdentification internal constructor(
                 bytes[off + 2] != 'L'.code.toByte() ||
                 bytes[off + 3] != 'F'.code.toByte()
             ) {
-                throw ElfFileException("Invalid ELF magic number")
+                throw ElfFileException(
+                    message = "Invalid ELF magic number",
+                    arguments = listOf(
+                        "magic" to "${bytes[off].toUByte().toString(16)}${
+                            bytes[off + 1].toInt()
+                                .toChar()
+                        }${bytes[off + 2].toInt().toChar()}${bytes[off + 3].toInt().toChar()}"
+                    )
+                )
             }
 
             // Check EI_CLASS (byte 4)
             val eiClass = ElfClass(bytes[off + 4])
             if (eiClass != ElfClass.ELFCLASS32 && eiClass != ElfClass.ELFCLASS64) {
-                throw ElfFileException("Invalid ELF class: $eiClass")
+                throw ElfFileException(
+                    message = "Invalid ELF class",
+                    arguments = listOf("class" to eiClass.toString())
+                )
             }
 
             // Check EI_DATA (byte 5)
             val eiData = ElfData(bytes[off + 5])
             if (eiData != ElfData.ELFDATA2LSB && eiData != ElfData.ELFDATA2MSB) {
-                throw ElfFileException("Invalid ELF data encoding: $eiData")
+                throw ElfFileException(
+                    message = "Invalid ELF data encoding",
+                    arguments = listOf("encoding" to eiData.toString())
+                )
             }
 
             // Check EI_VERSION (byte 6)
             val eiVersion = bytes[off + 6].toUByte()
             if (eiVersion != 1u.toUByte()) {
-                throw ElfFileException("Invalid ELF version: $eiVersion, expected 1")
+                throw ElfFileException(
+                    message = "Invalid ELF version, expected 1",
+                    arguments = listOf("version" to eiVersion.toString())
+                )
             }
 
             // Check EI_OSABI (byte 7)
@@ -69,7 +93,13 @@ data class ElfIdentification internal constructor(
             // According to the ELF specification, these bytes should be zero
             for (i in 9 until 16) {
                 if (bytes[off + i] != 0.toByte()) {
-                    throw ElfFileException("Invalid ELF padding byte at index $i: ${bytes[off + i]}")
+                    throw ElfFileException(
+                        message = "Invalid ELF padding byte",
+                        arguments = listOf(
+                            "index" to i.toString(),
+                            "value" to bytes[off + i].toString()
+                        )
+                    )
                 }
             }
 
