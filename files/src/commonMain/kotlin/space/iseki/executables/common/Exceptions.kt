@@ -1,5 +1,7 @@
 package space.iseki.executables.common
 
+import kotlin.jvm.JvmOverloads
+
 /**
  * Represents an I/O exception.
  *
@@ -27,3 +29,18 @@ expect class AccessDeniedException : IOException {
     constructor(file: String?)
     constructor(file: String?, other: String?, reason: String?)
 }
+
+internal class CStringReadingException(val offset: Long, val reason: Reason) : RuntimeException() {
+    constructor(offset: Int, reason: Reason) : this(offset.toUInt().toLong(), reason)
+
+    enum class Reason {
+        NULL_TERMINATOR, INVALID_CHARACTER,
+    }
+
+    override val message: String
+        get() = "Failed to read C string at offset $offset, reason: $reason"
+}
+
+open class CommonFileException @JvmOverloads constructor(message: String? = null, cause: Throwable? = null) :
+    RuntimeException(message, cause)
+

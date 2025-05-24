@@ -1,6 +1,7 @@
 package space.iseki.executables.elf
 
 import kotlinx.serialization.Serializable
+import space.iseki.executables.common.CStringReadingException
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.DataAccessor.Companion.checkReadBounds
 import space.iseki.executables.common.EOFException
@@ -15,7 +16,6 @@ import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.VirtualMemoryReadable
-import space.iseki.executables.share.CStringReadingException
 import space.iseki.executables.share.MemReader
 import space.iseki.executables.share.cstrUtf8
 import kotlin.contracts.ExperimentalContracts

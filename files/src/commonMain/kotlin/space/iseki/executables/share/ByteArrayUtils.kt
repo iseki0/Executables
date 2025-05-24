@@ -2,6 +2,7 @@
 
 package space.iseki.executables.share
 
+import space.iseki.executables.common.CStringReadingException
 import kotlin.jvm.JvmName
 
 
@@ -64,12 +65,7 @@ internal fun ByteArray.cstrUtf8(offset: Int): String {
         end++
     }
     if (end >= size) {
-        throw CStringReadingException(offset)
+        throw CStringReadingException(offset, CStringReadingException.Reason.NULL_TERMINATOR)
     }
     return decodeToString(offset, end)
-}
-
-open class CStringReadingException(val offset: Int) : RuntimeException() {
-    override val message: String
-        get() = "Reading C string failed at offset $offset"
 }
