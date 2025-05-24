@@ -5,7 +5,13 @@ import space.iseki.executables.common.CommonFileException
 /**
  * Exception thrown when a Mach-O file is invalid or cannot be processed.
  */
-class MachoFileException : CommonFileException {
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
+class MachoFileException internal constructor(
+    message: String,
+    arguments: List<Pair<String, String>> = emptyList(),
+    cause: Throwable? = null,
+) : CommonFileException(message, arguments, cause) {
+    internal constructor(
+        message: String,
+        cause: Throwable? = null,
+    ) : this(message, emptyList(), cause)
 }

@@ -8,4 +8,13 @@ import space.iseki.executables.common.CommonFileException
  * @param message the detailed message describing the error
  * @param cause the underlying reason for the exception
  */
-open class PEFileException(message: String, cause: Throwable? = null) : CommonFileException(message, cause)
+open class PEFileException internal constructor(
+    message: String,
+    arguments: List<Pair<String, String>> = emptyList(),
+    cause: Throwable? = null,
+) : CommonFileException(message, arguments, cause) {
+    internal constructor(
+        message: String,
+        cause: Throwable? = null,
+    ) : this(message, emptyList(), cause)
+}

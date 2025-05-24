@@ -1,7 +1,5 @@
 package space.iseki.executables.common
 
-import kotlin.jvm.JvmOverloads
-
 /**
  * Represents an I/O exception.
  *
@@ -41,6 +39,14 @@ internal class CStringReadingException(val offset: Long, val reason: Reason) : R
         get() = "Failed to read C string at offset $offset, reason: $reason"
 }
 
-open class CommonFileException @JvmOverloads constructor(message: String? = null, cause: Throwable? = null) :
-    RuntimeException(message, cause)
+open class CommonFileException internal constructor(
+    message: String,
+    val arguments: List<Pair<String, String>>,
+    cause: Throwable? = null,
+) : RuntimeException(cause) {
+    override val message: String by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        val args = if (arguments.isEmpty()) "" else arguments.joinToString(", ") { "${it.first}=${it.second}" }
+        if (args.isNotEmpty()) "$message ($args)" else message.ifEmpty { "An error occurred" }
+    }
+}
 
