@@ -26,7 +26,8 @@ class ExceptionTest {
         val e = assertFailsWith<PEFileException> {
             PEFile.open(copyOf)
         }
-        assertEquals("Not a PE file, bad magic: 0x00000000", e.message)
+        assertEquals("Not a PE file, bad magic", e.message)
+        assertEquals(e.arguments, listOf("magic" to "0x00000000"))
     }
 
 }
