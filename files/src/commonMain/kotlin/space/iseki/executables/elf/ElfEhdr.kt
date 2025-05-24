@@ -220,7 +220,10 @@ data class ElfEhdr internal constructor(
 internal fun ElfEhdr.validate(fileSize: Long) {
     // Validate e_type
     when (eType) {
-        ElfType.ET_NONE -> throw ElfFileException("Invalid file type: ET_NONE")
+        ElfType.ET_NONE -> throw ElfFileException(
+            message = "Invalid file type: ET_NONE",
+            arguments = listOf("type" to eType.toString())
+        )
         ElfType.ET_REL, ElfType.ET_EXEC, ElfType.ET_DYN, ElfType.ET_CORE -> { /* Valid types */
         }
 
@@ -228,29 +231,53 @@ internal fun ElfEhdr.validate(fileSize: Long) {
             // Check if it's a processor-specific type (between ET_LOPROC and ET_HIPROC)
             val typeValue = eType.value.toInt()
             if (typeValue < ElfType.ET_LOPROC.value.toInt() || typeValue > ElfType.ET_HIPROC.value.toInt()) {
-                throw ElfFileException("Unknown file type: $eType")
+                throw ElfFileException(
+                    message = "Unknown file type",
+                    arguments = listOf("type" to eType.toString())
+                )
             }
         }
     }
 
     // Validate e_version
     if (eVersion.toInt() != 1) {
-        throw ElfFileException("Invalid ELF version: ${eVersion.toInt()}, expected 1")
+        throw ElfFileException(
+            message = "Invalid ELF version, expected 1",
+            arguments = listOf("version" to eVersion.toInt().toString())
+        )
     }
 
     // Validate e_ehsize (ELF header size)
     val expectedEhdrSize = if (is64Bit) 64 else 52
 
     if (eEhsize.toInt() != expectedEhdrSize) {
-        throw ElfFileException("Invalid ELF header size: ${eEhsize.toInt()}, expected $expectedEhdrSize")
+        throw ElfFileException(
+            message = "Invalid ELF header size",
+            arguments = listOf(
+                "actual_size" to eEhsize.toInt().toString(),
+                "expected_size" to expectedEhdrSize.toString()
+            )
+        )
     }
 
     // Validate offsets are within file bounds
     if (ePhoff != 0UL && ePhoff.toLong() >= fileSize) {
-        throw ElfFileException("Program header table offset $ePhoff is beyond file end ($fileSize)")
+        throw ElfFileException(
+            message = "Program header table offset is beyond file end",
+            arguments = listOf(
+                "offset" to ePhoff.toString(),
+                "file_size" to fileSize.toString()
+            )
+        )
     }
     if (eShoff != 0UL && eShoff.toLong() >= fileSize) {
-        throw ElfFileException("Section header table offset $eShoff is beyond file end ($fileSize)")
+        throw ElfFileException(
+            message = "Section header table offset is beyond file end",
+            arguments = listOf(
+                "offset" to eShoff.toString(),
+                "file_size" to fileSize.toString()
+            )
+        )
     }
 
     // Validate section header string table index
@@ -258,6 +285,12 @@ internal fun ElfEhdr.validate(fileSize: Long) {
     val shstrndx = eShstrndx.toInt()
 
     if (shnum in 1..shstrndx) {
-        throw ElfFileException("Section header string table index ($shstrndx) is out of bounds (section count: $shnum)")
+        throw ElfFileException(
+            message = "Section header string table index is out of bounds",
+            arguments = listOf(
+                "index" to shstrndx.toString(),
+                "section_count" to shnum.toString()
+            )
+        )
     }
 }
