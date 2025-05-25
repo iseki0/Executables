@@ -78,6 +78,54 @@ fun FileFormat.Companion.detect(dataAccessor: DataAccessor): FileFormat<OpenedFi
     }
 }
 
+/**
+ * Detects the file format and opens the file using the appropriate parser.
+ *
+ * This function first attempts to detect the file format using the provided [DataAccessor],
+ * and then opens the file using the detected format's [FileFormat.open] method.
+ *
+ * @param accessor The data accessor that provides access to the file content
+ * @return A new file instance if the format is detected and parsing succeeds, or `null` if the format cannot be detected
+ * @throws CommonFileException if the file format is invalid or unsupported (after successful detection)
+ * @throws IOException if an I/O error occurs
+ */
+@Throws(IOException::class)
+fun FileFormat.Companion.open(accessor: DataAccessor): OpenedFile? {
+    val detectedFormat = detect(accessor)
+    return detectedFormat?.open(accessor)
+}
+
+/**
+ * Detects the file format and opens the file using the appropriate parser.
+ *
+ * This function first attempts to detect the file format from the provided [ByteArray],
+ * and then opens the file using the detected format's [FileFormat.open] method.
+ *
+ * @param bytes The bytes that represent the file content
+ * @return A new file instance if the format is detected and parsing succeeds, or `null` if the format cannot be detected
+ * @throws CommonFileException if the file format is invalid or unsupported (after successful detection)
+ */
+fun FileFormat.Companion.open(bytes: ByteArray): OpenedFile? {
+    val detectedFormat = detect(bytes)
+    return detectedFormat?.open(bytes)
+}
+
+/**
+ * Detects the file format and opens the file using the appropriate parser.
+ *
+ * This function first attempts to detect the file format from the file at the given path,
+ * and then opens the file using the detected format's [FileFormat.open] method.
+ *
+ * Note: The behavior of this method may vary across different platforms,
+ * depending on how file paths are resolved and accessed.
+ * @param path The path to the file
+ * @return A new file instance if the format is detected and parsing succeeds, or `null` if the format cannot be detected
+ * @throws CommonFileException if the file format is invalid or unsupported (after successful detection)
+ * @throws IOException if an I/O error occurs
+ * @throws UnsupportedOperationException if the platform does not support file access
+ */
+expect fun FileFormat.Companion.open(path: String): OpenedFile?
+
 fun FileFormat(name: String) = when (name) {
     "ELF" -> ElfFile
     "Mach-O" -> MachoFile
