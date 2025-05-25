@@ -30,6 +30,21 @@ Currently, this library can:
 
 All targets supported.
 
+### Quick start
+
+> For someone who doesn't want to read the documentation
+
+```kotlin
+import space.iseki.executables.common.FileFormat
+
+fun main(vararg args: String) {
+    FileFormat.open(args[0])?.use { file ->
+        println(file)
+        // do what you want to do
+    }
+}
+```
+
 ## Getting Started
 
 ### Add dependency
