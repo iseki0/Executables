@@ -68,7 +68,10 @@ internal fun handleCommand(args: List<String>) {
 
 }
 
+expect fun cmdlineArgs(): List<String>?
+
 fun main(vararg args: String) {
+    @Suppress("NAME_SHADOWING") val args = cmdlineArgs() ?: args.toList()
     try {
         handleCommand(args.toList())
     } catch (e: CommonFileException) {
