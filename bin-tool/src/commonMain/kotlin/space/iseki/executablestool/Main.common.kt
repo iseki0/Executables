@@ -1,6 +1,7 @@
 package space.iseki.executablestool
 
 import platform.posix.exit
+import space.iseki.executables.common.CommonFileException
 import space.iseki.executables.common.ExportSymbolContainer
 import space.iseki.executables.common.FileFormat
 import space.iseki.executables.common.ImportSymbolContainer
@@ -68,7 +69,13 @@ internal fun handleCommand(args: List<String>) {
 }
 
 fun main(vararg args: String) {
-    handleCommand(args.toList())
+    try {
+        handleCommand(args.toList())
+    } catch (e: CommonFileException) {
+        println("Error: ${e.message}")
+        e.arguments.forEach { (k, v) -> "$k=$v" }
+        throw e
+    }
 }
 
 internal fun printStructure(r: ReadableStructure, index: Int) {
