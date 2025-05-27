@@ -70,10 +70,6 @@ fun FileFormat.Companion.detect(dataAccessor: DataAccessor): FileFormat<OpenedFi
         buf[0] == 0xfe.toByte() && buf[1] == 0xed.toByte() && buf[2] == 0xfa.toByte() && buf[3] == 0xcf.toByte() -> MachoFile
         // 64-bit big endian
         buf[0] == 0xcf.toByte() && buf[1] == 0xfa.toByte() && buf[2] == 0xed.toByte() && buf[3] == 0xfe.toByte() -> MachoFile
-        // Fat binary (universal)
-        buf[0] == 0xca.toByte() && buf[1] == 0xfe.toByte() && buf[2] == 0xba.toByte() && buf[3] == 0xbe.toByte() -> MachoFile
-        // Fat binary (reverse endian)
-        buf[0] == 0xbe.toByte() && buf[1] == 0xba.toByte() && buf[2] == 0xfe.toByte() && buf[3] == 0xca.toByte() -> MachoFile
         else -> null
     }
 }
