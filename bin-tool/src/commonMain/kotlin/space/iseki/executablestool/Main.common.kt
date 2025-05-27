@@ -73,7 +73,7 @@ fun main(vararg args: String) {
         handleCommand(args.toList())
     } catch (e: CommonFileException) {
         println("Error: ${e.message}")
-        e.arguments.forEach { (k, v) -> "$k=$v" }
+        e.arguments.forEach { (k, v) -> println("$k=$v") }
         throw e
     }
 }
