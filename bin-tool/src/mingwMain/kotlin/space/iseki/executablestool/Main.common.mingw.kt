@@ -14,7 +14,7 @@ import platform.windows.GetLastError
 import platform.windows.LocalFree
 
 @OptIn(ExperimentalForeignApi::class)
-actual fun cmdlineArgs(): List<String>? {
+internal actual fun cmdlineArgs(): List<String>? {
     memScoped {
         val n = alloc<IntVar>()
         val p = CommandLineToArgvW(GetCommandLineW()?.toKStringFromUtf16().orEmpty(), n.ptr)

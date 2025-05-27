@@ -1,3 +1,3 @@
 package space.iseki.executablestool
 
-actual fun cmdlineArgs(): List<String>? = null
+internal actual fun cmdlineArgs(): List<String>? = null
