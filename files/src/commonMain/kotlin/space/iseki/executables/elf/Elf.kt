@@ -16,8 +16,12 @@ import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.VirtualMemoryReadable
+import space.iseki.executables.common.readFully
+import space.iseki.executables.common.toAddr
 import space.iseki.executables.share.MemReader
 import space.iseki.executables.share.cstrUtf8
+import space.iseki.executables.share.u4
+import space.iseki.executables.share.u8
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -64,82 +68,12 @@ class ElfFile private constructor(
             ehdr: ElfEhdr,
             sectionHeaders: List<ElfShdr>,
         ): List<ElfShdr> {
-            if (sectionHeaders.isEmpty()) return sectionHeaders
-
-            val shstrndx = ehdr.eShstrndx.toInt()
-            if (shstrndx < 0 || shstrndx >= sectionHeaders.size) {
-                throw ElfFileException(
-                    "Invalid section header string table index",
-                    "index" to shstrndx,
-                    "section_count" to sectionHeaders.size,
-                )
-            }
-
-            val stringTableHeader = sectionHeaders[shstrndx]
-
-            // Validate string table section type
-            if (stringTableHeader.shType != ElfSType.SHT_STRTAB) {
-                throw ElfFileException(
-                    "Section header string table is not a string table",
-                    "index" to shstrndx,
-                    "type" to stringTableHeader.shType,
-                )
-            }
-
-            if (stringTableHeader.shSize > Int.MAX_VALUE.toULong()) {
-                throw ElfFileException("String table size exceeds maximum allowed", "size" to stringTableHeader.shSize)
-            }
-            val stringTableSize = stringTableHeader.shSize.toInt()
-            if (stringTableSize <= 0) {
-                throw ElfFileException("Invalid string table size", "size" to stringTableSize)
-            }
-
-            // Check if string table size is reasonable (arbitrary limit to prevent DoS)
-            if (stringTableSize > 10 * 1024 * 1024) { // 10 MB limit
-                throw ElfFileException("String table size too large", "size" to stringTableSize)
-            }
-
-            val stringTableOffset = stringTableHeader.shOffset.toLong()
-
-            // Validate string table offset
-            if (stringTableOffset < 0 || stringTableOffset + stringTableSize > accessor.size) {
-                throw ElfFileException(
-                    "String table extends beyond file end",
-                    "offset" to stringTableOffset,
-                    "size" to stringTableSize,
-                    "file_size" to accessor.size,
-                )
-            }
-
-            val stringTableData = ByteArray(stringTableSize)
-            tryReading("string table", stringTableOffset, stringTableSize) {
-                accessor.readFully(stringTableOffset, stringTableData)
-            }
-
-            // Verify first byte is null as per ELF spec
-            if (stringTableSize > 0 && stringTableData[0] != 0.toByte()) {
-                throw ElfFileException(
-                    "Invalid string table: first byte is not null",
-                    "first_byte" to stringTableData[0],
-                    "table_size" to stringTableSize,
-                )
-            }
-
+            if (sectionHeaders.isEmpty() || ehdr.eShstrndx == 0.toUShort()) return sectionHeaders
+            val stringTable = Shstrtab(accessor, sectionHeaders[ehdr.eShstrndx.toInt()], ehdr.eShstrndx.toInt())
             // Add name to each section header
             return sectionHeaders.map { shdr ->
-                val nameIndex = shdr.shName.toInt()
-                if (nameIndex < 0 || nameIndex >= stringTableSize) {
-                    throw ElfFileException(
-                        "Invalid section name index", "index" to nameIndex, "string_table_size" to stringTableSize,
-                    )
-                }
-
-                val name = runCatching { stringTableData.cstrUtf8(nameIndex) }.getOrElse {
-                    throw ElfFileException("Failed to decode section name", "index" to nameIndex, cause = it)
-                }
-
-                // Create a new section header with name using the copy function
-                shdr.copy(name = name)
+                if (shdr.shType == ElfSType.SHT_NULL) return@map shdr
+                shdr.copy(name = stringTable.getStringAt(shdr.shName.toInt()))
             }
         }
 
@@ -171,43 +105,13 @@ class ElfFile private constructor(
                 )
             }
 
-            val ehdr = if (ident.eiClass == ElfClass.ELFCLASS32) {
-                ElfEhdr.parse32(buf2, 0, ident)
-            } else if (ident.eiClass == ElfClass.ELFCLASS64) {
-                ElfEhdr.parse64(buf2, 0, ident)
-            } else {
-                throw ElfFileException("Invalid ElfClass", "class" to ident.eiClass)
-            }
-
-            // Validate ELF header fields
-            ehdr.validate(accessor.size)
+            val ehdr = ElfEhdr.parse(buf2, 0, ident).apply { validate(accessor.size) }
 
             // Read Program Header table
             val phOffset: Long = ehdr.ePhoff.toLong()
             val phEntSize: Int = ehdr.ePhentsize.toInt()
             val phNum: Int = ehdr.ePhnum.toInt()
-            if (ehdr.is64Bit) {
-                if (phEntSize < 56) // Minimum size for 64-bit program header
-                    throw ElfFileException(
-                        "Invalid program header entry size, must be at least 56 bytes",
-                        "size" to phEntSize,
-                    )
-            } else {
-                if (phEntSize < 32) // Minimum size for 32-bit program header
-                    throw ElfFileException(
-                        "Invalid program header entry size, must be at least 32 bytes",
-                        "size" to phEntSize,
-                    )
-            }
             val phSize = phEntSize * phNum
-            if (phOffset + phSize > accessor.size) {
-                throw ElfFileException(
-                    "Program header table extends beyond file end",
-                    "offset" to phOffset,
-                    "size" to phSize,
-                    "file_size" to accessor.size,
-                )
-            }
             val phBuffer = ByteArray(phSize)
             try {
                 if (phSize > 0) accessor.readFully(phOffset, phBuffer)
@@ -215,13 +119,7 @@ class ElfFile private constructor(
                 throw ElfFileException("Failed to read program headers", "offset" to phOffset, cause = e)
             }
             val programHeaders = tryByteArrayParsing("program headers") {
-                List(phNum) { i ->
-                    if (ehdr.is64Bit) {
-                        ElfPhdr.parse64(phBuffer, i * phEntSize, ident)
-                    } else {
-                        ElfPhdr.parse32(phBuffer, i * phEntSize, ident)
-                    }
-                }
+                List(phNum) { i -> ElfPhdr.parse(phBuffer, i * phEntSize, ident, ehdr.is64Bit) }
             }
 
             val le = ident.eiData == ElfData.ELFDATA2LSB
@@ -229,40 +127,13 @@ class ElfFile private constructor(
             val shOffset = ehdr.eShoff.toLong()
             val shEntSize = ehdr.eShentsize.toInt()
             val shNum = ehdr.eShnum.toInt()
-            if (ehdr.is64Bit) {
-                if (shEntSize < 64) // Minimum size for 64-bit section header
-                    throw ElfFileException(
-                        "Invalid section header entry size, must be at least 64 bytes",
-                        "size" to shEntSize,
-                    )
-            } else {
-                if (shEntSize < 40) // Minimum size for 32-bit section header
-                    throw ElfFileException(
-                        "Invalid section header entry size, must be at least 40 bytes",
-                        "size" to shEntSize,
-                    )
-            }
             val shSize = shEntSize * shNum
-            if (shOffset + shSize > accessor.size) {
-                throw ElfFileException(
-                    "Section header table extends beyond file end",
-                    "offset" to shOffset,
-                    "size" to shSize,
-                    "file_size" to accessor.size,
-                )
-            }
             val shBuffer = ByteArray(shSize)
             tryReading("section headers", shOffset, shSize) {
                 if (shSize > 0) accessor.readFully(shOffset, shBuffer)
             }
             val sectionHeaders = tryByteArrayParsing("section headers") {
-                List(shNum) { i ->
-                    if (ehdr.is64Bit) {
-                        ElfShdr.parse64(shBuffer, i * shEntSize, le)
-                    } else {
-                        ElfShdr.parse32(shBuffer, i * shEntSize, le)
-                    }
-                }
+                List(shNum) { i -> ElfShdr.parse(shBuffer, i * shEntSize, le, ehdr.is64Bit) }
             }
 
             // Read section name string table and add names to section headers

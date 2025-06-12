@@ -106,6 +106,18 @@ data class ElfPhdr internal constructor(
 
     companion object {
         /**
+         * Parse an ELF program header from a byte array based on the ELF identification.
+         *
+         * @param bytes The byte array containing the ELF program header data.
+         * @param off The offset in the byte array where the program header starts.
+         * @param ident The ELF identification structure that indicates whether this is a 32-bit or 64-bit ELF file.
+         * @return An instance of [ElfPhdr] representing the parsed program header.
+         */
+        fun parse(bytes: ByteArray, off: Int, ident: ElfIdentification, is64Bit: Boolean): ElfPhdr {
+            return if (is64Bit) parse64(bytes, off, ident) else parse32(bytes, off, ident)
+        }
+
+        /**
          * Parse a 32-bit ELF program header from a byte array.
          */
         fun parse32(bytes: ByteArray, off: Int, ident: ElfIdentification): ElfPhdr {

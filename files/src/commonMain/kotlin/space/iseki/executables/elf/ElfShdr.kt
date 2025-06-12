@@ -122,6 +122,10 @@ data class ElfShdr internal constructor(
         }
 
     companion object {
+
+        fun parse(bytes: ByteArray, off: Int, le: Boolean, is64Bit: Boolean): ElfShdr {
+            return if (is64Bit) parse64(bytes, off, le) else parse32(bytes, off, le)
+        }
         /**
          * Parse a 32-bit ELF section header from a byte array.
          */
