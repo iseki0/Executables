@@ -2,7 +2,6 @@ package space.iseki.executables.common
 
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.COpaquePointer
-import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
@@ -15,43 +14,49 @@ import kotlinx.cinterop.usePinned
 import platform.posix.EACCES
 import platform.posix.ENOENT
 import platform.posix.EPERM
-import platform.posix.FILE
 import platform.posix.MAP_FAILED
 import platform.posix.MAP_SHARED
+import platform.posix.O_CLOEXEC
+import platform.posix.O_RDONLY
 import platform.posix.PROT_READ
 import platform.posix.errno
-import platform.posix.fclose
-import platform.posix.fileno
-import platform.posix.fopen
 import platform.posix.fstat
 import platform.posix.memcpy
 import platform.posix.mmap
 import platform.posix.munmap
+import platform.posix.open
 import platform.posix.stat
 import platform.posix.strerror
 import space.iseki.executables.share.ClosableDataAccessor
+import kotlin.experimental.ExperimentalNativeApi
+import kotlin.native.ref.createCleaner
+
+@Suppress("DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE")
+@OptIn(ExperimentalNativeApi::class)
+internal actual fun openNativeFileDataAccessor(path: String): DataAccessor {
+    val impl = NativeFileDataAccessorImpl(path)
+    return object : DataAccessor by impl {
+        val cleaner = createCleaner(impl, AutoCloseable::close)
+    }
+}
 
 @OptIn(ExperimentalForeignApi::class)
-internal class NativeFileDataAccessor(private val nativePath: String) : ClosableDataAccessor() {
-    private val file: CPointer<FILE>
+private class NativeFileDataAccessorImpl(private val nativePath: String) : ClosableDataAccessor() {
     private val beginPtr: COpaquePointer?
     override val size: Long
 
     init {
-        val f = fopen(nativePath, "rb") ?: throw translateErrorImmediately("fopen")
+        val fd = open(nativePath, O_CLOEXEC or O_RDONLY)
+        if (fd == -1) throw translateErrorImmediately("open")
         try {
             memScoped {
-                val fd = fileno(f)
-                if (fd == -1) {
-                    throw translateErrorImmediately("fileno")
-                }
                 val stat = alloc<stat>()
                 if (fstat(fd, stat.ptr) == -1) {
                     throw translateErrorImmediately("fstat")
                 }
                 size = stat.st_size
                 if (size > 0L) {
-                    val pointer = mmap(null, stat.st_size.toULong(), PROT_READ, MAP_SHARED, fileno(f), 0)
+                    val pointer = mmap(null, stat.st_size.toULong(), PROT_READ, MAP_SHARED, fd, 0)
                     if (pointer == MAP_FAILED) {
                         throw translateErrorImmediately("mmap")
                     }
@@ -60,13 +65,9 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
                     beginPtr = null
                 }
             }
-        } catch (th: Throwable) {
-            if (fclose(f) != 0) {
-                th.addSuppressed(translateErrorImmediately("fclose"))
-            }
-            throw th
+        } finally {
+            platform.posix.close(fd)
         }
-        file = f
     }
 
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
@@ -102,20 +103,8 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
 
     override fun toString(): String = "NativeFileDataAccessor(path=$nativePath)"
     override fun doClose() {
-        var th: Throwable? = null
-        if (beginPtr != null) {
-            if (munmap(beginPtr, size.toULong()) == -1) {
-                translateErrorImmediately("munmap").also {
-                    th?.addSuppressed(it) ?: run { th = it }
-                }
-            }
-        }
-        if (fclose(file) != 0) {
-            translateErrorImmediately("fclose").also {
-                th?.addSuppressed(it) ?: run { th = it }
-            }
-        }
-        th?.let { throw it }
+        if (beginPtr == null) return
+        if (munmap(beginPtr, size.toULong()) == -1) throw translateErrorImmediately("munmap")
     }
 }
 
