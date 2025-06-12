@@ -256,7 +256,7 @@ class WhoTest {
                     "shInfo": 0,
                     "shAddralign": 0,
                     "shEntsize": 0,
-                    "name": ""
+                    "name": null
                 },
                 {
                     "is64Bit": true,
