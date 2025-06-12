@@ -35,7 +35,7 @@ actual interface FileFormat<out T : OpenedFile> {
      * @throws IOException if an I/O error occurs
      * @throws UnsupportedOperationException if the platform does not support file access
      */
-    actual fun open(path: String): T = open(NativeFileDataAccessor(path))
+    actual fun open(path: String): T = open(openNativeFileDataAccessor(path))
 
     actual companion object
 }
@@ -49,7 +49,7 @@ actual interface FileFormat<out T : OpenedFile> {
  * @return the detected [FileFormat], or `null` if the type could not be detected
  */
 actual fun FileFormat.Companion.detect(path: String): FileFormat<OpenedFile>? =
-    NativeFileDataAccessor(path).use { detect(it) }
+    openNativeFileDataAccessor(path).use { detect(it) }
 
 /**
  * Detects the file format and opens the file using the appropriate parser.
