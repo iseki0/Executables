@@ -472,6 +472,7 @@ public synthetic class space/iseki/executables/elf/ElfEhdr$$serializer : kotlinx
 }
 
 public final class space/iseki/executables/elf/ElfEhdr$Companion {
+	public final fun parse ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/ElfEhdr;
 	public final fun parse32 ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/ElfEhdr;
 	public final fun parse64 ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/ElfEhdr;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
@@ -1038,6 +1039,7 @@ public synthetic class space/iseki/executables/elf/ElfPhdr$$serializer : kotlinx
 }
 
 public final class space/iseki/executables/elf/ElfPhdr$Companion {
+	public final fun parse ([BILspace/iseki/executables/elf/ElfIdentification;Z)Lspace/iseki/executables/elf/ElfPhdr;
 	public final fun parse32 ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/ElfPhdr;
 	public final fun parse64 ([BILspace/iseki/executables/elf/ElfIdentification;)Lspace/iseki/executables/elf/ElfPhdr;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
@@ -1210,6 +1212,7 @@ public synthetic class space/iseki/executables/elf/ElfShdr$$serializer : kotlinx
 }
 
 public final class space/iseki/executables/elf/ElfShdr$Companion {
+	public final fun parse ([BIZZ)Lspace/iseki/executables/elf/ElfShdr;
 	public final fun parse32 ([BIZ)Lspace/iseki/executables/elf/ElfShdr;
 	public final fun parse64 ([BIZ)Lspace/iseki/executables/elf/ElfShdr;
 	public final fun serializer ()Lkotlinx/serialization/KSerializer;
