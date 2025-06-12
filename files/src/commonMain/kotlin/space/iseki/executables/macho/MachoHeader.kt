@@ -47,10 +47,7 @@ data class MachoHeader internal constructor(
          */
         fun parse(bytes: ByteArray, offset: Int): MachoHeader {
             val magic = MachoMagic(bytes.u4b(offset))
-            if (!magic.isValid()) throw MachoFileException(
-                message = "Invalid magic number",
-                arguments = listOf("magic" to magic.toString())
-            )
+            if (!magic.isValid()) throw MachoFileException("Invalid magic number", "magic" to magic)
 
             val le = magic.isLittleEndian()
 
@@ -63,7 +60,7 @@ data class MachoHeader internal constructor(
                 sizeofcmds = bytes.u4(offset + 20, le),
                 flags = MachoFlags(bytes.u4(offset + 24, le)),
                 reserved = if (magic.is64Bit()) bytes.u4(offset + 28, le) else 0u,
-                isLittleEndian = le
+                isLittleEndian = le,
             )
         }
     }
@@ -83,29 +80,21 @@ internal fun MachoHeader.validate(fileSize: Long) {
 
     if (fileSize < headerSize) {
         throw MachoFileException(
-            message = "File too small to contain Mach-O header",
-            arguments = listOf(
-                "file_size" to fileSize.toString(),
-                "header_size" to headerSize.toString()
-            )
+            "File too small to contain Mach-O header",
+            "file_size" to fileSize,
+            "header_size" to headerSize,
         )
     }
 
     // 验证加载命令
     val cmdSize = sizeofcmds.toInt()
     if (cmdSize < 0 || cmdSize > fileSize - headerSize) {
-        throw MachoFileException(
-            message = "Invalid load commands size",
-            arguments = listOf("size" to cmdSize.toString())
-        )
+        throw MachoFileException("Invalid load commands size", "size" to cmdSize)
     }
 
     val cmdCount = ncmds.toInt()
     if (cmdCount <= 0 || cmdCount > 10000) { // 设置一个合理的上限
-        throw MachoFileException(
-            message = "Invalid number of load commands",
-            arguments = listOf("count" to cmdCount.toString())
-        )
+        throw MachoFileException("Invalid number of load commands", "count" to cmdCount)
     }
 
     // 验证 reserved 字段
@@ -113,16 +102,16 @@ internal fun MachoHeader.validate(fileSize: Long) {
         // 64位版本必须有 reserved 字段
         if (reserved != 0u || !magic.isValid()) {
             throw MachoFileException(
-                message = "Invalid reserved field in 64-bit header",
-                arguments = listOf("value" to "0x${reserved.toHexString()}")
+                "Invalid reserved field in 64-bit header",
+                "value" to "0x${reserved.toHexString()}",
             )
         }
     } else {
         // 32位版本不应该有 reserved 字段
         if (reserved != 0u || !magic.isValid()) {
             throw MachoFileException(
-                message = "Reserved field should be 0 in 32-bit header",
-                arguments = listOf("value" to "0x${reserved.toHexString()}")
+                "Reserved field should be 0 in 32-bit header",
+                "value" to "0x${reserved.toHexString()}",
             )
         }
     }

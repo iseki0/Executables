@@ -299,100 +299,86 @@ data class WindowsSpecifiedHeader internal constructor(
         // 检查节对齐和文件对齐
         if (sectionAlignment < fileAlignment) {
             throw PEFileException(
-                message = "Invalid Windows header: section alignment is less than file alignment",
-                arguments = listOf(
-                    "section_alignment" to sectionAlignment.toString(),
-                    "file_alignment" to fileAlignment.toString()
-                )
+                "Invalid Windows header: section alignment is less than file alignment",
+                "section_alignment" to sectionAlignment,
+                "file_alignment" to fileAlignment,
             )
         }
 
         // 检查文件对齐是否是2的幂次方
         if (fileAlignment == 0u || (fileAlignment and (fileAlignment - 1u)) != 0u) {
             throw PEFileException(
-                message = "Invalid Windows header: file alignment is not a power of 2",
-                arguments = listOf("file_alignment" to fileAlignment.toString())
+                "Invalid Windows header: file alignment is not a power of 2",
+                "file_alignment" to fileAlignment,
             )
         }
 
         // 检查文件对齐是否在有效范围内（通常是512到64K）
         if (fileAlignment < 512u || fileAlignment > 65536u) {
             throw PEFileException(
-                message = "Invalid Windows header: file alignment is out of range (512-65536)",
-                arguments = listOf("file_alignment" to fileAlignment.toString())
+                "Invalid Windows header: file alignment is out of range (512-65536)",
+                "file_alignment" to fileAlignment,
             )
         }
 
         // 检查节对齐是否是2的幂次方
         if (sectionAlignment == 0u || (sectionAlignment and (sectionAlignment - 1u)) != 0u) {
             throw PEFileException(
-                message = "Invalid Windows header: section alignment is not a power of 2",
-                arguments = listOf("section_alignment" to sectionAlignment.toString())
+                "Invalid Windows header: section alignment is not a power of 2",
+                "section_alignment" to sectionAlignment,
             )
         }
 
         // 检查镜像基址是否对齐到64K边界
         if (imageBase.value % 65536u != 0uL) {
             throw PEFileException(
-                message = "Invalid Windows header: image base is not aligned to 64K boundary",
-                arguments = listOf("image_base" to imageBase.value.toString())
+                "Invalid Windows header: image base is not aligned to 64K boundary",
+                "image_base" to imageBase.value,
             )
         }
 
         // 检查镜像大小是否对齐到节对齐边界
         if (sizeOfImage % sectionAlignment != 0u) {
             throw PEFileException(
-                message = "Invalid Windows header: size of image is not aligned to section alignment",
-                arguments = listOf(
-                    "size_of_image" to sizeOfImage.toString(),
-                    "section_alignment" to sectionAlignment.toString()
-                )
+                "Invalid Windows header: size of image is not aligned to section alignment",
+                "size_of_image" to sizeOfImage,
+                "section_alignment" to sectionAlignment,
             )
         }
 
         // 检查头部大小是否对齐到文件对齐边界
         if (sizeOfHeaders % fileAlignment != 0u) {
             throw PEFileException(
-                message = "Invalid Windows header: size of headers is not aligned to file alignment",
-                arguments = listOf(
-                    "size_of_headers" to sizeOfHeaders.toString(),
-                    "file_alignment" to fileAlignment.toString()
-                )
+                "Invalid Windows header: size of headers is not aligned to file alignment",
+                "size_of_headers" to sizeOfHeaders,
+                "file_alignment" to fileAlignment,
             )
         }
 
         // 检查子系统版本
         if (majorSubsystemVersion == 0.toUShort() && minorSubsystemVersion == 0.toUShort()) {
             throw PEFileException(
-                message = "Invalid Windows header: subsystem version is 0.0",
-                arguments = listOf(
-                    "major_version" to majorSubsystemVersion.toString(),
-                    "minor_version" to minorSubsystemVersion.toString()
-                )
+                "Invalid Windows header: subsystem version is 0.0",
+                "major_version" to majorSubsystemVersion,
+                "minor_version" to minorSubsystemVersion,
             )
         }
 
         // 检查数据目录数量
         if (numbersOfRvaAndSizes < 0 || numbersOfRvaAndSizes > 16) {
             throw PEFileException(
-                message = "Invalid Windows header: number of RVA and sizes is out of range (0-16)",
-                arguments = listOf("count" to numbersOfRvaAndSizes.toString())
+                "Invalid Windows header: number of RVA and sizes is out of range (0-16)",
+                "count" to numbersOfRvaAndSizes,
             )
         }
 
         // 检查保留字段
         if (win32VersionValue != 0u) {
-            throw PEFileException(
-                message = "Invalid Windows header: win32VersionValue is not zero",
-                arguments = listOf("value" to win32VersionValue.toString())
-            )
+            throw PEFileException("Invalid Windows header: win32VersionValue is not zero", "value" to win32VersionValue)
         }
 
         if (loaderFlags != 0u) {
-            throw PEFileException(
-                message = "Invalid Windows header: loaderFlags is not zero",
-                arguments = listOf("value" to loaderFlags.toString())
-            )
+            throw PEFileException("Invalid Windows header: loaderFlags is not zero", "value" to loaderFlags)
         }
     }
 }

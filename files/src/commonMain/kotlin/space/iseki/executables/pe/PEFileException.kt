@@ -22,6 +22,7 @@ open class PEFileException internal constructor(
 ) : CommonFileException(message, arguments, cause) {
     internal constructor(
         message: String,
+        vararg arguments: Pair<String, Any> = emptyArray(),
         cause: Throwable? = null,
-    ) : this(message, emptyList(), cause)
+    ) : this(message, arguments.map { (k, v) -> k to v.toString() }, cause)
 }
