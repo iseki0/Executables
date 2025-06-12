@@ -182,7 +182,7 @@ data class ElfEhdr internal constructor(
                 ePhnum = bytes.u2(off + 44, le),
                 eShentsize = bytes.u2(off + 46, le),
                 eShnum = bytes.u2(off + 48, le),
-                eShstrndx = bytes.u2(off + 50, le)
+                eShstrndx = bytes.u2(off + 50, le),
             )
         }
 
@@ -205,7 +205,7 @@ data class ElfEhdr internal constructor(
                 ePhnum = bytes.u2(off + 56, le),
                 eShentsize = bytes.u2(off + 58, le),
                 eShnum = bytes.u2(off + 60, le),
-                eShstrndx = bytes.u2(off + 62, le)
+                eShstrndx = bytes.u2(off + 62, le),
             )
         }
     }
@@ -220,31 +220,21 @@ data class ElfEhdr internal constructor(
 internal fun ElfEhdr.validate(fileSize: Long) {
     // Validate e_type
     when (eType) {
-        ElfType.ET_NONE -> throw ElfFileException(
-            message = "Invalid file type: ET_NONE",
-            arguments = listOf("type" to eType.toString())
-        )
-        ElfType.ET_REL, ElfType.ET_EXEC, ElfType.ET_DYN, ElfType.ET_CORE -> { /* Valid types */
-        }
+        ElfType.ET_NONE -> throw ElfFileException("Invalid file type: ET_NONE", "type" to eType)
+        ElfType.ET_REL, ElfType.ET_EXEC, ElfType.ET_DYN, ElfType.ET_CORE -> {}
 
         else -> {
             // Check if it's a processor-specific type (between ET_LOPROC and ET_HIPROC)
             val typeValue = eType.value.toInt()
             if (typeValue < ElfType.ET_LOPROC.value.toInt() || typeValue > ElfType.ET_HIPROC.value.toInt()) {
-                throw ElfFileException(
-                    message = "Unknown file type",
-                    arguments = listOf("type" to eType.toString())
-                )
+                throw ElfFileException("Unknown file type", "type" to eType)
             }
         }
     }
 
     // Validate e_version
     if (eVersion.toInt() != 1) {
-        throw ElfFileException(
-            message = "Invalid ELF version, expected 1",
-            arguments = listOf("version" to eVersion.toInt().toString())
-        )
+        throw ElfFileException("Invalid ELF version, expected 1", "version" to eVersion.toInt())
     }
 
     // Validate e_ehsize (ELF header size)
@@ -252,31 +242,25 @@ internal fun ElfEhdr.validate(fileSize: Long) {
 
     if (eEhsize.toInt() != expectedEhdrSize) {
         throw ElfFileException(
-            message = "Invalid ELF header size",
-            arguments = listOf(
-                "actual_size" to eEhsize.toInt().toString(),
-                "expected_size" to expectedEhdrSize.toString()
-            )
+            "Invalid ELF header size",
+            "actual_size" to eEhsize.toInt(),
+            "expected_size" to expectedEhdrSize,
         )
     }
 
     // Validate offsets are within file bounds
     if (ePhoff != 0UL && ePhoff.toLong() >= fileSize) {
         throw ElfFileException(
-            message = "Program header table offset is beyond file end",
-            arguments = listOf(
-                "offset" to ePhoff.toString(),
-                "file_size" to fileSize.toString()
-            )
+            "Program header table offset is beyond file end",
+            "offset" to ePhoff,
+            "file_size" to fileSize,
         )
     }
     if (eShoff != 0UL && eShoff.toLong() >= fileSize) {
         throw ElfFileException(
-            message = "Section header table offset is beyond file end",
-            arguments = listOf(
-                "offset" to eShoff.toString(),
-                "file_size" to fileSize.toString()
-            )
+            "Section header table offset is beyond file end",
+            "offset" to eShoff,
+            "file_size" to fileSize,
         )
     }
 
@@ -286,11 +270,9 @@ internal fun ElfEhdr.validate(fileSize: Long) {
 
     if (shnum in 1..shstrndx) {
         throw ElfFileException(
-            message = "Section header string table index is out of bounds",
-            arguments = listOf(
-                "index" to shstrndx.toString(),
-                "section_count" to shnum.toString()
-            )
+            "Section header string table index is out of bounds",
+            "index" to shstrndx,
+            "section_count" to shnum,
         )
     }
 }

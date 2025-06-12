@@ -24,4 +24,10 @@ class MachoFileException internal constructor(
         message: String,
         cause: Throwable? = null,
     ) : this(message, emptyList(), cause)
+
+    internal constructor(
+        message: String,
+        vararg arguments: Pair<String, Any>,
+        cause: Throwable? = null,
+    ) : this(message, arguments.map { (k, v) -> k to v.toString() }, cause)
 }

@@ -43,10 +43,7 @@ class MachoFile private constructor(
             try {
                 accessor.readAtMost(0, buf)
             } catch (e: EOFException) {
-                throw MachoFileException(
-                    message = "Failed to read Mach-O header",
-                    cause = e
-                )
+                throw MachoFileException("Failed to read Mach-O header", cause = e)
             }
 
             val header = MachoHeader.parse(buf, 0)
@@ -58,12 +55,10 @@ class MachoFile private constructor(
                 accessor.readFully(if (header.magic.is64Bit()) 32 else 28, loadCommandBuf)
             } catch (e: EOFException) {
                 throw MachoFileException(
-                    message = "Failed to read Mach-O load commands",
-                    arguments = listOf(
-                        "offset" to (if (header.magic.is64Bit()) 32 else 28).toString(),
-                        "size" to header.sizeofcmds.toString()
-                    ),
-                    cause = e
+                    "Failed to read Mach-O load commands",
+                    "offset" to (if (header.magic.is64Bit()) 32 else 28),
+                    "size" to header.sizeofcmds,
+                    cause = e,
                 )
             }
 
@@ -85,12 +80,10 @@ class MachoFile private constructor(
             dataAccessor.readFully(if (header.magic.is64Bit()) 32 else 28, buf)
         } catch (e: EOFException) {
             throw MachoFileException(
-                message = "Failed to read Mach-O loader commands, unexpected EOF",
-                arguments = listOf(
-                    "offset" to (if (header.magic.is64Bit()) 32 else 28).toString(),
-                    "size" to header.sizeofcmds.toString()
-                ),
-                cause = e
+                "Failed to read Mach-O loader commands, unexpected EOF",
+                "offset" to (if (header.magic.is64Bit()) 32 else 28),
+                "size" to header.sizeofcmds,
+                cause = e,
             )
         }
         LoaderCommands(buf)
@@ -153,11 +146,9 @@ class MachoFile private constructor(
                 }
             } catch (_: IndexOutOfBoundsException) {
                 throw MachoFileException(
-                    message = "Failed to parse Mach-O loader commands, unexpected EOF",
-                    arguments = listOf(
-                        "command_count" to header.ncmds.toString(),
-                        "current_offset" to p.toString()
-                    )
+                    "Failed to parse Mach-O loader commands, unexpected EOF",
+                    "command_count" to header.ncmds,
+                    "current_offset" to p,
                 )
             }
         }
