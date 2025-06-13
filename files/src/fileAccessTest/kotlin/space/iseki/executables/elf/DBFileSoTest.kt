@@ -24,7 +24,7 @@ class DBFileSoTest {
                 size = 7u,
                 binding = ElfSymBinding.STB_GLOBAL,
                 type = ElfSymType.STT_FUNC,
-                visibility = ElfSymVisibility.STV_DEFAULT
+                visibility = ElfSymVisibility.STV_DEFAULT,
             ),
             ElfExportSymbol(
                 name = "__getBerkeleyDBInfo",
@@ -32,7 +32,7 @@ class DBFileSoTest {
                 size = 370u,
                 binding = ElfSymBinding.STB_GLOBAL,
                 type = ElfSymType.STT_FUNC,
-                visibility = ElfSymVisibility.STV_DEFAULT
+                visibility = ElfSymVisibility.STV_DEFAULT,
             ),
             ElfExportSymbol(
                 name = "boot_DB_File",
@@ -40,7 +40,7 @@ class DBFileSoTest {
                 size = 902u,
                 binding = ElfSymBinding.STB_GLOBAL,
                 type = ElfSymType.STT_FUNC,
-                visibility = ElfSymVisibility.STV_DEFAULT
+                visibility = ElfSymVisibility.STV_DEFAULT,
             ),
         )
         val file = ElfFile.open(PATH)
@@ -69,4 +69,10 @@ class DBFileSoTest {
         }
     }
 
+    @Test
+    fun testImportLibraries() {
+        ElfFile.open(PATH).use { file ->
+            assertContentEquals(listOf("libdb-5.3.so", "libc.so.6"), file.importLibraries)
+        }
+    }
 }

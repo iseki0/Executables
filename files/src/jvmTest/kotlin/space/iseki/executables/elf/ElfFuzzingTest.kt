@@ -261,6 +261,7 @@ class ElfFuzzingTest {
 
                         // Print import/export symbols
                         println("Import Symbols: ${elfFile.importSymbols.size}")
+                        println("Import Libraries: ${elfFile.importLibraries.size}")
                         println("Export Symbols: ${elfFile.exportSymbols.size}")
                     }
                 } catch (e: Exception) {

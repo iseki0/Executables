@@ -147,6 +147,7 @@ class ElfFile private constructor(
         dataAccessor.close()
     }
 
+    private val le = ident.eiData == ElfData.ELFDATA2LSB
     override val rootHeaders: Map<String, ReadableStructure>
         get() = mapOf("ehdr" to ehdr, "ident" to ident)
 
@@ -266,6 +267,10 @@ class ElfFile private constructor(
         parseImportSymbols()
     }
 
+    val importLibraries: List<String> by lazy {
+        parseImportLibraries()
+    }
+
     /**
      * Parse the symbol tables of the ELF file and extract export symbols
      *
@@ -304,6 +309,30 @@ class ElfFile private constructor(
                 binding = sym.binding, type = sym.type,
             )
         }
+    }
+
+    private fun parseImportLibraries(): List<String> {
+        val ph = programHeaders.find { it.pType == ElfPType.PT_DYNAMIC } ?: return emptyList()
+        val vm = virtualMemory()
+        val step = if (ehdr.is64Bit) 16 else 8
+        var vst: VmStringTable? = null
+        val buf = ByteArray(4096)
+        val libList = mutableListOf<Int>()
+        o@ for (pos in 0 until ph.pMemsz.toInt() step buf.size) {
+            vm.readFully(ph.pVaddr + pos, buf)
+            for (i in buf.indices step step) {
+                val dTag = if (ehdr.is64Bit) buf.u8(i, le) else buf.u4(i, le).toULong()
+                if (dTag == 0UL) break@o
+                val dUn = if (ehdr.is64Bit) buf.u8(i + 8, le) else buf.u4(i + 4, le).toULong()
+                when (dTag) {
+                    1uL -> libList.add(dUn.toInt())
+                    5uL -> if (vst == null) vst = VmStringTable(dataAccessor, dUn.toAddr())
+                }
+            }
+            buf.fill(0)
+        }
+        if (vst == null) throw ElfFileException("No dynamic string table(DT_STRTAB) found in ELF file")
+        return libList.map { vst.getStringAt(it) }
     }
 
     /**
