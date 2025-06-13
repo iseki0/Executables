@@ -30,6 +30,7 @@ jobs:
       - uses: actions/cache@v4
         name: Cache Konan
         with:
+          enableCrossOsArchive: true
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
           path: |
             ~/.konan
@@ -73,6 +74,7 @@ jobs:
       - uses: actions/cache@v4
         name: Cache Konan
         with:
+          enableCrossOsArchive: true
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
           path: |
             ~/.konan
@@ -116,6 +118,7 @@ jobs:
       - uses: actions/cache@v4
         name: Cache Konan
         with:
+          enableCrossOsArchive: true
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**') }}
           path: |
             ~/.konan
@@ -174,6 +177,7 @@ jobs:
       - uses: actions/cache@v4
         name: Cache Konan
         with:
+          enableCrossOsArchive: true
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
           path: |
             ~/.konan
