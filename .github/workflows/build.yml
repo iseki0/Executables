@@ -119,7 +119,7 @@ jobs:
         name: Cache Konan
         with:
           enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
           path: |
             ~/.konan
       - name: Set up Gradle
