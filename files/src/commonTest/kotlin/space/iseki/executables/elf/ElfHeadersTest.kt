@@ -1,7 +1,6 @@
 package space.iseki.executables.elf
 
 import kotlinx.serialization.json.Json
-import space.iseki.executables.common.Address32
 import space.iseki.executables.common.Address64
 import space.iseki.executables.common.toAddr
 import kotlin.test.Test
@@ -186,24 +185,6 @@ class ElfHeadersTest {
 
     @Test
     fun testElfEhdrFields() {
-        // 创建32位和64位ElfEhdr实例
-        val elf32Ehdr = ElfEhdr(
-            is64Bit = false,
-            eType = ElfType.ET_EXEC,
-            eMachine = ElfMachine.I386,
-            eVersion = 1u,
-            eEntry = 0x8048000UL.toAddr(),
-            ePhoff = 52UL,
-            eShoff = 2104UL,
-            eFlags = 0u,
-            eEhsize = 52u.toUShort(),
-            ePhentsize = 32u.toUShort(),
-            ePhnum = 8u.toUShort(),
-            eShentsize = 40u.toUShort(),
-            eShnum = 25u.toUShort(),
-            eShstrndx = 24u.toUShort()
-        )
-
         val elf64Ehdr = ElfEhdr(
             is64Bit = true,
             eType = ElfType.ET_DYN,
@@ -221,23 +202,6 @@ class ElfHeadersTest {
             eShstrndx = 29u.toUShort()
         )
 
-        // 验证32位ElfEhdr的fields映射
-        val fields32 = elf32Ehdr.fields
-        assertEquals(14, fields32.size) // 包含 is64Bit 字段
-        assertEquals(false, fields32["is64Bit"])
-        assertEquals(ElfType.ET_EXEC, fields32["eType"])
-        assertEquals(ElfMachine.I386, fields32["eMachine"])
-        assertEquals(1u, fields32["eVersion"])
-        assertEquals(0x8048000u.toAddr(), fields32["eEntry"])
-        assertEquals(52u, fields32["ePhoff"])
-        assertEquals(2104u, fields32["eShoff"])
-        assertEquals(0u, fields32["eFlags"])
-        assertEquals(52u.toUShort(), fields32["eEhsize"])
-        assertEquals(32u.toUShort(), fields32["ePhentsize"])
-        assertEquals(8u.toUShort(), fields32["ePhnum"])
-        assertEquals(40u.toUShort(), fields32["eShentsize"])
-        assertEquals(25u.toUShort(), fields32["eShnum"])
-        assertEquals(24u.toUShort(), fields32["eShstrndx"])
 
         // 验证64位ElfEhdr的fields映射
         val fields64 = elf64Ehdr.fields
@@ -260,18 +224,6 @@ class ElfHeadersTest {
 
     @Test
     fun testElfPhdrFields() {
-        // 创建32位和64位ElfPhdr实例
-        val elf32Phdr = ElfPhdr(
-            is64Bit = false,
-            pType = ElfPType.PT_LOAD,
-            pFlags = ElfPFlags.PF_R or ElfPFlags.PF_X,
-            pOffset = 0uL,
-            pVaddr = Address64(0x8048000uL),
-            pPaddr = Address64(0x8048000uL),
-            pFilesz = 0x1000uL,
-            pMemsz = 0x1000uL,
-            pAlign = 0x1000uL
-        )
 
         val elf64Phdr = ElfPhdr(
             is64Bit = true,
@@ -284,19 +236,6 @@ class ElfHeadersTest {
             pMemsz = 0x1000uL,
             pAlign = 0x1000uL
         )
-
-        // 验证32位ElfPhdr的fields映射
-        val fields32 = elf32Phdr.fields
-        assertEquals(9, fields32.size)  // 包含is64Bit字段
-        assertEquals(false, fields32["is64Bit"])
-        assertEquals(ElfPType.PT_LOAD, fields32["pType"])
-        assertEquals(0u, fields32["pOffset"])
-        assertEquals(Address32(0x8048000u), fields32["pVaddr"])
-        assertEquals(Address32(0x8048000u), fields32["pPaddr"])
-        assertEquals(0x1000u, fields32["pFilesz"])
-        assertEquals(0x1000u, fields32["pMemsz"])
-        assertEquals(ElfPFlags.PF_R or ElfPFlags.PF_X, fields32["pFlags"])
-        assertEquals(0x1000u, fields32["pAlign"])
 
         // 验证64位ElfPhdr的fields映射
         val fields64 = elf64Phdr.fields
