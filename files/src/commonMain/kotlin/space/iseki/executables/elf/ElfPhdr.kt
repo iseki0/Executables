@@ -3,7 +3,6 @@
 package space.iseki.executables.elf
 
 import kotlinx.serialization.Serializable
-import space.iseki.executables.common.Address32
 import space.iseki.executables.common.Address64
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.share.u4
@@ -78,31 +77,17 @@ data class ElfPhdr internal constructor(
 ) : ReadableStructure {
 
     override val fields: Map<String, Any>
-        get() = if (is64Bit) {
-            mapOf(
-                "is64Bit" to is64Bit,
-                "pType" to pType,
-                "pFlags" to pFlags,
-                "pOffset" to pOffset,
-                "pVaddr" to pVaddr,
-                "pPaddr" to pPaddr,
-                "pFilesz" to pFilesz,
-                "pMemsz" to pMemsz,
-                "pAlign" to pAlign
-            )
-        } else {
-            mapOf(
-                "is64Bit" to is64Bit,
-                "pType" to pType,
-                "pFlags" to pFlags,
-                "pOffset" to pOffset.toUInt(),
-                "pVaddr" to Address32(pVaddr.value.toUInt()),
-                "pPaddr" to Address32(pPaddr.value.toUInt()),
-                "pFilesz" to pFilesz.toUInt(),
-                "pMemsz" to pMemsz.toUInt(),
-                "pAlign" to pAlign.toUInt()
-            )
-        }
+        get() = mapOf(
+            "is64Bit" to is64Bit,
+            "pType" to pType,
+            "pFlags" to pFlags,
+            "pOffset" to pOffset,
+            "pVaddr" to pVaddr,
+            "pPaddr" to pPaddr,
+            "pFilesz" to pFilesz,
+            "pMemsz" to pMemsz,
+            "pAlign" to pAlign,
+        )
 
     companion object {
         /**

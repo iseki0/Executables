@@ -4,7 +4,6 @@ package space.iseki.executables.elf
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import space.iseki.executables.common.Address32
 import space.iseki.executables.common.Address64
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.toAddr
@@ -126,41 +125,22 @@ data class ElfEhdr internal constructor(
 ) : ReadableStructure {
 
     override val fields: Map<String, Any>
-        get() = if (is64Bit) {
-            mapOf(
-                "is64Bit" to is64Bit,
-                "eType" to eType,
-                "eMachine" to eMachine,
-                "eVersion" to eVersion,
-                "eEntry" to eEntry,
-                "ePhoff" to ePhoff,
-                "eShoff" to eShoff,
-                "eFlags" to eFlags,
-                "eEhsize" to eEhsize,
-                "ePhentsize" to ePhentsize,
-                "ePhnum" to ePhnum,
-                "eShentsize" to eShentsize,
-                "eShnum" to eShnum,
-                "eShstrndx" to eShstrndx,
-            )
-        } else {
-            mapOf(
-                "is64Bit" to is64Bit,
-                "eType" to eType,
-                "eMachine" to eMachine,
-                "eVersion" to eVersion,
-                "eEntry" to Address32(eEntry.value.toUInt()),
-                "ePhoff" to ePhoff.toUInt(),
-                "eShoff" to eShoff.toUInt(),
-                "eFlags" to eFlags,
-                "eEhsize" to eEhsize,
-                "ePhentsize" to ePhentsize,
-                "ePhnum" to ePhnum,
-                "eShentsize" to eShentsize,
-                "eShnum" to eShnum,
-                "eShstrndx" to eShstrndx,
-            )
-        }
+        get() = mapOf(
+            "is64Bit" to is64Bit,
+            "eType" to eType,
+            "eMachine" to eMachine,
+            "eVersion" to eVersion,
+            "eEntry" to eEntry,
+            "ePhoff" to ePhoff,
+            "eShoff" to eShoff,
+            "eFlags" to eFlags,
+            "eEhsize" to eEhsize,
+            "ePhentsize" to ePhentsize,
+            "ePhnum" to ePhnum,
+            "eShentsize" to eShentsize,
+            "eShnum" to eShnum,
+            "eShstrndx" to eShstrndx,
+        )
 
     companion object {
 
