@@ -4,7 +4,6 @@ package space.iseki.executables.elf
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import space.iseki.executables.common.Address32
 import space.iseki.executables.common.Address64
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.share.u4
@@ -89,37 +88,20 @@ data class ElfShdr internal constructor(
 ) : ReadableStructure {
 
     override val fields: Map<String, Any>
-        get() = if (is64Bit) {
-            mapOf(
-                "is64Bit" to is64Bit,
-                "shName" to shName,
-                "shType" to shType,
-                "shFlags" to shFlags,
-                "shAddr" to shAddr,
-                "shOffset" to shOffset,
-                "shSize" to shSize,
-                "shLink" to shLink,
-                "shInfo" to shInfo,
-                "shAddralign" to shAddralign,
-                "shEntsize" to shEntsize,
-                "name" to (name ?: "")
-            )
-        } else {
-            mapOf(
-                "is64Bit" to is64Bit,
-                "shName" to shName,
-                "shType" to shType,
-                "shFlags" to shFlags,
-                "shAddr" to Address32(shAddr.value.toUInt()),
-                "shOffset" to shOffset.toUInt(),
-                "shSize" to shSize.toUInt(),
-                "shLink" to shLink,
-                "shInfo" to shInfo,
-                "shAddralign" to shAddralign.toUInt(),
-                "shEntsize" to shEntsize.toUInt(),
-                "name" to (name ?: "")
-            )
-        }
+        get() = mapOf(
+            "is64Bit" to is64Bit,
+            "shName" to shName,
+            "shType" to shType,
+            "shFlags" to shFlags,
+            "shAddr" to shAddr,
+            "shOffset" to shOffset,
+            "shSize" to shSize,
+            "shLink" to shLink,
+            "shInfo" to shInfo,
+            "shAddralign" to shAddralign,
+            "shEntsize" to shEntsize,
+            "name" to (name ?: ""),
+        )
 
     companion object {
 
