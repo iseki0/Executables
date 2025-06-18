@@ -2,6 +2,7 @@ package space.iseki.executables.pe
 
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.Address32
+import space.iseki.executables.common.Address32Array
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.ExportSymbol
@@ -15,6 +16,7 @@ import space.iseki.executables.common.ReadableSection
 import space.iseki.executables.common.ReadableSectionContainer
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.common.VirtualMemoryReadable
+import space.iseki.executables.common.toAddr
 import space.iseki.executables.pe.vi.PEVersionInfo
 import space.iseki.executables.pe.vi.locateVersionInfo
 import space.iseki.executables.pe.vi.parseVersionData
@@ -759,24 +761,24 @@ class PEFile private constructor(
         readCString(nameRva)
 
         // Read the export address table
-        val exportAddressTable = Array(addressTableEntries.toInt()) { index ->
-            val addressBuffer = ByteArray(4)
-            readVirtualMemory(exportAddressTableRva + (index * 4), addressBuffer, 0, 4)
-            Address32(addressBuffer.u4l(0))
+        val exportAddressTableBuf = ByteArray(addressTableEntries.toInt() * 4)
+        readVirtualMemory(exportAddressTableRva, exportAddressTableBuf, 0, exportAddressTableBuf.size)
+        val exportAddressTable = Address32Array(addressTableEntries.toInt()) { index ->
+            exportAddressTableBuf.u4l(index * 4).toAddr()
         }
 
         // Read the name pointer table
-        val namePointerTable = Array(numberOfNamePointers.toInt()) { index ->
-            val pointerBuffer = ByteArray(4)
-            readVirtualMemory(namePointerRva + (index * 4), pointerBuffer, 0, 4)
-            Address32(pointerBuffer.u4l(0))
+        val namePointerBuf = ByteArray(numberOfNamePointers.toInt() * 4)
+        readVirtualMemory(namePointerRva, namePointerBuf, 0, namePointerBuf.size)
+        val namePointerTable = Address32Array(numberOfNamePointers.toInt()) { index ->
+            namePointerBuf.u4l(index * 4).toAddr()
         }
 
         // Read the ordinal table
-        val ordinalTable = Array(numberOfNamePointers.toInt()) { index ->
-            val ordinalBuffer = ByteArray(2)
-            readVirtualMemory(ordinalTableRva + (index * 2), ordinalBuffer, 0, 2)
-            ordinalBuffer.u2l(0)
+        val ordinalTableBuf = ByteArray(numberOfNamePointers.toInt() * 2)
+        readVirtualMemory(ordinalTableRva, ordinalTableBuf, 0, ordinalTableBuf.size)
+        val ordinalTable = UShortArray(numberOfNamePointers.toInt()) { index ->
+            ordinalTableBuf.u2l(index * 2)
         }
 
         // Create a map of ordinals to names
