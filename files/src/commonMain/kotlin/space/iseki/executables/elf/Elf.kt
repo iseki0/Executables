@@ -148,6 +148,7 @@ class ElfFile private constructor(
     }
 
     private val le = ident.eiData == ElfData.ELFDATA2LSB
+    private val is64Bit = ident.eiClass == ElfClass.ELFCLASS64
     override val rootHeaders: Map<String, ReadableStructure>
         get() = mapOf("ehdr" to ehdr, "ident" to ident)
 
@@ -389,17 +390,13 @@ class ElfFile private constructor(
                 val offset = i * entrySize
 
                 // Ensure offset is within valid range
-                if (offset + (if (ident.eiClass == ElfClass.ELFCLASS32) Elf32Sym.SIZE else Elf64Sym.SIZE) > symbolTableData.size) {
+                if (offset + (if (is64Bit) ElfSym.SIZE_64 else ElfSym.SIZE_32) > symbolTableData.size) {
                     continue
                 }
 
                 val sym = try {
                     tryByteArrayParsing("symbol table entry") {
-                        if (ident.eiClass == ElfClass.ELFCLASS32) {
-                            Elf32Sym.parse(symbolTableData, offset, isLittleEndian)
-                        } else {
-                            Elf64Sym.parse(symbolTableData, offset, isLittleEndian)
-                        }
+                        ElfSym.parse(symbolTableData, offset, isLittleEndian, is64Bit)
                     }
                 } catch (e: ElfFileException) {
                     continue // Skip this symbol if parsing fails
@@ -424,9 +421,9 @@ class ElfFile private constructor(
                         name = name,
                         value = sym.stValue,
                         size = sym.stSize,
-                        binding = sym.getBinding(),
-                        type = sym.getType(),
-                        visibility = sym.getVisibility(),
+                        binding = sym.binding,
+                        type = sym.type,
+                        visibility = sym.visibility,
                         sectionIndex = sym.stShndx,
                         isUndefined = sym.stShndx.toInt() == 0,
                     ),

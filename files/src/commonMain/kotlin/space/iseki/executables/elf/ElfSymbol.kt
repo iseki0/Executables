@@ -5,36 +5,15 @@ import space.iseki.executables.share.u2
 import space.iseki.executables.share.u4
 import space.iseki.executables.share.u8
 
-/**
- * Base interface for ELF symbol table entries
- */
-internal sealed interface ElfSym {
+
+internal data class ElfSym(
     /**
      * Symbol name index in string table
      *
      * This is an index into the symbol string table, giving the location of the symbol's name.
      * If the value is zero, the symbol has no name.
      */
-    val stName: UInt
-
-    /**
-     * Symbol value
-     *
-     * This gives the value of the associated symbol. Depending on the context, this may be
-     * an absolute value, an address, etc. For defined symbols, this is typically the memory
-     * address of the symbol. For undefined symbols, this is typically zero.
-     */
-    val stValue: ULong
-
-    /**
-     * Symbol size
-     *
-     * This member gives the size of the symbol. For example, a data object's size is the
-     * number of bytes contained in the object. This member holds zero if the symbol has no size
-     * or an unknown size.
-     */
-    val stSize: ULong
-
+    val stName: UInt,
     /**
      * Symbol type and binding
      *
@@ -44,8 +23,7 @@ internal sealed interface ElfSym {
      *
      * The high 4 bits specify the binding (STB_*), and the low 4 bits specify the type (STT_*).
      */
-    val stInfo: UByte
-
+    val stInfo: UByte,
     /**
      * Symbol visibility and reserved bits
      *
@@ -53,8 +31,7 @@ internal sealed interface ElfSym {
      * accessed once it becomes part of an executable or shared object. The low 2 bits specify
      * the visibility (STV_*), and the remaining bits are reserved.
      */
-    val stOther: UByte
-
+    val stOther: UByte,
     /**
      * Section index
      *
@@ -64,62 +41,53 @@ internal sealed interface ElfSym {
      * - SHN_ABS: The symbol has an absolute value that will not change during linking.
      * - SHN_COMMON: The symbol labels a common block that has not yet been allocated.
      */
-    val stShndx: UShort
+    val stShndx: UShort,
+    /**
+     * Symbol value
+     *
+     * This gives the value of the associated symbol. Depending on the context, this may be
+     * an absolute value, an address, etc. For defined symbols, this is typically the memory
+     * address of the symbol. For undefined symbols, this is typically zero.
+     */
+    val stValue: ULong,
+    /**
+     * Symbol size
+     *
+     * This member gives the size of the symbol. For example, a data object's size is the
+     * number of bytes contained in the object. This member holds zero if the symbol has no size
+     * or an unknown size.
+     */
+    val stSize: ULong,
+) {
 
     /**
      * Get the binding attribute from the st_info field
      */
-    fun getBinding(): ElfSymBinding {
-        val bindingValue = (stInfo.toUInt() shr 4).toUByte()
-        return ElfSymBinding(bindingValue)
-    }
+    val binding
+        get() = ElfSymBinding((stInfo.toUInt() shr 4).toUByte())
 
     /**
      * Get the type attribute from the st_info field
      */
-    fun getType(): ElfSymType {
-        val typeValue = (stInfo.toUInt() and 0xFu).toUByte()
-        return ElfSymType(typeValue)
-    }
+    val type
+        get() = (stInfo.toUInt() and 0xFu).toUByte().let(::ElfSymType)
+
 
     /**
      * Get the visibility attribute from the st_other field
      */
-    fun getVisibility(): ElfSymVisibility {
-        val visibilityValue = (stOther.toUInt() and 0x3u).toUByte()
-        return ElfSymVisibility(visibilityValue)
-    }
+    val visibility
+        get() = (stOther.toUInt() and 0x3u).toUByte().let(::ElfSymVisibility)
+
 
     companion object {
-        /**
-         * Create an st_info value from binding and type
-         */
-        fun makeInfo(binding: UByte, type: UByte): UByte {
-            return ((binding.toUInt() shl 4) or (type.toUInt() and 0xFu)).toUByte()
-        }
-    }
-}
+        internal const val SIZE_32 = 16
+        internal const val SIZE_64 = 24
 
-/**
- * 32-bit ELF symbol table entry
- */
-internal data class Elf32Sym(
-    override val stName: UInt,
-    val stValue32: UInt,
-    val stSize32: UInt,
-    override val stInfo: UByte,
-    override val stOther: UByte,
-    override val stShndx: UShort,
-) : ElfSym {
-    override val stValue: ULong
-        get() = stValue32.toULong()
-    override val stSize: ULong
-        get() = stSize32.toULong()
+        internal fun parse(bytes: ByteArray, offset: Int, le: Boolean, is64Bit: Boolean): ElfSym =
+            if (is64Bit) parse64(bytes, offset, le) else parse32(bytes, offset, le)
 
-    companion object {
-        const val SIZE = 16
-
-        fun parse(bytes: ByteArray, offset: Int, le: Boolean): Elf32Sym {
+        private fun parse32(bytes: ByteArray, offset: Int, le: Boolean): ElfSym {
             val stName = bytes.u4(offset + 0, le)
             val stValue = bytes.u4(offset + 4, le)
             val stSize = bytes.u4(offset + 8, le)
@@ -127,33 +95,17 @@ internal data class Elf32Sym(
             val stOther = bytes.u1(offset + 13)
             val stShndx = bytes.u2(offset + 14, le)
 
-            return Elf32Sym(
+            return ElfSym(
                 stName = stName,
-                stValue32 = stValue,
-                stSize32 = stSize,
+                stValue = stValue.toULong(),
+                stSize = stSize.toULong(),
                 stInfo = stInfo,
                 stOther = stOther,
-                stShndx = stShndx
+                stShndx = stShndx,
             )
         }
-    }
-}
 
-/**
- * 64-bit ELF symbol table entry
- */
-internal data class Elf64Sym(
-    override val stName: UInt,
-    override val stInfo: UByte,
-    override val stOther: UByte,
-    override val stShndx: UShort,
-    override val stValue: ULong,
-    override val stSize: ULong,
-) : ElfSym {
-    companion object {
-        const val SIZE = 24
-
-        fun parse(bytes: ByteArray, offset: Int, le: Boolean): Elf64Sym {
+        private fun parse64(bytes: ByteArray, offset: Int, le: Boolean): ElfSym {
             val stName = bytes.u4(offset + 0, le)
             val stInfo = bytes.u1(offset + 4)
             val stOther = bytes.u1(offset + 5)
@@ -161,15 +113,16 @@ internal data class Elf64Sym(
             val stValue = bytes.u8(offset + 8, le)
             val stSize = bytes.u8(offset + 16, le)
 
-            return Elf64Sym(
+            return ElfSym(
                 stName = stName,
                 stInfo = stInfo,
                 stOther = stOther,
                 stShndx = stShndx,
                 stValue = stValue,
-                stSize = stSize
+                stSize = stSize,
             )
         }
+
     }
 }
 
