@@ -1,5 +1,7 @@
 package space.iseki.executables.common
 
+import kotlinx.atomicfu.AtomicInt
+import kotlinx.atomicfu.atomic
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
@@ -45,11 +47,16 @@ import platform.windows.PAGE_READONLY
 import platform.windows.SUBLANG_DEFAULT
 import platform.windows.UnmapViewOfFile
 import space.iseki.executables.share.ClosableDataAccessor
+import kotlin.experimental.ExperimentalNativeApi
+import kotlin.native.ref.Cleaner
+import kotlin.native.ref.createCleaner
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
 internal class NativeFileDataAccessor(private val nativePath: String) : ClosableDataAccessor() {
     private val beginPtr: LPVOID?
     override val size: Long
+    private val unmapHolder: UnmapHolder?
+    private val cleaner: Cleaner?
 
     init {
         var fileMappingHandle: HANDLE? = null
@@ -111,6 +118,13 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
         }
         th?.let { throw it }
         this.beginPtr = beginPtr
+        if (beginPtr != null) {
+            this.unmapHolder = UnmapHolder(beginPtr)
+            this.cleaner = createCleaner(this.unmapHolder, UnmapHolder::close)
+        } else {
+            this.unmapHolder = null
+            this.cleaner = null
+        }
         this.size = size
     }
 
@@ -151,7 +165,7 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
                 makeLangId(LANG_NEUTRAL, SUBLANG_DEFAULT).toUInt(),
                 buffer.ptr.reinterpret(),
                 0u,
-                null
+                null,
             )
 
             if (size == 0u) return ""
@@ -162,10 +176,7 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
     }
 
     override fun doClose() {
-        if (beginPtr == null) return
-        if (UnmapViewOfFile(beginPtr) == 0) {
-            throw Error("native", translateErrorImmediately("UnmapViewOfFile"))
-        }
+        unmapHolder?.close()
     }
 
     override fun toString(): String = "NativeFileDataAccessor[MingW64](path=$nativePath)"
@@ -190,5 +201,24 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
         }
     }
 
+
 }
 
+@OptIn(ExperimentalForeignApi::class)
+internal class UnmapHolder(private val ptr: LPVOID) : AutoCloseable {
+    companion object {
+        internal var nativeAccessCounter: AtomicInt? = null
+    }
+
+    init {
+        nativeAccessCounter?.incrementAndGet()
+    }
+
+    private val closed = atomic(false)
+    override fun close() {
+        if (closed.compareAndSet(expect = false, update = true)) {
+            nativeAccessCounter?.decrementAndGet()
+            UnmapViewOfFile(ptr)
+        }
+    }
+}
