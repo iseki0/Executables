@@ -19,6 +19,7 @@ class GcTest {
         val f = PEFile.open("C:/Windows/system32/notepad.exe")
         repeat(3) { GC.collect() }
         assertEquals(1, UnmapHolder.nativeAccessCounter?.value)
+        println(f)
     }
 
     @Test
