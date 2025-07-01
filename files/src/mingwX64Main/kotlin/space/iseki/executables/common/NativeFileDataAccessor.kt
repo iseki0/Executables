@@ -76,11 +76,11 @@ private fun formatMessage(errorCode: DWORD, context: String = ""): String {
 }
 
 /**
- * Creates a Windows system call exception for critical failures.
+ * Creates a Windows system call exception for critical failures without throwing.
  * This should be used when a Windows API call fails and indicates a serious system error.
  */
 @OptIn(ExperimentalForeignApi::class)
-private fun createWindowsSystemCallException(systemCall: String, errorCode: DWORD? = null): IOException {
+private fun createCriticalSystemCallException(systemCall: String, errorCode: DWORD? = null): IOException {
     val actualErrorCode = errorCode ?: GetLastError()
     val errorMessage = formatMessage(actualErrorCode, systemCall)
     return IOException("Critical Windows system call failed: $systemCall (error code: $actualErrorCode) - $errorMessage")
@@ -143,13 +143,13 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
             if (CloseHandle(fileMappingHandle) == 0) {
                 // Critical: CloseHandle failure during cleanup should terminate the program
                 // as it indicates a serious system state corruption
-                terminateWithUnhandledException(createWindowsSystemCallException("CloseHandle(fileMappingHandle)"))
+                terminateWithUnhandledException(createCriticalSystemCallException("CloseHandle(fileMappingHandle)"))
             }
         }
         if (CloseHandle(fileHandle) == 0) {
             // Critical: CloseHandle failure during cleanup should terminate the program
             // as it indicates a serious system state corruption
-            terminateWithUnhandledException(createWindowsSystemCallException("CloseHandle(fileHandle)"))
+            terminateWithUnhandledException(createCriticalSystemCallException("CloseHandle(fileHandle)"))
         }
         th?.let { throw it }
         this.beginPtr = beginPtr
@@ -232,7 +232,7 @@ internal class UnmapHolder(private val ptr: LPVOID) : AutoCloseable {
             // Critical: UnmapViewOfFile failure indicates serious memory management corruption
             // This should never happen in normal operation and indicates a critical system error
             if (UnmapViewOfFile(ptr) == 0) {
-                terminateWithUnhandledException(createWindowsSystemCallException("UnmapViewOfFile"))
+                terminateWithUnhandledException(createCriticalSystemCallException("UnmapViewOfFile"))
             }
         }
     }
