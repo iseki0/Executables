@@ -10,6 +10,7 @@ on:
       - 'feat/*'
       - 'fix/*'
       - 'refactor/*'
+      - 'cursor/*'
     pull_request:
     workflow_dispatch:
 jobs:
