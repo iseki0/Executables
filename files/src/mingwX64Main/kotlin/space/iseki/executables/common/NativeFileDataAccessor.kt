@@ -51,6 +51,53 @@ import kotlin.experimental.ExperimentalNativeApi
 import kotlin.native.ref.Cleaner
 import kotlin.native.ref.createCleaner
 
+/**
+ * Terminates the program with an unhandled exception.
+ * This should be called when a critical Windows system call fails and the program cannot continue safely.
+ * 
+ * @param systemCall The name of the Windows system call that failed
+ * @param errorCode The Windows error code, or null to get it automatically
+ */
+@OptIn(ExperimentalForeignApi::class)
+private fun terminateWithUnhandledException(systemCall: String, errorCode: DWORD? = null): Nothing {
+    val actualErrorCode = errorCode ?: GetLastError()
+    val errorMessage = formatMessage(actualErrorCode, systemCall)
+    val exception = IOException("Critical Windows system call failed: $systemCall (error code: $actualErrorCode) - $errorMessage")
+    
+    // Print the exception to stderr
+    println("FATAL: Critical system call failure - terminating program")
+    println("System call: $systemCall")
+    println("Error code: $actualErrorCode")
+    println("Error message: $errorMessage")
+    exception.printStackTrace()
+    
+    // Terminate the process with a non-zero exit code
+    kotlin.system.exitProcess(1)
+}
+
+private fun makeLangId(primary: Int, sub: Int) = (sub shl 10) or primary
+
+@OptIn(ExperimentalForeignApi::class)
+private fun formatMessage(errorCode: DWORD, context: String = ""): String {
+    memScoped {
+        val buffer = alloc<LPWSTRVar>()
+        val size = FormatMessageW(
+            (FORMAT_MESSAGE_ALLOCATE_BUFFER or FORMAT_MESSAGE_FROM_SYSTEM or FORMAT_MESSAGE_IGNORE_INSERTS).toUInt(),
+            null,
+            errorCode,
+            makeLangId(LANG_NEUTRAL, SUBLANG_DEFAULT).toUInt(),
+            buffer.ptr.reinterpret(),
+            0u,
+            null,
+        )
+
+        if (size == 0u) return "Unknown error"
+        val message = buffer.value?.toKStringFromUtf16().orEmpty()
+        LocalFree(buffer.value)
+        return message.trim()
+    }
+}
+
 @OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
 internal class NativeFileDataAccessor(private val nativePath: String) : ClosableDataAccessor() {
     private val beginPtr: LPVOID?
@@ -106,15 +153,15 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
         }
         if (fileMappingHandle != null) {
             if (CloseHandle(fileMappingHandle) == 0) {
-                translateErrorImmediately("CloseHandle(fileMappingHandle)").also {
-                    th?.addSuppressed(it) ?: run { th = it }
-                }
+                // Critical: CloseHandle failure during cleanup should terminate the program
+                // as it indicates a serious system state corruption
+                terminateWithUnhandledException("CloseHandle(fileMappingHandle)")
             }
         }
         if (CloseHandle(fileHandle) == 0) {
-            translateErrorImmediately("CloseHandle(fileHandle)").also {
-                th?.addSuppressed(it) ?: run { th = it }
-            }
+            // Critical: CloseHandle failure during cleanup should terminate the program
+            // as it indicates a serious system state corruption
+            terminateWithUnhandledException("CloseHandle(fileHandle)")
         }
         th?.let { throw it }
         this.beginPtr = beginPtr
@@ -128,8 +175,6 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
         this.size = size
     }
 
-
-    private fun makeLangId(primary: Int, sub: Int) = (sub shl 10) or primary
     private fun getFileSize(handle: HANDLE): Long {
         memScoped {
             val size = alloc<LARGE_INTEGER>()
@@ -142,7 +187,7 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
 
     private fun translateErrorImmediately(nativeCall: String): IOException {
         val errorCode = GetLastError()
-        val m = formatMessage(errorCode)
+        val m = formatMessage(errorCode, nativeCall)
         val b = listOfNotNull(
             if (nativeCall.isNotEmpty()) "nativeCall: $nativeCall" else null,
             "errno: $errorCode",
@@ -152,26 +197,6 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
             ERROR_FILE_NOT_FOUND, ERROR_PATH_NOT_FOUND -> NoSuchFileException(nativePath, null, b)
             ERROR_ACCESS_DENIED, 740 /* ERROR_ELEVATION_REQUIRED */ -> AccessDeniedException(nativePath, null, b)
             else -> IOException("Cannot open file $nativePath, $b")
-        }
-    }
-
-    private fun formatMessage(errorCode: DWORD): String {
-        memScoped {
-            val buffer = alloc<LPWSTRVar>()
-            val size = FormatMessageW(
-                (FORMAT_MESSAGE_ALLOCATE_BUFFER or FORMAT_MESSAGE_FROM_SYSTEM or FORMAT_MESSAGE_IGNORE_INSERTS).toUInt(),
-                null,
-                errorCode,
-                makeLangId(LANG_NEUTRAL, SUBLANG_DEFAULT).toUInt(),
-                buffer.ptr.reinterpret(),
-                0u,
-                null,
-            )
-
-            if (size == 0u) return ""
-            val message = buffer.value?.toKStringFromUtf16().orEmpty()
-            LocalFree(buffer.value)
-            return message.trim()
         }
     }
 
@@ -200,8 +225,6 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
             return available
         }
     }
-
-
 }
 
 @OptIn(ExperimentalForeignApi::class)
@@ -218,7 +241,11 @@ internal class UnmapHolder(private val ptr: LPVOID) : AutoCloseable {
     override fun close() {
         if (closed.compareAndSet(expect = false, update = true)) {
             nativeAccessCounter?.decrementAndGet()
-            UnmapViewOfFile(ptr)
+            // Critical: UnmapViewOfFile failure indicates serious memory management corruption
+            // This should never happen in normal operation and indicates a critical system error
+            if (UnmapViewOfFile(ptr) == 0) {
+                terminateWithUnhandledException("UnmapViewOfFile")
+            }
         }
     }
 }
