@@ -50,6 +50,7 @@ import space.iseki.executables.share.ClosableDataAccessor
 import kotlin.experimental.ExperimentalNativeApi
 import kotlin.native.ref.Cleaner
 import kotlin.native.ref.createCleaner
+import kotlin.native.terminateWithUnhandledException
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
 internal class NativeFileDataAccessor(private val nativePath: String) : ClosableDataAccessor() {
@@ -106,15 +107,17 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
         }
         if (fileMappingHandle != null) {
             if (CloseHandle(fileMappingHandle) == 0) {
-                translateErrorImmediately("CloseHandle(fileMappingHandle)").also {
-                    th?.addSuppressed(it) ?: run { th = it }
-                }
+                val errorCode = GetLastError()
+                val errorMessage = formatMessage(errorCode)
+                val ise = IllegalStateException("CloseHandle(fileMappingHandle) failed: errno=$errorCode, message=$errorMessage")
+                terminateWithUnhandledException(ise)
             }
         }
         if (CloseHandle(fileHandle) == 0) {
-            translateErrorImmediately("CloseHandle(fileHandle)").also {
-                th?.addSuppressed(it) ?: run { th = it }
-            }
+            val errorCode = GetLastError()
+            val errorMessage = formatMessage(errorCode)
+            val ise = IllegalStateException("CloseHandle(fileHandle) failed: errno=$errorCode, message=$errorMessage")
+            terminateWithUnhandledException(ise)
         }
         th?.let { throw it }
         this.beginPtr = beginPtr
@@ -204,7 +207,7 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
 
 }
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
 internal class UnmapHolder(private val ptr: LPVOID) : AutoCloseable {
     companion object {
         internal var nativeAccessCounter: AtomicInt? = null
@@ -218,7 +221,11 @@ internal class UnmapHolder(private val ptr: LPVOID) : AutoCloseable {
     override fun close() {
         if (closed.compareAndSet(expect = false, update = true)) {
             nativeAccessCounter?.decrementAndGet()
-            UnmapViewOfFile(ptr)
+            if (UnmapViewOfFile(ptr) == 0) {
+                val errorCode = GetLastError()
+                val ise = IllegalStateException("UnmapViewOfFile failed: errno=$errorCode")
+                terminateWithUnhandledException(ise)
+            }
         }
     }
 }

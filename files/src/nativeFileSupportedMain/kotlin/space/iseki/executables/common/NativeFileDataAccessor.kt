@@ -30,6 +30,7 @@ import platform.posix.strerror
 import space.iseki.executables.share.ClosableDataAccessor
 import kotlin.experimental.ExperimentalNativeApi
 import kotlin.native.ref.createCleaner
+import kotlin.native.terminateWithUnhandledException
 
 @Suppress("DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE")
 @OptIn(ExperimentalNativeApi::class)
@@ -104,7 +105,12 @@ private class NativeFileDataAccessorImpl(private val nativePath: String) : Closa
     override fun toString(): String = "NativeFileDataAccessor(path=$nativePath)"
     override fun doClose() {
         if (beginPtr == null) return
-        if (munmap(beginPtr, size.toULong()) == -1) throw translateErrorImmediately("munmap")
+        if (munmap(beginPtr, size.toULong()) == -1) {
+            val errorCode = errno
+            val errorMessage = strerror(errorCode)?.toKStringFromUtf8().orEmpty()
+            val ise = IllegalStateException("munmap failed: errno=$errorCode, message=$errorMessage")
+            terminateWithUnhandledException(ise)
+        }
     }
 }
 
