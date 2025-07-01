@@ -50,30 +50,7 @@ import space.iseki.executables.share.ClosableDataAccessor
 import kotlin.experimental.ExperimentalNativeApi
 import kotlin.native.ref.Cleaner
 import kotlin.native.ref.createCleaner
-
-/**
- * Terminates the program with an unhandled exception.
- * This should be called when a critical Windows system call fails and the program cannot continue safely.
- * 
- * @param systemCall The name of the Windows system call that failed
- * @param errorCode The Windows error code, or null to get it automatically
- */
-@OptIn(ExperimentalForeignApi::class)
-private fun terminateWithUnhandledException(systemCall: String, errorCode: DWORD? = null): Nothing {
-    val actualErrorCode = errorCode ?: GetLastError()
-    val errorMessage = formatMessage(actualErrorCode, systemCall)
-    val exception = IOException("Critical Windows system call failed: $systemCall (error code: $actualErrorCode) - $errorMessage")
-    
-    // Print the exception to stderr
-    println("FATAL: Critical system call failure - terminating program")
-    println("System call: $systemCall")
-    println("Error code: $actualErrorCode")
-    println("Error message: $errorMessage")
-    exception.printStackTrace()
-    
-    // Terminate the process with a non-zero exit code
-    kotlin.system.exitProcess(1)
-}
+import kotlin.native.terminateWithUnhandledException
 
 private fun makeLangId(primary: Int, sub: Int) = (sub shl 10) or primary
 
@@ -96,6 +73,17 @@ private fun formatMessage(errorCode: DWORD, context: String = ""): String {
         LocalFree(buffer.value)
         return message.trim()
     }
+}
+
+/**
+ * Creates a Windows system call exception for critical failures.
+ * This should be used when a Windows API call fails and indicates a serious system error.
+ */
+@OptIn(ExperimentalForeignApi::class)
+private fun createWindowsSystemCallException(systemCall: String, errorCode: DWORD? = null): IOException {
+    val actualErrorCode = errorCode ?: GetLastError()
+    val errorMessage = formatMessage(actualErrorCode, systemCall)
+    return IOException("Critical Windows system call failed: $systemCall (error code: $actualErrorCode) - $errorMessage")
 }
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
@@ -155,13 +143,13 @@ internal class NativeFileDataAccessor(private val nativePath: String) : Closable
             if (CloseHandle(fileMappingHandle) == 0) {
                 // Critical: CloseHandle failure during cleanup should terminate the program
                 // as it indicates a serious system state corruption
-                terminateWithUnhandledException("CloseHandle(fileMappingHandle)")
+                terminateWithUnhandledException(createWindowsSystemCallException("CloseHandle(fileMappingHandle)"))
             }
         }
         if (CloseHandle(fileHandle) == 0) {
             // Critical: CloseHandle failure during cleanup should terminate the program
             // as it indicates a serious system state corruption
-            terminateWithUnhandledException("CloseHandle(fileHandle)")
+            terminateWithUnhandledException(createWindowsSystemCallException("CloseHandle(fileHandle)"))
         }
         th?.let { throw it }
         this.beginPtr = beginPtr
@@ -244,7 +232,7 @@ internal class UnmapHolder(private val ptr: LPVOID) : AutoCloseable {
             // Critical: UnmapViewOfFile failure indicates serious memory management corruption
             // This should never happen in normal operation and indicates a critical system error
             if (UnmapViewOfFile(ptr) == 0) {
-                terminateWithUnhandledException("UnmapViewOfFile")
+                terminateWithUnhandledException(createWindowsSystemCallException("UnmapViewOfFile"))
             }
         }
     }
