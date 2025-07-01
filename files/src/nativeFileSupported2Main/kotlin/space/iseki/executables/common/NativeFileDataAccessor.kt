@@ -104,6 +104,7 @@ private class NativeFileDataAccessorImpl(private val nativePath: String) : Closa
     }
 
     override fun toString(): String = "NativeFileDataAccessor(path=$nativePath)"
+    @OptIn(ExperimentalNativeApi::class)
     override fun doClose() {
         if (beginPtr == null) return
         if (munmap(beginPtr, size.toUInt()) == -1) {
