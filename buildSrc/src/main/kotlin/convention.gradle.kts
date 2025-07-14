@@ -26,55 +26,54 @@ tasks.withType<JavaCompile> {
 
 kotlin {
     jvmToolchain(21)
-    targets {
-        compilerOptions {
-            freeCompilerArgs.add("-Xexpect-actual-classes")
-            freeCompilerArgs.add("-Xconsistent-data-class-copy-visibility")
-        }
-        jvm {
-            compilerOptions {
-                jvmTarget = JvmTarget.JVM_1_8
-                freeCompilerArgs.add("-Xjvm-default=all-compatibility")
-            }
-        }
-        js {
-            browser()
-            nodejs()
-        }
-        wasmJs {
-            browser()
-            nodejs()
-        }
-        wasmWasi {
-            nodejs()
-        }
-
-        // Tier 1
-        macosX64()
-        macosArm64()
-        iosSimulatorArm64()
-        iosX64()
-        iosArm64()
-
-        // Tier 2
-        linuxX64()
-        linuxArm64()
-        watchosArm32()
-        watchosArm64()
-        watchosX64()
-        watchosSimulatorArm64()
-        tvosSimulatorArm64()
-        tvosX64()
-        tvosArm64()
-
-        // Tier 3
-        androidNativeArm32()
-        androidNativeArm64()
-        androidNativeX64()
-        androidNativeX86()
-        mingwX64()
-        watchosDeviceArm64()
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+        freeCompilerArgs.add("-Xconsistent-data-class-copy-visibility")
     }
+    jvm {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
+            freeCompilerArgs.add("-Xjvm-default=all-compatibility")
+        }
+    }
+    js {
+        browser()
+        nodejs()
+    }
+    wasmJs {
+        browser()
+        nodejs()
+    }
+    wasmWasi {
+        nodejs()
+    }
+
+    // Tier 1
+    macosX64()
+    macosArm64()
+    iosSimulatorArm64()
+    iosX64()
+    iosArm64()
+
+    // Tier 2
+    linuxX64()
+    linuxArm64()
+    watchosArm32()
+    watchosArm64()
+    watchosX64()
+    watchosSimulatorArm64()
+    tvosSimulatorArm64()
+    tvosX64()
+    tvosArm64()
+
+    // Tier 3
+    androidNativeArm32()
+    androidNativeArm64()
+    androidNativeX64()
+    androidNativeX86()
+    mingwX64()
+    watchosDeviceArm64()
+
     applyDefaultHierarchyTemplate()
 }
 
