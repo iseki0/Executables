@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 plugins {
@@ -24,6 +25,10 @@ atomicfu {
 }
 
 kotlin {
+    @OptIn(ExperimentalAbiValidation::class)
+    abiValidation {
+        enabled = true
+    }
     jvm {
         compilations.configureEach {
             if ("jpms" !in name) {
