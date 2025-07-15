@@ -9,7 +9,6 @@ repositories {
 dependencies {
     implementation(libs.kotlin.multiplatform)
     implementation(libs.kotlin.serialization)
-    implementation(libs.kotlinx.binary.compatibility.validator)
     implementation(libs.kotlinx.kover)
     implementation(libs.kotlinx.atomicfu)
     implementation(libs.dokka)

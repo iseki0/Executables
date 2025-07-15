@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 plugins {
@@ -5,10 +7,6 @@ plugins {
     id("tgenerator")
     `pub-convention`
     id("org.jetbrains.kotlinx.atomicfu")
-}
-
-jigsaw {
-    enable("space.iseki.executables.files")
 }
 
 tasks.named("jvmTest") {
@@ -27,6 +25,40 @@ atomicfu {
 }
 
 kotlin {
+    @OptIn(ExperimentalAbiValidation::class)
+    abiValidation {
+        enabled = true
+    }
+    jvm {
+        compilations.configureEach {
+            if ("jpms" !in name) {
+                compileTaskProvider {
+                    compilerOptions {
+                        jvmTarget = JvmTarget.JVM_1_8
+                    }
+                }
+                compileJavaTaskProvider!!.invoke {
+                    sourceCompatibility = "1.8"
+                    targetCompatibility = "1.8"
+                }
+            }
+        }
+        val mainCompilation = compilations.getByName("main")
+        compilations.create("jpms") {
+            compileTaskProvider {
+                compilerOptions {
+                    jvmTarget = JvmTarget.JVM_9
+                }
+            }
+            configurations.compileDependencyConfiguration.extendsFrom(mainCompilation.configurations.compileDependencyConfiguration)
+            configurations.runtimeDependencyConfiguration?.extendsFrom(mainCompilation.configurations.runtimeDependencyConfiguration)
+            compileJavaTaskProvider!!.invoke {
+                sourceCompatibility = "9"
+                targetCompatibility = "9"
+            }
+        }
+
+    }
     sourceSets {
         val nonJvmMain by creating {
             dependsOn(commonMain.get())
@@ -105,6 +137,18 @@ kotlin {
         mingwX64Main.apply { get().dependsOn(nativeFileSupportedMingw64Main) }.nfTest()
 
         jvmMain.nfTest()
+    }
+
+    tasks.named("jvmJar", Jar::class).configure {
+        manifest {
+            attributes["Multi-Release"] = "true"
+        }
+        into("META-INF/versions/9") {
+            java {
+                val jvmJpms by sourceSets.getting
+                from(jvmJpms.output)
+            }
+        }
     }
 }
 

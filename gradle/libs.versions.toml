@@ -1,7 +1,7 @@
 [versions]
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 kotlinx-serialization-libs = "1.8.0"
-kotlinx-coroutine = "1.9.0-RC.2"
+kotlinx-coroutine = "1.10.2"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -11,8 +11,7 @@ idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.9" }
 # Gradle plugins
 kotlin-multiplatform = { module = "org.jetbrains.kotlin.multiplatform:org.jetbrains.kotlin.multiplatform.gradle.plugin", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlin.plugin.serialization:org.jetbrains.kotlin.plugin.serialization.gradle.plugin", version.ref = "kotlin" }
-kotlinx-atomicfu = "org.jetbrains.kotlinx:atomicfu-gradle-plugin:0.27.0"
-kotlinx-binary-compatibility-validator = "org.jetbrains.kotlinx.binary-compatibility-validator:org.jetbrains.kotlinx.binary-compatibility-validator.gradle.plugin:0.17.0"
+kotlinx-atomicfu = "org.jetbrains.kotlinx:atomicfu-gradle-plugin:0.29.0"
 kotlinx-kover = "org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin:0.9.1"
 dokka = "org.jetbrains.dokka:dokka-gradle-plugin:2.0.0"
 idea-ext = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin:1.1.9"
