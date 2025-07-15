@@ -114,19 +114,9 @@ class PEFile private constructor(
                 pos += 4
                 accessor.readFully(pos, coffBuffer)
                 coffHeader = CoffHeader.parse(coffBuffer, 0)
+                coffHeader.validate()
             } catch (e: EOFException) {
                 throw PEFileException("Unexpected EOF during read COFF header", cause = e)
-            }
-
-            if (coffHeader.numbersOfSections == 0.toUShort()) {
-                throw PEFileException("No sections found", "section_count" to coffHeader.numbersOfSections)
-            }
-            if (coffHeader.numbersOfSections > 96.toUShort()) {
-                throw PEFileException("Too many sections", "section_count" to coffHeader.numbersOfSections)
-            }
-
-            if (coffHeader.sizeOfOptionalHeader < 28.toUShort()) {
-                throw PEFileException("Optional header size too small", "size" to coffHeader.sizeOfOptionalHeader)
             }
 
             val standardHeader: StandardHeader
@@ -136,17 +126,10 @@ class PEFile private constructor(
                 pos += CoffHeader.LENGTH
                 accessor.readFully(pos, optionalHeaderBuffer)
                 standardHeader = StandardHeader.parse(optionalHeaderBuffer, 0)
-
-                if (standardHeader.magic != PE32Magic.PE32 && standardHeader.magic != PE32Magic.PE32Plus) {
-                    throw PEFileException("Unsupported PE magic", "magic" to standardHeader.magic)
-                }
-
+                standardHeader.validate()
                 optionalHeader =
                     WindowsSpecifiedHeader.parse(optionalHeaderBuffer, standardHeader.length(), standardHeader.magic)
-
-                if (optionalHeader.numbersOfRvaAndSizes > 16) {
-                    throw PEFileException("Too many data directories", "count" to optionalHeader.numbersOfRvaAndSizes)
-                }
+                optionalHeader.validate()
             } catch (e: IndexOutOfBoundsException) {
                 throw PEFileException(
                     "IOBE during reading optional header, maybe the sizeOfOptionalHeader in COFF header is too small",

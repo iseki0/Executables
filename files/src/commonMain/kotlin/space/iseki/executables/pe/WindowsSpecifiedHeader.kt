@@ -283,9 +283,6 @@ data class WindowsSpecifiedHeader internal constructor(
                 clrRuntimeHeader = dataDirectories[14],
             )
 
-            // 验证头部
-            header.validate()
-
             return header
         }
     }

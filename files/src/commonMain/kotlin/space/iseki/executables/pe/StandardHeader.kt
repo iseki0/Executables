@@ -144,10 +144,6 @@ data class StandardHeader internal constructor(
                 baseOfCode,
                 baseOfData,
             )
-
-            // 验证头部
-            header.validate()
-
             return header
         }
     }

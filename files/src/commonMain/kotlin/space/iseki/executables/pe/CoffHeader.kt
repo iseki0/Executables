@@ -42,7 +42,7 @@ data class CoffHeader internal constructor(
         pointerToSymbolTable = Address32(0u),
         numbersOfSymbols = 0u,
         sizeOfOptionalHeader = sizeOfOptionalHeader,
-        characteristics = characteristics
+        characteristics = characteristics,
     )
 
     override val fields: Map<String, Any>
@@ -75,8 +75,20 @@ data class CoffHeader internal constructor(
                 pointerToSymbolTable,
                 numbersOfSymbols,
                 sizeOfOptionalHeader,
-                characteristics
+                characteristics,
             )
+        }
+    }
+
+    internal fun validate() {
+        if (numbersOfSections == 0.toUShort()) {
+            throw PEFileException("No sections found", "section_count" to numbersOfSections)
+        }
+        if (numbersOfSections > 96.toUShort()) {
+            throw PEFileException("Too many sections", "section_count" to numbersOfSections)
+        }
+        if (sizeOfOptionalHeader < 28.toUShort()) {
+            throw PEFileException("Optional header size too small", "size" to sizeOfOptionalHeader)
         }
     }
 }
