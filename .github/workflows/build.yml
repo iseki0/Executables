@@ -76,7 +76,7 @@ jobs:
         name: Cache Konan
         with:
           enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**') }}
           path: |
             ~/.konan
       - name: Set up Gradle
@@ -120,7 +120,7 @@ jobs:
         name: Cache Konan
         with:
           enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**') }}
           path: |
             ~/.konan
       - name: Set up Gradle
@@ -179,7 +179,7 @@ jobs:
         name: Cache Konan
         with:
           enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**') }}
           path: |
             ~/.konan
       - name: Set up JDK
