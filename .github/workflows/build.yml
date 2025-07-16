@@ -14,10 +14,10 @@ on:
     pull_request:
     workflow_dispatch:
 jobs:
-  check:
+  build:
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ windows-latest, macos-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -28,13 +28,21 @@ jobs:
           distribution: 'temurin'
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
-      - uses: actions/cache@v4
-        name: Cache Konan
+      - name: Cache Konan
+        uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**', 'g/**', '.github/**') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**') }}
           path: |
             ~/.konan
+      - name: Cache Yarn
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json', '**/yarn.lock') }}
+          path: |
+            ~/.cache/yarn
+            ~/.yarn/cache
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -49,6 +57,25 @@ jobs:
       - name: Run build - CrossCompilation
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: ./gradlew check --stacktrace -Pkotlin.native.enableKlibsCrossCompilation=true
+      - name: Store GPG key
+        if: ${{ startsWith(github.ref, 'refs/tags/v') && matrix.os == 'ubuntu-latest' }}
+        run: echo "${{ secrets.GPG_PK }}" | base64 --decode | gzip -d | gpg --import
+      - name: Publish to Maven Central(Tagged)
+        if: ${{ startsWith(github.ref, 'refs/tags/v') && matrix.os == 'ubuntu-latest' }}
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          VERSION=${{ github.ref_name }}
+          ./gradlew publish --stacktrace -Psigning.gnupg.keyName=pub@iseki.space -Pversion=${VERSION:1} -Pkotlin.native.enableKlibsCrossCompilation=true
+      - name: Manual upload default repository
+        if: ${{ startsWith(github.ref, 'refs/tags/v') && matrix.os == 'ubuntu-latest'}}
+        run: |
+          curl -X 'POST' \
+            'https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/space.iseki.executables?publishing_type=user_managed' \
+            -H 'accept: */*' \
+            -H 'Authorization: Bearer ${{secrets.OSSRH_BEARER}}' \
+            -d ''
       - name: Upload build reports on failure
         if: failure()
         uses: actions/upload-artifact@v4
@@ -58,7 +85,7 @@ jobs:
           if-no-files-found: warn
 
   tool-build:
-    needs: check
+    needs: build
     strategy:
       matrix:
         os: [ ubuntu-latest ]
@@ -72,13 +99,21 @@ jobs:
           distribution: 'temurin'
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
-      - uses: actions/cache@v4
-        name: Cache Konan
+      - name: Cache Konan
+        uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**') }}
           path: |
             ~/.konan
+      - name: Cache Yarn
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json', '**/yarn.lock') }}
+          path: |
+            ~/.cache/yarn
+            ~/.yarn/cache
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -102,63 +137,6 @@ jobs:
         with:
           path: bin-tool/build/bin/*/releaseExecutable
 
-
-  publish:
-    needs: check
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/master' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version-file: '.java-version'
-          distribution: 'temurin'
-          server-id: github
-          settings-path: ${{ github.workspace }}
-      - uses: actions/cache@v4
-        name: Cache Konan
-        with:
-          enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**') }}
-          path: |
-            ~/.konan
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          cache-encryption-key: ${{ secrets.GradleEncryptionKey }}
-          validate-wrappers: true
-          build-scan-publish: true
-          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
-          build-scan-terms-of-use-agree: "yes"
-          gradle-version: wrapper
-      - name: Store GPG key
-        run: echo "${{ secrets.GPG_PK }}" | base64 --decode | gzip -d | gpg --import
-      - name: Publish to Maven Central(Tagged)
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        run: |
-          VERSION=${{ github.ref_name }}
-          ./gradlew publish --stacktrace -Psigning.gnupg.keyName=pub@iseki.space -Pversion=${VERSION:1} -Pkotlin.native.enableKlibsCrossCompilation=true
-      - name: Publish to Maven Central(Untagged)
-        if: ${{ false && !startsWith(github.ref, 'refs/tags/v') && github.ref == 'refs/heads/master' }}
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        run: |
-          VERSION=${{ github.ref_name }}
-          ./gradlew publish --stacktrace -Psigning.gnupg.keyName=pub@iseki.space -Pkotlin.native.enableKlibsCrossCompilation=true
-      - name: Manual upload default repository
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        run: |
-          curl -X 'POST' \
-            'https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/space.iseki.executables?publishing_type=user_managed' \
-            -H 'accept: */*' \
-            -H 'Authorization: Bearer ${{secrets.OSSRH_BEARER}}' \
-            -d ''
-
   dokka:
     permissions:
       contents: read
@@ -167,7 +145,7 @@ jobs:
     concurrency:
       group: "pages"
       cancel-in-progress: true
-    needs: check
+    needs: build
     if: github.ref == 'refs/heads/master'
     environment:
       name: github-pages
@@ -175,13 +153,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v4
-        name: Cache Konan
+      - name: Cache Konan
+        uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**') }}
           path: |
             ~/.konan
+      - name: Cache Yarn
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json', '**/yarn.lock') }}
+          path: |
+            ~/.cache/yarn
+            ~/.yarn/cache
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
