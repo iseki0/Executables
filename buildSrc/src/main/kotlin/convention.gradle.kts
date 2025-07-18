@@ -25,7 +25,7 @@ tasks.withType<JavaCompile> {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(24)
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes")
         freeCompilerArgs.add("-Xconsistent-data-class-copy-visibility")
