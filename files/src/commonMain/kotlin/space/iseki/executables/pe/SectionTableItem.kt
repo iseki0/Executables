@@ -113,6 +113,15 @@ data class SectionTableItem internal constructor(
                 "section_name" to name,
             )
         }
+
+        if (virtualAddress.value % 0x1000u != 0u) {
+            throw PEFileException(
+                "Section is not aligned to 4K boundary",
+                "section_name" to name,
+                "virtual_address" to virtualAddress,
+            )
+        }
+
     }
 
     override val fields

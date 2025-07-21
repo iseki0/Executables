@@ -162,27 +162,6 @@ class PEFile private constructor(
                 SectionTableItem.parse(sectionTableData, off)
             }
 
-            for (section in sectionTableItemArray) {
-                if (section.virtualSize == 0u) {
-                    throw PEFileException("Section has zero virtual size", "section_name" to section.name)
-                }
-
-                if (section.virtualAddress.value % 0x1000u != 0u) {
-                    throw PEFileException(
-                        "Section is not aligned to 4K boundary",
-                        "section_name" to section.name,
-                        "virtual_address" to section.virtualAddress,
-                    )
-                }
-
-                if (section.sizeOfRawData > 0u && section.pointerToRawData.value == 0u) {
-                    throw PEFileException(
-                        "Section has raw data but no pointer to raw data",
-                        "section_name" to section.name,
-                    )
-                }
-            }
-
             return PEFile(
                 coffHeader = coffHeader,
                 standardHeader = standardHeader,
