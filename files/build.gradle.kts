@@ -51,7 +51,7 @@ kotlin {
                 }
             }
             configurations.compileDependencyConfiguration.extendsFrom(mainCompilation.configurations.compileDependencyConfiguration)
-            configurations.runtimeDependencyConfiguration?.extendsFrom(mainCompilation.configurations.runtimeDependencyConfiguration)
+            configurations.runtimeDependencyConfiguration?.extendsFrom(mainCompilation.configurations.runtimeDependencyConfiguration!!)
             compileJavaTaskProvider!!.invoke {
                 sourceCompatibility = "9"
                 targetCompatibility = "9"
