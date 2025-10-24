@@ -1,6 +1,7 @@
 package space.iseki.executables.pe
 
 import space.iseki.executables.common.Address32
+import space.iseki.executables.common.Address64
 import space.iseki.executables.common.openNativeFileDataAccessor
 import space.iseki.executables.common.readFully
 import kotlin.test.Test
@@ -160,7 +161,8 @@ class CryptdlgDllTest {
             assertEquals(relocSectionData.size, actualData.size, "Reloc section size mismatch")
             assertContentEquals(relocSectionData, actualData, "Reloc section data mismatch")
             val vmData = ByteArray(relocSection.virtualSize.toInt())
-            file.virtualMemory().readFully(relocSection.virtualAddress, vmData)
+            file.virtualMemory()
+                .readFully(Address64(relocSection.virtualAddress.value + file.windowsHeader.imageBase.value), vmData)
             assertEquals(relocSection.virtualSize.toInt(), vmData.size, "Reloc section virtual size mismatch")
             assertContentEquals(
                 expected = relocSectionData.sliceArray(0 until relocSection.virtualSize.toInt()),
