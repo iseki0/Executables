@@ -22,7 +22,7 @@ import kotlin.experimental.and
  * Class for extracting build information from Go binaries.
  */
 class GoSBom internal constructor(
-    private val version: String,
+    val version: String,
     private val moduleInfo: String,
     val buildInfo: GoBuildInfo? = null,
 ) {
@@ -102,7 +102,7 @@ class GoSBom internal constructor(
                                 it.characteristics.value and SectionFlags.Constants.IMAGE_SCN_ALIGN_32BYTES.inv() == SectionFlags.Constants.IMAGE_SCN_MEM_READ or SectionFlags.Constants.IMAGE_SCN_MEM_WRITE or SectionFlags.Constants.IMAGE_SCN_CNT_INITIALIZED_DATA
                             it.virtualAddress.value != 0u && it.size > 0 && f
                         } ?: throw SBomNotFoundException("Cannot find data section containing Go buildinfo")
-                        vAddr = section.virtualAddress.value.toULong().toLong()
+                        vAddr = section.virtualAddress.value.toLong() + file.windowsHeader.imageBase.value.toLong()
                         memSize = section.virtualSize.toLong()
                     }
 
@@ -293,6 +293,9 @@ class GoSBom internal constructor(
             vm.readFully(addr, headerAndData)
 
             val dataAddr = readPtr(headerAndData, 0, ptrSize, bigEndian)
+            if (dataAddr == 0L) {
+                return ""
+            }
             val dataLen = readPtr(headerAndData, ptrSize, ptrSize, bigEndian)
 
             val buffer = ByteArray(dataLen.toInt())
