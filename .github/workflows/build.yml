@@ -157,7 +157,7 @@ jobs:
         uses: actions/cache@v4
         with:
           enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'buildSrc/**') }}
+          key: ${{ runner.os }}-gradle
           path: |
             ~/.konan
       - name: Cache Yarn
