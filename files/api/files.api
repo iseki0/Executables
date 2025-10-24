@@ -543,7 +543,7 @@ public final class space/iseki/executables/elf/ElfEhdr : space/iseki/executables
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/elf/ElfEhdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/elf/ElfEhdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfEhdr$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -551,6 +551,7 @@ public synthetic class space/iseki/executables/elf/ElfEhdr$$serializer : kotlinx
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfEhdr;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/elf/ElfEhdr$Companion {
@@ -580,7 +581,7 @@ public final class space/iseki/executables/elf/ElfExportSymbol : space/iseki/exe
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/elf/ElfExportSymbol$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/elf/ElfExportSymbol$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfExportSymbol$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -588,6 +589,7 @@ public synthetic class space/iseki/executables/elf/ElfExportSymbol$$serializer :
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfExportSymbol;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/elf/ElfExportSymbol$Companion {
@@ -612,8 +614,18 @@ public final class space/iseki/executables/elf/ElfFile : java/lang/AutoCloseable
 }
 
 public final class space/iseki/executables/elf/ElfFile$Companion : space/iseki/executables/common/FileFormat {
+	public synthetic fun open (Ljava/io/File;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/io/File;)Lspace/iseki/executables/elf/ElfFile;
+	public synthetic fun open (Ljava/lang/String;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/lang/String;)Lspace/iseki/executables/elf/ElfFile;
+	public synthetic fun open (Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/elf/ElfFile;
+	public synthetic fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/elf/ElfFile;
 	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/elf/ElfFile;
+	public synthetic fun open ([B)Lspace/iseki/executables/common/OpenedFile;
+	public fun open ([B)Lspace/iseki/executables/elf/ElfFile;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -643,7 +655,7 @@ public final class space/iseki/executables/elf/ElfFile$ElfSymbolInfo {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/elf/ElfFile$ElfSymbolInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/elf/ElfFile$ElfSymbolInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfFile$ElfSymbolInfo$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -651,6 +663,7 @@ public synthetic class space/iseki/executables/elf/ElfFile$ElfSymbolInfo$$serial
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfFile$ElfSymbolInfo;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/elf/ElfFile$ElfSymbolInfo$Companion {
@@ -658,11 +671,16 @@ public final class space/iseki/executables/elf/ElfFile$ElfSymbolInfo$Companion {
 }
 
 public final class space/iseki/executables/elf/ElfFile$Section : space/iseki/executables/common/ReadableSection {
+	public fun close ()V
 	public fun getHeader ()Lspace/iseki/executables/common/ReadableStructure;
 	public fun getName ()Ljava/lang/String;
 	public final fun getSectionHeader ()Lspace/iseki/executables/elf/ElfShdr;
 	public fun getSize ()J
+	public fun readAtMost (J[B)I
 	public fun readAtMost (J[BII)I
+	public fun readBytes (J[BII)V
+	public fun readFully (J[B)V
+	public fun readFully (J[BII)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -687,7 +705,7 @@ public final class space/iseki/executables/elf/ElfIdentification : space/iseki/e
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/elf/ElfIdentification$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/elf/ElfIdentification$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfIdentification$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -695,6 +713,7 @@ public synthetic class space/iseki/executables/elf/ElfIdentification$$serializer
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfIdentification;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/elf/ElfIdentification$Companion {
@@ -720,7 +739,7 @@ public final class space/iseki/executables/elf/ElfImportSymbol : space/iseki/exe
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/elf/ElfImportSymbol$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/elf/ElfImportSymbol$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfImportSymbol$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -728,6 +747,7 @@ public synthetic class space/iseki/executables/elf/ElfImportSymbol$$serializer :
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfImportSymbol;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/elf/ElfImportSymbol$Companion {
@@ -1111,7 +1131,7 @@ public final class space/iseki/executables/elf/ElfPhdr : space/iseki/executables
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/elf/ElfPhdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/elf/ElfPhdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfPhdr$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -1119,6 +1139,7 @@ public synthetic class space/iseki/executables/elf/ElfPhdr$$serializer : kotlinx
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfPhdr;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/elf/ElfPhdr$Companion {
@@ -1284,7 +1305,7 @@ public final class space/iseki/executables/elf/ElfShdr : space/iseki/executables
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/elf/ElfShdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/elf/ElfShdr$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/elf/ElfShdr$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -1292,6 +1313,7 @@ public synthetic class space/iseki/executables/elf/ElfShdr$$serializer : kotlinx
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/elf/ElfShdr;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/elf/ElfShdr$Companion {
@@ -1525,8 +1547,18 @@ public final class space/iseki/executables/macho/MachoFile : java/lang/AutoClose
 }
 
 public final class space/iseki/executables/macho/MachoFile$Companion : space/iseki/executables/common/FileFormat {
+	public synthetic fun open (Ljava/io/File;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/io/File;)Lspace/iseki/executables/macho/MachoFile;
+	public synthetic fun open (Ljava/lang/String;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/lang/String;)Lspace/iseki/executables/macho/MachoFile;
+	public synthetic fun open (Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/macho/MachoFile;
+	public synthetic fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/macho/MachoFile;
 	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/macho/MachoFile;
+	public synthetic fun open ([B)Lspace/iseki/executables/common/OpenedFile;
+	public fun open ([B)Lspace/iseki/executables/macho/MachoFile;
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -1545,11 +1577,16 @@ public final class space/iseki/executables/macho/MachoFile$LoaderCommands : kotl
 
 public final class space/iseki/executables/macho/MachoFile$Section : space/iseki/executables/common/ReadableSection {
 	public fun <init> (Lspace/iseki/executables/macho/MachoFile;Ljava/lang/String;Lspace/iseki/executables/macho/MachoSection;)V
+	public fun close ()V
 	public synthetic fun getHeader ()Lspace/iseki/executables/common/ReadableStructure;
 	public fun getHeader ()Lspace/iseki/executables/macho/MachoSection;
 	public fun getName ()Ljava/lang/String;
 	public fun getSize ()J
+	public fun readAtMost (J[B)I
 	public fun readAtMost (J[BII)I
+	public fun readBytes (J[BII)V
+	public fun readFully (J[B)V
+	public fun readFully (J[BII)V
 }
 
 public final class space/iseki/executables/macho/MachoFileException : space/iseki/executables/common/CommonFileException {
@@ -1743,7 +1780,7 @@ public final class space/iseki/executables/macho/MachoHeader : space/iseki/execu
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/macho/MachoHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/macho/MachoHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/macho/MachoHeader$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -1751,6 +1788,7 @@ public synthetic class space/iseki/executables/macho/MachoHeader$$serializer : k
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/macho/MachoHeader;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/macho/MachoHeader$Companion {
@@ -2818,7 +2856,7 @@ public final class space/iseki/executables/pe/CoffHeader : space/iseki/executabl
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/CoffHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/pe/CoffHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/pe/CoffHeader$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -2826,6 +2864,7 @@ public synthetic class space/iseki/executables/pe/CoffHeader$$serializer : kotli
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/CoffHeader;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/CoffHeader$Companion {
@@ -3123,12 +3162,23 @@ public final class space/iseki/executables/pe/PEFile : java/lang/AutoCloseable, 
 }
 
 public final class space/iseki/executables/pe/PEFile$Companion : space/iseki/executables/common/FileFormat {
+	public synthetic fun open (Ljava/io/File;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/io/File;)Lspace/iseki/executables/pe/PEFile;
+	public synthetic fun open (Ljava/lang/String;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/lang/String;)Lspace/iseki/executables/pe/PEFile;
+	public synthetic fun open (Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/nio/channels/SeekableByteChannel;)Lspace/iseki/executables/pe/PEFile;
+	public synthetic fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/common/OpenedFile;
+	public fun open (Ljava/nio/file/Path;)Lspace/iseki/executables/pe/PEFile;
 	public synthetic fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/common/OpenedFile;
 	public fun open (Lspace/iseki/executables/common/DataAccessor;)Lspace/iseki/executables/pe/PEFile;
+	public synthetic fun open ([B)Lspace/iseki/executables/common/OpenedFile;
+	public fun open ([B)Lspace/iseki/executables/pe/PEFile;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class space/iseki/executables/pe/PEFile$Section : space/iseki/executables/common/ReadableSection {
+	public fun close ()V
 	public final fun getCharacteristics-CVJ1pB8 ()I
 	public fun getHeader ()Lspace/iseki/executables/common/ReadableStructure;
 	public fun getName ()Ljava/lang/String;
@@ -3142,7 +3192,11 @@ public final class space/iseki/executables/pe/PEFile$Section : space/iseki/execu
 	public final fun getTableItem ()Lspace/iseki/executables/pe/SectionTableItem;
 	public final fun getVirtualAddress-7OlPWkI ()I
 	public final fun getVirtualSize-pVg5ArA ()I
+	public fun readAtMost (J[B)I
 	public fun readAtMost (J[BII)I
+	public fun readBytes (J[BII)V
+	public fun readFully (J[B)V
+	public fun readFully (J[BII)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -3154,7 +3208,7 @@ public final class space/iseki/executables/pe/PEFile$Summary {
 	public final fun getWindowsHeader ()Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 }
 
-public synthetic class space/iseki/executables/pe/PEFile$Summary$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/pe/PEFile$Summary$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/pe/PEFile$Summary$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3162,6 +3216,7 @@ public synthetic class space/iseki/executables/pe/PEFile$Summary$$serializer : k
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/PEFile$Summary;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/PEFile$Summary$Companion {
@@ -3369,7 +3424,7 @@ public final class space/iseki/executables/pe/SectionTableItem : space/iseki/exe
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/SectionTableItem$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/pe/SectionTableItem$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/pe/SectionTableItem$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3377,6 +3432,7 @@ public synthetic class space/iseki/executables/pe/SectionTableItem$$serializer :
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/SectionTableItem;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/SectionTableItem$Companion {
@@ -3413,7 +3469,7 @@ public final class space/iseki/executables/pe/StandardHeader : space/iseki/execu
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/StandardHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/pe/StandardHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/pe/StandardHeader$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3421,6 +3477,7 @@ public synthetic class space/iseki/executables/pe/StandardHeader$$serializer : k
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/StandardHeader;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/StandardHeader$Companion {
@@ -3514,7 +3571,7 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader : space/ise
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/WindowsSpecifiedHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/pe/WindowsSpecifiedHeader$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/pe/WindowsSpecifiedHeader$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3522,6 +3579,7 @@ public synthetic class space/iseki/executables/pe/WindowsSpecifiedHeader$$serial
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/WindowsSpecifiedHeader;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/WindowsSpecifiedHeader$Companion {
@@ -3794,7 +3852,7 @@ public final class space/iseki/executables/pe/vi/FixedFileInfo : space/iseki/exe
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/vi/FixedFileInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/pe/vi/FixedFileInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/pe/vi/FixedFileInfo$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3802,6 +3860,7 @@ public synthetic class space/iseki/executables/pe/vi/FixedFileInfo$$serializer :
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/vi/FixedFileInfo;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/vi/FixedFileInfo$Companion {
@@ -3828,7 +3887,7 @@ public final class space/iseki/executables/pe/vi/FixedFileInfo$Version : java/la
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/vi/FixedFileInfo$Version$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/pe/vi/FixedFileInfo$Version$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/pe/vi/FixedFileInfo$Version$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3836,6 +3895,7 @@ public synthetic class space/iseki/executables/pe/vi/FixedFileInfo$Version$$seri
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/vi/FixedFileInfo$Version;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/vi/FixedFileInfo$Version$Companion {
@@ -3863,7 +3923,7 @@ public final class space/iseki/executables/pe/vi/StringTable {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/pe/vi/StringTable$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/pe/vi/StringTable$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/pe/vi/StringTable$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3871,6 +3931,7 @@ public synthetic class space/iseki/executables/pe/vi/StringTable$$serializer : k
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/pe/vi/StringTable;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/pe/vi/StringTable$Companion {
@@ -3895,7 +3956,7 @@ public final class space/iseki/executables/sbom/GoBuildInfo {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/sbom/GoBuildInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/sbom/GoBuildInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/sbom/GoBuildInfo$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3903,6 +3964,7 @@ public synthetic class space/iseki/executables/sbom/GoBuildInfo$$serializer : ko
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/sbom/GoBuildInfo;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/sbom/GoBuildInfo$Companion {
@@ -3921,7 +3983,7 @@ public final class space/iseki/executables/sbom/GoBuildSetting {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/sbom/GoBuildSetting$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/sbom/GoBuildSetting$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/sbom/GoBuildSetting$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3929,6 +3991,7 @@ public synthetic class space/iseki/executables/sbom/GoBuildSetting$$serializer :
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/sbom/GoBuildSetting;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/sbom/GoBuildSetting$Companion {
@@ -3951,7 +4014,7 @@ public final class space/iseki/executables/sbom/GoModule {
 	public fun toString ()Ljava/lang/String;
 }
 
-public synthetic class space/iseki/executables/sbom/GoModule$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+public final synthetic class space/iseki/executables/sbom/GoModule$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
 	public static final field INSTANCE Lspace/iseki/executables/sbom/GoModule$$serializer;
 	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
 	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
@@ -3959,6 +4022,7 @@ public synthetic class space/iseki/executables/sbom/GoModule$$serializer : kotli
 	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
 	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
 	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lspace/iseki/executables/sbom/GoModule;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
 }
 
 public final class space/iseki/executables/sbom/GoModule$Companion {
