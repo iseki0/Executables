@@ -166,7 +166,11 @@ class MachoFile private constructor(
 
     private val vm by lazy {
         val mr = MemReader(dataAccessor).apply {
-            for (section in segments.asSequence().flatMap { it.sections }) {
+            for (section in segments.asSequence().flatMap { it.sections }.sortedBy { it.addr }) {
+                val type = section.flags.type
+                if (MachoSectionType.S_ZEROFILL == type || MachoSectionType.S_GB_ZEROFILL == type) {
+                    continue
+                }
                 mapMemory(vOff = section.addr.value, fOff = section.offset.toULong(), fSize = section.size)
             }
         }
