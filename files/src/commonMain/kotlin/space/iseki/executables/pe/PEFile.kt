@@ -3,6 +3,7 @@ package space.iseki.executables.pe
 import kotlinx.serialization.Serializable
 import space.iseki.executables.common.Address32
 import space.iseki.executables.common.Address32Array
+import space.iseki.executables.common.Address64
 import space.iseki.executables.common.DataAccessor
 import space.iseki.executables.common.EOFException
 import space.iseki.executables.common.ExportSymbol
@@ -597,6 +598,18 @@ class PEFile private constructor(
      * @param length length to read
      */
     private fun readVirtualMemory(rva: Address32, buffer: ByteArray, offset: Int, length: Int) {
+        readVirtualMemory(Address64(rva.value), buffer, offset, length)
+    }
+
+    /**
+     * Read data from the virtual memory of the PE file
+     *
+     * @param rva relative virtual address
+     * @param buffer destination buffer
+     * @param offset buffer offset
+     * @param length length to read
+     */
+    private fun readVirtualMemory(rva: Address64, buffer: ByteArray, offset: Int, length: Int) {
         // If length is 0, return immediately
         if (length <= 0) return
 
@@ -631,7 +644,7 @@ class PEFile private constructor(
         }
 
         if (length > bytesRead) {
-            vm.read(currentRva.toULong(), buffer, currentOffset, length - bytesRead)
+            vm.read(currentRva, buffer, currentOffset, length - bytesRead)
         }
     }
 
@@ -807,8 +820,7 @@ class PEFile private constructor(
 
                 if (len <= 0) return len
                 if (pos >= size) return len
-                if (pos > UInt.MAX_VALUE.toLong()) return len
-                readVirtualMemory(Address32(pos.toUInt()), buf, off, len)
+                readVirtualMemory(Address32((pos.toULong() - windowsHeader.imageBase.value).toUInt()), buf, off, len)
                 return len
             }
 
