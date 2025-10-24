@@ -807,8 +807,7 @@ class PEFile private constructor(
 
                 if (len <= 0) return len
                 if (pos >= size) return len
-                if (pos > UInt.MAX_VALUE.toLong()) return len
-                readVirtualMemory(Address32(pos.toUInt()), buf, off, len)
+                readVirtualMemory(Address32((pos.toULong() - windowsHeader.imageBase.value).toUInt()), buf, off, len)
                 return len
             }
 
