@@ -168,7 +168,7 @@ class MachoFile private constructor(
         val mr = MemReader(dataAccessor).apply {
             for (section in segments.asSequence().flatMap { it.sections }.sortedBy { it.addr }) {
                 val type = section.flags.type
-                if (section.offset == 0u || MachoSectionType.S_ZEROFILL == type || MachoSectionType.S_GB_ZEROFILL == type) {
+                if (section.offset == 0u || type == MachoSectionType.S_ZEROFILL || type == MachoSectionType.S_GB_ZEROFILL) {
                     continue
                 }
                 mapMemory(vOff = section.addr.value, fOff = section.offset.toULong(), fSize = section.size)
