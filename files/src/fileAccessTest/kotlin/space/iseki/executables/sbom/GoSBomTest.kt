@@ -17,6 +17,7 @@ class GoSBomTest {
         private const val NOTGO_PATH = "src/fileAccessTest/resources/sbom/notgo"
         private const val GO_EXE = "src/fileAccessTest/resources/pe/go.exe"
         private const val GO_MACHO = "src/fileAccessTest/resources/macho/go-hello"
+        private const val GO113_DARWIN = "src/fileAccessTest/resources/sbom/go113-darwin"
     }
 
     /**
@@ -39,14 +40,14 @@ class GoSBomTest {
             assertNotNull(sbom.buildInfo?.main)
 
             // Verify the main module
-            val main = sbom.buildInfo?.main
+            val main = sbom.buildInfo.main
             assertNotNull(main)
             assertEquals("example.com/go117", main.path)
             assertEquals("(devel)", main.version)
             assertEquals("pkg:golang/example.com/go117@(devel)", main.purl)
 
             // Verify we have dependencies
-            val deps = sbom.buildInfo?.deps
+            val deps = sbom.buildInfo.deps
             assertNotNull(deps)
             assertTrue(deps.isEmpty())
         }
@@ -69,6 +70,7 @@ class GoSBomTest {
             // 打印实际的Go版本
             println("Actual Go version in tryReadFrom: ${sbom.buildInfo?.goVersion}")
 
+            assertEquals("go1.17", sbom.version)
             assertEquals("go1.17", sbom.buildInfo?.goVersion)
         }
     }
@@ -121,6 +123,7 @@ class GoSBomTest {
             assertNotNull(sbom)
             val buildInfo = sbom.buildInfo
             assertNotNull(buildInfo)
+            assertEquals("go1.24.0", sbom.version)
             assertEquals("go1.24.0", buildInfo.goVersion)
             assertNull(buildInfo.main)
             assertEquals(expectedSettings, buildInfo.settings)
@@ -172,7 +175,16 @@ class GoSBomTest {
             settings = settings,
             deps = emptyList(),
         )
+        assertEquals("go1.24.0", sbom.version)
         assertEquals(expected, sbom.buildInfo)
+    }
+
+    @Test
+    fun testGo113Darwin() {
+        val sbom = MachoFile.open(GO113_DARWIN).use { file ->
+            GoSBom.readFrom(file)
+        }
+        assertEquals("go1.13.1", sbom.version)
     }
 
 } 
