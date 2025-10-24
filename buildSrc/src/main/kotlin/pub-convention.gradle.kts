@@ -7,11 +7,6 @@ plugins {
 }
 
 
-signing {
-    useGpgCmd()
-    sign(publishing.publications)
-}
-
 publishing {
     repositories {
         maven {
@@ -86,5 +81,10 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    useGpgCmd()
+    sign(publishing.publications)
 }
 
