@@ -39,7 +39,6 @@ publishing {
     }
     publications {
         withType<MavenPublication> {
-            artifactId = "executables-$artifactId"
             val pubName = name.replaceFirstChar { it.titlecase(Locale.getDefault()) }
             val emptyJavadocJar by tasks.register<Jar>("emptyJavadocJar$pubName") {
                 archiveClassifier = "javadoc"
@@ -47,7 +46,6 @@ publishing {
             }
             artifact(emptyJavadocJar)
             pom {
-                name = "Executables-${project.name}"
                 val projectUrl = "https://github.com/iseki0/Executables"
                 description = "A library for executable files"
                 url = projectUrl
