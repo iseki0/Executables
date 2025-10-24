@@ -1,22 +1,12 @@
-name: Build
+name: Publish
 
 on:
   push:
-    branches:
-      - 'master'
-      - 'ci/*'
-      - 'feat/*'
-      - 'fix/*'
-      - 'refactor/*'
-      - 'cursor/*'
-    pull_request:
-    workflow_dispatch:
+    tags:
+      - 'v*'
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [ windows-latest, macos-latest, ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+  publish:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK
@@ -50,62 +40,81 @@ jobs:
           build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
           build-scan-terms-of-use-agree: "yes"
           gradle-version: wrapper
-      - name: Run build
-        run: ./gradlew check --stacktrace
-      - name: Run build - CrossCompilation
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: ./gradlew check --stacktrace -Pkotlin.native.enableKlibsCrossCompilation=true
-
-  tool-build:
-    needs: build
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version-file: '.java-version'
-          distribution: 'temurin'
-          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-          settings-path: ${{ github.workspace }} # location for the settings.xml file
-      - name: Cache Konan
-        uses: actions/cache@v4
-        with:
-          enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle
-          path: |
-            ~/.konan
-      - name: Cache Yarn
-        uses: actions/cache@v4
-        with:
-          enableCrossOsArchive: true
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json', '**/yarn.lock') }}
-          path: |
-            ~/.cache/yarn
-            ~/.yarn/cache
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          cache-encryption-key: ${{ secrets.GradleEncryptionKey }} # openssl rand -base64 16
-          validate-wrappers: true
-          build-scan-publish: true
-          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
-          build-scan-terms-of-use-agree: "yes"
-          gradle-version: wrapper
-      - name: Run build
-        run: ./gradlew :bin-tool:build --stacktrace
+      - name: Store GPG key
+        run: echo "${{ secrets.GPG_PK }}" | base64 --decode | gzip -d | gpg --import
+      - name: Publish to Maven Central(Tagged)
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          VERSION=${{ github.ref_name }}
+          ./gradlew publish --stacktrace -Psigning.gnupg.keyName=pub@iseki.space -Pversion=${VERSION:1} -Pkotlin.native.enableKlibsCrossCompilation=true
+      - name: Manual upload default repository
+        run: |
+          curl -X 'POST' \
+            'https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/space.iseki.executables?publishing_type=user_managed' \
+            -H 'accept: */*' \
+            -H 'Authorization: Bearer ${{secrets.OSSRH_BEARER}}' \
+            -d ''
       - name: Upload build reports on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: bin-tool-build-reports-${{ matrix.os }}
-          path: bin-tool/build/reports
+          name: build-reports-${{ matrix.os }}
+          path: files/build/reports
           if-no-files-found: warn
-      - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+  dokka:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: "pages"
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache Konan
+        uses: actions/cache@v4
         with:
-          path: bin-tool/build/bin/*/releaseExecutable
-
+          enableCrossOsArchive: true
+          key: ${{ runner.os }}-gradle
+          path: |
+            ~/.konan
+      - name: Cache Yarn
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json', '**/yarn.lock') }}
+          path: |
+            ~/.cache/yarn
+            ~/.yarn/cache
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version-file: '.java-version'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GradleEncryptionKey }} # openssl rand -base64 16
+          validate-wrappers: true
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-use-agree: "yes"
+          gradle-version: wrapper
+      - name: Generate docs
+        run: ./gradlew dokkaGenerate --stacktrace
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: 'build/dokka/html'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
