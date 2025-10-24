@@ -166,12 +166,8 @@ class MachoFile private constructor(
 
     private val vm by lazy {
         val mr = MemReader(dataAccessor).apply {
-            segments.sortedBy { it.vmAddr }.forEach {
-                mapMemory(
-                    vOff = it.vmAddr.value,
-                    fOff = it.fileOff,
-                    fSize = minOf(it.fileSize, it.vmSize),
-                )
+            for (section in segments.asSequence().flatMap { it.sections }) {
+                mapMemory(vOff = section.addr.value, fOff = section.offset.toULong(), fSize = section.size)
             }
         }
 
