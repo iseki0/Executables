@@ -19,5 +19,5 @@ dokka {
 }
 
 dependencies {
-    dokka(project(":files"))
+    dokka(project(":executables-files"))
 }

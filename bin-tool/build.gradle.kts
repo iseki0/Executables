@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    commonMainImplementation(project(":files"))
+    commonMainImplementation(project(":executables-files"))
 }
 
 kotlin {
