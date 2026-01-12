@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
@@ -6,8 +8,9 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJvmCompilation
 plugins {
     convention
     id("tgenerator")
-    `pub-convention`
     id("org.jetbrains.kotlinx.atomicfu")
+    id("com.vanniktech.maven.publish") version "0.35.0"
+    signing
 }
 
 tasks.named("jvmTest") {
@@ -167,4 +170,51 @@ dokka {
             }
         }
     }
+}
+
+mavenPublishing {
+//    After next release of the publishing plugin, we can use configureBasedOnAppliedPlugins config the JavadocJar.Empty
+//    configureBasedOnAppliedPlugins(sourcesJar = true, javadocJar = false)
+    configure(KotlinMultiplatform(JavadocJar.Empty()))
+    publishToMavenCentral()
+    signAllPublications()
+    coordinates(groupId = group.toString(), artifactId = "executables-files", version = version.toString())
+    pom {
+        val projectUrl = "https://github.com/iseki0/Executables"
+        name = "Executable Files"
+        description = "A library for executable files"
+        url = projectUrl
+        licenses {
+            license {
+                name = "Apache-2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0"
+            }
+        }
+        developers {
+            developer {
+                id = "iseki0"
+                name = "iseki zero"
+                email = "iseki@iseki.space"
+            }
+        }
+        inceptionYear = "2024"
+        scm {
+            connection = "scm:git:$projectUrl.git"
+            developerConnection = "scm:git:$projectUrl.git"
+            url = projectUrl
+        }
+        issueManagement {
+            system = "GitHub"
+            url = "$projectUrl/issues"
+        }
+        ciManagement {
+            system = "GitHub"
+            url = "$projectUrl/actions"
+        }
+
+    }
+}
+
+signing {
+    useGpgCmd()
 }
