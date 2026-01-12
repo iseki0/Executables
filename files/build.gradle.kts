@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJvmCompilation
 
 plugins {
     convention
@@ -44,19 +45,22 @@ kotlin {
             }
         }
         val mainCompilation = compilations.getByName("main")
-        compilations.create("jpms") {
-            compileTaskProvider {
-                compilerOptions {
-                    jvmTarget = JvmTarget.JVM_9
+        this.compilations.create(
+            "jpms1",
+            Action<KotlinJvmCompilation> {
+                compileTaskProvider {
+                    compilerOptions {
+                        jvmTarget = JvmTarget.JVM_9
+                    }
                 }
-            }
-            configurations.compileDependencyConfiguration.extendsFrom(mainCompilation.configurations.compileDependencyConfiguration)
-            configurations.runtimeDependencyConfiguration?.extendsFrom(mainCompilation.configurations.runtimeDependencyConfiguration!!)
-            compileJavaTaskProvider!!.invoke {
-                sourceCompatibility = "9"
-                targetCompatibility = "9"
-            }
-        }
+                configurations.compileDependencyConfiguration.extendsFrom(mainCompilation.configurations.compileDependencyConfiguration)
+                configurations.runtimeDependencyConfiguration?.extendsFrom(mainCompilation.configurations.runtimeDependencyConfiguration!!)
+                compileJavaTaskProvider!!.invoke {
+                    sourceCompatibility = "9"
+                    targetCompatibility = "9"
+                }
+            },
+        )
 
     }
     sourceSets {
