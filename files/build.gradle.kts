@@ -46,7 +46,7 @@ kotlin {
         }
         val mainCompilation = compilations.getByName("main")
         this.compilations.create(
-            "jpms1",
+            "jpms",
             Action<KotlinJvmCompilation> {
                 compileTaskProvider {
                     compilerOptions {
