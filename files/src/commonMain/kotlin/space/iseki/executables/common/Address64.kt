@@ -56,7 +56,7 @@ value class Address64(val value: ULong) : Comparable<Address64> {
      */
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
-        return "0x${value.toHexString()}"
+        return "0x${value.toHexString().padStart(16, '0')}"
     }
 
     companion object {
@@ -74,33 +74,71 @@ value class Address64(val value: ULong) : Comparable<Address64> {
 
     // Arithmetic Operators
     // region Plus
-    inline operator fun plus(other: Int): Address64 = Address64(value + other.toULong())
-    inline operator fun plus(other: Long): Address64 = Address64(value + other.toULong())
+    inline operator fun plus(other: Int): Address64 {
+        require(other >= 0) { "Address64 offset must be non-negative: $other" }
+        return this + other.toUInt()
+    }
+
+    inline operator fun plus(other: Long): Address64 {
+        require(other >= 0) { "Address64 offset must be non-negative: $other" }
+        return this + other.toULong()
+    }
+
     inline operator fun plus(other: UInt): Address64 = Address64(value + other.toULong())
     inline operator fun plus(other: ULong): Address64 = Address64(value + other)
     // endregion
 
     // region Minus
-    inline operator fun minus(other: Int): Address64 = Address64(value - other.toULong())
-    inline operator fun minus(other: Long): Address64 = Address64(value - other.toULong())
+    inline operator fun minus(other: Int): Address64 {
+        require(other >= 0) { "Address64 offset must be non-negative: $other" }
+        return this - other.toUInt()
+    }
+
+    inline operator fun minus(other: Long): Address64 {
+        require(other >= 0) { "Address64 offset must be non-negative: $other" }
+        return this - other.toULong()
+    }
+
     inline operator fun minus(other: UInt): Address64 = Address64(value - other.toULong())
     inline operator fun minus(other: ULong): Address64 = Address64(value - other)
+    inline operator fun minus(other: Address64): ULong = value - other.value
     // endregion
 
     // region Modulo
-    inline operator fun rem(other: Int): Address64 = Address64(value % other.toULong())
-    inline operator fun rem(other: Long): Address64 = Address64(value % other.toULong())
-    inline operator fun rem(other: UInt): Address64 = Address64(value % other.toULong())
-    inline operator fun rem(other: ULong): Address64 = Address64(value % other)
+    inline operator fun rem(other: Int): Address64 {
+        require(other > 0) { "Address64 divisor must be positive: $other" }
+        return this % other.toUInt()
+    }
+
+    inline operator fun rem(other: Long): Address64 {
+        require(other > 0) { "Address64 divisor must be positive: $other" }
+        return this % other.toULong()
+    }
+
+    inline operator fun rem(other: UInt): Address64 {
+        require(other != 0U) { "Address64 divisor must be non-zero" }
+        return this % other.toULong()
+    }
+
+    inline operator fun rem(other: ULong): Address64 {
+        require(other != 0UL) { "Address64 divisor must be non-zero" }
+        return Address64(value % other)
+    }
     // endregion
 
     // region Utilities
-    inline fun isAlignedTo(align: ULong): Boolean = value % align == 0UL
+    inline fun isAlignedTo(align: ULong): Boolean {
+        require(align != 0UL) { "Alignment must be non-zero" }
+        return value % align == 0UL
+    }
 
     inline fun alignUp(align: ULong): Address64 =
         if (isAlignedTo(align)) this else Address64((value + align - 1UL) / align * align)
 
-    inline fun alignDown(align: ULong): Address64 = Address64(value / align * align)
+    inline fun alignDown(align: ULong): Address64 {
+        require(align != 0UL) { "Alignment must be non-zero" }
+        return Address64(value / align * align)
+    }
 
 // Bitwise Operations
 

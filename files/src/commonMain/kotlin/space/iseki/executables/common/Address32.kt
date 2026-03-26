@@ -65,7 +65,7 @@ value class Address32(val value: UInt) : Comparable<Address32> {
      */
     @OptIn(ExperimentalStdlibApi::class)
     override fun toString(): String {
-        return "0x${value.toHexString()}"
+        return "0x${value.toHexString().padStart(8, '0')}"
     }
 
     companion object {
@@ -83,27 +83,47 @@ value class Address32(val value: UInt) : Comparable<Address32> {
     // --- Arithmetic Operators ---
 
     // region Plus
-    inline operator fun plus(other: Int): Address32 = Address32(value + other.toUInt())
+    inline operator fun plus(other: Int): Address32 {
+        require(other >= 0) { "Address32 offset must be non-negative: $other" }
+        return this + other.toUInt()
+    }
     inline operator fun plus(other: UInt): Address32 = Address32(value + other)
     // endregion
 
     // region Minus
-    inline operator fun minus(other: Int): Address32 = Address32(value - other.toUInt())
+    inline operator fun minus(other: Int): Address32 {
+        require(other >= 0) { "Address32 offset must be non-negative: $other" }
+        return this - other.toUInt()
+    }
     inline operator fun minus(other: UInt): Address32 = Address32(value - other)
+    inline operator fun minus(other: Address32): UInt = value - other.value
     // endregion
 
     // region Modulo
-    inline operator fun rem(other: Int): Address32 = Address32(value % other.toUInt())
-    inline operator fun rem(other: UInt): Address32 = Address32(value % other)
+    inline operator fun rem(other: Int): Address32 {
+        require(other > 0) { "Address32 divisor must be positive: $other" }
+        return this % other.toUInt()
+    }
+
+    inline operator fun rem(other: UInt): Address32 {
+        require(other != 0U) { "Address32 divisor must be non-zero" }
+        return Address32(value % other)
+    }
     // endregion
 
     // region Utilities
-    inline fun isAlignedTo(align: UInt): Boolean = value % align == 0U
+    inline fun isAlignedTo(align: UInt): Boolean {
+        require(align != 0U) { "Alignment must be non-zero" }
+        return value % align == 0U
+    }
 
     inline fun alignUp(align: UInt): Address32 =
         if (isAlignedTo(align)) this else Address32((value + align - 1U) / align * align)
 
-    inline fun alignDown(align: UInt): Address32 = Address32(value / align * align)
+    inline fun alignDown(align: UInt): Address32 {
+        require(align != 0U) { "Alignment must be non-zero" }
+        return Address32(value / align * align)
+    }
 
     // endregion
 

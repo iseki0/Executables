@@ -116,8 +116,7 @@ class MachoFile private constructor(
     inner class LoaderCommands internal constructor(val bytes: ByteArray) : AbstractList<MachoLoadCommand>() {
         override val size get() = header.ncmds.toInt()
         override fun get(index: Int): MachoLoadCommand {
-            if (index < 0 || index >= size) throw IndexOutOfBoundsException("Index $index out of bounds for length $size")
-            val p = commandOffset[index]
+            val p = commandOffset.elementAt(index)
             val le = header.magic.isLittleEndian()
             return when (val cmdType = MachoLoadCommandType(bytes.u4(p, le))) {
                 MachoLoadCommandType.LC_SEGMENT -> SegmentCommand.parse(bytes, p, le)

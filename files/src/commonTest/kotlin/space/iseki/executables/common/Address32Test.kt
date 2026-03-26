@@ -2,21 +2,34 @@ package space.iseki.executables.common
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class Address32Test {
 
     @Test
-    fun testWraparoundAdditionInt() {
+    fun testToStringUsesFixedWidthHex() {
+        assertEquals("0x00000000", Address32(0u).toString())
+        assertEquals("0x00000001", Address32(1u).toString())
+        assertEquals("0xffffffff", Address32(UInt.MAX_VALUE).toString())
+    }
+
+    @Test
+    fun testAdditionIntRequiresNonNegativeOffset() {
         val base = Address32(0)
-        val result = base + (-1)
+        assertFailsWith<IllegalArgumentException> { base + (-1) }
+    }
+
+    @Test
+    fun testSubtractionIntRequiresNonNegativeOffset() {
+        val base = Address32(0)
+        val result = base - 1
         assertEquals("0xffffffff", result.toString())
     }
 
     @Test
-    fun testWraparoundSubtractionInt() {
-        val base = Address32(0)
-        val result = base - 1
-        assertEquals("0xffffffff", result.toString())
+    fun testSubtractionIntRejectsNegativeOffset() {
+        val base = Address32(1)
+        assertFailsWith<IllegalArgumentException> { base - (-1) }
     }
 
     @Test
@@ -38,6 +51,14 @@ class Address32Test {
         val base = Address32(0x1234u)
         assertEquals("0x00000234", (base % 0x1000).toString())
         assertEquals("0x00000234", (base % 0x1000u).toString())
+    }
+
+    @Test
+    fun testModuloRequiresPositiveDivisor() {
+        val base = Address32(0x1234u)
+        assertFailsWith<IllegalArgumentException> { base % 0 }
+        assertFailsWith<IllegalArgumentException> { base % 0u }
+        assertFailsWith<IllegalArgumentException> { base % -1 }
     }
 
     @Test
@@ -82,9 +103,31 @@ class Address32Test {
     }
 
     @Test
+    fun testAlignRejectsZeroAlignment() {
+        val addr = Address32(0x12345u)
+        assertFailsWith<IllegalArgumentException> { addr.isAlignedTo(0u) }
+        assertFailsWith<IllegalArgumentException> { addr.alignUp(0u) }
+        assertFailsWith<IllegalArgumentException> { addr.alignDown(0u) }
+    }
+
+    @Test
     fun testToIntAndUInt() {
         val addr = Address32(0x12345678u)
         assertEquals(0x12345678u, addr.toUInt())
         assertEquals(0x12345678, addr.toInt())
+    }
+
+    @Test
+    fun testDistanceBetweenAddresses() {
+        val start = Address32(0x1000u)
+        val end = Address32(0x1200u)
+        assertEquals(0x200u, end - start)
+    }
+
+    @Test
+    fun testDistanceWrapsAroundAsUnsigned() {
+        val start = Address32(0x1200u)
+        val end = Address32(0x1000u)
+        assertEquals(UInt.MAX_VALUE - 0x1ffu, end - start)
     }
 }

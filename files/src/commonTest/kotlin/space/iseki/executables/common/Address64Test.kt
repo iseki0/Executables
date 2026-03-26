@@ -2,21 +2,27 @@ package space.iseki.executables.common
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class Address64Test {
 
     @Test
-    fun testWraparoundAdditionInt() {
-        val base = Address64(0)
-        val result = base + (-1)
-        assertEquals("0xffffffffffffffff", result.toString())
+    fun testToStringUsesFixedWidthHex() {
+        assertEquals("0x0000000000000000", Address64(0UL).toString())
+        assertEquals("0x0000000000000001", Address64(1UL).toString())
+        assertEquals("0xffffffffffffffff", Address64(ULong.MAX_VALUE).toString())
     }
 
     @Test
-    fun testWraparoundAdditionLong() {
+    fun testAdditionIntRequiresNonNegativeOffset() {
         val base = Address64(0)
-        val result = base + (-1L)
-        assertEquals("0xffffffffffffffff", result.toString())
+        assertFailsWith<IllegalArgumentException> { base + (-1) }
+    }
+
+    @Test
+    fun testAdditionLongRequiresNonNegativeOffset() {
+        val base = Address64(0)
+        assertFailsWith<IllegalArgumentException> { base + (-1L) }
     }
 
     @Test
@@ -31,6 +37,13 @@ class Address64Test {
         val base = Address64(0)
         val result = base - 1L
         assertEquals("0xffffffffffffffff", result.toString())
+    }
+
+    @Test
+    fun testSubtractionRejectsNegativeSignedOffsets() {
+        val base = Address64(1)
+        assertFailsWith<IllegalArgumentException> { base - (-1) }
+        assertFailsWith<IllegalArgumentException> { base - (-1L) }
     }
 
     @Test
@@ -58,6 +71,17 @@ class Address64Test {
         assertEquals("0x0000000000000234", (base % 0x1000L).toString())
         assertEquals("0x0000000000000234", (base % 0x1000u).toString())
         assertEquals("0x0000000000000234", (base % 0x1000UL).toString())
+    }
+
+    @Test
+    fun testModuloRequiresPositiveDivisor() {
+        val base = Address64(0x1234UL)
+        assertFailsWith<IllegalArgumentException> { base % 0 }
+        assertFailsWith<IllegalArgumentException> { base % 0L }
+        assertFailsWith<IllegalArgumentException> { base % 0u }
+        assertFailsWith<IllegalArgumentException> { base % 0UL }
+        assertFailsWith<IllegalArgumentException> { base % -1 }
+        assertFailsWith<IllegalArgumentException> { base % -1L }
     }
 
     @Test
@@ -105,9 +129,31 @@ class Address64Test {
     }
 
     @Test
+    fun testAlignRejectsZeroAlignment() {
+        val addr = Address64(0x12345UL)
+        assertFailsWith<IllegalArgumentException> { addr.isAlignedTo(0UL) }
+        assertFailsWith<IllegalArgumentException> { addr.alignUp(0UL) }
+        assertFailsWith<IllegalArgumentException> { addr.alignDown(0UL) }
+    }
+
+    @Test
     fun testToLongAndULong() {
         val addr = Address64(0x12345678UL)
         assertEquals(0x12345678UL, addr.toULong())
         assertEquals(0x12345678UL.toLong(), addr.toLong())
+    }
+
+    @Test
+    fun testDistanceBetweenAddresses() {
+        val start = Address64(0x1000UL)
+        val end = Address64(0x1200UL)
+        assertEquals(0x200UL, end - start)
+    }
+
+    @Test
+    fun testDistanceWrapsAroundAsUnsigned() {
+        val start = Address64(0x1200UL)
+        val end = Address64(0x1000UL)
+        assertEquals(ULong.MAX_VALUE - 0x1ffUL, end - start)
     }
 }
