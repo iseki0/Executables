@@ -8,6 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class MachoTest {
     companion object {
@@ -40,9 +41,8 @@ class MachoTest {
     @Test
     fun testReadCommand2() {
         MachoFile.open("src/fileAccessTest/resources/macho/clang-386-darwin-exec-with-rpath").use { file ->
-            for (loaderCommand in file.loaderCommands) {
-                println(loaderCommand)
-            }
+            assertTrue(file.loaderCommands.isNotEmpty())
+            assertEquals(file.header.ncmds.toInt(), file.loaderCommands.size)
         }
     }
 

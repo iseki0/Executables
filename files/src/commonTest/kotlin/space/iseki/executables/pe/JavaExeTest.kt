@@ -9,6 +9,7 @@ import space.iseki.executables.pe.vi.parseVersionData
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class JavaExeTest {
 
@@ -16,14 +17,8 @@ class JavaExeTest {
 
     @Test
     fun test() {
-        println(java_exe.size)
         val pe = PEFile.open(java_exe)
-        println(pe.coffHeader)
-        println(pe.standardHeader)
-        println(pe.windowsHeader)
-        println(pe.sectionTable)
         val jsonText = json.encodeToString(pe.summary)
-        println(json.encodeToString(pe.summary))
         val je = Json.decodeFromString<JsonElement>(jsonText)
         assertEquals(java_exe_json, je)
     }
@@ -33,8 +28,6 @@ class JavaExeTest {
         var totalSize = 0
         PEFile.open(java_exe).use { pe ->
             for (entry in pe.resourceRoot.walk()) {
-                val indent = "  ".repeat(entry.nodePath.size - 1)
-                println(indent + entry.node)
                 totalSize += entry.node.size.toInt()
             }
         }
@@ -45,7 +38,6 @@ class JavaExeTest {
     fun testLocateVersionInfo() {
         PEFile.open(java_exe).use { peFile ->
             val resNode = locateVersionInfo(peFile)
-            println(resNode)
             assertEquals(
                 "<FILE:ID=1033, CodePage=windows-1252, Size=804, ContentRVA=0x0000c51c> @0x00000290", resNode.toString()
             )
@@ -88,7 +80,7 @@ class JavaExeTest {
             this.bytes.bytesPerLine = 32
         }
         assertContentEquals(ref, bytes)
-        println(bytes.toHexString(hexFormat))
+        assertEquals(ref.size, bytes.toHexString(hexFormat).replace("\r", "").replace("\n", "").length / 2)
     }
 
     @Test
@@ -96,7 +88,13 @@ class JavaExeTest {
         PEFile.open(java_exe).use { peFile ->
             val resNode = locateVersionInfo(peFile)!!
             val vi = parseVersionData(resNode.readAllBytes(), 0)
-            println(vi)
+            val fixedFileInfo = assertNotNull(vi.fixedFileInfo)
+            val stringFileInfo = assertNotNull(vi.stringFileInfo)
+            assertEquals("20.0.2.1", fixedFileInfo.fileVersion.toString())
+            assertEquals("20.0.2.1", fixedFileInfo.productVersion.toString())
+            assertEquals(0x040904b0u, stringFileInfo.langKey)
+            assertEquals("OpenJDK Platform binary", stringFileInfo.strings.first { it.first == "FileDescription" }.second)
+            assertEquals("OpenJDK Platform 20.0.2.1", stringFileInfo.strings.first { it.first == "ProductName" }.second)
         }
     }
 }

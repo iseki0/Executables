@@ -13,10 +13,6 @@ class WhoTest {
         const val PATH = "src/fileAccessTest/resources/elf/who"
     }
 
-    private val json = Json {
-        prettyPrint = true
-    }
-
     @Test
     fun testOpen() {
         ElfFile.open(PATH).close()
@@ -26,14 +22,6 @@ class WhoTest {
     fun test() {
         assertEquals(ElfFile, FileFormat.detect(PATH))
         ElfFile.open(PATH).use { file ->
-            val ident = json.encodeToString(file.ident)
-            val ehdr = json.encodeToString(file.ehdr)
-            val phdrs = json.encodeToString(file.programHeaders)
-            val shdrs = json.encodeToString(file.sectionHeaders)
-            println(ident)
-            println(ehdr)
-            println(phdrs)
-            println(shdrs)
             """
             {
                 "eiClass": "ELFCLASS64",
@@ -757,7 +745,6 @@ class WhoTest {
         ElfFile.open(PATH).use { file ->
             // 找到.text段，这通常是包含代码的段
             val textSection = file.sections.find { it.name == ".text" }!!
-            println(textSection.sectionHeader)
 
             // 从文件系统读取原始的节区数据作为参考
             val textSectionData = ByteArray(textSection.size.toInt())

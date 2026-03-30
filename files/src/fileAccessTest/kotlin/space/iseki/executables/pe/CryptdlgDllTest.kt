@@ -151,7 +151,6 @@ class CryptdlgDllTest {
     fun testReadVM() {
         PEFile.open("src/fileAccessTest/resources/pe/cryptdlg.dll").use { file ->
             val relocSection = file.sections.find { it.name == ".reloc" }!!
-            println(relocSection.tableItem)
             val relocSectionData = ByteArray(relocSection.size.toInt())
             openNativeFileDataAccessor("src/fileAccessTest/resources/pe/cryptdlg.dll.sections/${relocSection.name}").use {
                 assertEquals(relocSection.virtualSize.toInt(), it.readAtMost(0, relocSectionData))

@@ -32,8 +32,6 @@ class GoSBomTest {
             // Test the new exception-throwing API
             val sbom = GoSBom.readFrom(file)
 
-            // 打印实际的Go版本
-            println("Actual Go version: ${sbom.buildInfo?.goVersion}")
 
             // Verify the basic information
             assertEquals("go1.17", sbom.buildInfo?.goVersion)
@@ -67,8 +65,6 @@ class GoSBomTest {
             val sbom = GoSBom.readFromOrNull(file)
             assertNotNull(sbom)
 
-            // 打印实际的Go版本
-            println("Actual Go version in tryReadFrom: ${sbom.buildInfo?.goVersion}")
 
             assertEquals("go1.17", sbom.version)
             assertEquals("go1.17", sbom.buildInfo?.goVersion)
