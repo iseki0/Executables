@@ -9,7 +9,7 @@ plugins {
     convention
     id("tgenerator")
     id("org.jetbrains.kotlinx.atomicfu")
-    id("com.vanniktech.maven.publish") version "0.35.0"
+    id("com.vanniktech.maven.publish") version "0.36.0"
     signing
 }
 

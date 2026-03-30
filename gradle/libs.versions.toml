@@ -1,6 +1,6 @@
 [versions]
-kotlin = "2.2.20"
-kotlinx-serialization-libs = "1.8.0"
+kotlin = "2.3.10"
+kotlinx-serialization-libs = "1.10.0"
 kotlinx-coroutine = "1.10.2"
 
 [plugins]
@@ -11,15 +11,15 @@ idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.9" }
 # Gradle plugins
 kotlin-multiplatform = { module = "org.jetbrains.kotlin.multiplatform:org.jetbrains.kotlin.multiplatform.gradle.plugin", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlin.plugin.serialization:org.jetbrains.kotlin.plugin.serialization.gradle.plugin", version.ref = "kotlin" }
-kotlinx-atomicfu = "org.jetbrains.kotlinx:atomicfu-gradle-plugin:0.29.0"
-kotlinx-kover = "org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin:0.9.1"
-dokka = "org.jetbrains.dokka:dokka-gradle-plugin:2.0.0"
+kotlinx-atomicfu = "org.jetbrains.kotlinx:atomicfu-gradle-plugin:0.31.0"
+kotlinx-kover = "org.jetbrains.kotlinx.kover:org.jetbrains.kotlinx.kover.gradle.plugin:0.9.7"
+dokka = "org.jetbrains.dokka:dokka-gradle-plugin:2.1.0"
 idea-ext = "org.jetbrains.gradle.plugin.idea-ext:org.jetbrains.gradle.plugin.idea-ext.gradle.plugin:1.1.9"
 
 # Common Libraries
-freemarker = "org.freemarker:freemarker:2.3.32"
-kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.2"
-kaml = "com.charleskorn.kaml:kaml:0.67.0"
+freemarker = "org.freemarker:freemarker:2.3.34"
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.7.1"
+kaml = "com.charleskorn.kaml:kaml:0.91.0"
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization-libs" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-libs" }
