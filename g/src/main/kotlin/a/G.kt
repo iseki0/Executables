@@ -13,14 +13,17 @@ import kotlinx.serialization.Serializable
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.Input
+import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
-import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.LinkOption
-import javax.inject.Inject
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.deleteExisting
 import kotlin.io.path.extension
@@ -28,18 +31,23 @@ import kotlin.io.path.isRegularFile
 import kotlin.io.path.walk
 
 class G : Plugin<Project> {
-    open class GTask @Inject constructor(@Input val input: List<File>) : DefaultTask() {
-        private val od = project.layout.buildDirectory.dir("aao").get()
+    abstract class GTask : DefaultTask() {
+        @get:InputFiles
+        @get:PathSensitive(PathSensitivity.RELATIVE)
+        abstract val inputDirs: ConfigurableFileCollection
+
+        @get:OutputDirectory
+        abstract val outputDir: DirectoryProperty
 
         init {
-            outputs.dir(od)
-            input.forEach { inputs.dir(it) }
+            outputDir.convention(project.layout.buildDirectory.dir("generated/sources/tgenerator/kotlin/commonMain"))
         }
 
         @OptIn(ExperimentalPathApi::class)
         @TaskAction
         fun doGenerate() {
-            od.asFile.toPath()
+            val generatedDir = outputDir.get().asFile
+            generatedDir.toPath()
                 .walk()
                 .filter { it.isRegularFile(LinkOption.NOFOLLOW_LINKS) }
                 .filter { it.extension.equals("kt", true) }
@@ -47,7 +55,7 @@ class G : Plugin<Project> {
             val cfg = Configuration(Configuration.VERSION_2_3_32)
             cfg.templateLoader = MultiTemplateLoader(arrayOf(ClassTemplateLoader(this::class.java, "/")))
             runBlocking(Dispatchers.Default) {
-                for (file in input.asSequence().flatMap { it.walk() }.filter { it.isFile }) {
+                for (file in inputDirs.files.asSequence().flatMap { it.walk() }.filter { it.isFile }) {
                     val isEnum = file.name.endsWith(".enum.yml")
                     val isFlag = file.name.endsWith(".flag.yml")
                     if (!isEnum && !isFlag) continue
@@ -55,7 +63,7 @@ class G : Plugin<Project> {
                         val bytes = withContext(Dispatchers.IO) { file.readBytes() }
                         val data = Yaml.default.decodeFromStream<FlagSet>(bytes.inputStream())
                         val pkgPath = data.`package`.split('.').joinToString("/")
-                        val typeOutFile = od.asFile.resolve(pkgPath + "/" + data.typename + ".kt")
+                        val typeOutFile = generatedDir.resolve(pkgPath + "/" + data.typename + ".kt")
                         typeOutFile.parentFile.mkdirs()
                         typeOutFile.outputStream().bufferedWriter(StandardCharsets.UTF_8).use { w ->
                             cfg.getTemplate(if (isFlag) "flag.ftl" else "enum.ftl").process(data, w)
@@ -68,11 +76,13 @@ class G : Plugin<Project> {
 
     override fun apply(project: Project) {
         val commonMainSourceSet = project.kotlinExtension.sourceSets.getByName("commonMain")
-        val od = project.layout.buildDirectory.dir("aao").get()
-        commonMainSourceSet.kotlin.srcDirs(od)
-        val inputDirs =
+        val definitionDirs =
             commonMainSourceSet.kotlin.srcDirs.map { it.resolve("../define") }.filter { it.isDirectory && it.exists() }
-        val gTask = project.tasks.register("tGenerateFlagFiles", GTask::class.java, inputDirs)
+        val gTask = project.tasks.register("tGenerateFlagFiles", GTask::class.java)
+        gTask.configure {
+            it.inputDirs.from(definitionDirs)
+        }
+        commonMainSourceSet.kotlin.srcDir(gTask)
         project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
             it.dependsOn(gTask)
         }
