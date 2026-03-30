@@ -29,13 +29,6 @@ kotlin {
             }
         }
     }
-    macosX64 {
-        binaries {
-            executable {
-                entryPoint = "space.iseki.executablestool.main"
-            }
-        }
-    }
     macosArm64 {
         binaries {
             executable {
