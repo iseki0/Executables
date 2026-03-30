@@ -18,6 +18,12 @@ tasks.named("jvmTest") {
     useJUnitPlatform()
 }
 
+tasks.named("check") {
+    if (isGitHubActions && runnerOs == "Linux") {
+        dependsOn("checkLegacyAbi")
+    }
+}
+
 dependencies {
     commonMainImplementation("space.iseki.purlkt:purlkt:0.0.9")
     commonTestImplementation(libs.kotlinx.serialization.json)
