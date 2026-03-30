@@ -1,5 +1,5 @@
 @file:JvmName("-${typename}")
-@file:Suppress("MemberVisibilityCanBePrivate", "unused", "RemoveRedundantCallsOfConversionMethods", "UnusedImport", "RemoveRedundantQualifierName")
+@file:Suppress("MemberVisibilityCanBePrivate", "unused", "RemoveRedundantCallsOfConversionMethods", "UnusedImport", "RemoveRedundantQualifierName", "REDUNDANT_CALL_OF_CONVERSION_METHOD")
 package ${package}
 
 import kotlin.experimental.and
