@@ -17,13 +17,6 @@ dependencies {
     commonTestImplementation(kotlin("test"))
 }
 
-tasks.withType<JavaCompile> {
-    if ("java9" !in name.lowercase()) {
-        targetCompatibility = "1.8"
-        sourceCompatibility = "1.8"
-    }
-}
-
 kotlin {
     jvmToolchain(24)
     compilerOptions {
