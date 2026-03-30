@@ -51,6 +51,7 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
           gradle-version: wrapper
       - name: Run build
+        if: ${{ matrix.os != 'ubuntu-latest' }}
         run: ./gradlew check --stacktrace
       - name: Run build - CrossCompilation
         if: ${{ matrix.os == 'ubuntu-latest' }}
