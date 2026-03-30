@@ -17,6 +17,13 @@ dependencies {
     commonTestImplementation(kotlin("test"))
 }
 
+val isGitHubActions = System.getenv("GITHUB_ACTIONS") == "true"
+val runnerOs = System.getenv("RUNNER_OS")
+val enableAllTargets = !isGitHubActions || runnerOs == "Linux"
+val enableAppleTargets = enableAllTargets || runnerOs == "macOS"
+val enableWindowsTargets = enableAllTargets || runnerOs == "Windows"
+val enableJsTargets = enableAllTargets
+
 kotlin {
     jvmToolchain(24)
     compilerOptions {
@@ -29,45 +36,55 @@ kotlin {
             freeCompilerArgs.add("-Xjvm-default=all-compatibility")
         }
     }
-    js {
-        browser()
-        nodejs()
-    }
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        nodejs()
-    }
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmWasi {
-        nodejs()
+    if (enableJsTargets) {
+        js {
+            browser()
+            nodejs()
+        }
+        @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+        wasmJs {
+            browser()
+            nodejs()
+        }
+        @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+        wasmWasi {
+            nodejs()
+        }
     }
 
-    // Tier 1
-    macosX64()
-    macosArm64()
-    iosSimulatorArm64()
-    iosX64()
-    iosArm64()
+    if (enableAppleTargets) {
+        // Tier 1
+        macosX64()
+        macosArm64()
+        iosSimulatorArm64()
+        iosX64()
+        iosArm64()
+    }
 
-    // Tier 2
-    linuxX64()
-    linuxArm64()
-    watchosArm32()
-    watchosArm64()
-    watchosX64()
-    watchosSimulatorArm64()
-    tvosSimulatorArm64()
-    tvosX64()
-    tvosArm64()
+    if (enableAllTargets) {
+        // Tier 2
+        linuxX64()
+        linuxArm64()
+        watchosArm32()
+        watchosArm64()
+        watchosX64()
+        watchosSimulatorArm64()
+        tvosSimulatorArm64()
+        tvosX64()
+        tvosArm64()
+    }
 
-    // Tier 3
-    androidNativeArm32()
-    androidNativeArm64()
-    androidNativeX64()
-    androidNativeX86()
-    mingwX64()
-    watchosDeviceArm64()
+    if (enableAllTargets) {
+        // Tier 3
+        androidNativeArm32()
+        androidNativeArm64()
+        androidNativeX64()
+        androidNativeX86()
+        watchosDeviceArm64()
+    }
+    if (enableWindowsTargets) {
+        mingwX64()
+    }
 
     applyDefaultHierarchyTemplate()
 }
