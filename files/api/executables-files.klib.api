@@ -5,7 +5,7 @@
 // - Show manifest properties: true
 // - Show declarations: true
 
-// Library unique name: <space.iseki.executables:files>
+// Library unique name: <space.iseki.executables:executables-files>
 abstract interface <#A: out space.iseki.executables.common/OpenedFile> space.iseki.executables.common/FileFormat { // space.iseki.executables.common/FileFormat|null[0]
     abstract fun open(space.iseki.executables.common/DataAccessor): #A // space.iseki.executables.common/FileFormat.open|open(space.iseki.executables.common.DataAccessor){}[0]
     open fun open(kotlin/ByteArray): #A // space.iseki.executables.common/FileFormat.open|open(kotlin.ByteArray){}[0]
@@ -1620,6 +1620,8 @@ final class space.iseki.executables.sbom/GoModule { // space.iseki.executables.s
 final class space.iseki.executables.sbom/GoSBom { // space.iseki.executables.sbom/GoSBom|null[0]
     final val buildInfo // space.iseki.executables.sbom/GoSBom.buildInfo|{}buildInfo[0]
         final fun <get-buildInfo>(): space.iseki.executables.sbom/GoBuildInfo? // space.iseki.executables.sbom/GoSBom.buildInfo.<get-buildInfo>|<get-buildInfo>(){}[0]
+    final val version // space.iseki.executables.sbom/GoSBom.version|{}version[0]
+        final fun <get-version>(): kotlin/String // space.iseki.executables.sbom/GoSBom.version.<get-version>|<get-version>(){}[0]
 
     final object Companion { // space.iseki.executables.sbom/GoSBom.Companion|null[0]
         final fun readFrom(space.iseki.executables.common/OpenedFile): space.iseki.executables.sbom/GoSBom // space.iseki.executables.sbom/GoSBom.Companion.readFrom|readFrom(space.iseki.executables.common.OpenedFile){}[0]
@@ -1654,6 +1656,7 @@ final value class space.iseki.executables.common/Address32 : kotlin/Comparable<s
     final inline fun isAlignedTo(kotlin/UInt): kotlin/Boolean // space.iseki.executables.common/Address32.isAlignedTo|isAlignedTo(kotlin.UInt){}[0]
     final inline fun minus(kotlin/Int): space.iseki.executables.common/Address32 // space.iseki.executables.common/Address32.minus|minus(kotlin.Int){}[0]
     final inline fun minus(kotlin/UInt): space.iseki.executables.common/Address32 // space.iseki.executables.common/Address32.minus|minus(kotlin.UInt){}[0]
+    final inline fun minus(space.iseki.executables.common/Address32): kotlin/UInt // space.iseki.executables.common/Address32.minus|minus(space.iseki.executables.common.Address32){}[0]
     final inline fun or(kotlin/Int): space.iseki.executables.common/Address32 // space.iseki.executables.common/Address32.or|or(kotlin.Int){}[0]
     final inline fun or(kotlin/UInt): space.iseki.executables.common/Address32 // space.iseki.executables.common/Address32.or|or(kotlin.UInt){}[0]
     final inline fun or(space.iseki.executables.common/Address32): space.iseki.executables.common/Address32 // space.iseki.executables.common/Address32.or|or(space.iseki.executables.common.Address32){}[0]
@@ -1683,20 +1686,19 @@ final value class space.iseki.executables.common/Address32 : kotlin/Comparable<s
     }
 }
 
-final value class space.iseki.executables.common/Address32Array : kotlin.collections/Collection<space.iseki.executables.common/Address32> { // space.iseki.executables.common/Address32Array|null[0]
+final value class space.iseki.executables.common/Address32Array : kotlin.collections/Iterable<space.iseki.executables.common/Address32> { // space.iseki.executables.common/Address32Array|null[0]
     constructor <init>(kotlin/UIntArray) // space.iseki.executables.common/Address32Array.<init>|<init>(kotlin.UIntArray){}[0]
 
     final val size // space.iseki.executables.common/Address32Array.size|{}size[0]
         final fun <get-size>(): kotlin/Int // space.iseki.executables.common/Address32Array.size.<get-size>|<get-size>(){}[0]
 
     final fun contains(space.iseki.executables.common/Address32): kotlin/Boolean // space.iseki.executables.common/Address32Array.contains|contains(space.iseki.executables.common.Address32){}[0]
-    final fun containsAll(kotlin.collections/Collection<space.iseki.executables.common/Address32>): kotlin/Boolean // space.iseki.executables.common/Address32Array.containsAll|containsAll(kotlin.collections.Collection<space.iseki.executables.common.Address32>){}[0]
+    final fun containsAll(kotlin.collections/Iterable<space.iseki.executables.common/Address32>): kotlin/Boolean // space.iseki.executables.common/Address32Array.containsAll|containsAll(kotlin.collections.Iterable<space.iseki.executables.common.Address32>){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // space.iseki.executables.common/Address32Array.equals|equals(kotlin.Any?){}[0]
     final fun get(kotlin/Int): space.iseki.executables.common/Address32 // space.iseki.executables.common/Address32Array.get|get(kotlin.Int){}[0]
     final fun hashCode(): kotlin/Int // space.iseki.executables.common/Address32Array.hashCode|hashCode(){}[0]
     final fun isEmpty(): kotlin/Boolean // space.iseki.executables.common/Address32Array.isEmpty|isEmpty(){}[0]
     final fun iterator(): kotlin.collections/Iterator<space.iseki.executables.common/Address32> // space.iseki.executables.common/Address32Array.iterator|iterator(){}[0]
-    final fun set(kotlin/Int, space.iseki.executables.common/Address32) // space.iseki.executables.common/Address32Array.set|set(kotlin.Int;space.iseki.executables.common.Address32){}[0]
     final fun toString(): kotlin/String // space.iseki.executables.common/Address32Array.toString|toString(){}[0]
 }
 
@@ -1721,6 +1723,7 @@ final value class space.iseki.executables.common/Address64 : kotlin/Comparable<s
     final inline fun minus(kotlin/Long): space.iseki.executables.common/Address64 // space.iseki.executables.common/Address64.minus|minus(kotlin.Long){}[0]
     final inline fun minus(kotlin/UInt): space.iseki.executables.common/Address64 // space.iseki.executables.common/Address64.minus|minus(kotlin.UInt){}[0]
     final inline fun minus(kotlin/ULong): space.iseki.executables.common/Address64 // space.iseki.executables.common/Address64.minus|minus(kotlin.ULong){}[0]
+    final inline fun minus(space.iseki.executables.common/Address64): kotlin/ULong // space.iseki.executables.common/Address64.minus|minus(space.iseki.executables.common.Address64){}[0]
     final inline fun or(kotlin/Long): space.iseki.executables.common/Address64 // space.iseki.executables.common/Address64.or|or(kotlin.Long){}[0]
     final inline fun or(kotlin/ULong): space.iseki.executables.common/Address64 // space.iseki.executables.common/Address64.or|or(kotlin.ULong){}[0]
     final inline fun or(space.iseki.executables.common/Address64): space.iseki.executables.common/Address64 // space.iseki.executables.common/Address64.or|or(space.iseki.executables.common.Address64){}[0]
@@ -1754,20 +1757,19 @@ final value class space.iseki.executables.common/Address64 : kotlin/Comparable<s
     }
 }
 
-final value class space.iseki.executables.common/Address64Array : kotlin.collections/Collection<space.iseki.executables.common/Address64> { // space.iseki.executables.common/Address64Array|null[0]
+final value class space.iseki.executables.common/Address64Array : kotlin.collections/Iterable<space.iseki.executables.common/Address64> { // space.iseki.executables.common/Address64Array|null[0]
     constructor <init>(kotlin/ULongArray) // space.iseki.executables.common/Address64Array.<init>|<init>(kotlin.ULongArray){}[0]
 
     final val size // space.iseki.executables.common/Address64Array.size|{}size[0]
         final fun <get-size>(): kotlin/Int // space.iseki.executables.common/Address64Array.size.<get-size>|<get-size>(){}[0]
 
     final fun contains(space.iseki.executables.common/Address64): kotlin/Boolean // space.iseki.executables.common/Address64Array.contains|contains(space.iseki.executables.common.Address64){}[0]
-    final fun containsAll(kotlin.collections/Collection<space.iseki.executables.common/Address64>): kotlin/Boolean // space.iseki.executables.common/Address64Array.containsAll|containsAll(kotlin.collections.Collection<space.iseki.executables.common.Address64>){}[0]
+    final fun containsAll(kotlin.collections/Iterable<space.iseki.executables.common/Address64>): kotlin/Boolean // space.iseki.executables.common/Address64Array.containsAll|containsAll(kotlin.collections.Iterable<space.iseki.executables.common.Address64>){}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // space.iseki.executables.common/Address64Array.equals|equals(kotlin.Any?){}[0]
     final fun get(kotlin/Int): space.iseki.executables.common/Address64 // space.iseki.executables.common/Address64Array.get|get(kotlin.Int){}[0]
     final fun hashCode(): kotlin/Int // space.iseki.executables.common/Address64Array.hashCode|hashCode(){}[0]
     final fun isEmpty(): kotlin/Boolean // space.iseki.executables.common/Address64Array.isEmpty|isEmpty(){}[0]
     final fun iterator(): kotlin.collections/Iterator<space.iseki.executables.common/Address64> // space.iseki.executables.common/Address64Array.iterator|iterator(){}[0]
-    final fun set(kotlin/Int, space.iseki.executables.common/Address64) // space.iseki.executables.common/Address64Array.set|set(kotlin.Int;space.iseki.executables.common.Address64){}[0]
     final fun toString(): kotlin/String // space.iseki.executables.common/Address64Array.toString|toString(){}[0]
 }
 

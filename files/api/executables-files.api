@@ -19,6 +19,7 @@ public final class space/iseki/executables/common/Address32 : java/lang/Comparab
 	public static final fun inv-7OlPWkI (I)I
 	public static final fun isAlignedTo-WZ4Q5Ns (II)Z
 	public static final fun minus-63KzX0g (II)I
+	public static final fun minus-FFlPnF0 (II)I
 	public static final fun minus-usHr3SA (II)I
 	public static final fun or-63KzX0g (II)I
 	public static final fun or-iciOaY8 (II)I
@@ -54,38 +55,21 @@ public final class space/iseki/executables/common/Address32$Serializer : kotlinx
 	public fun serialize-6sd4DF0 (Lkotlinx/serialization/encoding/Encoder;I)V
 }
 
-public final class space/iseki/executables/common/Address32Array : java/util/Collection, kotlin/jvm/internal/markers/KMappedMarker {
-	public synthetic fun add (Ljava/lang/Object;)Z
-	public fun add-kXoK3Y8 (I)Z
-	public fun addAll (Ljava/util/Collection;)Z
+public final class space/iseki/executables/common/Address32Array : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final synthetic fun box-impl ([I)Lspace/iseki/executables/common/Address32Array;
-	public fun clear ()V
 	public static fun constructor-impl ([I)[I
-	public final fun contains (Ljava/lang/Object;)Z
-	public fun contains-kXoK3Y8 (I)Z
-	public static fun contains-kXoK3Y8 ([II)Z
-	public fun containsAll (Ljava/util/Collection;)Z
-	public static fun containsAll-impl ([ILjava/util/Collection;)Z
+	public static final fun contains-kXoK3Y8 ([II)Z
+	public static final fun containsAll-impl ([ILjava/lang/Iterable;)Z
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl ([ILjava/lang/Object;)Z
 	public static final fun equals-impl0 ([I[I)Z
 	public static final fun get-63KzX0g ([II)I
-	public fun getSize ()I
-	public static fun getSize-impl ([I)I
+	public static final fun getSize-impl ([I)I
 	public fun hashCode ()I
 	public static fun hashCode-impl ([I)I
-	public fun isEmpty ()Z
-	public static fun isEmpty-impl ([I)Z
+	public static final fun isEmpty-impl ([I)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl ([I)Ljava/util/Iterator;
-	public fun remove (Ljava/lang/Object;)Z
-	public fun removeAll (Ljava/util/Collection;)Z
-	public fun removeIf (Ljava/util/function/Predicate;)Z
-	public fun retainAll (Ljava/util/Collection;)Z
-	public static final fun set-6sd4DF0 ([III)V
-	public synthetic fun size ()I
-	public fun toArray ()[Ljava/lang/Object;
-	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl ([I)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()[I
@@ -124,6 +108,7 @@ public final class space/iseki/executables/common/Address64 : java/lang/Comparab
 	public static final fun minus-UOD491U (JJ)J
 	public static final fun minus-t8Ug2B4 (JI)J
 	public static final fun minus-t8Ug2B4 (JJ)J
+	public static final fun minus-xlONl1I (JJ)J
 	public static final fun minus-zDebmEU (JI)J
 	public static final fun or-UOD491U (JJ)J
 	public static final fun or-aarc36w (JJ)J
@@ -163,38 +148,21 @@ public final class space/iseki/executables/common/Address64$Serializer : kotlinx
 	public fun serialize-wec4KNo (Lkotlinx/serialization/encoding/Encoder;J)V
 }
 
-public final class space/iseki/executables/common/Address64Array : java/util/Collection, kotlin/jvm/internal/markers/KMappedMarker {
-	public synthetic fun add (Ljava/lang/Object;)Z
-	public fun add-Mq8ezV8 (J)Z
-	public fun addAll (Ljava/util/Collection;)Z
+public final class space/iseki/executables/common/Address64Array : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
 	public static final synthetic fun box-impl ([J)Lspace/iseki/executables/common/Address64Array;
-	public fun clear ()V
 	public static fun constructor-impl ([J)[J
-	public final fun contains (Ljava/lang/Object;)Z
-	public fun contains-Mq8ezV8 (J)Z
-	public static fun contains-Mq8ezV8 ([JJ)Z
-	public fun containsAll (Ljava/util/Collection;)Z
-	public static fun containsAll-impl ([JLjava/util/Collection;)Z
+	public static final fun contains-Mq8ezV8 ([JJ)Z
+	public static final fun containsAll-impl ([JLjava/lang/Iterable;)Z
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl ([JLjava/lang/Object;)Z
 	public static final fun equals-impl0 ([J[J)Z
 	public static final fun get-t8Ug2B4 ([JI)J
-	public fun getSize ()I
-	public static fun getSize-impl ([J)I
+	public static final fun getSize-impl ([J)I
 	public fun hashCode ()I
 	public static fun hashCode-impl ([J)I
-	public fun isEmpty ()Z
-	public static fun isEmpty-impl ([J)Z
+	public static final fun isEmpty-impl ([J)Z
 	public fun iterator ()Ljava/util/Iterator;
 	public static fun iterator-impl ([J)Ljava/util/Iterator;
-	public fun remove (Ljava/lang/Object;)Z
-	public fun removeAll (Ljava/util/Collection;)Z
-	public fun removeIf (Ljava/util/function/Predicate;)Z
-	public fun retainAll (Ljava/util/Collection;)Z
-	public static final fun set-wec4KNo ([JIJ)V
-	public synthetic fun size ()I
-	public fun toArray ()[Ljava/lang/Object;
-	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
 	public fun toString ()Ljava/lang/String;
 	public static fun toString-impl ([J)Ljava/lang/String;
 	public final synthetic fun unbox-impl ()[J
@@ -3524,7 +3492,7 @@ public final class space/iseki/executables/pe/WindowsSpecifiedHeader : space/ise
 	public final fun component7-Mh2AYeg ()S
 	public final fun component8-Mh2AYeg ()S
 	public final fun component9-Mh2AYeg ()S
-	public static synthetic fun copy-D_V7bVo$files$default (Lspace/iseki/executables/pe/WindowsSpecifiedHeader;SJIISSSSSSIIIISSJJJJIIJJJJJJJJJJJJJJJIILjava/lang/Object;)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
+	public static synthetic fun copy-D_V7bVo$executables_files$default (Lspace/iseki/executables/pe/WindowsSpecifiedHeader;SJIISSSSSSIIIISSJJJJIIJJJJJJJJJJJJJJJIILjava/lang/Object;)Lspace/iseki/executables/pe/WindowsSpecifiedHeader;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getArchitecture-ZAUXGwc ()J
 	public final fun getBaseRelocationTable-ZAUXGwc ()J
@@ -4032,6 +4000,7 @@ public final class space/iseki/executables/sbom/GoModule$Companion {
 public final class space/iseki/executables/sbom/GoSBom {
 	public static final field Companion Lspace/iseki/executables/sbom/GoSBom$Companion;
 	public final fun getBuildInfo ()Lspace/iseki/executables/sbom/GoBuildInfo;
+	public final fun getVersion ()Ljava/lang/String;
 }
 
 public final class space/iseki/executables/sbom/GoSBom$Companion {
