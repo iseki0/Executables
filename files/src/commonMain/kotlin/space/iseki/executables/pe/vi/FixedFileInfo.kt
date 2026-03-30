@@ -4,35 +4,125 @@ import kotlinx.serialization.Serializable
 import space.iseki.executables.common.ReadableStructure
 import space.iseki.executables.share.u4l
 
+/**
+ * Parsed `VS_FIXEDFILEINFO` from a PE version resource.
+ *
+ * This is the fixed, language-independent payload stored in `VS_VERSION_INFO`.
+ * It matches the Win32 `VS_FIXEDFILEINFO` structure and is always 52 bytes long.
+ *
+ * The Windows version fields are split across two DWORD pairs:
+ *
+ * - `fileVersionMS`: major/minor
+ * - `fileVersionLS`: build/revision
+ * - `productVersionMS`: major/minor
+ * - `productVersionLS`: build/revision
+ *
+ * See Microsoft Learn: `VS_FIXEDFILEINFO` and `VS_VERSIONINFO`.
+ */
 @Serializable
 data class FixedFileInfo internal constructor(
-    val structVersion: UInt, // 通常是 0x00000100
+    /**
+     * Version of the fixed-file-info structure itself.
+     *
+     * The high word is the major structure version and the low word is the minor version.
+     * In practice this is typically `0x00010000`, meaning structure version `1.0`.
+     */
+    val structVersion: UInt,
+
+    /**
+     * Most-significant 32 bits of the file version.
+     *
+     * High word = major, low word = minor.
+     */
     val fileVersionMS: UInt,
+
+    /**
+     * Least-significant 32 bits of the file version.
+     *
+     * High word = build, low word = revision.
+     */
     val fileVersionLS: UInt,
+
+    /**
+     * Most-significant 32 bits of the product version.
+     *
+     * High word = major, low word = minor.
+     */
     val productVersionMS: UInt,
+
+    /**
+     * Least-significant 32 bits of the product version.
+     *
+     * High word = build, low word = revision.
+     */
     val productVersionLS: UInt,
+
+    /**
+     * Bitmask describing which bits in [fileFlags] are meaningful.
+     *
+     * This is commonly `VS_FFI_FILEFLAGSMASK`.
+     */
     val fileFlagsMask: UInt,
+
+    /**
+     * File attribute flags such as debug, prerelease, patched, private-build, or special-build.
+     *
+     * Only the bits enabled by [fileFlagsMask] are defined.
+     */
     val fileFlags: FileInfoFlags,
+
+    /**
+     * Target operating system declared by the version resource.
+     */
     val fileOS: FileOs,
+
+    /**
+     * General file type declared by the version resource.
+     *
+     * Typical values include application, DLL, driver, font, virtual device, and static library.
+     */
     val fileType: FileType,
+
+    /**
+     * File subtype.
+     *
+     * This is mainly meaningful for some [fileType] values such as drivers and fonts.
+     * For most other file types it is zero.
+     */
     val fileSubtype: UInt,
+
+    /**
+     * Most-significant 32 bits of the file date.
+     *
+     * If the producer does not provide a date, both date fields are usually zero.
+     */
     val fileDateMS: UInt,
+
+    /**
+     * Least-significant 32 bits of the file date.
+     */
     val fileDateLS: UInt,
 ) : ReadableStructure {
+    /**
+     * File version decoded as `major.minor.build.revision`.
+     */
     val fileVersion: Version
         get() = Version(
-            (fileVersionMS shr 16).toUShort(),  // Major (high word of MS)
-            (fileVersionMS and 0xFFFFu).toUShort(),  // Minor (low word of MS)
-            (fileVersionLS shr 16).toUShort(),  // Build (high word of LS)
-            (fileVersionLS and 0xFFFFu).toUShort()   // Patch (low word of LS)
+            (fileVersionMS shr 16).toUShort(),
+            (fileVersionMS and 0xFFFFu).toUShort(),
+            (fileVersionLS shr 16).toUShort(),
+            (fileVersionLS and 0xFFFFu).toUShort(),
         )
 
+    /**
+     * Product version decoded as `major.minor.build.revision`.
+     */
     val productVersion: Version
         get() = Version(
-            (productVersionMS shr 16).toUShort(),  // Major
-            (productVersionMS and 0xFFFFu).toUShort(),  // Minor
-            (productVersionLS shr 16).toUShort(),  // Build
-            (productVersionLS and 0xFFFFu).toUShort()   // Patch
+            (productVersionMS shr 16).toUShort(),
+            (productVersionMS and 0xFFFFu).toUShort(),
+            (productVersionLS shr 16).toUShort(),
+            (productVersionLS and 0xFFFFu).toUShort(),
         )
 
     override val fields: Map<String, Any>
@@ -50,9 +140,21 @@ data class FixedFileInfo internal constructor(
         )
 
     companion object {
+        /**
+         * Size in bytes of `VS_FIXEDFILEINFO`.
+         */
         const val LENGTH = 52
+
+        /**
+         * Required signature value for `VS_FIXEDFILEINFO`.
+         */
         const val SIGNATURE = 0xFEEF04BDu
 
+        /**
+         * Parse `VS_FIXEDFILEINFO` from [bytes] at [offset].
+         *
+         * The first DWORD must be [SIGNATURE].
+         */
         fun parse(bytes: ByteArray, offset: Int): FixedFileInfo {
             val signature = bytes.u4l(offset)
             require(signature == SIGNATURE) { "Invalid VS_VERSIONINFO signature: $signature" }
@@ -69,12 +171,14 @@ data class FixedFileInfo internal constructor(
                 fileType = FileType(bytes.u4l(offset + 36)),
                 fileSubtype = bytes.u4l(offset + 40),
                 fileDateMS = bytes.u4l(offset + 44),
-                fileDateLS = bytes.u4l(offset + 48)
+                fileDateLS = bytes.u4l(offset + 48),
             )
         }
-
     }
 
+    /**
+     * Windows four-part version number represented as `major.minor.build.revision`.
+     */
     @Serializable
     data class Version internal constructor(
         val major: UShort,
