@@ -1,0 +1,108 @@
+name: Release bin-tool
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version-file: '.java-version'
+          distribution: 'temurin'
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          key: ${{ runner.os }}-gradle
+          path: |
+            ~/.konan
+      - name: Cache Yarn
+        uses: actions/cache@v4
+        with:
+          enableCrossOsArchive: true
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/package.json', '**/yarn.lock') }}
+          path: |
+            ~/.cache/yarn
+            ~/.yarn/cache
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GradleEncryptionKey }}
+          validate-wrappers: true
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-use-agree: "yes"
+          gradle-version: wrapper
+      - name: Build bin-tool
+        if: runner.os != 'Windows'
+        run: ./gradlew :bin-tool:build --stacktrace
+      - name: Build bin-tool
+        if: runner.os == 'Windows'
+        run: .\gradlew.bat :bin-tool:build --stacktrace
+      - name: Package release assets
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          shopt -s nullglob
+          for dir in bin-tool/build/bin/*/releaseExecutable; do
+            target="$(basename "$(dirname "$dir")")"
+            files=("$dir"/*)
+            if [ "${#files[@]}" -eq 0 ]; then
+              continue
+            fi
+            archive="bin-tool-${{ github.event.release.tag_name }}-${target}.tar.gz"
+            tar -C "$dir" -czf "release-assets/$archive" .
+          done
+          ls -la release-assets
+      - name: Package release assets
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path release-assets -Force | Out-Null
+          Get-ChildItem bin-tool/build/bin -Directory | ForEach-Object {
+            $target = $_.Name
+            $dir = Join-Path $_.FullName "releaseExecutable"
+            if (Test-Path $dir) {
+              $files = Get-ChildItem $dir -File
+              if ($files.Count -gt 0) {
+                $archive = "bin-tool-${{ github.event.release.tag_name }}-$target.zip"
+                Compress-Archive -Path (Join-Path $dir '*') -DestinationPath (Join-Path 'release-assets' $archive) -Force
+              }
+            }
+          }
+          Get-ChildItem release-assets
+      - name: Upload packaged assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets-${{ runner.os }}
+          path: release-assets/*
+          if-no-files-found: error
+
+  upload:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download packaged assets
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          pattern: release-assets-*
+          merge-multiple: true
+      - name: Upload assets to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" release-assets/* --clobber

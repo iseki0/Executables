@@ -19,7 +19,7 @@ tasks.named("jvmTest") {
 }
 
 dependencies {
-    commonMainImplementation("space.iseki.purlkt:purlkt:0.0.7")
+    commonMainImplementation("space.iseki.purlkt:purlkt:0.0.9")
     commonTestImplementation(libs.kotlinx.serialization.json)
 }
 
