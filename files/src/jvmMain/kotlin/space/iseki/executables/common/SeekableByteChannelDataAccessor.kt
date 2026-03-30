@@ -1,6 +1,8 @@
 package space.iseki.executables.common
 
 import java.nio.channels.SeekableByteChannel
+import java.util.concurrent.locks.ReentrantLock
+import kotlin.concurrent.withLock
 
 /**
  * A [DataAccessor] implementation that reads data from a [SeekableByteChannel].
@@ -10,6 +12,7 @@ import java.nio.channels.SeekableByteChannel
  *
  */
 internal open class SeekableByteChannelDataAccessor(private val channel: SeekableByteChannel) : DataAccessor {
+    private val lock = ReentrantLock()
 
     /**
      * Close the data accessor, it will close the underlying channel.
@@ -18,10 +21,12 @@ internal open class SeekableByteChannelDataAccessor(private val channel: Seekabl
      * @see SeekableByteChannel.close
      */
     override fun close() {
-        try {
-            channel.close()
-        } catch (e: java.io.IOException) {
-            throw java.io.UncheckedIOException(e)
+        lock.withLock {
+            try {
+                channel.close()
+            } catch (e: java.io.IOException) {
+                throw java.io.UncheckedIOException(e)
+            }
         }
     }
 
@@ -32,11 +37,13 @@ internal open class SeekableByteChannelDataAccessor(private val channel: Seekabl
     override fun readAtMost(pos: Long, buf: ByteArray, off: Int, len: Int): Int {
         DataAccessor.checkReadBounds(pos, buf, off, len)
         val buffer = java.nio.ByteBuffer.wrap(buf, off, len)
-        channel.position(pos)
-        while (buffer.hasRemaining()) {
-            val i = channel.read(buffer)
-            if (i == -1) {
-                break
+        lock.withLock {
+            channel.position(pos)
+            while (buffer.hasRemaining()) {
+                val i = channel.read(buffer)
+                if (i == -1) {
+                    break
+                }
             }
         }
         return buffer.position() - off
@@ -44,4 +51,3 @@ internal open class SeekableByteChannelDataAccessor(private val channel: Seekabl
 
     override val size: Long = channel.size()
 }
-
