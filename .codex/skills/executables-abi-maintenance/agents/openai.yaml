@@ -1,0 +1,4 @@
+interface:
+  display_name: "Executables ABI Maintenance"
+  short_description: "Maintain ABI baselines and CI enforcement for executables-files."
+  default_prompt: "Use this skill to update or verify ABI baselines, wire ABI validation into CI, and diagnose ABI-check failures in the Executables repository."

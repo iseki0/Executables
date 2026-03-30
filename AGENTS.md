@@ -99,6 +99,7 @@ These rules are important for anyone operating in this repository.
 - Always use the wrapper: `./gradlew` on Unix-like shells or `.\gradlew.bat` on Windows PowerShell.
 - Do not use sandboxed Gradle for this repository.
 - If Gradle needs to be run from an agent/sandboxed environment, directly request elevated execution and run it through `gradlew` / `gradlew.bat`.
+- On Windows PowerShell, prefer `.\gradlew.bat --% ... -Pkey=value` when passing Gradle `-P` properties. PowerShell may misparse raw `-P...` arguments without `--%`.
 
 ### GitHub CLI
 
@@ -113,3 +114,6 @@ These rules are important for anyone operating in this repository.
 - If editing parser behavior, check both `commonTest` and `fileAccessTest` coverage.
 - If editing enum/flag definitions under `files/src/commonMain/define`, expect generated Kotlin outputs to change through `tGenerateFlagFiles`.
 - Preserve multiplatform structure; platform-specific file access code is intentionally split by target capability.
+- `files` uses Kotlin ABI validation with committed baselines in `files/api/executables-files.api` and `files/api/executables-files.klib.api`. If public API changes intentionally, update the baselines and commit them with the code change.
+- ABI validation is enforced through Linux CI. When diagnosing ABI failures, prefer simulating CI with `GITHUB_ACTIONS=true`, `RUNNER_OS=Linux`, and `-Pkotlin.native.enableKlibsCrossCompilation=true`.
+- A green `build` matrix does not always mean the full workflow is done; also wait for follow-up jobs such as `tool-build` when monitoring `Build` workflow completion.
