@@ -100,13 +100,13 @@ jobs:
         run: ./gradlew :bin-tool:build --stacktrace
       - name: Upload build reports on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: bin-tool-build-reports-${{ matrix.os }}
           path: bin-tool/build/reports
           if-no-files-found: warn
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           path: bin-tool/build/bin/*/releaseExecutable
 
