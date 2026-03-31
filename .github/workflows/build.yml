@@ -26,13 +26,6 @@ jobs:
           distribution: 'temurin'
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
-      - name: Cache Konan
-        uses: actions/cache@v5
-        with:
-          enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle
-          path: |
-            ~/.konan
       - name: Cache Yarn
         uses: actions/cache@v5
         with:
@@ -58,7 +51,6 @@ jobs:
         run: ./gradlew check --stacktrace -Pkotlin.native.enableKlibsCrossCompilation=true
 
   tool-build:
-    needs: build
     strategy:
       matrix:
         os: [ ubuntu-latest ]
@@ -72,13 +64,6 @@ jobs:
           distribution: 'temurin'
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
-      - name: Cache Konan
-        uses: actions/cache@v5
-        with:
-          enableCrossOsArchive: true
-          key: ${{ runner.os }}-gradle
-          path: |
-            ~/.konan
       - name: Cache Yarn
         uses: actions/cache@v5
         with:
