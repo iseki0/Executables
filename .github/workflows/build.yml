@@ -58,7 +58,6 @@ jobs:
         run: ./gradlew check --stacktrace -Pkotlin.native.enableKlibsCrossCompilation=true
 
   tool-build:
-    needs: build
     strategy:
       matrix:
         os: [ ubuntu-latest ]
