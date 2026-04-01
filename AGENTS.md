@@ -101,6 +101,13 @@ These rules are important for anyone operating in this repository.
 - If Gradle needs to be run from an agent/sandboxed environment, directly request elevated execution and run it through `gradlew` / `gradlew.bat`.
 - On Windows PowerShell, prefer `.\gradlew.bat --% ... -Pkey=value` when passing Gradle `-P` properties. PowerShell may misparse raw `-P...` arguments without `--%`.
 
+### Testing
+
+- Do not assume the root project exposes a `test` task. This repository is Kotlin Multiplatform and the root validation entrypoint is `check`.
+- For full validation, prefer `./gradlew check` on Unix-like shells or `.\gradlew.bat check` on Windows PowerShell.
+- Use narrower tasks such as `:executables-files:jvmTest --tests ...` only for focused iteration, then finish with `check`.
+- When the user asks to run the project tests without further qualification, treat that as a request to run `check`.
+
 ### GitHub CLI
 
 - `gh` is allowed and useful in this repository.
