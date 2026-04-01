@@ -54,7 +54,7 @@ internal class MemReader(val dataAccessor: DataAccessor) {
             val vSkip = pos0 - vOff
             pos0 += vSkip
             check(fOff + vSkip <= Long.MAX_VALUE.toULong())
-            val bytesWeShouldRead = min(fSize - vSkip, (len - off0).toULong()).toInt()
+            val bytesWeShouldRead = min(fSize - vSkip, (len - (off0 - off)).toULong()).toInt()
             check(bytesWeShouldRead >= 0)
             if (bytesWeShouldRead > 0) dataAccessor.readFully((fOff + vSkip).toLong(), buf, off0, bytesWeShouldRead)
             off0 += bytesWeShouldRead
@@ -68,4 +68,3 @@ internal class MemReader(val dataAccessor: DataAccessor) {
 
     }
 }
-
