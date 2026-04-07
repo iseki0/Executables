@@ -64,6 +64,29 @@ The library currently focuses on:
 - `g/src/main/resources/*.ftl`: Freemarker templates for generated Kotlin code
 - generated Kotlin is written into the build directory by task `tGenerateFlagFiles`
 
+## Architecture Notes
+
+### Core Runtime Model
+
+- `common/FileFormat` is the entrypoint for format detection and opening. Detection is magic-based, and all parsers open through the shared `DataAccessor` random-access abstraction.
+- `OpenedFile` is the minimal parsed-file surface. Format implementations may also expose `ReadableSectionContainer`, import/export symbol containers, and `VirtualMemoryReadable`.
+- `share/MemReader` is the core virtual-memory mapper. It translates virtual addresses back to file offsets and fills unmapped gaps with zeroes.
+- Virtual memory is format-specific but follows the same pattern: PE maps section table entries, ELF maps `PT_LOAD` program headers, and Mach-O maps segment/section file ranges.
+
+### Format Coverage
+
+- `pe`: currently the deepest parser. It covers COFF/optional headers, sections, imports, exports, resource tree walking, and version info parsing.
+- `elf`: covers identification/header parsing, program headers, section headers, symbol tables, export/import derivation, and `DT_NEEDED` import libraries.
+- `macho`: currently focuses on headers, load commands, segments, sections, and virtual-memory-backed reads. It is thinner than PE and ELF.
+- `sbom`: Go build info extraction is layered on top of parsed executable files. It depends on `ReadableSectionContainer` plus `VirtualMemoryReadable`; it is not a separate file-format parser.
+
+### Test Strategy
+
+- `commonTest` is for byte-array-level parser tests and shared logic tests that do not need platform file access.
+- `fileAccessTest` is the main integration layer for real sample binaries and fixture-backed assertions.
+- `jvmTest` and `mingwX64Test` cover platform-specific file-access behavior and runtime parity checks.
+- If parser behavior changes, check both structure-level tests and real-fixture tests. SBOM and section-reading regressions are usually caught in `fileAccessTest`.
+
 ## Build and Tooling Notes
 
 - The project uses Kotlin Multiplatform with JVM, JS, Wasm, Apple, Linux, Android Native, and MinGW targets.
@@ -73,14 +96,14 @@ The library currently focuses on:
 
 Common commands:
 
-- run tests: `./gradlew test`
+- run full validation: `./gradlew check`
 - run JVM tests only: `./gradlew jvmTest`
 - inspect tasks: `./gradlew tasks --all`
 - build CLI targets through `bin-tool` tasks from `./gradlew`
 
 On Windows PowerShell, use:
 
-- `.\gradlew.bat test`
+- `.\gradlew.bat check`
 - `.\gradlew.bat jvmTest`
 
 ## Mandatory Working Rules
